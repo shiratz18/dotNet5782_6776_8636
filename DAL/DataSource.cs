@@ -10,6 +10,7 @@ namespace DalObject
     public class DataSource
     {
         internal static List<Drone> Drones = new List<Drone>(10);
+        internal static List<DroneCharge> DroneChargers = new List<DroneCharge>(10);
         internal static List<Station> Stations = new List<Station>(5);
         internal static List<Customer> Customers = new List<Customer>(100);
         internal static List<Parcel> Parcels = new List<Parcel>(1000);
@@ -21,6 +22,7 @@ namespace DalObject
         public static void Initialize()
         {
             createDrones();
+            createDroneChargers();
             createStations();
             createCustomers();
             createParcels();
@@ -38,6 +40,10 @@ namespace DalObject
                     Battery = r.Next(0, 100)
                 });
             }
+        }
+        private static void createDroneChargers()
+        {
+            //according to the number of drones that are charging
         }
         private static void createStations()
         {
