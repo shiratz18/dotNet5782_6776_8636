@@ -23,16 +23,16 @@ namespace IDAL
             public override string ToString()
             {
                 string result = " ";
-                result += $"ID: {Id},\n";
-                result += $"Sender ID: {SenderId},\n";
-                result += $"Target ID: {TargetId},\n";
-                result += $"Weight: {Weight},\n";
-                result += $"Priority: {Priority},\n";
-                result += $"Requested: {Requested},\n";
-                result += $"Drone ID: {DroneId},\n";
-                result += $"Scheduled: {Scheduled},\n";
-                result += $"Picked up: {PickedUp},\n";
-                result += $"Delivered: {Delivered}\n";
+                result += $"Parcel {Id}:\n";
+                result += $"Sender ID - {SenderId},\n";
+                result += $"Target ID - {TargetId},\n";
+                result += $"Weight - {Weight},\n";
+                result += $"Rank - {Priority},\n";
+                result += $"Requested time - {Requested},\n";
+                result += $"Drone ID - {DroneId},\n";
+                result += $"Scheduled - {Scheduled},\n";
+                result += $"Picked up - {PickedUp},\n";
+                result += $"Delivered - {Delivered}\n";
                 return result;
             }
         }

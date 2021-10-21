@@ -18,11 +18,10 @@ namespace IDAL
             public override string ToString()
             {
                 string result = " ";
-                result += $"ID: {Id},\n";
-                result += $"Name: {Name},\n";
-                result += $"Longitude: {Longitude},\n";
-                result += $"Latitude: {Latitude},\n";
-                result += $"Charge slots: {ChargeSlots}\n";
+                result += $"Station {Id}:\n";
+                result += $"Name - {Name},\n";
+                result += $"Location - {DalObject.DalObject.Lat(Latitude)} {DalObject.DalObject.Lng(Longitude)}\n";
+                result += $"Available charge slots - {ChargeSlots}\n";
                 return result;
             }
         }

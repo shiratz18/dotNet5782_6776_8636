@@ -18,11 +18,11 @@ namespace IDAL
             public override string ToString()
             {
                 string result = " ";
-                result += $"ID: {Id},\n";
-                result += $"Model: {Model},\n";
-                result += $"Maximum weight: {MaxWeight},\n";
-                result += $"Status: {Status},\n";
-                result += $"Battery: {Battery}\n";
+                result += $"Drone {Id}:\n";
+                result += $"Model - {Model},\n";
+                result += $"Maximum weight: - {MaxWeight},\n";
+                result += $"Status - {Status},\n";
+                result += $"Battery - {Battery}\n";
                 return result;
             }
         }
