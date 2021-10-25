@@ -22,7 +22,7 @@ namespace IDAL
                 result += $"Costumer {Id}:\n";
                 result += $"Name - {Name}\n";
                 result += $"Phone number - {Phone},\n";
-                result += $"Location - {DalObject.DalObject.Lat(Latitude)} {DalObject.DalObject.Lng(Longitude)}\n";
+                result += $"Location - {Location.Lat(Latitude)} {Location.Lng(Longitude)}\n";
                 return result;
             }
         }
