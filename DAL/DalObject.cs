@@ -122,7 +122,6 @@ namespace DalObject
         /// <param name="id">the id of the parcel</param>
         public static void ParcelPickUp(int id)
         {
-            ///if the parcel in the list has the id, update the drone that is associated to be in shipping and update pickup time
             DataSource.Parcels.ForEach(x =>
             {
                 if (x.Id == id)
@@ -139,7 +138,6 @@ namespace DalObject
         /// <param name="id">the id of the parcel</param>
         public static void ParcelDelivered(int id)
         {
-            ///if the parcel in the list has the id, update the drone that is associated to be in available and update delivery time time
             DataSource.Parcels.ForEach(x =>
             {
                 if (x.Id == id)
@@ -176,7 +174,7 @@ namespace DalObject
         {
             UpdateDroneStatus(droneId, DroneStatuses.Available);
             UpdateChargeSlots(stationId, 1);
-            DataSource.DroneChargers.Remove(x => x.DroneId == droneId);
+            //DataSource.DroneChargers.Remove(x => x.DroneId == droneId);
         }
 
         //display functions for objects

@@ -20,7 +20,7 @@ namespace IDAL
                 string result = " ";
                 result += $"Station {Id}:\n";
                 result += $"Name - {Name},\n";
-                result += $"Location - {DalObject.DalObject.Lat(Latitude)} {DalObject.DalObject.Lng(Longitude)}\n";
+                result += $"Location - {Location.Lat(Latitude)} {Location.Lng(Longitude)}\n";
                 result += $"Available charge slots - {ChargeSlots}\n";
                 return result;
             }

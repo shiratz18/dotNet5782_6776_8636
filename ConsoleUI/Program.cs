@@ -182,27 +182,27 @@ namespace ConsoleUI
         {
             Console.WriteLine("What would you like to display\n 1 - Stations \n 2 - Drones\n 3 - Customers\n 4 - Parcels\n 5 - Parcels without drone\n 6 - Stations with available chargers\n 0 - Exit");
             DisplayOptions choice = (DisplayOptions)int.Parse(Console.ReadLine());
-            while (choice != DisplayOptions.Exit)
-            {
-                switch (choice)
-                {
-                    case DisplayOptions.Station:
-                        IDAL.DO.Station StationList[] = new IDAL.DO.Station[DalObject.DalObject.GetNumberOfStations()];
-                        break;
-                    case DisplayOptions.Drone:
-                        PickUp();
-                        break;
-                    case DisplayOptions.Customer:
-                        Deliver();
-                        break;
-                    case DisplayOptions.Parcel:
-                        Charge();
-                        break;
-                    case DisplayOptions.NoDroneParcel:
-                        break;
-                    case DisplayOptions.AvailableChargeStations:
-                        break;
-                }
+            //while (choice != DisplayOptions.Exit)
+            //{
+            //    switch (choice)
+            //    {
+            //        case DisplayOptions.Station:
+            //            IDAL.DO.Station StationList[] = new IDAL.DO.Station[DalObject.DalObject.GetNumberOfStations()];
+            //            break;
+            //        case DisplayOptions.Drone:
+            //            PickUp();
+            //            break;
+            //        case DisplayOptions.Customer:
+            //            Deliver();
+            //            break;
+            //        case DisplayOptions.Parcel:
+            //            Charge();
+            //            break;
+            //        case DisplayOptions.NoDroneParcel:
+            //            break;
+            //        case DisplayOptions.AvailableChargeStations:
+            //            break;
+            //    }
                 choice = (DisplayOptions)int.Parse(Console.ReadLine());
             }
         }
