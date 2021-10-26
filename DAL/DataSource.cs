@@ -40,10 +40,42 @@ namespace DalObject
         {
             Drones.Add(new Drone
             {
-                Id = r.Next(1000, 10000),
+                Id = 4582,
                 Model = randomString(5),
-                MaxWeight = (WeightCategories)r.Next(0, 3),
-                Status = (DroneStatuses)r.Next(0, 3),
+                MaxWeight = WeightCategories.Heavy,
+                Status = DroneStatuses.Available,
+                Battery = r.Next(0, 101)
+            });
+            Drones.Add(new Drone
+            {
+                Id = 9215,
+                Model = randomString(5),
+                MaxWeight = WeightCategories.Light,
+                Status = DroneStatuses.Available,
+                Battery = r.Next(0, 101)
+            });
+            Drones.Add(new Drone
+            {
+                Id = 2131,
+                Model = randomString(5),
+                MaxWeight = WeightCategories.Medium,
+                Status = DroneStatuses.Maintenance,
+                Battery = r.Next(0, 101)
+            });
+            Drones.Add(new Drone
+            {
+                Id = 2586,
+                Model = randomString(5),
+                MaxWeight = WeightCategories.Heavy,
+                Status = DroneStatuses.Shipping,
+                Battery = r.Next(0, 101)
+            });
+            Drones.Add(new Drone
+            {
+                Id = 3674,
+                Model = randomString(5),
+                MaxWeight = WeightCategories.Light,
+                Status = DroneStatuses.Shipping,
                 Battery = r.Next(0, 101)
             });
         }
@@ -72,90 +104,90 @@ namespace DalObject
         }
 
         /// <summary>
-        /// adds 10 customersw to the list of customers
+        /// adds 10 customers to the list of customers
         /// </summary>
         private static void createCustomers()
         {
-            //Customers.Add(new Customer
-            //{
-            //    Id = 212069325,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 324968520,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 323658962,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 312696584,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 213695826,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 326987415,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 213698521,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 236985426,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 206985147,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
-            //Customers.Add(new Customer
-            //{
-            //    Id = 456932814,
-            //    Name = "-",
-            //    Phone = "058-395-2489",
-            //    Longitude = r.Next(31.7082, 31.8830),
-            //    Latitude = r.Next(35.1252, 35.2642)
-            //});
+            Customers.Add(new Customer
+            {
+                Id = 212069325,
+                Name = "Reuvan Cohen",
+                Phone = "058-395-2489",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 324968520,
+                Name = "Shimon Levy",
+                Phone = "058-352-2962",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 323658962,
+                Name = "Tirtza Bitton",
+                Phone = "050-356-7495",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 312696584,
+                Name = "Isachar Friedman",
+                Phone = "055-963-2587",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 213695826,
+                Name = "David Peretz",
+                Phone = "053-245-9852",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 326987415,
+                Name = "Avraham Segal",
+                Phone = "052-745-3969",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 213698521,
+                Name = "Yaakov Kats",
+                Phone = "054-852-1365",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 236985426,
+                Name = "Leah Chadad",
+                Phone = "050-985-0256",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 206985147,
+                Name = "Sara Silver",
+                Phone = "050-987-9955",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
+            Customers.Add(new Customer
+            {
+                Id = 456932814,
+                Name = "Rivka Ochayoun",
+                Phone = "058-256-4258",
+                Longitude = r.Next(317082, 318830) / 10000.0,
+                Latitude = r.Next(351252, 352642) / 10000.0
+            });
         }
 
         private static void createParcels()
@@ -164,9 +196,9 @@ namespace DalObject
             //Parcels.Add(new Parcel
             //{
             //    Id = Config.IdNumber,
-            //    SenderId = r.Next(100000000, 1000000000),
-            //    TargetId = r.Next(100000000, 1000000000),
-            //    Weight = (WeightCategories)r.Next(0, 3),
+            //    SenderId = 236985426,
+            //    TargetId = 206985147,
+            //    Weight = WeightCategories.Light,
             //    Priority = (Priorities)r.Next(0, 3),
             //    Requested = 4,//random date
             //    DroneId = 0,
@@ -174,7 +206,7 @@ namespace DalObject
             //    PickedUp = 4,//random date
             //    Delivered = 4//random date
             //});
-            Config.IdNumber++;
+            //Config.IdNumber++;
         }
 
         /// <summary>

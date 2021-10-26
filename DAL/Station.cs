@@ -17,7 +17,7 @@ namespace IDAL
             public int ChargeSlots { get; set; }
             public override string ToString()
             {
-                string result = " ";
+                string result = "";
                 result += $"Station {Id}:\n";
                 result += $"Name - {Name},\n";
                 result += $"Location - {Location.Lat(Latitude)} {Location.Lng(Longitude)}\n";

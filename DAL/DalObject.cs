@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Text;
+using System.Collections.Generic;
 using IDAL.DO;
 
 namespace DalObject
@@ -157,11 +160,11 @@ namespace DalObject
         {
             UpdateDroneStatus(droneId, DroneStatuses.Maintenance);
             UpdateChargeSlots(stationId, -1);
-            DataSource.DroneChargers.Add(new DroneCharge
-            {
-                DroneId = droneId,
-                StationId = stationId
-            });
+            //DataSource.DroneChargers.Add(new DroneCharge
+            //{
+            //    DroneId = droneId,
+            //    StationId = stationId
+            //});
 
         }
 
@@ -222,72 +225,49 @@ namespace DalObject
         //display list fuctions
 
         /// <summary>
-        /// return the list of stations in an array
+        /// return the list of stations
         /// </summary>
-        /// <returns></returns>
-        public static Station[] stationsDisplay()
+        /// <returns>list Stations</returns>
+        public static List<Station> StationsDisplay()
         {
-            Station[] temp = new Station[DataSource.Stations.Count];
-            for (int i = 0; i < DataSource.Stations.Count; i++)
-            {
-                temp[i] = DataSource.Stations[i];
-            }
-            return temp;
+            return DataSource.Stations;
         }
 
         /// <summary>
-        /// returns the list of drones in an array
+        /// returns the list of drones
         /// </summary>
-        /// <returns></returns>
-        public static Drone[] dronesDisplay()
+        /// <returns>list Drones</returns>
+        public static List<Drone> DronesDisplay()
         {
-            Drone[] temp = new Drone[DataSource.Drones.Count];
-            for (int i = 0; i < DataSource.Drones.Count; i++)
-            {
-                temp[i] = DataSource.Drones[i];
-            }
-            return temp;
+            return DataSource.Drones;
         }
 
         /// <summary>
-        /// returns the list of customers in an array
+        /// returns the list of customers
         /// </summary>
-        /// <returns></returns>
-        public static Customer[] customersDisplay()
+        /// <returns>list Customers</returns>
+        public static List<Customer> CustomersDisplay()
         {
-            Customer[] temp = new Customer[DataSource.Customers.Count];
-            for (int i = 0; i < DataSource.Customers.Count; i++)
-            {
-                temp[i] = DataSource.Customers[i];
-            }
-            return temp;
+            return DataSource.Customers;
         }
 
         /// <summary>
-        /// returns a list of the parcels in an array
+        /// returns a list of the parcels
         /// </summary>
         /// <returns></returns>
-        public static Parcel[] parcelsDisplay()
+        public static List<Parcel> ParcelsDisplay()
         {
-            Parcel[] temp = new Parcel[DataSource.Parcels.Count];
-            for (int i = 0; i < DataSource.Parcels.Count; i++)
-            {
-                temp[i] = DataSource.Parcels[i];
-            }
-            return temp;
+            return DataSource.Parcels;
         }
 
         /// <summary>
-        /// returns an array with all the parcels that are not associated to a drone
+        /// returns a list with all the parcels that are not associated to a drone
         /// </summary>
         /// <returns></returns>
-        public static Parcel[] noDroneParcels()
+        public static List<Parcel> NoDroneParcels()
         {
-            int count = 0;
-            DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) count++; }); //count how many parcels do not have a drone
-            Parcel[] temp = new Parcel[count];
-            int i = 0;
-            DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) { temp[i] = x; i++; } });
+            List<Parcel> temp = new List<Parcel>();
+            DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) temp.Add(x); });
             return temp;
         }
 
@@ -295,13 +275,10 @@ namespace DalObject
         /// returns an array with tyhe list of stations with empty charge slots
         /// </summary>
         /// <returns></returns>
-        public static Station[] emptyChargeSlots()
+        public static List<Station> EmptyChargeSlots()
         {
-            int count = 0;
-            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) count++; }); //count how many stations have empty charge slots
-            Station[] temp = new Station[count];
-            int i = 0;
-            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) { temp[i] = x; i++; } });
+            List<Station> temp = new List<Station>();
+            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); }); 
             return temp;
         }
 
@@ -339,38 +316,66 @@ namespace DalObject
             });
         }
 
+        //distance functions:
+
         /// <summary>
-        /// returns number of stations
+        /// finds the distance from a station
         /// </summary>
+        /// <param name="Lat1"></param>
+        /// <param name="Lng1"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public static int GetNumberOfStations()
+        public static double FindDistanceStation(double Lat1, double Lng1, int Id)
         {
-            return DataSource.Stations.Count;
+            Station temp = DataSource.Stations.Find(x => x.Id == Id);
+            Double Lat2 = temp.Latitude, Lng2 = temp.Longitude;
+            return Location.GetDistanceFromLatLngInKm(Lat1, Lng1, Lat2, Lng2);
         }
         /// <summary>
-        /// return number of drones
+        /// finds the distance from a customer
         /// </summary>
+        /// <param name="Lat1"></param>
+        /// <param name="Lng1"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public static int GetNumberOfDrone()
+        public static double FindDistanceCustomer(double Lat1, double Lng1, int Id)
         {
-            return DataSource.Drones.Count;
+            Customer temp = DataSource.Customers.Find(x => x.Id == Id);
+            Double Lat2 = temp.Latitude, Lng2 = temp.Longitude;
+            return Location.GetDistanceFromLatLngInKm(Lat1, Lng1, Lat2, Lng2);
         }
-        /// <summary>
-        /// return number of customers
-        /// </summary>
-        /// <returns></returns>
-        public static int GetNumberOfSCustomers()
-        {
-            return DataSource.Customers.Count;
-        }
-        /// <summary>
-        /// return number of parcels
-        /// </summary>
-        /// <returns></returns>
-        public static int GetNumberOfParcels()
-        {
-            return DataSource.Parcels.Count;
-        }
+        ///// <summary>
+        ///// returns number of stations
+        ///// </summary>
+        ///// <returns></returns>
+        //public static int GetNumberOfStations()
+        //{
+        //    return DataSource.Stations.Count;
+        //}
+        ///// <summary>
+        ///// return number of drones
+        ///// </summary>
+        ///// <returns></returns>
+        //public static int GetNumberOfDrone()
+        //{
+        //    return DataSource.Drones.Count;
+        //}
+        ///// <summary>
+        ///// return number of customers
+        ///// </summary>
+        ///// <returns></returns>
+        //public static int GetNumberOfSCustomers()
+        //{
+        //    return DataSource.Customers.Count;
+        //}
+        ///// <summary>
+        ///// return number of parcels
+        ///// </summary>
+        ///// <returns></returns>
+        //public static int GetNumberOfParcels()
+        //{
+        //    return DataSource.Parcels.Count;
+        //}
     }
 }
 

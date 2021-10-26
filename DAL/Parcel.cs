@@ -22,7 +22,7 @@ namespace IDAL
             public DateTime Delivered { get; set; }
             public override string ToString()
             {
-                string result = " ";
+                string result = "";
                 result += $"Parcel {Id}:\n";
                 result += $"Sender ID - {SenderId},\n";
                 result += $"Target ID - {TargetId},\n";

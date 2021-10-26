@@ -10,7 +10,13 @@ namespace IDAL
     {
         class Location
         {
-            //bonus methods to display sexsigsimal coordination
+            //bonus methods to display sexsigsimal coordination and find distance between ocations
+
+            /// <summary>
+            /// finds sexsigaml value of latitude
+            /// </summary>
+            /// <param name="lat"></param>
+            /// <returns></returns>
             public static string Lat(double lat)
             {
                 string ch;
@@ -22,10 +28,16 @@ namespace IDAL
                 else
                     ch = "N";
                 int deg = (int)lat;
-                int min = (int)(lat - deg) * 60;
-                double sec = (lat - deg) * 3600;
+                double dif = lat - deg;
+                int min = (int)(dif) * 60;
+                double sec = (dif) * 3600 - min * 60;
                 return $"{deg}° {min}' {sec}'' {ch}";
             }
+            /// <summary>
+            /// finds sexsigmal value of longitude
+            /// </summary>
+            /// <param name="lng"></param>
+            /// <returns></returns>
             public static string Lng(double lng)
             {
                 string ch;
@@ -37,10 +49,40 @@ namespace IDAL
                 else
                     ch = "E";
                 int deg = (int)lng;
-                int min = (int)(lng - deg) * 60;
-                double sec = (lng - deg) * 3600;
+                double dif = lng - deg;
+                int min = (int)(dif) * 60;
+                double sec = (dif) * 3600 - min * 60;
                 return $"{deg}° {min}' {sec}'' {ch}";
             }
+
+            /// <summary>
+            /// calculates the distance between 2 locations 
+            /// </summary>
+            /// <param name="lat1">the latitude of the first location</param>
+            /// <param name="lng1">the longitude of the first location</param>
+            /// <param name="lat2">the latitude of the second location</param>
+            /// <param name="lng2">the longitude of the second location</param>
+            /// <returns>the distance in km</returns>
+            public static double GetDistanceFromLatLngInKm(double lat1, double lng1, double lat2, double lng2)
+            {
+                int R = 6371; // Radius of the earth in km
+                double dLat = degToRad(lat2 - lat1);  // deg2rad below
+                double dLon = degToRad(lng2 - lng1);
+                double a =
+                  Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                  Math.Cos(degToRad(lat1)) * Math.Cos(degToRad(lat2)) *
+                  Math.Sin(dLon / 2) * Math.Sin(dLon / 2)
+                  ;
+                double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                double d = R * c; // Distance in km
+                return d;
+            }
+
+            private static double degToRad(double deg)
+            {
+                return deg * (Math.PI / 180);
+            }
+
         }
 
     }
