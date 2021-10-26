@@ -13,7 +13,7 @@ namespace IDAL
             //bonus methods to display sexsigsimal coordination and find distance between ocations
 
             /// <summary>
-            /// finds sexsigaml value of latitude
+            /// finds sexasegiaml value of latitude
             /// </summary>
             /// <param name="lat"></param>
             /// <returns></returns>
@@ -29,12 +29,13 @@ namespace IDAL
                     ch = "N";
                 int deg = (int)lat;
                 double dif = lat - deg;
-                int min = (int)(dif) * 60;
-                double sec = (dif) * 3600 - min * 60;
+                int min = (int)(dif * 60);
+                double sec = (dif * 3600 - min * 60);
+                sec = Math.Round(sec, 4);
                 return $"{deg}° {min}' {sec}'' {ch}";
             }
             /// <summary>
-            /// finds sexsigmal value of longitude
+            /// finds sexasegimal value of longitude
             /// </summary>
             /// <param name="lng"></param>
             /// <returns></returns>
@@ -50,8 +51,9 @@ namespace IDAL
                     ch = "E";
                 int deg = (int)lng;
                 double dif = lng - deg;
-                int min = (int)(dif) * 60;
+                int min = (int)(dif * 60);
                 double sec = (dif) * 3600 - min * 60;
+                sec = Math.Round(sec, 4);
                 return $"{deg}° {min}' {sec}'' {ch}";
             }
 
