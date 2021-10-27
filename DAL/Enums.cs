@@ -13,3 +13,4 @@ namespace IDAL
         public enum Priorities { Regular, Express, Urgent };
     }
 }
+

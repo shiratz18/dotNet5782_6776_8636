@@ -192,21 +192,23 @@ namespace DalObject
 
         private static void createParcels()
         {
-
-            //Parcels.Add(new Parcel
-            //{
-            //    Id = Config.IdNumber,
-            //    SenderId = 236985426,
-            //    TargetId = 206985147,
-            //    Weight = WeightCategories.Light,
-            //    Priority = (Priorities)r.Next(0, 3),
-            //    Requested = 4,//random date
-            //    DroneId = 0,
-            //    Scheduled = 4,//random staetime
-            //    PickedUp = 4,//random date
-            //    Delivered = 4//random date
-            //});
-            //Config.IdNumber++;
+            for (int i = 0; i < 10; i++)
+            {
+                Parcels.Add(new Parcel
+                {
+                    Id = Config.IdNumber,
+                    SenderId = r.Next(111111111, 999999999),
+                    TargetId = r.Next(111111111, 999999999),
+                    Weight = (WeightCategories)r.Next(0, 3),
+                    Priority = (Priorities)r.Next(0, 3),
+                    Requested = DateTime.Now,
+                    DroneId = 0,
+                    Scheduled = default,
+                    PickedUp = default,
+                    Delivered = default
+                });
+                Config.IdNumber++;
+            }
         }
 
         /// <summary>

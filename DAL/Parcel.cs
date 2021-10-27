@@ -29,10 +29,17 @@ namespace IDAL
                 result += $"Weight - {Weight},\n";
                 result += $"Rank - {Priority},\n";
                 result += $"Requested time - {Requested},\n";
-                result += $"Drone ID - {DroneId},\n";
-                result += $"Scheduled - {Scheduled},\n";
-                result += $"Picked up - {PickedUp},\n";
-                result += $"Delivered - {Delivered}\n";
+                if (DroneId != 0)
+                {
+                    result += $"Assigned drone ID - {DroneId},\n";
+                    result += $"Scheduled - {Scheduled},\n";
+                    if (PickedUp != default(DateTime))
+                    {
+                        result += $"Picked up - {PickedUp},\n";
+                        if (Delivered != default(DateTime))
+                            result += $"Delivered - {Delivered}\n";
+                    }
+                }
                 return result;
             }
         }

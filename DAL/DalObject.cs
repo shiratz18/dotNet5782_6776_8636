@@ -103,36 +103,45 @@ namespace DalObject
         //update functions:
 
         /// <summary>
-        /// associate a drone to a parcel and update the scheduled time
+        /// assign a drone to a parcel and update the scheduled time
         /// </summary>
         /// <param name="parcelId">the id of the parcel</param>
         /// <param name="droneId">the id of the drone</param>
         public static void ParcelDroneUpdate(int parcelId, int droneId)
         {
-            DataSource.Parcels.ForEach(x =>
+            Parcel temp = new Parcel();
+            foreach(Parcel x in DataSource.Parcels)
             {
-                if (x.Id == parcelId)
+                if(x.Id==parcelId)
                 {
-                    x.DroneId = droneId;
-                    x.Scheduled = DateTime.Now;
+                    temp = x;
+                    temp.DroneId = droneId;
+                    temp.Scheduled = DateTime.Now;
+                    DataSource.Parcels.Remove(x);
+                    DataSource.Parcels.Add(temp);
+                    break;
                 }
-            });
+            }
         }
 
         /// <summary>
-        /// updates the drone that was associated to a parcel to pick up the parcel
+        /// updates the drone that was assigned to a parcel to pick up the parcel
         /// </summary>
         /// <param name="id">the id of the parcel</param>
         public static void ParcelPickUp(int id)
         {
-            DataSource.Parcels.ForEach(x =>
+            Parcel temp = new Parcel();
+            foreach (Parcel x in DataSource.Parcels)
             {
                 if (x.Id == id)
                 {
-                    UpdateDroneStatus(x.DroneId, DroneStatuses.Shipping);
-                    x.PickedUp = DateTime.Now;
+                    temp = x;
+                    temp.PickedUp = DateTime.Now;
+                    DataSource.Parcels.Remove(x);
+                    DataSource.Parcels.Add(temp);
+                    break;
                 }
-            });
+            }
         }
 
         /// <summary>
@@ -141,14 +150,18 @@ namespace DalObject
         /// <param name="id">the id of the parcel</param>
         public static void ParcelDelivered(int id)
         {
-            DataSource.Parcels.ForEach(x =>
+            Parcel temp = new Parcel();
+            foreach (Parcel x in DataSource.Parcels)
             {
                 if (x.Id == id)
                 {
-                    UpdateDroneStatus(x.DroneId, DroneStatuses.Available);
-                    x.Delivered = DateTime.Now;
+                    temp = x;
+                    temp.Delivered = DateTime.Now;
+                    DataSource.Parcels.Remove(x);
+                    DataSource.Parcels.Add(temp);
+                    break;
                 }
-            });
+            }
         }
 
         /// <summary>
@@ -156,15 +169,13 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">the drone to send to charge</param>
         /// <param name="stationId">the station to send it to charge</param>
-        public static void DroneCharge(int droneId, int stationId)
+        public static void ChargeDrone(int droneId, int stationId)
         {
-            UpdateDroneStatus(droneId, DroneStatuses.Maintenance);
-            UpdateChargeSlots(stationId, -1);
-            //DataSource.DroneChargers.Add(new DroneCharge
-            //{
-            //    DroneId = droneId,
-            //    StationId = stationId
-            //});
+            DataSource.DroneChargers.Add(new DroneCharge
+            {
+                DroneId = droneId,
+                StationId = stationId
+            });
 
         }
 
@@ -175,9 +186,51 @@ namespace DalObject
         /// <param name="stationId">the id of the station it is in</param>
         public static void ReleaseDroneCharge(int droneId, int stationId)
         {
-            UpdateDroneStatus(droneId, DroneStatuses.Available);
-            UpdateChargeSlots(stationId, 1);
-            //DataSource.DroneChargers.Remove(x => x.DroneId == droneId);
+            DroneCharge temp = (new DroneCharge { DroneId = droneId, StationId = stationId });
+            DataSource.DroneChargers.Remove(temp);
+        }
+
+        /// <summary>
+        /// update the number of available charge slots in a station
+        /// </summary>
+        /// <param name="id">station id</param>
+        /// <param name="num">the number to updat (add 1 or substarct 1)</param>
+        public static void UpdateChargeSlots(int id, int num)
+        {
+
+            Station temp = new Station();
+            foreach (Station x in DataSource.Stations)
+            {
+                if (x.Id == id)
+                {
+                    temp = x;
+                    temp.ChargeSlots += num;
+                    DataSource.Stations.Remove(x);
+                    DataSource.Stations.Add(temp);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// updates the status of a drone
+        /// </summary>
+        /// <param name="id">the id of the status</param>
+        /// <param name="status">the status to update</param>
+        public static void UpdateDroneStatus(int id, DroneStatuses status)
+        {
+            Drone temp = new Drone();
+            foreach (Drone x in DataSource.Drones)
+            {
+                if (x.Id == id)
+                {
+                    temp = x;
+                    temp.Status = status;
+                    DataSource.Drones.Remove(x);
+                    DataSource.Drones.Add(temp);
+                    break;
+                }
+            }
         }
 
         //display functions for objects
@@ -261,6 +314,15 @@ namespace DalObject
         }
 
         /// <summary>
+        /// returns a list of the drones charging
+        /// </summary>
+        /// <returns></returns>
+        public static List<DroneCharge> DroneChargeDisplay()
+        {
+            return DataSource.DroneChargers;
+        }
+
+        /// <summary>
         /// returns a list with all the parcels that are not associated to a drone
         /// </summary>
         /// <returns></returns>
@@ -282,40 +344,6 @@ namespace DalObject
             return temp;
         }
 
-        //helpful functions
-
-        /// <summary>
-        /// updates the status of a drone
-        /// </summary>
-        /// <param name="id">the id of the status</param>
-        /// <param name="status">the status to update</param>
-        private static void UpdateDroneStatus(int id, DroneStatuses status)
-        {
-            DataSource.Drones.ForEach(x =>
-            {
-                if (x.Id == id)
-                {
-                    x.Status = status;
-                }
-            });
-        }
-
-        /// <summary>
-        /// update the number of available charge slots in a station
-        /// </summary>
-        /// <param name="id">station id</param>
-        /// <param name="num">the number to updat (add 1 or substarct 1)</param>
-        private static void UpdateChargeSlots(int id, int num)
-        {
-            DataSource.Stations.ForEach(x =>
-            {
-                if (x.Id == id)
-                {
-                    x.ChargeSlots = x.ChargeSlots + num;
-                }
-            });
-        }
-
         //distance functions:
 
         /// <summary>
@@ -325,11 +353,11 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceStation(double Lat1, double Lng1, int Id)
+        public static double FindDistanceStation(double lat1, double lng1, int id)
         {
-            Station temp = DataSource.Stations.Find(x => x.Id == Id);
-            Double Lat2 = temp.Latitude, Lng2 = temp.Longitude;
-            return Location.GetDistanceFromLatLngInKm(Lat1, Lng1, Lat2, Lng2);
+            Station temp = DataSource.Stations.Find(x => x.Id == id);
+            Double lat2 = temp.Latitude, lng2 = temp.Longitude;
+            return Location.GetDistanceFromLatLngInKm(lat1, lng1, lat2, lng2);
         }
         /// <summary>
         /// finds the distance from a customer
@@ -338,44 +366,12 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceCustomer(double Lat1, double Lng1, int Id)
+        public static double FindDistanceCustomer(double lat1, double lng1, int id)
         {
-            Customer temp = DataSource.Customers.Find(x => x.Id == Id);
-            Double Lat2 = temp.Latitude, Lng2 = temp.Longitude;
-            return Location.GetDistanceFromLatLngInKm(Lat1, Lng1, Lat2, Lng2);
+            Customer temp = DataSource.Customers.Find(x => x.Id == id);
+            Double lat2 = temp.Latitude, lng2 = temp.Longitude;
+            return Location.GetDistanceFromLatLngInKm(lat1, lng1, lat2, lng2);
         }
-        ///// <summary>
-        ///// returns number of stations
-        ///// </summary>
-        ///// <returns></returns>
-        //public static int GetNumberOfStations()
-        //{
-        //    return DataSource.Stations.Count;
-        //}
-        ///// <summary>
-        ///// return number of drones
-        ///// </summary>
-        ///// <returns></returns>
-        //public static int GetNumberOfDrone()
-        //{
-        //    return DataSource.Drones.Count;
-        //}
-        ///// <summary>
-        ///// return number of customers
-        ///// </summary>
-        ///// <returns></returns>
-        //public static int GetNumberOfSCustomers()
-        //{
-        //    return DataSource.Customers.Count;
-        //}
-        ///// <summary>
-        ///// return number of parcels
-        ///// </summary>
-        ///// <returns></returns>
-        //public static int GetNumberOfParcels()
-        //{
-        //    return DataSource.Parcels.Count;
-        //}
     }
 }
 

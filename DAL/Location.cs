@@ -10,7 +10,7 @@ namespace IDAL
     {
         class Location
         {
-            //bonus methods to display sexsigsimal coordination and find distance between ocations
+            //bonus methods to display sexasegimal coordination and find distance between ocations
 
             /// <summary>
             /// finds sexasegiaml value of latitude
@@ -68,16 +68,15 @@ namespace IDAL
             public static double GetDistanceFromLatLngInKm(double lat1, double lng1, double lat2, double lng2)
             {
                 int R = 6371; // Radius of the earth in km
-                double dLat = degToRad(lat2 - lat1);  // deg2rad below
+                double dLat = degToRad(lat2 - lat1);  // degToRad below
                 double dLon = degToRad(lng2 - lng1);
                 double a =
                   Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
                   Math.Cos(degToRad(lat1)) * Math.Cos(degToRad(lat2)) *
-                  Math.Sin(dLon / 2) * Math.Sin(dLon / 2)
-                  ;
+                  Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
                 double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
                 double d = R * c; // Distance in km
-                return d;
+                return Math.Round(d, 2);
             }
 
             private static double degToRad(double deg)

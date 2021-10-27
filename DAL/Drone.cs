@@ -20,7 +20,7 @@ namespace IDAL
                 string result = "";
                 result += $"Drone {Id}:\n";
                 result += $"Model - {Model},\n";
-                result += $"Maximum weight: - {MaxWeight},\n";
+                result += $"Maximum weight - {MaxWeight},\n";
                 result += $"Status - {Status},\n";
                 result += $"Battery - {Battery}%\n";
                 return result;
