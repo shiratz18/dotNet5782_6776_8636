@@ -353,11 +353,11 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceStation(double lat1, double lng1, int id)
+        public static double FindDistanceStation(double lng1, double lat1, int id)
         {
             Station temp = DataSource.Stations.Find(x => x.Id == id);
             Double lat2 = temp.Latitude, lng2 = temp.Longitude;
-            return Location.GetDistanceFromLatLngInKm(lat1, lng1, lat2, lng2);
+            return Location.GetDistance(lng1, lat1, lng2, lat2);
         }
         /// <summary>
         /// finds the distance from a customer
@@ -366,11 +366,11 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceCustomer(double lat1, double lng1, int id)
+        public static double FindDistanceCustomer(double lng1, double lat1, int id)
         {
             Customer temp = DataSource.Customers.Find(x => x.Id == id);
             Double lat2 = temp.Latitude, lng2 = temp.Longitude;
-            return Location.GetDistanceFromLatLngInKm(lat1, lng1, lat2, lng2);
+            return Location.GetDistance(lng1, lat1, lng2, lat2);
         }
     }
 }

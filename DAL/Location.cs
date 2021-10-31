@@ -32,7 +32,7 @@ namespace IDAL
                 int min = (int)(dif * 60);
                 double sec = (dif * 3600 - min * 60);
                 sec = Math.Round(sec, 4);
-                return $"{deg}° {min}' {sec}'' {ch}";
+                return $"{deg}° {min}' {string.Format("{0:0.0000}", sec)}'' {ch}";
             }
             /// <summary>
             /// finds sexasegimal value of longitude
@@ -54,7 +54,7 @@ namespace IDAL
                 int min = (int)(dif * 60);
                 double sec = (dif) * 3600 - min * 60;
                 sec = Math.Round(sec, 4);
-                return $"{deg}° {min}' {sec}'' {ch}";
+                return $"{deg}° {min}' {string.Format("{0:0.0000}", sec)}'' {ch}";
             }
 
             /// <summary>
@@ -65,25 +65,15 @@ namespace IDAL
             /// <param name="lat2">the latitude of the second location</param>
             /// <param name="lng2">the longitude of the second location</param>
             /// <returns>the distance in km</returns>
-            public static double GetDistanceFromLatLngInKm(double lat1, double lng1, double lat2, double lng2)
+            public static double GetDistance(double longitude, double latitude, double otherLongitude, double otherLatitude)
             {
-                int R = 6371; // Radius of the earth in km
-                double dLat = degToRad(lat2 - lat1);  // degToRad below
-                double dLon = degToRad(lng2 - lng1);
-                double a =
-                  Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                  Math.Cos(degToRad(lat1)) * Math.Cos(degToRad(lat2)) *
-                  Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-                double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-                double d = R * c; // Distance in km
-                return Math.Round(d, 2);
+                var d1 = latitude * (Math.PI / 180.0);
+                var num1 = longitude * (Math.PI / 180.0);
+                var d2 = otherLatitude * (Math.PI / 180.0);
+                var num2 = otherLongitude * (Math.PI / 180.0) - num1;
+                var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) + Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
+                return (6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)))) / 1000;
             }
-
-            private static double degToRad(double deg)
-            {
-                return deg * (Math.PI / 180);
-            }
-
         }
 
     }

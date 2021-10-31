@@ -254,21 +254,21 @@ namespace ConsoleUI
             DistanceOptions choice = (DistanceOptions)int.Parse(Console.ReadLine());
             while (choice != DistanceOptions.Exit)
             {
-                Console.WriteLine("Enter latitude and longitude:");
-                double lat = double.Parse(Console.ReadLine());
+                Console.WriteLine("Enter longitude and latitude:");
                 double lng = double.Parse(Console.ReadLine());
+                double lat = double.Parse(Console.ReadLine());
                 int id;
                 switch (choice)
                 {
                     case DistanceOptions.Station:
                         Console.WriteLine("Enter station ID:");
                         id = int.Parse(Console.ReadLine());
-                        Console.WriteLine($"The distance is: {DalObject.DalObject.FindDistanceStation(lat, lng, id)} km");
+                        Console.WriteLine($"The distance is: {string.Format("{0:0.0000}", DalObject.DalObject.FindDistanceStation(lng, lat, id))} km");
                         break;
                     case DistanceOptions.Customer:
                         Console.WriteLine("Enter customer ID:");
                         id = int.Parse(Console.ReadLine());
-                        Console.WriteLine($"The distance is: {DalObject.DalObject.FindDistanceCustomer(lat, lng, id)} km");
+                        Console.WriteLine($"The distance is: {string.Format("{0:0.0000}", DalObject.DalObject.FindDistanceCustomer(lng, lat, id))} km");
                         break;
                 }
                 Console.WriteLine("\nWhat distance do you want:\n 1 - Location and station\n 2 - Location and customer\n 0 - Exit");
