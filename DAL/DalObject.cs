@@ -26,7 +26,7 @@ namespace DalObject
         /// <param name="lng">longitude of the station</param>
         /// <param name="lat">latitude of the station</param>
         /// <param name="charge">number of charge slots in the station</param>
-        public static void AddStation(int id, string name, double lng, double lat, int charge)
+        public void AddStation(int id, string name, double lng, double lat, int charge)
         {
             DataSource.Stations.Add(new Station
             {
@@ -45,7 +45,7 @@ namespace DalObject
         /// <param name="model">model of the drone</param>
         /// <param name="maxWeight">maximum weight the drone can carry</param>
         /// <param name="battery">battery percentage of the drone</param>
-        public static void AddDrone(int id, string model, WeightCategories maxWeight, double battery)
+        public void AddDrone(int id, string model, WeightCategories maxWeight, double battery)
         {
             DataSource.Drones.Add(new Drone
             {
@@ -65,7 +65,7 @@ namespace DalObject
         /// <param name="phone">phone number of the customer</param>
         /// <param name="lng">longitude of the location of the customer</param>
         /// <param name="lat">latitude of the location of the customer</param>
-        public static void AddCustomer(int id, string name, string phone, double lng, double lat)
+        public void AddCustomer(int id, string name, string phone, double lng, double lat)
         {
             DataSource.Customers.Add(new Customer
             {
@@ -85,7 +85,7 @@ namespace DalObject
         /// <param name="target">the id of the target</param>
         /// <param name="weight">the weight of the parcel</param>
         /// <param name="priority">the priority of the parcel</param>
-        public static void AddParcel(int sender, int target, WeightCategories weight, Priorities priority)
+        public void AddParcel(int sender, int target, WeightCategories weight, Priorities priority)
         {
             DataSource.Parcels.Add(new Parcel
             {
@@ -107,12 +107,12 @@ namespace DalObject
         /// </summary>
         /// <param name="parcelId">the id of the parcel</param>
         /// <param name="droneId">the id of the drone</param>
-        public static void ParcelDroneUpdate(int parcelId, int droneId)
+        public void ParcelDroneUpdate(int parcelId, int droneId)
         {
             Parcel temp = new Parcel();
-            foreach(Parcel x in DataSource.Parcels)
+            foreach (Parcel x in DataSource.Parcels)
             {
-                if(x.Id==parcelId)
+                if (x.Id == parcelId)
                 {
                     temp = x;
                     temp.DroneId = droneId;
@@ -128,7 +128,7 @@ namespace DalObject
         /// updates the drone that was assigned to a parcel to pick up the parcel
         /// </summary>
         /// <param name="id">the id of the parcel</param>
-        public static void ParcelPickUp(int id)
+        public void ParcelPickUp(int id)
         {
             Parcel temp = new Parcel();
             foreach (Parcel x in DataSource.Parcels)
@@ -148,7 +148,7 @@ namespace DalObject
         /// updates that the parcel was delivered to the target
         /// </summary>
         /// <param name="id">the id of the parcel</param>
-        public static void ParcelDelivered(int id)
+        public void ParcelDelivered(int id)
         {
             Parcel temp = new Parcel();
             foreach (Parcel x in DataSource.Parcels)
@@ -169,7 +169,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">the drone to send to charge</param>
         /// <param name="stationId">the station to send it to charge</param>
-        public static void ChargeDrone(int droneId, int stationId)
+        public void ChargeDrone(int droneId, int stationId)
         {
             DataSource.DroneChargers.Add(new DroneCharge
             {
@@ -184,7 +184,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">the id of the drone to release</param>
         /// <param name="stationId">the id of the station it is in</param>
-        public static void ReleaseDroneCharge(int droneId, int stationId)
+        public void ReleaseDroneCharge(int droneId, int stationId)
         {
             DroneCharge temp = (new DroneCharge { DroneId = droneId, StationId = stationId });
             DataSource.DroneChargers.Remove(temp);
@@ -195,7 +195,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">station id</param>
         /// <param name="num">the number to updat (add 1 or substarct 1)</param>
-        public static void UpdateChargeSlots(int id, int num)
+        public void UpdateChargeSlots(int id, int num)
         {
 
             Station temp = new Station();
@@ -217,7 +217,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the id of the status</param>
         /// <param name="status">the status to update</param>
-        public static void UpdateDroneStatus(int id, DroneStatuses status)
+        public void UpdateDroneStatus(int id, DroneStatuses status)
         {
             Drone temp = new Drone();
             foreach (Drone x in DataSource.Drones)
@@ -240,7 +240,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">station id</param>
         /// <returns></returns>
-        public static Station DisplayStation(int id)
+        public Station DisplayStation(int id)
         {
             return DataSource.Stations.Find(x => x.Id == id);
         }
@@ -250,7 +250,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns></returns>
-        public static Drone DisplayDrone(int id)
+        public Drone DisplayDrone(int id)
         {
             return DataSource.Drones.Find(x => x.Id == id);
         }
@@ -260,7 +260,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">customer id</param>
         /// <returns></returns>
-        public static Customer DisplayCustomer(int id)
+        public Customer DisplayCustomer(int id)
         {
             return DataSource.Customers.Find(x => x.Id == id);
         }
@@ -270,7 +270,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">parcel id</param>
         /// <returns></returns>
-        public static Parcel DisplayParcel(int id)
+        public Parcel DisplayParcel(int id)
         {
             return DataSource.Parcels.Find(x => x.Id == id);
         }
@@ -281,7 +281,7 @@ namespace DalObject
         /// return the list of stations
         /// </summary>
         /// <returns>list Stations</returns>
-        public static List<Station> StationsDisplay()
+        public List<Station> StationsDisplay()
         {
             return DataSource.Stations;
         }
@@ -290,7 +290,7 @@ namespace DalObject
         /// returns the list of drones
         /// </summary>
         /// <returns>list Drones</returns>
-        public static List<Drone> DronesDisplay()
+        public List<Drone> DronesDisplay()
         {
             return DataSource.Drones;
         }
@@ -299,7 +299,7 @@ namespace DalObject
         /// returns the list of customers
         /// </summary>
         /// <returns>list Customers</returns>
-        public static List<Customer> CustomersDisplay()
+        public List<Customer> CustomersDisplay()
         {
             return DataSource.Customers;
         }
@@ -308,7 +308,7 @@ namespace DalObject
         /// returns a list of the parcels
         /// </summary>
         /// <returns></returns>
-        public static List<Parcel> ParcelsDisplay()
+        public List<Parcel> ParcelsDisplay()
         {
             return DataSource.Parcels;
         }
@@ -317,7 +317,7 @@ namespace DalObject
         /// returns a list of the drones charging
         /// </summary>
         /// <returns></returns>
-        public static List<DroneCharge> DroneChargeDisplay()
+        public List<DroneCharge> DroneChargeDisplay()
         {
             return DataSource.DroneChargers;
         }
@@ -326,7 +326,7 @@ namespace DalObject
         /// returns a list with all the parcels that are not associated to a drone
         /// </summary>
         /// <returns></returns>
-        public static List<Parcel> NoDroneParcels()
+        public List<Parcel> NoDroneParcels()
         {
             List<Parcel> temp = new List<Parcel>();
             DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) temp.Add(x); });
@@ -337,10 +337,10 @@ namespace DalObject
         /// returns an array with tyhe list of stations with empty charge slots
         /// </summary>
         /// <returns></returns>
-        public static List<Station> EmptyChargeSlots()
+        public List<Station> EmptyChargeSlots()
         {
             List<Station> temp = new List<Station>();
-            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); }); 
+            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); });
             return temp;
         }
 
@@ -353,7 +353,7 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceStation(double lng1, double lat1, int id)
+        public double FindDistanceStation(double lng1, double lat1, int id)
         {
             Station temp = DataSource.Stations.Find(x => x.Id == id);
             Double lat2 = temp.Latitude, lng2 = temp.Longitude;
@@ -366,7 +366,7 @@ namespace DalObject
         /// <param name="Lng1"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static double FindDistanceCustomer(double lng1, double lat1, int id)
+        public double FindDistanceCustomer(double lng1, double lat1, int id)
         {
             Customer temp = DataSource.Customers.Find(x => x.Id == id);
             Double lat2 = temp.Latitude, lng2 = temp.Longitude;
