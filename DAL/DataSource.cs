@@ -178,7 +178,7 @@ namespace DalObject
                 Name = "Sara Silver",
                 Phone = "050-987-9955",
                 Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Latitude = r.Next(351252, 352642) / 10000.00
             });
             Customers.Add(new Customer
             {
