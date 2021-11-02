@@ -121,7 +121,7 @@ namespace DalObject
                 Id = 324968520,
                 Name = "Shimon Levy",
                 Phone = "058-352-2962",
-                Longitude = r.Next(317082, 318830) / 10000.0,
+                Longitude = r.Next(317082, 318830) / 100000.0,
                 Latitude = r.Next(351252, 352642) / 10000.0
             });
             Customers.Add(new Customer
