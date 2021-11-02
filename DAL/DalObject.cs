@@ -21,82 +21,34 @@ namespace DalObject
         /// <summary>
         /// adds a station to the list of stations
         /// </summary>
-        /// <param name="id">id of the station</param>
-        /// <param name="name">name of the station</param>
-        /// <param name="lng">longitude of the station</param>
-        /// <param name="lat">latitude of the station</param>
-        /// <param name="charge">number of charge slots in the station</param>
-        public void AddStation(int id, string name, double lng, double lat, int charge)
+        public void AddStation(Station station)
         {
-            DataSource.Stations.Add(new Station
-            {
-                Id = id,
-                Name = name,
-                Longitude = lng,
-                Latitude = lat,
-                ChargeSlots = charge
-            });
+            DataSource.Stations.Add(station); 
         }
 
         /// <summary>
         /// adds a drone to the list of drones
         /// </summary>
-        /// <param name="id">id of the drone</param>
-        /// <param name="model">model of the drone</param>
-        /// <param name="maxWeight">maximum weight the drone can carry</param>
-        /// <param name="battery">battery percentage of the drone</param>
-        public void AddDrone(int id, string model, WeightCategories maxWeight, double battery)
+        public void AddDrone(Drone drone)
         {
-            DataSource.Drones.Add(new Drone
-            {
-                Id = id,
-                Model = model,
-                MaxWeight = maxWeight,
-                Status = DroneStatuses.Available, //levarer
-                Battery = battery
-            });
+            DataSource.Drones.Add(drone);
         }
 
         /// <summary>
         /// adds a customer to list of customers
         /// </summary>
-        /// <param name="id">id of the customer</param>
-        /// <param name="name">name of the customer</param>
-        /// <param name="phone">phone number of the customer</param>
-        /// <param name="lng">longitude of the location of the customer</param>
-        /// <param name="lat">latitude of the location of the customer</param>
-        public void AddCustomer(int id, string name, string phone, double lng, double lat)
+        public void AddCustomer(Customer customer)
         {
-            DataSource.Customers.Add(new Customer
-            {
-                Id = id,
-                Name = name,
-                Phone = phone,
-                Longitude = lng,
-                Latitude = lat,
-            });
+            DataSource.Customers.Add(customer);
         }
 
         /// <summary>
         /// adds a parcel to the list of parcels
         /// </summary>
-        /// <param name="id">id of the parcel</param>
-        /// <param name="sender">the id of the sender</param>
-        /// <param name="target">the id of the target</param>
-        /// <param name="weight">the weight of the parcel</param>
-        /// <param name="priority">the priority of the parcel</param>
-        public void AddParcel(int sender, int target, WeightCategories weight, Priorities priority)
+        public void AddParcel(Parcel parcel)
         {
-            DataSource.Parcels.Add(new Parcel
-            {
-                Id = DataSource.Config.IdNumber,
-                SenderId = sender,
-                TargetId = target,
-                Weight = weight,
-                Priority = priority,
-                Requested = DateTime.Now,
-                DroneId = 0
-            });
+            parcel.Id = DataSource.Config.IdNumber;
+            DataSource.Parcels.Add(parcel);
             DataSource.Config.IdNumber++;
         }
 

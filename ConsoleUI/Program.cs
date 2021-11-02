@@ -79,7 +79,15 @@ namespace ConsoleUI
                         double.TryParse(Console.ReadLine(), out lat);
                         int num;
                         int.TryParse(Console.ReadLine(), out num);
-                        data.AddStation(id, name, lng, lat, num);
+                        Station station = new Station
+                        {
+                            Id = id,
+                            Name = name,
+                            Longitude = lng,
+                            Latitude = lat,
+                            ChargeSlots = num
+                        };
+                        data.AddStation(station);
                         break;
 
                     case AddOptions.Drone:
@@ -90,7 +98,15 @@ namespace ConsoleUI
                         IDAL.DO.WeightCategories.TryParse(Console.ReadLine(), out max);
                         double battery;
                         double.TryParse(Console.ReadLine(), out battery);
-                        data.AddDrone(id, model, max, battery);
+                        Drone drone = new Drone
+                        {
+                            Id = id,
+                            Model = model,
+                            MaxWeight = max,
+                            Status = DroneStatuses.Available, //levarer
+                            Battery = battery
+                        };
+                        data.AddDrone(drone);
                         break;
 
                     case AddOptions.Customer:
@@ -100,7 +116,15 @@ namespace ConsoleUI
                         string phone = Console.ReadLine();
                         double.TryParse(Console.ReadLine(), out lng);
                         double.TryParse(Console.ReadLine(), out lat);
-                        data.AddCustomer(id, name, phone, lng, lat);
+                        Customer customer = new Customer
+                        {
+                            Id = id,
+                            Name = name,
+                            Phone = phone,
+                            Longitude = lng,
+                            Latitude = lat,
+                        };
+                        data.AddCustomer(customer);
                         break;
 
                     case AddOptions.Parcel:
@@ -114,7 +138,16 @@ namespace ConsoleUI
                         IDAL.DO.WeightCategories.TryParse(Console.ReadLine(), out weight);
                         IDAL.DO.Priorities priority;
                         IDAL.DO.Priorities.TryParse(Console.ReadLine(), out priority);
-                        data.AddParcel(senderId, targetId, weight, priority);
+                        Parcel parcel = new Parcel
+                        {
+                            SenderId = senderId,
+                            TargetId = targetId,
+                            Weight = weight,
+                            Priority = priority,
+                            Requested = DateTime.Now,
+                            DroneId = 0
+                        };
+                        data.AddParcel(parcel);
                         break;
                 }
                 Console.WriteLine("\nWhat would you like to add:\n 1 - Add a station \n 2 - Add a drone\n 3 - Add a customer\n" +
@@ -207,7 +240,7 @@ namespace ConsoleUI
                 {
                     case DisplayOptions.Station:
                         Console.WriteLine("Enter the station ID:");
-                        int.TryParse(Console.ReadLine(),out id);
+                        int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine(data.DisplayStation(id));
                         break;
 
@@ -242,7 +275,7 @@ namespace ConsoleUI
             Console.WriteLine("\nWhat would you like to display:\n 1 - Stations \n 2 - Drones\n 3 - Customers\n 4 - Parcels\n" +
                 " 5 - Parcels without drone\n 6 - Stations with available chargers\n 0 - Exit");
             DisplayOptions choice;
-            DisplayOptions.TryParse(Console.ReadLine(),out choice);
+            DisplayOptions.TryParse(Console.ReadLine(), out choice);
             while (choice != DisplayOptions.Exit)
             {
                 switch (choice)
@@ -276,7 +309,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("\nWhat distance do you want:\n 1 - Location and station\n 2 - Location and customer\n 0 - Exit");
             DistanceOptions choice;
-            DistanceOptions.TryParse(Console.ReadLine(),out choice);
+            DistanceOptions.TryParse(Console.ReadLine(), out choice);
             while (choice != DistanceOptions.Exit)
             {
                 Console.WriteLine("Enter longitude and latitude:");
@@ -297,8 +330,8 @@ namespace ConsoleUI
                         break;
                 }
                 Console.WriteLine("\nWhat distance do you want:\n 1 - Location and station\n 2 - Location and customer\n 0 - Exit");
-                
-            DistanceOptions.TryParse(Console.ReadLine(),out choice);
+
+                DistanceOptions.TryParse(Console.ReadLine(), out choice);
             }
         }
 
