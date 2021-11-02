@@ -107,7 +107,7 @@ namespace DalObject
         /// adds 10 customers to the list of customers
         /// </summary>
         private static void createCustomers()
-        {
+        { 
             Customers.Add(new Customer
             {
                 Id = 212069325,
