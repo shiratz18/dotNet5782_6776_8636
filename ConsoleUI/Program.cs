@@ -16,14 +16,14 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            DalObject.DalObject data = new DalObject.DalObject();
+            IDAL.IDal data = new DalObject.DalObject();
             MainMenu(data);
         }
 
         /// <summary>
         /// Print main menu to user
         /// </summary>
-        public static void MainMenu(DalObject.DalObject data)
+        public static void MainMenu(IDAL.IDal data)
         {
             Console.WriteLine("What would you like to do:\n 1 - Add an object\n 2 - Update an object\n 3" +
                 " - Display an object\n 4 - Display a list of objects\n 5 - Find distance\n 0 - Exit");
@@ -58,7 +58,7 @@ namespace ConsoleUI
         /// <summary>
         /// Print add menu to user
         /// </summary>
-        public static void AddMenu(DalObject.DalObject data)
+        public static void AddMenu(IDAL.IDal data)
         {
             Console.WriteLine("\nWhat would you like to add:\n 1 - Add a station \n 2 - Add a drone\n 3 - Add a customer\n" +
                 " 4 - Add a parcel\n 0 - Exit");
@@ -102,9 +102,7 @@ namespace ConsoleUI
                         {
                             Id = id,
                             Model = model,
-                            MaxWeight = max,
-                            Status = DroneStatuses.Available, //levarer
-                            Battery = battery
+                            MaxWeight = max
                         };
                         data.AddDrone(drone);
                         break;
@@ -159,11 +157,11 @@ namespace ConsoleUI
         /// <summary>
         /// Print the update menu to the user
         /// </summary>
-        public static void UpdateMenu(DalObject.DalObject data)
+        public static void UpdateMenu(IDAL.IDal data)
         {
             Console.WriteLine("\nWhat would you like to update:\n 1 - Assign drone to parcel \n 2 - Drone pick up of parcel\n" +
                 " 3 - Deliver parcel to customer\n 4 - Send a drone to charge\n 5 - Release a drone from charge\n" +
-                " 6 - Update drone status\n 0 - Exit");
+                " 0 - Exit");
             UpdateOptions choice;
             UpdateOptions.TryParse(Console.ReadLine(), out choice);
             int droneId = 0, parcelId = 0, stationId = 0;
@@ -177,7 +175,7 @@ namespace ConsoleUI
                         Console.WriteLine("Enter the ID of the parcel and of the drone:");
                         int.TryParse(Console.ReadLine(), out parcelId);
                         int.TryParse(Console.ReadLine(), out droneId);
-                        data.ParcelDroneUpdate(parcelId, droneId);
+                        data.AssignDroneToParcel(parcelId, droneId);
                         break;
 
                     case UpdateOptions.PickUp:
@@ -198,7 +196,12 @@ namespace ConsoleUI
                         Console.WriteLine("Enter the ID of the drone and the station:");
                         int.TryParse(Console.ReadLine(), out droneId);
                         int.TryParse(Console.ReadLine(), out stationId);
-                        data.ChargeDrone(droneId, stationId);
+                        DroneCharge d = new DroneCharge
+                        {
+                            DroneId = droneId,
+                            StationId = stationId
+                        };
+                        data.AddDroneCharge(d);
                         data.UpdateChargeSlots(stationId, -1);
                         break;
 
@@ -207,20 +210,25 @@ namespace ConsoleUI
                         PrintAllDronesCharging(data);
                         int.TryParse(Console.ReadLine(), out droneId);
                         int.TryParse(Console.ReadLine(), out stationId);
-                        data.ReleaseDroneCharge(droneId, stationId);
+                        DroneCharge dr = new DroneCharge
+                        {
+                            DroneId = droneId,
+                            StationId = stationId
+                        };
+                        data.RemoveDroneCharge(dr);
                         break;
 
-                    case UpdateOptions.DroneStatus:
-                        Console.WriteLine("Enter the drone ID and the status (0 - Available, 1 - Maintenance, 2 - Shipping):");
-                        int.TryParse(Console.ReadLine(), out droneId);
-                        IDAL.DO.DroneStatuses status;
-                        IDAL.DO.DroneStatuses.TryParse(Console.ReadLine(), out status);
-                        data.UpdateDroneStatus(droneId, status);
-                        break;
+                        //case UpdateOptions.DroneStatus:
+                        //    Console.WriteLine("Enter the drone ID and the status (0 - Available, 1 - Maintenance, 2 - Shipping):");
+                        //    int.TryParse(Console.ReadLine(), out droneId);
+                        //    IDAL.DO.DroneStatuses status;
+                        //    IDAL.DO.DroneStatuses.TryParse(Console.ReadLine(), out status);
+                        //    data.UpdateDroneStatus(droneId, status);
+                        //    break;
                 }
                 Console.WriteLine("\nWhat would you like to update:\n 1 - Assign drone to parcel \n 2 - Drone pick up of parcel\n" +
                     " 3 - Deliver parcel to customer\n 4 - Send a drone to charge\n 5 - Release a drone from charge\n" +
-                    " 6 - Update drone status\n 0 - Exit");
+                    " 0 - Exit");
                 UpdateOptions.TryParse(Console.ReadLine(), out choice);
             }
         }
@@ -228,7 +236,7 @@ namespace ConsoleUI
         /// <summary>
         /// Print the menu of display one to the user
         /// </summary>
-        public static void DisplayOneMenu(DalObject.DalObject data)
+        public static void DisplayOneMenu(IDAL.IDal data)
         {
             int id;
             Console.WriteLine("\nWhat would you like to display:\n 1 - Station \n 2 - Drone\n 3 - Customer\n 4 - Parcel\n 0 - Exit");
@@ -241,25 +249,25 @@ namespace ConsoleUI
                     case DisplayOptions.Station:
                         Console.WriteLine("Enter the station ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(data.DisplayStation(id));
+                        Console.WriteLine(data.GetStation(id));
                         break;
 
                     case DisplayOptions.Drone:
                         Console.WriteLine("Enter the drone ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(data.DisplayDrone(id));
+                        Console.WriteLine(data.GetDrone(id));
                         break;
 
                     case DisplayOptions.Customer:
                         Console.WriteLine("Enter the customer ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(data.DisplayCustomer(id));
+                        Console.WriteLine(data.GetCustomer(id));
                         break;
 
                     case DisplayOptions.Parcel:
                         Console.WriteLine("Enter the parcel ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(data.DisplayParcel(id));
+                        Console.WriteLine(data.GetParcel(id));
                         break;
                 }
                 Console.WriteLine("\nWhat would you like to display:\n 1 - Station \n 2 - Drone\n 3 - Customer\n 4 - Parcel\n 0 - Exit");
@@ -270,7 +278,7 @@ namespace ConsoleUI
         /// <summary>
         /// Print the menu of list displayy to user
         /// </summary>
-        public static void DisplayListMenu(DalObject.DalObject data)
+        public static void DisplayListMenu(IDAL.IDal data)
         {
             Console.WriteLine("\nWhat would you like to display:\n 1 - Stations \n 2 - Drones\n 3 - Customers\n 4 - Parcels\n" +
                 " 5 - Parcels without drone\n 6 - Stations with available chargers\n 0 - Exit");
@@ -305,7 +313,7 @@ namespace ConsoleUI
             }
         }
 
-        public static void FindDistanceMenu(DalObject.DalObject data)
+        public static void FindDistanceMenu(IDAL.IDal data)
         {
             Console.WriteLine("\nWhat distance do you want:\n 1 - Location and station\n 2 - Location and customer\n 0 - Exit");
             DistanceOptions choice;
@@ -338,57 +346,57 @@ namespace ConsoleUI
         /// <summary>
         /// print all the stations
         /// </summary>
-        public static void PrintAllStations(DalObject.DalObject data)
+        public static void PrintAllStations(IDAL.IDal data)
         {
-            List<Station> Stations = data.StationsDisplay();
+            List<Station> Stations = (List<Station>)data.GetStationList();
             Stations.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the drones
         /// </summary>
-        public static void PrintAllDrones(DalObject.DalObject data)
+        public static void PrintAllDrones(IDAL.IDal data)
         {
-            List<Drone> Drones = data.DronesDisplay();
+            List<Drone> Drones = (List<Drone>)data.GetDroneList();
             Drones.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the customers
         /// </summary>
-        public static void PrintAllCustomers(DalObject.DalObject data)
+        public static void PrintAllCustomers(IDAL.IDal data)
         {
-            List<Customer> Customers = data.CustomersDisplay();
+            List<Customer> Customers = (List<Customer>)data.GetCustomerList();
             Customers.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the parcels
         /// </summary>
-        public static void PrintAllParcels(DalObject.DalObject data)
+        public static void PrintAllParcels(IDAL.IDal data)
         {
-            List<Parcel> Parcels = data.ParcelsDisplay();
+            List<Parcel> Parcels = (List<Parcel>)data.GetParcelList();
             Parcels.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the parcels with no drone associated
         /// </summary>
-        public static void PrintAllNoDroneParcels(DalObject.DalObject data)
+        public static void PrintAllNoDroneParcels(IDAL.IDal data)
         {
-            List<Parcel> Parcels = data.NoDroneParcels();
+            List<Parcel> Parcels = (List<Parcel>)data.GetNoDroneParcels();
             Parcels.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the stations with empty charge slots
         /// </summary>
-        public static void PrintAllAvailableChargeStations(DalObject.DalObject data)
+        public static void PrintAllAvailableChargeStations(IDAL.IDal data)
         {
-            List<Station> Stations = data.EmptyChargeSlots();
+            List<Station> Stations = (List<Station>)data.GetEmptyChargeSlots();
             Stations.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the drones that are charging
         /// </summary>
-        public static void PrintAllDronesCharging(DalObject.DalObject data)
+        public static void PrintAllDronesCharging(IDAL.IDal data)
         {
-            List<DroneCharge> DroneCharges = data.DroneChargeDisplay();
+            List<DroneCharge> DroneCharges = (List<DroneCharge>)data.GetDroneChargeList();
             DroneCharges.ForEach(x => { Console.WriteLine(x); });
         }
     }

@@ -18,6 +18,12 @@ namespace DalObject
         internal class Config
         {
             internal static int IdNumber = 1000000;
+            internal static double AvailableConsumption { get; set; }
+            internal static double LightWeightConsumption { get; set; }
+            internal static double MediumWeightConsumption { get; set; }
+            internal static double HeavyWeightConsumption { get; set; }
+            internal static double ChargingRate { get; set; }
+
         }
 
         internal static Random r = new Random();
@@ -43,40 +49,30 @@ namespace DalObject
                 Id = 4582,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Heavy,
-                Status = DroneStatuses.Available,
-                Battery = r.Next(0, 101)
             });
             Drones.Add(new Drone
             {
                 Id = 9215,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Light,
-                Status = DroneStatuses.Available,
-                Battery = r.Next(0, 101)
             });
             Drones.Add(new Drone
             {
                 Id = 2131,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Medium,
-                Status = DroneStatuses.Maintenance,
-                Battery = r.Next(0, 101)
             });
             Drones.Add(new Drone
             {
                 Id = 2586,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Heavy,
-                Status = DroneStatuses.Shipping,
-                Battery = r.Next(0, 101)
             });
             Drones.Add(new Drone
             {
                 Id = 3674,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Light,
-                Status = DroneStatuses.Shipping,
-                Battery = r.Next(0, 101)
             });
         }
 
@@ -107,7 +103,7 @@ namespace DalObject
         /// adds 10 customers to the list of customers
         /// </summary>
         private static void createCustomers()
-        { 
+        {
             Customers.Add(new Customer
             {
                 Id = 212069325,
