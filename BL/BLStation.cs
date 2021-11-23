@@ -17,7 +17,10 @@ namespace IBL
         {
             if (station.Id < 1000 || station.Id > 9999)
                 throw new InvalidNumberException($"Station ID must be 4 digits.");
-
+            if (station.Location.Longitude > 31.8830 && station.Location.Longitude < 31.7082)
+                throw new Exception           ($"{station.Location.Longitude} not in the proper field.");//צריך להוסיף את המחלקה של החריגה
+            if ((station.Location.Latitude > 35.2642 && station.Location.Latitude < 35.1252))
+                throw new Exception          ($"{station.Location.Longitude} not in the proper field.");
             IDAL.DO.Station temp = new IDAL.DO.Station()
             {
                 Id = station.Id,

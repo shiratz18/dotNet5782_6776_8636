@@ -17,15 +17,17 @@ namespace IBL
         {
             if (customer.Id < 100000000 || customer.Id > 999999999)
                 throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
-            
-
+            if (customer.Location.Longitude > 31.8830 && customer.Location.Longitude< 31.7082)
+                throw new ($"{customer.Location.Longitude} not in the proper field.");//צריך להוסיף את המחלקה של החריגה
+            if ((customer.Location.Latitude > 35.2642 && customer.Location.Latitude < 35.1252))
+                throw new($"{customer.Location.Longitude} not in the proper field.");
             IDAL.DO.Customer temp = new IDAL.DO.Customer()
             {
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
-                Latitude = customer.Location.Latitude
+                Latitude = customer.Location.Longitude//נראה טעות
             };
 
             try

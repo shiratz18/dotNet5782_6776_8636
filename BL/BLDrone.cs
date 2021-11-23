@@ -16,6 +16,9 @@ namespace IBL
         /// <param name="stationNum">the station ID in which to put the drone</param>
         public void AddDrone(Drone drone, int stationNum)
         {
+            if (drone.Id < 1000 || drone.Id > 9999)
+                throw new InvalidNumberException($"Station ID must be 4 digits.");
+
             IDAL.DO.Drone temp = new IDAL.DO.Drone() //copy the drone to a temporary DAL drone
             {
                 Id = drone.Id,
