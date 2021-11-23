@@ -99,7 +99,10 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine(ex.Message);
                         }
+                        
                         break;
+
+
 
                     case AddOptions.Drone:
                         Console.WriteLine("Enter the ID, model, maximum weight (0-light, 1-mediun, 2-heavy), and station number for the drone:");
@@ -117,6 +120,10 @@ namespace ConsoleUI_BL
                         try
                         {
                             myBL.AddDrone(drone, num);
+                        }
+                        catch (InvalidNumberException ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         catch (DoubleIDException ex)
                         {
