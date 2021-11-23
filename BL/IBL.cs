@@ -15,6 +15,18 @@ namespace IBL
         public void AddCustomer(Customer customer);
         public void AddParcel(Parcel parcel);
 
+        //request functions
+        public Station GetStation(int id);
+        public IEnumerable<ListStation> GetStationList();
+        public Drone GetDrone(int id);
+        public IEnumerable<ListDrone> GetDroneList();
+        public Customer GetCustomer(int id);
+        public IEnumerable<ListCustomer> GetCustomerList();
+        public Parcel GetParcel(int id);
+        public IEnumerable<ListParcel> GetParcelList();
+        public IEnumerable<ListParcel> GetNoDroneParcelList();
+        public IEnumerable<ListStation> GetAvailableChargeSlotsStationList();
+
         //update functions 
         public void UpdateDroneName(int id, string name);
         public void UpdateStationName(int id, string name);

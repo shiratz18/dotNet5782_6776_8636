@@ -30,7 +30,7 @@ namespace IBL
         /// </summary>
         /// <param name="loc">the given location</param>
         /// <returns>the id of the nearest station</returns>
-        internal static int NearestStationId(Location loc)
+        internal static int nearestStationId(Location loc)
         {
             double min = 100000; //no two places in Jerusalem hava a greater distance (our company is placed in Jerusalem)
             int minId = 0;

@@ -100,11 +100,11 @@ namespace IBL
                     Drones.ForEach(d =>
                     {
                         if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
-                            {
+                        {
                             if (d.CurrentLocation == temp.Location) //if it is in the station
-                                {
+                            {
                                 temp.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
-                                    {
+                                {
                                     Id = d.Id,
                                     Battery = d.Battery
                                 });
@@ -116,6 +116,51 @@ namespace IBL
                 }
             }
             throw new NoIDException($"Station in location {loc} does not exist.");
+        }
+
+        /// <summary>
+        /// Returns the list of stations
+        /// </summary>
+        /// <returns>The list of stations</returns>
+        public IEnumerable<ListStation> GetStationList()
+        {
+            List<ListStation> stations = new List<ListStation>();
+
+            foreach (IDAL.DO.Station s in data.GetStationList())
+            {
+                stations.Add(new ListStation()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    AvailableChargeSlots = s.ChargeSlots,
+                    UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
+                });
+            }
+
+            if (stations.Count == 0) //if no stations were added
+                throw new EmptyListException("No stations to display.");
+
+            return stations;
+        }
+
+        /// <summary>
+        /// Returns list of stations with available charge slots
+        /// </summary>
+        /// <returns>The list of stations</returns>
+        public IEnumerable<ListStation> GetAvailableChargeSlotsStationList()
+        {
+            List<ListStation> stations = new List<ListStation>();
+
+            foreach(ListStation s in GetStationList())
+            {
+                if (s.AvailableChargeSlots > 0)
+                    stations.Add(s);
+            }
+
+            if (stations.Count == 0)
+                throw new EmptyListException("No stations with available charge slots to display");
+
+            return stations;
         }
 
         /// <summary>

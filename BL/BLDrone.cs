@@ -60,6 +60,43 @@ namespace IBL
         }
 
         /// <summary>
+        /// Returns a drone according to ID
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        /// <returns>The object of the drone</returns>
+        public Drone GetDrone(int id)
+        {
+            if (!Drones.Exists(d => d.Id == id)) //if the drone does not exist in the list od drones in bll
+                throw new NoIDException($"Drone {id} doesn't exist");
+
+            ListDrone temp = Drones.Find(d => d.Id == id); //find the drone in the list of drones
+
+            Drone drone = new Drone()
+            {
+                Id = temp.Id,
+                Model = temp.Model,
+                MaxWeight = temp.MaxWeight,
+                Battery = temp.Battery,
+                Status = temp.Status,
+                InShipping = GetParcel(temp.ParcelId),
+                CurrentLocation = temp.CurrentLocation
+            };
+
+            return drone;
+        }
+
+        /// <summary>
+        /// Returns the list of drones
+        /// </summary>
+        /// <returns>List of drones</returns>
+        public IEnumerable<ListDrone> GetDroneList()
+        {
+            if (Drones.Count == 0)
+                throw new EmptyListException("No drones to display.");
+            return Drones;
+        }
+
+        /// <summary>
         /// Update a drone
         /// </summary>
         /// <param name="drone">The updates drone</param>
@@ -127,7 +164,7 @@ namespace IBL
             if (d.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is not available.");
 
-            Station s = GetStation(NearestStationId(d.CurrentLocation)); //the station that is nearest to the drone
+            Station s = GetStation(nearestStationId(d.CurrentLocation)); //the station that is nearest to the drone
 
             while (s.AvailableChargeSlots == 0)
             {
@@ -366,14 +403,14 @@ namespace IBL
             {
                 throw new DroneStateException($"Drone {id} does not have a parcel assigned.");
             }
-            if(drone.InShipping.PickedUp != DateTime.MinValue) //if the parcel has already been picked up
+            if (drone.InShipping.PickedUp != DateTime.MinValue) //if the parcel has already been picked up
             {
                 throw new DroneStateException($"Drone {id} cannot pick up the parcel since it has already been picked up.");
             }
 
             Parcel p = drone.InShipping;
 
-            switch(p.Weight)
+            switch (p.Weight)
             {
                 //update the battery according to weight and distance
                 case WeightCategories.Heavy:
@@ -430,41 +467,6 @@ namespace IBL
 
             p.Delivered = DateTime.Now; //update the deliverey time to be now
             UpdateParcel(p); //update the parcel
-        }
-
-        /// <summary>
-        /// Returns a drone according to ID
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        /// <returns>The object of the drone</returns>
-        public Drone GetDrone(int id)
-        {
-            if (!Drones.Exists(d => d.Id == id)) //if the drone does not exist in the list od drones in bll
-                throw new NoIDException($"Drone {id} doesn't exist");
-
-            ListDrone temp = Drones.Find(d => d.Id == id); //find the drone in the list of drones
-
-            Drone drone = new Drone()
-            {
-                Id = temp.Id,
-                Model = temp.Model,
-                MaxWeight = temp.MaxWeight,
-                Battery = temp.Battery,
-                Status = temp.Status,
-                InShipping = GetParcel(temp.ParcelId),
-                CurrentLocation = temp.CurrentLocation
-            };
-
-            return drone;
-        }
-
-        /// <summary>
-        /// Returns the list of drones
-        /// </summary>
-        /// <returns>List of drones</returns>
-        public IEnumerable<ListDrone> GetDroneList()
-        {
-            return Drones;
         }
 
         /// <summary>

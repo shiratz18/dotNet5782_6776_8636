@@ -143,13 +143,17 @@ namespace ConsoleUI_BL
                             Name = name,
                             Phone = phone,
                             Location = loc,
-                            FromCustomer = new List<CustomerInParcel>(),
-                            ToCustomer = new List<CustomerInParcel>()
+                            FromCustomer = new List<ParcelAtCustomer>(),
+                            ToCustomer = new List<ParcelAtCustomer>()
                         };
 
                         try
                         {
                             myBL.AddCustomer(customer);
+                        }
+                        catch(InvalidNumberException ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         catch (DoubleIDException ex)
                         {
@@ -206,7 +210,7 @@ namespace ConsoleUI_BL
                 {
                     case UpdateOptions.Drone:
                         Console.WriteLine("Enter the ID of the drone and the new name:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits, drones exists
+                        int.TryParse(Console.ReadLine(), out id); // drones exists
                         name = Console.ReadLine();
                         try
                         {
@@ -220,9 +224,9 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.Station:
                         Console.WriteLine("Enter the station number, the new name and/or the new number of charging slots:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits, station exists
+                        int.TryParse(Console.ReadLine(), out id); // station exists
                         name = Console.ReadLine(); //alphabet, name doesnt exist
-                        string number = Console.ReadLine(); //check that there are enough slots for the drones
+                        string number = Console.ReadLine(); //positive,check that there are enough slots for the drones
 
                         if (name != null) //if he entered a name to update
                         {
@@ -252,12 +256,11 @@ namespace ConsoleUI_BL
                                 Console.WriteLine(ex.Message);
                             }
                         }
-
                         break;
 
                     case UpdateOptions.Customer:
                         Console.WriteLine("Enter the customer ID, the new name and/or the new phone number:");
-                        int.TryParse(Console.ReadLine(), out id); //9 digits, customer exists
+                        int.TryParse(Console.ReadLine(), out id); // customer exists
                         name = Console.ReadLine(); //alphabet
                         phone = Console.ReadLine(); //10 digits
                         myBL.UpdateCustomerName(id, name);
@@ -266,7 +269,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.DroneCharge:
                         Console.WriteLine("Enter the ID of the drone:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits drone exists
+                        int.TryParse(Console.ReadLine(), out id); //drone exists
 
                         try
                         {
@@ -288,7 +291,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.ReleaseCharge:
                         Console.WriteLine("Enter the drone ID and the charging time:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits drone exists
+                        int.TryParse(Console.ReadLine(), out id); //drone exists
                         double.TryParse(Console.ReadLine(), out double time); //positive
 
                         try
@@ -307,7 +310,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.ParcelToDrone:
                         Console.WriteLine("Enter the drone ID:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits, drone exists, drone available
+                        int.TryParse(Console.ReadLine(), out id); //, drone exists, drone available
                         try
                         {
                             myBL.AssignDroneToParcel(id);
@@ -324,7 +327,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.PickUp:
                         Console.WriteLine("Enter the drone ID:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits, drone exists, drone assigned to parcel
+                        int.TryParse(Console.ReadLine(), out id); // drone exists, drone assigned to parcel
                         try
                         {
                             myBL.DronePickUp(id);
@@ -341,7 +344,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.Deliver:
                         Console.WriteLine("Enter the drone ID:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits, drone exists, drone picked up parcel
+                        int.TryParse(Console.ReadLine(), out id); //drone exists, drone picked up parcel
                         try
                         {
                             myBL.DroneDeliver(id);
@@ -374,25 +377,53 @@ namespace ConsoleUI_BL
                     case DisplayOptions.Station:
                         Console.WriteLine("Enter the station ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(myBL.GetStation(id));
+                        try
+                        {
+                            Console.WriteLine(myBL.GetStation(id));
+                        }
+                        catch (NoIDException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
 
                     case DisplayOptions.Drone:
                         Console.WriteLine("Enter the drone ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(myBL.GetDrone(id));
+                        try
+                        {
+                            Console.WriteLine(myBL.GetDrone(id));
+                        }
+                        catch (NoIDException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
 
                     case DisplayOptions.Customer:
                         Console.WriteLine("Enter the customer ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(myBL.GetCustomer(id));
+                        try
+                        {
+                            Console.WriteLine(myBL.GetCustomer(id));
+                        }
+                        catch (NoIDException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
 
                     case DisplayOptions.Parcel:
                         Console.WriteLine("Enter the parcel ID:");
                         int.TryParse(Console.ReadLine(), out id);
-                        Console.WriteLine(myBL.GetParcel(id));
+                        try
+                        {
+                            Console.WriteLine(myBL.GetParcel(id));
+                        }
+                        catch (NoIDException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
                 }
                 Console.WriteLine("\nWhat would you like to display:\n 1 - Station \n 2 - Drone\n 3 - Customer\n 4 - Parcel\n 0 - Exit");
@@ -412,22 +443,87 @@ namespace ConsoleUI_BL
                 switch (choice)
                 {
                     case DisplayOptions.Station:
-                        PrintAllStations(data);
+                        try
+                        {
+                            foreach (ListStation ls in myBL.GetStationList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch(EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
+
                     case DisplayOptions.Drone:
-                        PrintAllDrones(data);
+                        try
+                        {
+                            foreach (ListDrone ls in myBL.GetDroneList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch (EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
+
                     case DisplayOptions.Customer:
-                        PrintAllCustomers(data);
+                        try
+                        {
+                            foreach (ListCustomer ls in myBL.GetCustomerList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch (EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
+
                     case DisplayOptions.Parcel:
-                        PrintAllParcels(data);
+                        try
+                        {
+                            foreach (ListParcel ls in myBL.GetParcelList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch (EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
+
                     case DisplayOptions.NoDroneParcel:
-                        PrintAllNoDroneParcels(data);
+                        try
+                        {
+                            foreach (ListParcel ls in myBL.GetNoDroneParcelList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch (EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
+
                     case DisplayOptions.AvailableChargeStations:
-                        PrintAllAvailableChargeStations(data);
+                        try
+                        {
+                            foreach (ListStation ls in myBL.GetAvailableChargeSlotsStationList())
+                            {
+                                Console.WriteLine(ls);
+                            }
+                        }
+                        catch (EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
                 }
                 Console.WriteLine("\nWhat would you like to display:\n 1 - Stations \n 2 - Drones\n 3 - Customers\n 4 - Parcels\n" +

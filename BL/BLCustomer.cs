@@ -15,6 +15,10 @@ namespace IBL
         /// <param name="customer">the customer to add</param>
         public void AddCustomer(Customer customer)
         {
+            if (customer.Id < 100000000 || customer.Id > 999999999)
+                throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
+            
+
             IDAL.DO.Customer temp = new IDAL.DO.Customer()
             {
                 Id = customer.Id,
@@ -41,39 +45,75 @@ namespace IBL
         /// <returns>Customer object</returns>
         public Customer GetCustomer(int id)
         {
+            IDAL.DO.Customer temp;
+
             try
             {
-                IDAL.DO.Customer temp = data.GetCustomer(id);
-
-                Customer c = new Customer()
-                {
-                    Id = temp.Id,
-                    Name = temp.Name,
-                    Phone = temp.Phone,
-                    Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude }
-                    // FromCustomer = GetFromCustomerParcels(temp.Id),
-                    //ToCustomer = GetToCustomerParcels(temp)
-                };
-
-
-                CustomerInParcel cip = new CustomerInParcel() { Id = temp.Id, Name = temp.Name };
-                List<Parcel> parcels = (List<Parcel>)(GetParcelList());
-                parcels.ForEach(p =>
-                {
-                    if (p.Sender == cip)
-                    {
-                        c.FromCustomer.Add(GetParcelAtCustomer(p.Id);
-                    }
-                });
-                for (int i = 0; i < parcels.Count(); i++)
-                {
-                    if (parcels[i].S)
-                }
+                temp = data.GetCustomer(id); //getting the customer from dal
             }
             catch (IDAL.DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
+
+            Customer c = new Customer()
+            {
+                Id = temp.Id,
+                Name = temp.Name,
+                Phone = temp.Phone,
+                Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude }
+            };
+
+            IEnumerable<Parcel> parcels = getListOfParcels();
+            //for each parcel
+            foreach (Parcel p in parcels)
+            {
+                if (p.Sender.Id == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
+                    c.FromCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
+
+                if (p.Target.Id == c.Id) //if the target is the requsted customer, add the parcel to the list of parcels to customer
+                    c.ToCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
+            }
+
+            return c;
+        }
+
+        /// <summary>
+        /// Returns the list of customers
+        /// </summary>
+        /// <returns>The list of customers</returns>
+        public IEnumerable<ListCustomer> GetCustomerList()
+        {
+            List<ListCustomer> customers = new List<ListCustomer>();
+
+            foreach (IDAL.DO.Customer c in data.GetCustomerList())
+            {
+                customers.Add(new ListCustomer()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Phone = c.Phone
+                });
+            }
+
+            if (customers.Count == 0)
+                throw new EmptyListException("No customers t display.");
+
+            foreach (ListParcel lp in GetParcelList()) //for each parcl
+            {
+                if (lp.State == ParcelState.Delivered) //if it was delivered
+                {
+                    customers[customers.FindIndex(c => c.Name == lp.SenderName)].DeliveredFromCustomer++; //add 1 to the number of delivered from of the sender
+                    customers[customers.FindIndex(c => c.Name == lp.TargetName)].DeliveredToCustomer++; //add 1 to the umber of parcels delivered to the target
+                }
+                else
+                {
+                    customers[customers.FindIndex(c => c.Name == lp.SenderName)].NotDeliveredFromCustomer++; //add 1 to the number of not yet delivered from of the sender
+                    customers[customers.FindIndex(c => c.Name == lp.TargetName)].NotDeliveredToCustomer++; //add 1 to the umber of parcels not yet delivered to the target
+                }
+            }
+
+            return customers;
         }
 
         /// <summary>

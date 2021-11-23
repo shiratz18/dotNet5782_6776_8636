@@ -15,6 +15,7 @@ namespace IBL.BO
         public int NotDeliveredFromCustomer { get; set; }
         public int DeliveredToCustomer { get; set; }
         public int NotDeliveredToCustomer { get; set; }
+
         public override string ToString()
         {
             string str = $"Customer {Id}:\n";

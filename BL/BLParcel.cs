@@ -72,7 +72,7 @@ namespace IBL
             {
                 IDAL.DO.Parcel temp = data.GetParcel(id); //get the parcel from the data layer
 
-                Parcel p = new Parcel()
+                Parcel p = new Parcel() //copy the fields to a bl parel type
                 {
                     Id = temp.Id,
                     Sender = GetCustomerInParcel(temp.SenderId),
@@ -89,10 +89,6 @@ namespace IBL
                 return p;
             }
             catch (IDAL.DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
-            catch (NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -131,6 +127,25 @@ namespace IBL
             }
 
             return listParcels;
+        }
+
+        /// <summary>
+        /// Returns the list of parcels which dont have an assigned drone
+        /// </summary>
+        /// <returns>The list of parcels</returns>
+        public IEnumerable<ListParcel>GetNoDroneParcelList()
+        {
+            List<ListParcel> parcels = new List<ListParcel>();
+
+            foreach(ListParcel p in GetParcelList())
+            {
+                if (p.State == ParcelState.Requested)
+                    parcels.Add(p);
+            }
+
+            if (parcels.Count == 0)
+                throw new EmptyListException("No Parcels with no drone to diplay");
+            return parcels;
         }
 
         /// <summary>
