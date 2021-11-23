@@ -9,8 +9,15 @@ namespace IBL
 {
     public interface IBL
     {
+        //copy the teud
+
         //add functions
         public void AddStation(Station station);
+        /// <summary>
+        /// Adds a drone to the list
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="stationNum"></param>
         public void AddDrone(Drone drone, int stationNum);
         public void AddCustomer(Customer customer);
         public void AddParcel(Parcel parcel);

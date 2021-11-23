@@ -18,13 +18,13 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Customer {Id}:\n";
-            str += $"Name - {Name}\n";
-            str += $"Phone - {Phone}\n";
-            str += $"{DeliveredFromCustomer} delivered parcels sent from the customer\n";
-            str += $"{NotDeliveredFromCustomer} not yet delivered parcels sent from the customer\n";
-            str += $"Recieved {DeliveredToCustomer} parcels\n";
-            str += $"{NotDeliveredToCustomer} parcels on the way to customer\n";
+            string str = $"Customer {Id}:";
+            str += $"\nName - {Name}\n";
+            str += $"\nPhone - {Phone}";
+            str += $"\nParcels delivered from cusotmer - {DeliveredFromCustomer}";
+            str += $"\nParcels not yet delivered from customer - {NotDeliveredFromCustomer}";
+            str += $"\nParcels delivered to customer - {DeliveredToCustomer}";
+            str += $"\nParcels on the way to customer - {NotDeliveredToCustomer}";
             return str;
         }
     }

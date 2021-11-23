@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-    public class Sexagimal
+    public class Sexasegimal
     {
         /// <summary>
         /// finds sexasegiaml value of latitude

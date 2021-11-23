@@ -10,11 +10,11 @@ namespace IBL
     public partial class BL
     {
         /// <summary>
-        /// calculates the distance between 2 location
+        /// Calculates the distance between two locations
         /// </summary>
-        /// <param name="loc1">the first location</param>
-        /// <param name="loc2">the second location</param>
-        /// <returns>returns the distance</returns>
+        /// <param name="loc1">The first location</param>
+        /// <param name="loc2">The second location</param>
+        /// <returns>The distance</returns>
         internal static double getDistance(Location loc1, Location loc2)
         {
             var d1 = loc1.Latitude * (Math.PI / 180.0);
@@ -30,26 +30,34 @@ namespace IBL
         /// </summary>
         /// <param name="loc">the given location</param>
         /// <returns>the id of the nearest station</returns>
-        internal static int nearestStationId(Location loc)
+        private int nearestStationId(Location loc)
         {
-            double min = 100000; //no two places in Jerusalem hava a greater distance (our company is placed in Jerusalem)
+            double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
             int minId = 0;
 
-            IEnumerable<Station> stations = GetStationList();
+            IEnumerable<Station> stations = getListOfStations(); //get the list of all the stations
 
             foreach (Station s in stations)
             {
-                //saving the location of this station
-                Location temp = s.Location;
-
-                if (getDistance(loc, temp) < min) //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
+                //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
+                if (getDistance(loc, s.Location) < min)
                 {
-                    min = getDistance(loc, temp);
+                    min = getDistance(loc, s.Location);
                     minId = s.Id; //the id of the nearest station will be saved here
                 }
             }
 
             return minId;
+        }
+
+        /// <summary>
+        /// Finds the location of the nearest station to given location
+        /// </summary>
+        /// <param name="loc">The location</param>
+        /// <returns>The location of the station</returns>
+        private Location nearestStationLocation(Location loc)
+        {
+            return GetStation(nearestStationId(loc)).Location;
         }
 
         /// <summary>
@@ -65,18 +73,25 @@ namespace IBL
             Customer sender = GetCustomer(senderId); //getting the sender
             Customer target = GetCustomer(targetId); //getting the target
 
-            return getDistance(drone.CurrentLocation, sender.Location) + getDistance(sender.Location, target.Location) + GetDistance(target.Location, nearestStationLocation());
+            return getDistance(drone.CurrentLocation, sender.Location) + getDistance(sender.Location, target.Location) + getDistance(target.Location, nearestStationLocation(target.Location));
         }
 
-        internal Parcel closestParcel(int droneId, List<Parcel> parcels)
+        private Parcel closestParcel(int droneId, List<Parcel> parcels)
         {
             Drone drone = GetDrone(droneId);
             double min = 100000; //no two places in Jerusalem hava a greater distance (our company is placed in Jerusalem)
+            Parcel parcel;
 
             parcels.ForEach(p =>
             {
-            if (getDistance(drone.CurrentLocation, p.l))
+                if (getDistance(drone.CurrentLocation, p.Sender.Id) < min)
+                {
+                    min = getDistance(drone.CurrentLocation, p.Sender.Id);
+                    parcel = p;
+                }
             });
+
+            return parcel;
         }
     }
 }

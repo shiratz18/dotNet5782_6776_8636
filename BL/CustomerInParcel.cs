@@ -13,7 +13,7 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Name - {Name} ID - {Id}\n";
+            string str = $"ID: {Id} Name: {Name}\n";
             return str;
         }
     }

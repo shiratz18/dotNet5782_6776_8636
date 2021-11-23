@@ -91,6 +91,10 @@ namespace ConsoleUI_BL
                         {
                             myBL.AddStation(station);
                         }
+                        catch(InvalidNumberException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         catch (DoubleIDException ex)
                         {
                             Console.WriteLine(ex.Message);
@@ -100,7 +104,7 @@ namespace ConsoleUI_BL
                     case AddOptions.Drone:
                         Console.WriteLine("Enter the ID, model, maximum weight (0-light, 1-mediun, 2-heavy), and station number for the drone:");
                         int.TryParse(Console.ReadLine(), out id); //4 digits
-                        name = Console.ReadLine(); //alphabet
+                        name = Console.ReadLine();
                         WeightCategories.TryParse(Console.ReadLine(), out WeightCategories maxWeight);
                         int.TryParse(Console.ReadLine(), out num); //that its a station
                         Drone drone = new Drone()

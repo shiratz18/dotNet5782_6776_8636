@@ -13,7 +13,19 @@ namespace IBL.BO
         public WeightCategories MaxWeight { get; set; }
         public double Battery { get; set; }
         public DroneStatuses Status { get; set; }
-        public Parcel InShipping { get; set; }
+        public ParcelInShipping InShipping { get; set; }
         public Location CurrentLocation { get; set; }
+
+        public override string ToString()
+        {
+            string str = $"Drone {Id}:";
+            str += $"\nModel - {Model}";
+            str += $"\nMaximum weight - {MaxWeight}";
+            str += $"\nBattery - {Battery}";
+            str += $"\nStatus - {Status}";
+            str += $"\nParcel in shipping - {InShipping.Id}";
+            str += $"\nCurrent location - {CurrentLocation}";
+            return base.ToString();
+        }
     }
 }

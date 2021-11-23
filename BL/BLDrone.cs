@@ -78,7 +78,7 @@ namespace IBL
                 MaxWeight = temp.MaxWeight,
                 Battery = temp.Battery,
                 Status = temp.Status,
-                InShipping = GetParcel(temp.ParcelId),
+                InShipping = GetParcelInShipping(temp.ParcelId),
                 CurrentLocation = temp.CurrentLocation
             };
 
@@ -255,11 +255,15 @@ namespace IBL
             if (drone.Status != DroneStatuses.Available) //checking that the drone is available
                 throw new DroneStateException($"Drone {id} is currently unavailable for shipping.");
 
-            IEnumerable<Parcel> parcels = getListOfParcels(); //getting the list of parcels
+            //IEnumerable<Parcel> parcels = getListOfParcels(); //getting the list of parcels
+            IEnumerable<ParcelInShipping> parcels = getListOfNoDroneParcelsInShipping();
 
             List<Parcel> highPriority = new List<Parcel>();
             List<Parcel> mediumPriority = new List<Parcel>();
             List<Parcel> lowPriority = new List<Parcel>();
+            //List<ParcelInShipping> highPriority = new List<ParcelInShipping>();
+            //List<ParcelInShipping> mediumPriority = new List<ParcelInShipping>();
+            //List<ParcelInShipping> lowPriority = new List<ParcelInShipping>();
 
             //deviding the parcels into 3 lists according to priority, and making sure they are not heavy enough and that they have enough battery to complete the delivery
             foreach (Parcel p in parcels)
@@ -386,9 +390,7 @@ namespace IBL
             drone.InShipping = parcel; //updating the parcel the drone carries
             UpdateDrone(drone); //update the drone
 
-            parcel.AssignedDrone = new DroneOfParcel() { Id = drone.Id, Battery = drone.Battery, CurrentLocation = drone.CurrentLocation };
-            parcel.Requested = DateTime.Now;
-            UpdateParcel(parcel); //update the parcel
+            data.AssignDroneToParcel(parcel.Id, drone.Id);
         }
 
         /// <summary>

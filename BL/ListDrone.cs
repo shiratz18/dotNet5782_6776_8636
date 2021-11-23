@@ -15,5 +15,18 @@ namespace IBL.BO
         public DroneStatuses Status { get; set; }
         public Location CurrentLocation { get; set; }
         public int ParcelId { get; set; }
+
+        public override string ToString()
+        {
+            string str = $"Drone {Id}:";
+            str += $"\nModel - {Model}";
+            str += $"\n Maximum weight - {MaxWeight}";
+            str += $"\nBattery - {Battery}";
+            str += $"Status - {Status}";
+            str += $"Current location - {CurrentLocation}";
+            if (Status == DroneStatuses.Shipping)
+                str += $"Carrying parcel - {ParcelId}";
+            return str;
+        }
     }
 }

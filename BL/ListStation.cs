@@ -12,5 +12,14 @@ namespace IBL.BO
         public string Name { get; set; }
         public int AvailableChargeSlots { get; set; }
         public int UnavailableChargeSlots { get; set; }
+
+        public override string ToString()
+        {
+            string str = $"Station {Id}:";
+            str += $"\n Name - {Name}";
+            str += $"\n Available charge slots - {AvailableChargeSlots}";
+            str += $"\nOccupied charge slots - {UnavailableChargeSlots}";
+            return str;
+        }
     }
 }

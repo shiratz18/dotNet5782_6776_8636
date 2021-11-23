@@ -15,6 +15,9 @@ namespace IBL
         /// <param name="station">The station to add</param>
         public void AddStation(Station station)
         {
+            if (station.Id < 1000 || station.Id > 9999)
+                throw new InvalidNumberException($"Station ID must be 4 digits.");
+
             IDAL.DO.Station temp = new IDAL.DO.Station()
             {
                 Id = station.Id,
@@ -119,7 +122,7 @@ namespace IBL
         }
 
         /// <summary>
-        /// Returns the list of stations
+        /// Returns the list of stations for a list
         /// </summary>
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetStationList()
@@ -151,7 +154,7 @@ namespace IBL
         {
             List<ListStation> stations = new List<ListStation>();
 
-            foreach(ListStation s in GetStationList())
+            foreach (ListStation s in GetStationList())
             {
                 if (s.AvailableChargeSlots > 0)
                     stations.Add(s);
@@ -159,6 +162,28 @@ namespace IBL
 
             if (stations.Count == 0)
                 throw new EmptyListException("No stations with available charge slots to display");
+
+            return stations;
+        }
+
+        /// <summary>
+        /// Returns a list of Station type stations, not including the list of drones
+        /// </summary>
+        /// <returns>The list</returns>
+        private IEnumerable<Station> getListOfStations()
+        {
+            List<Station> stations = new List<Station>();
+
+            foreach (IDAL.DO.Station s in data.GetStationList())
+            {
+                stations.Add(new Station()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+                    AvailableChargeSlots = s.ChargeSlots
+                });
+            }
 
             return stations;
         }

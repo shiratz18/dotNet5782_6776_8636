@@ -22,16 +22,16 @@ namespace IBL.BO
         public override string ToString()
         {
             string str = "";
-            str += $"Parcel {Id}:\n";
-            str += $"Sender - {Sender},\n";
-            str += $"Target - {Target},\n";
-            str += $"Weight - {Weight},\n";
-            str += $"Rank - {Priority},\n";
-            str += $"Requested time - {Requested},\n";
-            str += $"Assigned drone ID - {DroneId},\n";
-            str += $"Scheduled - {Scheduled},\n";
-            str += $"Picked up - {PickedUp},\n";
-            str += $"Delivered - {Delivered}\n";
+            str += $"Parcel {Id}:";
+            str += $"\nSender - {Sender}";
+            str += $"\nTarget - {Target}";
+            str += $"\nWeight - {Weight}";
+            str += $"\nPriority - {Priority}";
+            str += $"\nRequested time - {Requested}";
+            str += $"\nAssigned drone - {AssignedDrone}";
+            str += $"\nScheduled - {Scheduled}";
+            str += $"\nPicked up - {PickedUp}";
+            str += $"\nDelivered - {Delivered}";
             return str;
         }
     }
