@@ -67,7 +67,7 @@ namespace IBL
                 {
                     if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
                     {
-                        if (d.CurrentLocation == s.Location) //if it is in the station
+                        if (d.CurrentLocation.Longitude==s.Location.Longitude&& d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
                         {
                             s.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
                             {
@@ -91,7 +91,7 @@ namespace IBL
         /// </summary>
         /// <param name="loc">The location of the station</param>
         /// <returns>The station</returns>
-        public Station GetStationByLocation(Location loc)
+        private Station getStationByLocation(Location loc)
         {
             IEnumerable<IDAL.DO.Station> stations = data.GetStationList(); //get the list of all the stations
 

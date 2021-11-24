@@ -248,7 +248,7 @@ namespace IBL
                 d.Battery = 100;
             d.Status = DroneStatuses.Available; //update the status to be available
 
-            Station s = GetStationByLocation(d.CurrentLocation);
+            Station s = getStationByLocation(d.CurrentLocation);
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
 
             IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge()

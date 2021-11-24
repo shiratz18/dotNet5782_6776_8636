@@ -86,8 +86,8 @@ namespace IBL
                 Parcel p = new Parcel() //copy the fields to a bl parel type
                 {
                     Id = temp.Id,
-                    Sender = GetCustomerInParcel(temp.SenderId),
-                    Target = GetCustomerInParcel(temp.TargetId),
+                    Sender = getCustomerInParcel(temp.SenderId),
+                    Target = getCustomerInParcel(temp.TargetId),
                     Weight = (WeightCategories)temp.Weight,
                     Priority = (Priorities)temp.Priority,
                     AssignedDrone = getDroneOfParcel(temp.DroneId),
