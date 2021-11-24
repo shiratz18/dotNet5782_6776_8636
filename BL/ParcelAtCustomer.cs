@@ -17,9 +17,9 @@ namespace IBL.BO
         public override string ToString()
         {
             string str = $"Parcel {Id}:";
-            str += $"\nWeight - {Weight}";
-            str += $"\n Priority - {Priority}";
-            str += $"\nOther side - {OtherSide}";
+            str += $" Weight - {Weight},";
+            str += $" Priority - {Priority},";
+            str += $" Other side - {OtherSide}";
             return str;
         }
     }

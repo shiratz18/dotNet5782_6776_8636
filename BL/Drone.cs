@@ -18,14 +18,15 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Drone {Id}:";
-            str += $"\nModel - {Model}";
-            str += $"\nMaximum weight - {MaxWeight}";
-            str += $"\nBattery - {Battery}";
-            str += $"\nStatus - {Status}";
-            str += $"\nParcel in shipping - {InShipping.Id}";
-            str += $"\nCurrent location - {CurrentLocation}";
-            return base.ToString();
+            string str = $"\nDrone {Id}:";
+            str += $"\n Model - {Model}";
+            str += $"\n Maximum weight - {MaxWeight}";
+            str += $"\n Battery - {Battery}%";
+            str += $"\n Status - {Status}";
+            if (InShipping.Id != 0)
+                str += $"\n Parcel in shipping - {InShipping.Id}";
+            str += $"\n Current location - {CurrentLocation}";
+            return str;
         }
     }
 }

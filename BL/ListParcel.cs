@@ -17,12 +17,12 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Parcel {Id}:";
-            str += $"\nSender - {SenderName}";
-            str += $"\nTarget - {TargetName}";
-            str += $"\nWeight -{Weight}";
-            str += $"\nPriority - {Priority}";
-            str += $"\nState - {State}";
+            string str = $"\nParcel {Id}:";
+            str += $"\n Sender - {SenderName}";
+            str += $"\n Target - {TargetName}";
+            str += $"\n Weight -{Weight}";
+            str += $"\n Priority - {Priority}";
+            str += $"\n State - {State}";
             return str;
         }
     }

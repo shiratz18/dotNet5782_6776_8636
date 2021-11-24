@@ -41,7 +41,7 @@ namespace IBL
                 throw new DoubleIDException(ex.Message);
             }
 
-            ListDrone dr = new ListDrone() //adding the drone to the list of drones in BL
+            Drones.Add(new ListDrone() //adding the drone to the list of drones in BL
             {
                 Id = drone.Id,
                 Model = drone.Model,
@@ -50,7 +50,7 @@ namespace IBL
                 Status = DroneStatuses.Maintenance,
                 CurrentLocation = s.Location,
                 ParcelId = 0
-            };
+            });
 
             IDAL.DO.DroneCharge charge = new IDAL.DO.DroneCharge()
             {
@@ -81,9 +81,12 @@ namespace IBL
                 MaxWeight = temp.MaxWeight,
                 Battery = temp.Battery,
                 Status = temp.Status,
-                InShipping = getParcelInShipping(temp.ParcelId),
+                InShipping = new ParcelInShipping(),
                 CurrentLocation = temp.CurrentLocation
             };
+
+            if (temp.ParcelId != 0)
+                drone.InShipping = getParcelInShipping(temp.ParcelId);
 
             return drone;
         }
@@ -138,9 +141,20 @@ namespace IBL
         /// <param name="name">the new name</param>
         public void UpdateDroneName(int id, string name)
         {
-            Drone drone = GetDrone(id);
+            if (!Drones.Exists(d => d.Id == id))
+                throw new NoIDException($"Drone {id} does not exist.");
+
+            var drone = Drones.Find(d => d.Id == id);
             drone.Model = name;
-            UpdateDrone(drone);
+
+            try
+            {
+                data.EditDroneModel(id, name); //update the drone in data layer
+            }
+            catch (IDAL.DO.NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
         }
 
         /// <summary>
@@ -157,7 +171,16 @@ namespace IBL
             if (d.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is not available.");
 
-            IEnumerable<Station> stations = getListOfAvailableChargeSlotsStations(); //getting the list of available charging slots, will throw an exception if there arent stations like that
+            IEnumerable<Station> stations;
+            try
+            {
+                stations = getListOfAvailableChargeSlotsStations(); //getting the list of available charging slots, will throw an exception if there arent stations like that
+            }
+            catch (EmptyListException)
+            {
+                throw new EmptyListException("No stations with avavilable charge slots.");
+            }
+
             SortedList<double, Station> ids = new SortedList<double, Station>(); //a sorted list to save the stations according to distance
 
             foreach (Station tmp in stations)
@@ -166,13 +189,16 @@ namespace IBL
             }
 
             Station s = new Station();
-            int i = 0;
 
             //find the nearest station with available charging slots
-            do
+            foreach (var tmp in ids)
             {
-                s = ids[i];
-            } while (s.AvailableChargeSlots == 0);
+                if (tmp.Value.AvailableChargeSlots != 0)
+                {
+                    s = tmp.Value;
+                    break;
+                }
+            }
 
             //if there is not enough battery to get to the station
             if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
@@ -184,16 +210,13 @@ namespace IBL
             d.CurrentLocation = s.Location; //changing the location to be the station
             d.Status = DroneStatuses.Maintenance; //change the status to be in maintenance
 
-            Drone drone = new Drone()
+            IDAL.DO.Drone drone = new IDAL.DO.Drone()
             {
                 Id = d.Id,
                 Model = d.Model,
-                MaxWeight = d.MaxWeight,
-                Battery = d.Battery,
-                Status = d.Status,
-                CurrentLocation = d.CurrentLocation
+                MaxWeight = (IDAL.DO.WeightCategories)d.MaxWeight
             };
-            UpdateDrone(drone); //update the drone
+            data.UpdateDrone(drone); //update the drone
 
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots - 1); //update the station charge slots to one less
 
@@ -210,24 +233,20 @@ namespace IBL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <param name="time">The time it has charged</param>
-        public void ReleaseDroneCharge(int id, double time)
+        public void ReleaseDroneCharge(int id, TimeSpan time)
         {
-            Drone d;
-            try
-            {
-                d = GetDrone(id); //getting the drone, will throw exception if drone doesnt exist
-            }
-            catch (NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
+            if (!Drones.Exists(d => d.Id == id))
+                throw new NoIDException($"Drone {id} does not exist.");
+
+            ListDrone d = Drones.Find(d => d.Id == id);
 
             if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
                 throw new DroneStateException($"Drone {id} is not currently charging.");
 
-            d.Battery += time * DroneChargingRate; //adding the battery the drone has charged
+            d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
+            if (d.Battery > 100)
+                d.Battery = 100;
             d.Status = DroneStatuses.Available; //update the status to be available
-            UpdateDrone(d); //update the drone
 
             Station s = GetStationByLocation(d.CurrentLocation);
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
@@ -246,9 +265,14 @@ namespace IBL
         /// <param name="id">The ID of the drone</param>
         public void AssignDroneToParcel(int id)
         {
-            Drone drone = GetDrone(id); //try to get the drone, will throw an exception if ID doesnt exist
+            //checking if the drone exists
+            if (!Drones.Exists(d => d.Id == id))
+                throw new NoIDException($"Drone {id} does not exist.");
 
-            if (drone.Status != DroneStatuses.Available) //checking that the drone is available
+            ListDrone drone = Drones.Find(d => d.Id == id);
+
+            //checking that the drone is available
+            if (drone.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is currently unavailable for shipping.");
 
             IEnumerable<ParcelInShipping> parcels;
@@ -390,8 +414,7 @@ namespace IBL
             }
 
             drone.Status = DroneStatuses.Shipping; //updating the status of the drone to be in shipping
-            drone.InShipping = parcel; //updating the parcel the drone carries
-            UpdateDrone(drone); //update the drone
+            drone.ParcelId = parcel.Id; //updating the parcel the drone carries
 
             data.AssignDroneToParcel(parcel.Id, drone.Id);
         }
@@ -414,22 +437,22 @@ namespace IBL
             }
 
             ParcelInShipping p = drone.InShipping;
+            ListDrone d = Drones.Find(x => x.Id == drone.Id);
 
             switch (p.Weight)
             {
                 //update the battery according to weight and distance
                 case WeightCategories.Heavy:
-                    drone.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
+                    d.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
                 case WeightCategories.Medium:
-                    drone.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
+                    d.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
                 case WeightCategories.Light:
-                    drone.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
+                    d.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
             }
-            drone.CurrentLocation = p.PickUpLocation; //changing the location of the drone to the location of the sender
-            UpdateDrone(drone); //update the drone
+            d.CurrentLocation = p.PickUpLocation;
 
             data.ParcelPickUp(p.Id); //updating the parcel in dll
         }
@@ -442,7 +465,7 @@ namespace IBL
         {
             Drone drone = GetDrone(id);
 
-            if (drone.InShipping.Id != 0) //if the drone does not have a parcel 
+            if (drone.InShipping.Id == 0) //if the drone does not have a parcel 
             {
                 throw new DroneStateException($"Drone {id} does not have a parcel assigned.");
             }
@@ -452,22 +475,24 @@ namespace IBL
             }
 
             ParcelInShipping p = drone.InShipping;
+            ListDrone d = Drones.Find(x => x.Id == drone.Id);
 
             switch (p.Weight)
             {
                 //update the battery according to weight and distance
                 case WeightCategories.Heavy:
-                    drone.Battery -= HeavyWeightConsumption * p.DeliveryDistance;
+                    d.Battery -= HeavyWeightConsumption * p.DeliveryDistance;
                     break;
                 case WeightCategories.Medium:
-                    drone.Battery -= MediumWeightConsumption * p.DeliveryDistance;
+                    d.Battery -= MediumWeightConsumption * p.DeliveryDistance;
                     break;
                 case WeightCategories.Light:
-                    drone.Battery -= LightWeightConsumption * p.DeliveryDistance;
+                    d.Battery -= LightWeightConsumption * p.DeliveryDistance;
                     break;
             }
-            drone.CurrentLocation = p.DeliveryLocation; //changing the location of the drone to the location of the target
-            UpdateDrone(drone); //update the drone
+            d.CurrentLocation = p.DeliveryLocation;
+            d.Status = DroneStatuses.Available;
+            d.ParcelId = 0;
 
             data.ParcelDelivered(p.Id);
         }

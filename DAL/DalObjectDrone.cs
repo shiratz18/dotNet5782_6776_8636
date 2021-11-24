@@ -14,7 +14,7 @@ namespace DalObject
         /// </summary>
         public void AddDrone(Drone drone)
         {
-            if(DataSource.Drones.Exists(d=>d.Id==drone.Id))
+            if (DataSource.Drones.Exists(d => d.Id == drone.Id))
             {
                 throw new DoubleIDException($"Drone {drone.Id} already exists.");
             }
@@ -34,6 +34,57 @@ namespace DalObject
             }
 
             DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == drone.Id)] = drone;
+        }
+
+        /// <summary>
+        /// Updates the ID of a drone
+        /// </summary>
+        /// <param name="currentId">The current drone ID</param>
+        /// <param name="newId">The new ID</param>
+        public void EditDroneId(int currentId, int newId)
+        {
+            if (!DataSource.Drones.Exists(d => d.Id == currentId))
+            {
+                throw new NoIDException($"Drone {currentId} doesn't exists.");
+            }
+
+            Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == currentId)];
+            drone.Id = newId;
+            DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == currentId)] = drone;
+        }
+
+        /// <summary>
+        /// Updates the drone name
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <param name="name">The new name</param>
+        public void EditDroneModel(int id, string model)
+        {
+            if (!DataSource.Drones.Exists(d => d.Id == id))
+            {
+                throw new NoIDException($"Drone {id} doesn't exists.");
+            }
+
+            Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)];
+            drone.Model = model;
+            DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)] = drone;
+        }
+
+        /// <summary>
+        /// Updates the maximum weight of the drone
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <param name="weight">The new maximum weight</param>
+        public void EditDroneMaxWeight(int id,WeightCategories weight)
+        {
+            if (!DataSource.Drones.Exists(d => d.Id == id))
+            {
+                throw new NoIDException($"Drone {id} doesn't exists.");
+            }
+
+            Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)];
+            drone.MaxWeight = weight;
+            DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)] = drone;
         }
 
         /// <summary>

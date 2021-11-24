@@ -9,8 +9,6 @@ namespace IBL
 {
     public interface IBL
     {
-        //copy the teud
-
         //add functions
         /// <summary>
         /// Adds a station to the list
@@ -47,6 +45,11 @@ namespace IBL
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetStationList();
         /// <summary>
+        /// Returns list of stations with available charge slots
+        /// </summary>
+        /// <returns>The list of stations</returns>
+        public IEnumerable<ListStation> GetAvailableChargeSlotsStationList();
+        /// <summary>
         /// Returns a drone according to ID
         /// </summary>
         /// <param name="id">The ID of the drone</param>
@@ -80,38 +83,56 @@ namespace IBL
         /// </summary>
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetParcelList();
-
         /// <summary>
         /// Returns the list of parcels which dont have an assigned drone
         /// </summary>
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetNoDroneParcelList();
-        /// <summary>
-        /// Returns list of stations with available charge slots
-        /// </summary>
-        /// <returns>The list of stations</returns>
-        public IEnumerable<ListStation> GetAvailableChargeSlotsStationList();
 
         //update functions 
+
         /// <summary>
         /// Update a drone
         /// </summary>
-        /// <param name="drone">The updates drone</param>
-        //?
-
-        /// <summary>
-        /// Update a parcel
-        /// </summary>
-        /// <param name="parcel">The updated parcel</param>
-        /// 
-        //?
-
+        /// <param name="drone">The updated drone</param>
+        public void UpdateDrone(Drone drone);
         /// <summary>
         /// Update the name of the drone
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <param name="name">the new name</param>
         public void UpdateDroneName(int id, string name);
+        /// <summary>
+        /// Send a drone to charge
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        public void ChargeDrone(int id);
+        /// <summary>
+        /// Releases a drone from charging
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        /// <param name="time">The time it has charged</param>
+        public void ReleaseDroneCharge(int id, TimeSpan time);
+        /// <summary>
+        /// Assign a drone to a parcel
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        public void AssignDroneToParcel(int id);
+        /// <summary>
+        /// Update that a drone picked up a parcel
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        public void DronePickUp(int id);
+        /// <summary>
+        /// Update that a drone delivered a parcel
+        /// </summary>
+        /// <param name="id">The ID of the drone</param>
+        public void DroneDeliver(int id);
+        /// <summary>
+        /// Update a parcel
+        /// </summary>
+        /// <param name="parcel">The updated parcel</param>
+        public void UpdateParcel(Parcel parcel);
         /// <summary>
         /// Updates a station
         /// </summary>
@@ -146,35 +167,9 @@ namespace IBL
         /// <param name="id">The ID of the customer</param>
         /// <param name="phone">The new phone number</param>
         public void UpdateCustomerPhone(int id, string phone);
-        /// <summary>
-        /// Send a drone to charge
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        public void ChargeDrone(int id);
-        /// <summary>
-        /// Releases a drone from charging
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        /// <param name="time">The time it has charged</param>
-        public void ReleaseDroneCharge(int id, double time);
-        /// <summary>
-        /// Assign a drone to a parcel
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        public void AssignDroneToParcel(int id);
-        /// <summary>
-        /// Update that a drone picked up a parcel
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        public void DronePickUp(int id);
-        /// <summary>
-        /// Update that a drone delivered a parcel
-        /// </summary>
-        /// <param name="id">The ID of the drone</param>
-        public void DroneDeliver(int id);
-
-
+        
         //delete functions
+
         /// <summary>
         /// Remove a station from the list
         /// </summary>

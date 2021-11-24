@@ -17,13 +17,13 @@ namespace IBL
         /// <returns>The ParcelAtCustomer object</returns>
         internal ParcelAtCustomer getParcelAtCustomer(int parcelId, int customerId)
         {
-            Parcel temp = GetParcel(parcelId);
+            IDAL.DO.Parcel temp = data.GetParcel(parcelId);
 
             ParcelAtCustomer p = new ParcelAtCustomer()
             {
                 Id = temp.Id,
-                Weight = temp.Weight,
-                Priority = temp.Priority,
+                Weight = (WeightCategories)temp.Weight,
+                Priority = (Priorities)temp.Priority,
             };
 
             //if it has been delivered, the state is delivered
@@ -40,11 +40,11 @@ namespace IBL
                 p.State = ParcelState.Requested;
 
             //if the customer is the sender, so the other side is the target
-            if (temp.Sender.Id == customerId)
-                p.OtherSide = temp.Target;
+            if (temp.SenderId == customerId)
+                p.OtherSide = GetCustomerInParcel(temp.TargetId);
             //otherwise, the other side is the sender
             else
-                p.OtherSide = temp.Sender;
+                p.OtherSide = GetCustomerInParcel(temp.SenderId);
 
             return p;
         }

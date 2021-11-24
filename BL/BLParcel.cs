@@ -120,8 +120,8 @@ namespace IBL
                 ListParcel temp = new ListParcel()
                 {
                     Id = p.Id,
-                    SenderName = GetCustomer(p.SenderId).Name,
-                    TargetName = GetCustomer(p.TargetId).Name,
+                    SenderName = data.GetCustomer(p.SenderId).Name,
+                    TargetName = data.GetCustomer(p.TargetId).Name,
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority
                 };
@@ -179,12 +179,13 @@ namespace IBL
                     Target = GetCustomerInParcel(p.TargetId),
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority,
-                    AssignedDrone = GetDroneOfParcel(p.DroneId),
                     Requested = p.Requested,
                     Scheduled = p.Scheduled,
                     PickedUp = p.PickedUp,
                     Delivered = p.Delivered
                 };
+                if (p.DroneId != 0)
+                    temp.AssignedDrone = GetDroneOfParcel(p.DroneId);
 
                 ps.Add(temp);
             }

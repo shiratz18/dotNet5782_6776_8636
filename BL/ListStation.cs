@@ -15,10 +15,10 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Station {Id}:";
+            string str = $"\nStation {Id}:";
             str += $"\n Name - {Name}";
             str += $"\n Available charge slots - {AvailableChargeSlots}";
-            str += $"\nOccupied charge slots - {UnavailableChargeSlots}";
+            str += $"\n Occupied charge slots - {UnavailableChargeSlots}";
             return str;
         }
     }

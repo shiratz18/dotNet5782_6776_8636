@@ -17,12 +17,12 @@ namespace IBL
         {
             if (customer.Id < 100000000 || customer.Id > 999999999)
                 throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
-            if (customer.Location.Longitude > 31.8830 && customer.Location.Longitude < 31.7082)
+            if (customer.Location.Latitude > 31.8830 || customer.Location.Latitude < 31.7082)
                 throw new InvalidNumberException($"Longitude {customer.Location.Longitude} is not in Jerusalem.");
-            if ((customer.Location.Latitude > 35.2642 && customer.Location.Latitude < 35.1252))
+            if ((customer.Location.Longitude > 35.2642 || customer.Location.Longitude < 35.1252))
                 throw new InvalidNumberException($"Latitude {customer.Location.Longitude} is not in Jerusalem.");
             foreach (char c in customer.Name)
-                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ')
                     throw new WrongFormatException($"Customer name must contain alphabet letters only.");
             if (customer.Phone.Length != 10 || !customer.Phone.All(char.IsDigit))
                 throw new WrongFormatException($"Customer phone number must be 10 digits.");
@@ -33,7 +33,7 @@ namespace IBL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
-                Latitude = customer.Location.Longitude//נראה טעות
+                Latitude = customer.Location.Latitude
             };
 
             try
@@ -69,17 +69,19 @@ namespace IBL
                 Id = temp.Id,
                 Name = temp.Name,
                 Phone = temp.Phone,
-                Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude }
+                Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude },
+                FromCustomer = new List<ParcelAtCustomer>(),
+                ToCustomer = new List<ParcelAtCustomer>()
             };
 
-            IEnumerable<Parcel> parcels = getListOfParcels();
+            IEnumerable<IDAL.DO.Parcel> parcels = data.GetParcelList();
             //for each parcel
-            foreach (Parcel p in parcels)
+            foreach (IDAL.DO.Parcel p in parcels)
             {
-                if (p.Sender.Id == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
+                if (p.SenderId == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
                     c.FromCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
 
-                if (p.Target.Id == c.Id) //if the target is the requsted customer, add the parcel to the list of parcels to customer
+                if (p.TargetId == c.Id) //if the target is the requsted customer, add the parcel to the list of parcels to customer
                     c.ToCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
             }
 
@@ -105,19 +107,19 @@ namespace IBL
             }
 
             if (customers.Count == 0)
-                throw new EmptyListException("No customers t display.");
+                throw new EmptyListException("No customers to display.");
 
-            foreach (ListParcel lp in GetParcelList()) //for each parcl
+            foreach (IDAL.DO.Parcel p in data.GetParcelList()) //for each parcl
             {
-                if (lp.State == ParcelState.Delivered) //if it was delivered
+                if (p.Delivered != DateTime.MinValue) //if it was delivered
                 {
-                    customers[customers.FindIndex(c => c.Name == lp.SenderName)].DeliveredFromCustomer++; //add 1 to the number of delivered from of the sender
-                    customers[customers.FindIndex(c => c.Name == lp.TargetName)].DeliveredToCustomer++; //add 1 to the umber of parcels delivered to the target
+                    customers[customers.FindIndex(c => c.Id == p.SenderId)].DeliveredFromCustomer++; //add 1 to the number of delivered from of the sender
+                    customers[customers.FindIndex(c => c.Id == p.TargetId)].DeliveredToCustomer++; //add 1 to the umber of parcels delivered to the target
                 }
                 else
                 {
-                    customers[customers.FindIndex(c => c.Name == lp.SenderName)].NotDeliveredFromCustomer++; //add 1 to the number of not yet delivered from of the sender
-                    customers[customers.FindIndex(c => c.Name == lp.TargetName)].NotDeliveredToCustomer++; //add 1 to the umber of parcels not yet delivered to the target
+                    customers[customers.FindIndex(c => c.Id == p.SenderId)].NotDeliveredFromCustomer++; //add 1 to the number of not yet delivered from of the sender
+                    customers[customers.FindIndex(c => c.Id == p.TargetId)].NotDeliveredToCustomer++; //add 1 to the umber of parcels not yet delivered to the target
                 }
             }
 
@@ -150,12 +152,17 @@ namespace IBL
         {
 
             foreach (char c in name)
-                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ')
                     throw new WrongFormatException($"Customer name must contain alphabet letters only.");
 
-            Customer customer = GetCustomer(id);
-            customer.Name = name;
-            UpdateCustomer(customer);
+            try
+            {
+                data.EditCustomerName(id, name);
+            }
+            catch (IDAL.DO.NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
         }
 
         /// <summary>
@@ -168,9 +175,14 @@ namespace IBL
             if (phone.Length != 10 || !phone.All(char.IsDigit))
                 throw new WrongFormatException($"Customer phone number must be 10 digits.");
 
-            Customer customer = GetCustomer(id);
-            customer.Phone = phone;
-            UpdateCustomer(customer);
+            try
+            {
+                data.EditCustomerPhone(id, phone);
+            }
+            catch (IDAL.DO.NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
         }
 
         /// <summary>

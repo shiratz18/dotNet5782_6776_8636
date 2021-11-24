@@ -17,7 +17,7 @@ namespace IBL.BO
 
         public override string ToString()
         {
-            string str = $"Customer {Id}:";
+            string str = $"\nCustomer {Id}:";
             str += $"\nName - {Name}";
             str += $"\nPhone - {Phone}";
             str += $"\nLocation - {Location}";

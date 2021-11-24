@@ -12,191 +12,231 @@ namespace IDAL
         //create functions
 
         /// <summary>
-        /// adds a station to the list of stations
-        /// </summary
+        /// Adds a station to the list of stations 
+        /// </summary>
+        /// <param name="station">The station to add</param>
         public void AddStation(Station station);
         /// <summary>
-        /// adds a drone to the list of drones
+        /// Adds a drone to the list of drones
         /// </summary>
+        /// <param name="drone">The drone to add</param>
         public void AddDrone(Drone drone);
         /// <summary>
-        /// adds a customer to list of customers
+        /// Adds a customer to list of customers
         /// </summary>
+        /// <param name="customer">The customer to add</param>
         public void AddCustomer(Customer customer);
         /// <summary>
-        /// adds a parcel to the list of parcels
+        /// Adds a parcel to the list of parcels
         /// </summary>
+        /// <param name="parcel">The parcel to add</param>
+        /// <returns></returns>
         public int AddParcel(Parcel parcel);
         /// <summary>
-        /// send a drone to charge
+        /// Add a drone to charge
         /// </summary>
-        /// <param name="d">drone charge object</param>
+        /// <param name="d">Drone charge object</param>
         public void AddDroneCharge(DroneCharge d);
 
         //request functions
+
         /// <summary>
-        /// returns the object Station that matches the id
+        /// Returns the object Station that matches the ID
         /// </summary>
-        /// <param name="id">station id</param>
-        /// <returns></returns>
+        /// <param name="id">The station ID</param>
+        /// <returns>The station</returns>
         public Station GetStation(int id);
         /// <summary>
-        /// return the list of stations
+        /// Return the list of stations
         /// </summary>
-        /// <returns>list Stations</returns>
+        /// <returns>Station list</returns>
         public IEnumerable<Station> GetStationList();
         /// <summary>
-        /// returns an array with the list of stations with empty charge slots
+        /// Returns the list of stations with empty charge slots
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Station list</returns>
         public IEnumerable<Station> GetEmptyChargeSlots();
-
-
         /// <summary>
-        /// returns the object Parcel that matches the id
+        /// Returns the object Parcel that matches the ID
         /// </summary>
-        /// <param name="id">parcel id</param>
-        /// <returns></returns>
+        /// <param name="id">The parcel ID</param>
+        /// <returns>The parcel</returns>
         public Parcel GetParcel(int id);
         /// <summary>
-        /// returns a list of the parcels
+        /// Returns a list of the parcels
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Parcel list</returns>
         public IEnumerable<Parcel> GetParcelList();
         /// <summary>
-        /// returns a list with all the parcels that are not associated to a drone
+        /// Returns a list with all the parcels that don't have an assigned drone
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Parcel list</returns>
         public IEnumerable<Parcel> GetNoDroneParcels();
         /// <summary>
-        /// returns the object Drone that matches the id
+        /// Returns the object Drone that matches the ID
         /// </summary>
-        /// <param name="id">the id of the drone</param>
-        /// <returns></returns>
+        /// <param name="id">The drone ID</param>
+        /// <returns>The drone</returns>
         public Drone GetDrone(int id);
         /// <summary>
-        /// returns the list of drones
+        /// Returns the list of drones
         /// </summary>
-        /// <returns>list Drones</returns>
+        /// <returns>Drone list</returns>
         public IEnumerable<Drone> GetDroneList();
         /// <summary>
-        /// function returns an array with info about the electricity consumption of a drone
+        /// Returns an array with info about the electricity consumption of a drone
         /// </summary>
-        /// <returns>the array</returns>
+        /// <returns>The array</returns>
         public double[] GetDroneElectricityConsumption();
         /// <summary>
-        /// returns the object Customer that matches the id
+        /// Returns the object Customer that matches the id
         /// </summary>
-        /// <param name="id">customer id</param>
-        /// <returns></returns>
+        /// <param name="id">The customer ID</param>
+        /// <returns>The customer</returns>
         public Customer GetCustomer(int id);
         /// <summary>
-        /// returns the list of customers
+        /// Returns the list of customers
         /// </summary>
-        /// <returns>list Customers</returns>
+        /// <returns>Customer list</returns>
         public IEnumerable<Customer> GetCustomerList();
         /// <summary>
-        /// returns a list of the drones charging
+        /// Returns a list of the drones charging
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of drones</returns>
         public IEnumerable<DroneCharge> GetDroneChargeList();
 
         //updating functions
 
-
         /// <summary>
-        /// updates a parcel
+        /// Updates a parcel in the list
         /// </summary>
-        /// <param name="parcel">the updated parcel</param>
+        /// <param name="parcel">The updated parcel</param>
         public void UpdateParcel(Parcel parcel);
         /// <summary>
-        /// updates the station in the list
+        /// Updates a station in the list
         /// </summary>
-        /// <param name="station">the updated station</param>
+        /// <param name="station">The updated station</param>
         public void UpdateStation(Station station);
         /// <summary>
-        /// updates a drone in the list
+        /// Updates the name of a station
         /// </summary>
-        /// <param name="drone">the updated drone</param>
+        /// <param name="id">The station ID</param>
+        /// <param name="name">The new name</param>
+        public void EditStationName(int id, string name);
+        /// <summary>
+        /// Update the number of available charge slots in a station
+        /// </summary>
+        /// <param name="id">The station ID</param>
+        /// <param name="num">The number to update</param>
+        public void UpdateChargeSlots(int id, int num);
+        /// <summary>
+        /// Updates a drone in the list
+        /// </summary>
+        /// <param name="drone">The updated drone</param>
         public void UpdateDrone(Drone drone);
         /// <summary>
-        /// updates a customer in the list
+        /// Updates the ID of a drone
         /// </summary>
-        /// <param name="customer">the updated customer</param>
+        /// <param name="currentId">The current drone ID</param>
+        /// <param name="newId">The new ID</param>
+        public void EditDroneId(int currentId, int newId);
+        /// <summary>
+        /// Updates the drone name
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <param name="name">The new name</param>
+        public void EditDroneModel(int id, string model);
+        /// <summary>
+        /// Updates the maximum weight of the drone
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <param name="weight">The new maximum weight</param>
+        public void EditDroneMaxWeight(int id, WeightCategories weight);
+        /// <summary>
+        /// Updates a customer in the list
+        /// </summary>
+        /// <param name="customer">The updated customer</param>
         public void UpdateCustomer(Customer customer);
+        /// <summary>
+        /// Updates the name of a customer
+        /// </summary>
+        /// <param name="id">The customer ID</param>
+        /// <param name="name">The new name</param>
+        public void EditCustomerName(int id, string name);
+        /// <summary>
+        /// Update a customer phone number
+        /// </summary>
+        /// <param name="id">The customer ID</param>
+        /// <param name="phone">The new phone</param>
+        public void EditCustomerPhone(int id, string phone);
 
         //delete functions
+
         /// <summary>
-        /// removes a station from the list
+        /// Removes a station from the list
         /// </summary>
-        /// <param name="station">the station to remove</param>
+        /// <param name="station">The station to remove</param>
         public void RemoveStation(Station station);
         /// <summary>
-        /// removes a drone from the list
+        /// Removes a drone from the list
         /// </summary>
-        /// <param name="drone">the drone to remove</param>
+        /// <param name="drone">The drone to remove</param>
         public void RemoveDrone(Drone drone);
         /// <summary>
-        /// removes a customer from the list
+        /// Removes a customer from the list
         /// </summary>
-        /// <param name="customer">the customer to remove</param>
+        /// <param name="customer">The customer to remove</param>
         public void RemoveCustomer(Customer customer);
         /// <summary>
-        /// removes a parcel from the list
+        /// Removes a parcel from the list
         /// </summary>
-        /// <param name="parcel">the parcel to remove</param>
+        /// <param name="parcel">The parcel to remove</param>
         public void RemoveParcel(Parcel parcel);
         /// <summary>
-        /// release a drone from charge
+        /// Release a drone from charge
         /// </summary>
-        /// <param name="d">drone charge object</param>
+        /// <param name="d">Drone charge object</param>
         public void RemoveDroneCharge(DroneCharge d);
 
         //actions on parcels
 
         /// <summary>
-        /// assign a drone to a parcel and update the scheduled time
+        /// Assign a drone to a parcel and update the scheduled time
         /// </summary>
-        /// <param name="parcelId">the id of the parcel</param>
-        /// <param name="droneId">the id of the drone</param>
+        /// <param name="parcelId">The ID of the parcel</param>
+        /// <param name="droneId">The ID of the drone</param>
         public void AssignDroneToParcel(int parcelId, int droneId);
         /// <summary>
-        /// updates the pick up time of the parcel
+        /// Updates the pick up time of the parcel
         /// </summary>
-        /// <param name="id">the id of the parcel</param>
+        /// <param name="id">The ID of the parcel</param>
         public void ParcelPickUp(int id);
         /// <summary>
-        /// updates that the parcel was delivered to the target
+        /// Updates that the parcel was delivered to the target
         /// </summary>
-        /// <param name="id">the id of the parcel</param>
+        /// <param name="id">The ID of the parcel</param>
         public void ParcelDelivered(int id);
 
         //actions on stations
 
         /// <summary>
-        /// update the number of available charge slots in a station
+        /// Finds the distance from a station
         /// </summary>
-        /// <param name="id">station id</param>
-        /// <param name="num">the number to updat (add 1 or substarct 1)</param>
-        public void UpdateChargeSlots(int id, int num);
-        /// <summary>
-        /// finds the distance from a station
-        /// </summary>
-        /// <param name="Lat1"></param>
-        /// <param name="Lng1"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
+        /// <param name="Lat1">Latitude of the location</param>
+        /// <param name="Lng1">Longitude of the location</param>
+        /// <param name="Id">The station ID</param>
+        /// <returns>The distance between the location and the station</returns>
         public double FindDistanceStation(double lng1, double lat1, int id);
 
         //actions on customers
 
         /// <summary>
-        /// finds the distance from a customer
+        /// Finds the distance from a customer
         /// </summary>
-        /// <param name="Lat1"></param>
-        /// <param name="Lng1"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
+        /// <param name="Lat1">Latitude of the location</param>
+        /// <param name="Lng1">Longitude of the location</param>
+        /// <param name="Id">The customer ID</param>
+        /// <returns>The distance between the location and the customer</returns>
         public double FindDistanceCustomer(double lng1, double lat1, int id);
     }
 }

@@ -17,13 +17,13 @@ namespace IBL
         {
             if (station.Id < 1000 || station.Id > 9999)
                 throw new InvalidNumberException($"Station ID must be 4 digits.");
-            if (station.Location.Longitude > 31.8830 && station.Location.Longitude < 31.7082)
+            if (station.Location.Latitude > 31.8830 || station.Location.Latitude < 31.7082)
                 throw new InvalidNumberException($"Longitude {station.Location.Longitude} is not in Jerusalem.");
-            if ((station.Location.Latitude > 35.2642 && station.Location.Latitude < 35.1252))
+            if ((station.Location.Longitude > 35.2642 || station.Location.Longitude < 35.1252))
                 throw new InvalidNumberException($"Latitude {station.Location.Longitude} is not in Jerusalem.");
             if (station.AvailableChargeSlots < 0)
                 throw new InvalidNumberException($"Cannot have negative number of charging slots.");
-            
+
             IDAL.DO.Station temp = new IDAL.DO.Station()
             {
                 Id = station.Id,
@@ -59,7 +59,8 @@ namespace IBL
                     Id = temp.Id,
                     Name = temp.Name,
                     Location = new Location() { Longitude = temp.Longitude, Latitude = temp.Latitude },
-                    AvailableChargeSlots = temp.ChargeSlots
+                    AvailableChargeSlots = temp.ChargeSlots,
+                    ChargingDrones = new List<ChargingDrone>()
                 };
 
                 Drones.ForEach(d =>
@@ -198,7 +199,7 @@ namespace IBL
         /// Returns the list of stations with available charge slots Station type
         /// </summary>
         /// <returns>The list of stations</returns>
-        private IEnumerable<Station>getListOfAvailableChargeSlotsStations()
+        private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
             List<Station> stations = new List<Station>();
 
@@ -239,9 +240,14 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateStationName(int id, string name)
         {
-            Station station = GetStation(id);
-            station.Name = name;
-            UpdateStation(station);
+            try 
+            { 
+                data.EditStationName(id, name);
+            }
+            catch(IDAL.DO.NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
         }
 
         /// <summary>

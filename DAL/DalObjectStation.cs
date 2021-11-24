@@ -37,17 +37,20 @@ namespace DalObject
         }
 
         /// <summary>
-        /// removes a station from the list
+        /// Updates the name of a station
         /// </summary>
-        /// <param name="station">the station to remove</param>
-        public void RemoveStation(Station station)
+        /// <param name="id">The station ID</param>
+        /// <param name="name">The new name</param>
+        public void EditStationName(int id,string name)
         {
-            if (!DataSource.Stations.Exists(s => s.Id == station.Id))
+            if(!DataSource.Stations.Exists(s => s.Id == id))
             {
-                throw new NoIDException($"Station {station.Id} doesn't exist.");
+                throw new NoIDException($"Station {id} doesn't exist.");
             }
 
-            DataSource.Stations.Remove(station);
+            Station station=DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)];
+            station.Name = name;
+            DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)] = station;
         }
 
         /// <summary>
@@ -63,9 +66,23 @@ namespace DalObject
             }
 
             Station temp = DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)];
-            temp.ChargeSlots += num;
+            temp.ChargeSlots -= num;
             UpdateStation(temp);
         }
+
+        /// <summary>
+        /// removes a station from the list
+        /// </summary>
+        /// <param name="station">the station to remove</param>
+        public void RemoveStation(Station station)
+        {
+            if (!DataSource.Stations.Exists(s => s.Id == station.Id))
+            {
+                throw new NoIDException($"Station {station.Id} doesn't exist.");
+            }
+
+            DataSource.Stations.Remove(station);
+        }     
 
         /// <summary>
         /// returns the object Station that matches the id

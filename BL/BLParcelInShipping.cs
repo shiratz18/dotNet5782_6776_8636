@@ -16,15 +16,15 @@ namespace IBL
         /// <returns>The parcel</returns>
         private ParcelInShipping getParcelInShipping(int id)
         {
-            Parcel temp = GetParcel(id);
+            IDAL.DO.Parcel temp = data.GetParcel(id);
 
             ParcelInShipping parcel = new ParcelInShipping()
             {
                 Id = temp.Id,
-                Priority = temp.Priority,
-                Weight = temp.Weight,
-                Sender = temp.Sender,
-                Target = temp.Target
+                Priority = (Priorities)temp.Priority,
+                Weight = (WeightCategories)temp.Weight,
+                Sender = new CustomerInParcel() { Id=temp.SenderId,Name=data.GetCustomer(temp.SenderId).Name},
+                Target = new CustomerInParcel() { Id = temp.TargetId, Name = data.GetCustomer(temp.TargetId).Name }
             };
 
             if (temp.PickedUp == DateTime.MinValue)
@@ -32,8 +32,8 @@ namespace IBL
             else
                 parcel.IsPickedUp = true;
 
-            parcel.PickUpLocation = GetCustomer(temp.Sender.Id).Location;
-            parcel.DeliveryLocation = GetCustomer(temp.Target.Id).Location;
+            parcel.PickUpLocation = new Location() { Longitude=data.GetCustomer(temp.SenderId).Longitude, Latitude = data.GetCustomer(temp.SenderId).Latitude };
+            parcel.DeliveryLocation = new Location() { Longitude = data.GetCustomer(temp.TargetId).Longitude, Latitude = data.GetCustomer(temp.TargetId).Latitude };
 
             parcel.DeliveryDistance = getDistance(parcel.PickUpLocation, parcel.DeliveryLocation);
 
@@ -65,7 +65,7 @@ namespace IBL
 
             foreach (ParcelInShipping p in pis)
             {
-                p.DeliveryDistance = getDistance(p.PickUpLocation, p.DeliveryLocation)
+                p.DeliveryDistance = getDistance(p.PickUpLocation, p.DeliveryLocation);
             }
 
             return pis;

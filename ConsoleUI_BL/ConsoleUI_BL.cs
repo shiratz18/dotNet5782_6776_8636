@@ -73,10 +73,10 @@ namespace ConsoleUI_BL
                         Console.WriteLine("Enter the ID, name, location, and number charging slots of the station:");
                         int.TryParse(Console.ReadLine(), out id);
                         name = Console.ReadLine();
-                        double.TryParse(Console.ReadLine(), out lng);
-                        loc.Longitude = lng;
                         double.TryParse(Console.ReadLine(), out lat);
                         loc.Latitude = lat;
+                        double.TryParse(Console.ReadLine(), out lng);
+                        loc.Longitude = lng;
                         int.TryParse(Console.ReadLine(), out num);
                         Station station = new Station()
                         {
@@ -139,12 +139,12 @@ namespace ConsoleUI_BL
                     case AddOptions.Customer:
                         Console.WriteLine("Enter the  ID, name, phone, location of the customer:");
                         int.TryParse(Console.ReadLine(), out id);
-                        name = Console.ReadLine(); //alphabet
-                        string phone = Console.ReadLine(); //10 digits
-                        double.TryParse(Console.ReadLine(), out lng);
-                        loc.Longitude = lng;
+                        name = Console.ReadLine(); 
+                        string phone = Console.ReadLine();
                         double.TryParse(Console.ReadLine(), out lat);
                         loc.Latitude = lat;
+                        double.TryParse(Console.ReadLine(), out lng);
+                        loc.Longitude = lng;
                         Customer customer = new Customer()
                         {
                             Id = id,
@@ -213,7 +213,7 @@ namespace ConsoleUI_BL
         static void UpdateMenu(IBL.IBL myBL)
         {
             Console.WriteLine("\nWhat would you like to update:\n 1 - Update a drone\n 2 - Update a station\n 3 - Update a customer\n" +
-                "  4 - Send a drone to charge\n 5 - Release a drone from charge\n 6 - Assign drone to parcel \n 7 - Drone pick up of parcel\n" +
+                " 4 - Send a drone to charge\n 5 - Release a drone from charge\n 6 - Assign drone to parcel \n 7 - Drone pick up of parcel\n" +
                 " 8 - Deliver parcel to customer\n 0 - Exit");
             UpdateOptions.TryParse(Console.ReadLine(), out UpdateOptions choice);
 
@@ -244,7 +244,7 @@ namespace ConsoleUI_BL
                         name = Console.ReadLine(); //alphabet, name doesnt exist
                         string number = Console.ReadLine(); //positive,check that there are enough slots for the drones
 
-                        if (name != null) //if he entered a name to update
+                        if (!String.IsNullOrEmpty(name)) //if he entered a name to update
                         {
                             try
                             {
@@ -256,7 +256,7 @@ namespace ConsoleUI_BL
                             }
                         }
 
-                        if (number != null) //if he entered a number to update
+                        if (!String.IsNullOrEmpty(number)) //if he entered a number to update
                         {
                             try
                             {
@@ -278,9 +278,9 @@ namespace ConsoleUI_BL
                         Console.WriteLine("Enter the customer ID, the new name and/or the new phone number:");
                         int.TryParse(Console.ReadLine(), out id);
                         name = Console.ReadLine(); 
-                        phone = Console.ReadLine(); //10 digits
+                        phone = Console.ReadLine(); 
                         
-                        if (name != null)
+                        if (!String.IsNullOrEmpty(phone))
                         {
                             try
                             {
@@ -296,7 +296,7 @@ namespace ConsoleUI_BL
                             }
                         }
 
-                        if (phone != null)
+                        if (!String.IsNullOrEmpty(phone))
                         {
                             try
                             {
@@ -315,7 +315,7 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.DroneCharge:
                         Console.WriteLine("Enter the ID of the drone:");
-                        int.TryParse(Console.ReadLine(), out id); //drone exists
+                        int.TryParse(Console.ReadLine(), out id); 
 
                         try
                         {
@@ -341,8 +341,8 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.ReleaseCharge:
                         Console.WriteLine("Enter the drone ID and the charging time:");
-                        int.TryParse(Console.ReadLine(), out id); //drone exists
-                        double.TryParse(Console.ReadLine(), out double time); //positive
+                        int.TryParse(Console.ReadLine(), out id); 
+                        TimeSpan.TryParse(Console.ReadLine(), out TimeSpan time); 
 
                         try
                         {
@@ -416,6 +416,10 @@ namespace ConsoleUI_BL
                         }
                         break;
                 }
+                Console.WriteLine("\nWhat would you like to update:\n 1 - Update a drone\n 2 - Update a station\n 3 - Update a customer\n" +
+               " 4 - Send a drone to charge\n 5 - Release a drone from charge\n 6 - Assign drone to parcel \n 7 - Drone pick up of parcel\n" +
+               " 8 - Deliver parcel to customer\n 0 - Exit");
+                UpdateOptions.TryParse(Console.ReadLine(), out choice);
             }
         }
 

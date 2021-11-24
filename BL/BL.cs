@@ -29,8 +29,10 @@ namespace IBL
             LightWeightConsumption = temp[1];
             MediumWeightConsumption = temp[2];
             HeavyWeightConsumption = temp[3];
-            HeavyWeightConsumption = temp[4];
-            DroneChargingRate = temp[5];
+            DroneChargingRate = temp[4];
+
+            //intializing drone list
+            Drones = new List<ListDrone>();
 
             IEnumerable<IDAL.DO.Drone> tempDrones = data.GetDroneList();
             IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList();
@@ -55,9 +57,13 @@ namespace IBL
                 //if the parcel has a drone assigned but was not yet delivered
                 if (p.DroneId != 0 && p.Delivered == DateTime.MinValue)
                 {
-                    int index = Drones.FindIndex(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
-
-                    Drones[index].Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
+                    var drone = Drones.Find(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
+                    if (drone == null)
+                    {
+                        throw new NoIDException($"Drone {p.DroneId} does not exist.");
+                    }
+                    drone.Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
+                    drone.ParcelId = p.Id; //updating the parcel of the drone to be this parcel
 
                     IDAL.DO.Customer sender = data.GetCustomer(p.SenderId); //getting the sender of the package
                     Location senderLoc = new Location { Longitude = sender.Longitude, Latitude = sender.Latitude }; //saving the location of the sender
@@ -88,25 +94,25 @@ namespace IBL
                     switch ((WeightCategories)p.Weight)
                     {
                         case WeightCategories.Light:
-                            Drones[index].Battery = (double)R.Next((int)(totalDIstance * LightWeightConsumption), 100);
+                            drone.Battery = (double)R.Next((int)(totalDIstance * LightWeightConsumption), 100);
                             break;
                         case WeightCategories.Medium:
-                            Drones[index].Battery = (double)R.Next((int)(totalDIstance * MediumWeightConsumption), 100);
+                            drone.Battery = (double)R.Next((int)(totalDIstance * MediumWeightConsumption), 100);
                             break;
                         case WeightCategories.Heavy:
-                            Drones[index].Battery = (double)R.Next((int)(totalDIstance * HeavyWeightConsumption), 100);
+                            drone.Battery = (double)R.Next((int)(totalDIstance * HeavyWeightConsumption), 100);
                             break;
                     }
 
                     //if the parcel hasnt been picked up by a drone, the location is that of the station closest to the sender
                     if (p.PickedUp == DateTime.MinValue)
                     {
-                        Drones[index].CurrentLocation = station1Loc; //saving the location of the nearest station to the sender to be the location of the drone
+                        drone.CurrentLocation = station1Loc; //saving the location of the nearest station to the sender to be the location of the drone
                     }
                     //otherwise if it was picked up by a drone but not yet delivered to to the target then the location of the drone is the location of the sender
                     else
                     {
-                        Drones[index].CurrentLocation = senderLoc; //saving the location of the drone to be the location of the sender
+                        drone.CurrentLocation = senderLoc; //saving the location of the drone to be the location of the sender
                     }
                 }
             }

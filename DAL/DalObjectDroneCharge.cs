@@ -10,7 +10,7 @@ namespace DalObject
     public partial class DalObject
     {
         /// <summary>
-        /// send a drone to charge
+        /// Add a drone to charge
         /// </summary>
         /// <param name="d">drone charge object</param>
         public void AddDroneCharge(DroneCharge d)

@@ -37,6 +37,40 @@ namespace DalObject
         }
 
         /// <summary>
+        /// Updates the name of a customer
+        /// </summary>
+        /// <param name="id">The customer ID</param>
+        /// <param name="name">The new name</param>
+        public void EditCustomerName(int id,string name)
+        {
+            if (!DataSource.Customers.Exists(c => c.Id == id))
+            {
+                throw new NoIDException($"Customer {id} doesn't exist.");
+            }
+
+            Customer customer=DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)];
+            customer.Name = name;
+            DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)] = customer;
+        }
+
+        /// <summary>
+        /// Update a customer phone number
+        /// </summary>
+        /// <param name="id">The customer ID</param>
+        /// <param name="phone">The new phone</param>
+        public void EditCustomerPhone(int id, string phone)
+        {
+            if (!DataSource.Customers.Exists(c => c.Id == id))
+            {
+                throw new NoIDException($"Customer {id} doesn't exist.");
+            }
+
+            Customer customer = DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)];
+            customer.Phone = phone;
+            DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)] = customer;
+        }
+
+        /// <summary>
         /// removes a customer from the list
         /// </summary>
         /// <param name="customer">the customer to remove</param>

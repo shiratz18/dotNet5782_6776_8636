@@ -19,17 +19,18 @@ namespace IBL
             try
             {
                 IDAL.DO.Customer temp = data.GetCustomer(id); //getteing the customer from the data layer
-                
-                CustomerInParcel c = new CustomerInParcel() 
+
+                CustomerInParcel c = new CustomerInParcel()
                 {
                     Id = id,
                     Name = temp.Name
                 };
                 return c;
             }
-            catch(IDAL.DO.NoIDException ex)
+            catch (IDAL.DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
+        }
     }
 }

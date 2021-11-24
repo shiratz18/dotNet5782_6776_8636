@@ -18,12 +18,11 @@ namespace DalObject
         internal class Config
         {
             internal static int IdNumber = 1000000;
-            internal static double AvailableConsumption { get; set; }
-            internal static double LightWeightConsumption { get; set; }
-            internal static double MediumWeightConsumption { get; set; }
-            internal static double HeavyWeightConsumption { get; set; }
-            internal static double ChargingRate { get; set; }
-
+            internal static double AvailableConsumption { get => 1; } //1% per km
+            internal static double LightWeightConsumption { get => 2; } //2% per km
+            internal static double MediumWeightConsumption { get => 3; }  //3% per km
+            internal static double HeavyWeightConsumption { get => 4; } //4% per km
+            internal static double ChargingRate { get => 1; } //5% per km
         }
 
         internal static Random r = new Random();
@@ -54,7 +53,7 @@ namespace DalObject
             {
                 Id = 9215,
                 Model = randomString(5),
-                MaxWeight = WeightCategories.Light,
+                MaxWeight = WeightCategories.Heavy,
             });
             Drones.Add(new Drone
             {
@@ -85,16 +84,16 @@ namespace DalObject
             {
                 Id = r.Next(1000, 10000),
                 Name = "Jerusalem Central Station",
-                Longitude = 31.7889,
-                Latitude = 35.2031,
+                Latitude = 31.78954,
+                Longitude = 35.20373,
                 ChargeSlots = 10
             });
             Stations.Add(new Station
             {
                 Id = r.Next(1000, 10000),
                 Name = "Malcha Mall",
-                Longitude = 31.7515,
-                Latitude = 35.1872,
+                Latitude = 31.75173,
+                Longitude = 35.18726,
                 ChargeSlots = 7
             });
         }
@@ -108,103 +107,238 @@ namespace DalObject
             {
                 Id = 212069325,
                 Name = "Reuvan Cohen",
-                Phone = "058-395-2489",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0583952489",
+                Latitude = 31.78913413396946,
+                Longitude = 35.17102699703434
             });
             Customers.Add(new Customer
             {
                 Id = 324968520,
                 Name = "Shimon Levy",
-                Phone = "058-352-2962",
-                Longitude = r.Next(317082, 318830) / 100000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0583522962",
+                Latitude = 31.786015836732847,
+                Longitude = 35.18862021237819
             });
             Customers.Add(new Customer
             {
                 Id = 323658962,
                 Name = "Tirtza Bitton",
-                Phone = "050-356-7495",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0503567495",
+                Latitude = 31.78619053512268,
+                Longitude = 35.21472236819816
             });
             Customers.Add(new Customer
             {
                 Id = 312696584,
                 Name = "Isachar Friedman",
-                Phone = "055-963-2587",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0559632587",
+                Latitude = 31.76275454575024,
+                Longitude = 35.18716715470557
             });
             Customers.Add(new Customer
             {
                 Id = 213695826,
                 Name = "David Peretz",
-                Phone = "053-245-9852",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0532459852",
+                Latitude = 31.76335370891613,
+                Longitude = 35.18259758354167
             });
             Customers.Add(new Customer
             {
                 Id = 326987415,
                 Name = "Avraham Segal",
-                Phone = "052-745-3969",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0527453969",
+                Latitude = 31.789408369550717,
+                Longitude = 35.17261664121437
             });
             Customers.Add(new Customer
             {
                 Id = 213698521,
                 Name = "Yaakov Kats",
-                Phone = "054-852-1365",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0548521365",
+                Latitude = 31.787829416071816,
+                Longitude = 35.18189506819828
             });
             Customers.Add(new Customer
             {
                 Id = 236985426,
                 Name = "Leah Chadad",
-                Phone = "050-985-0256",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0509850256",
+                Latitude = 31.78437499940112,
+                Longitude = 35.21786601052626
             });
             Customers.Add(new Customer
             {
                 Id = 206985147,
                 Name = "Sara Silver",
-                Phone = "050-987-9955",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.00
+                Phone = "0509879955",
+                Latitude = 31.817709663575744,
+                Longitude = 35.19441221052715
             });
             Customers.Add(new Customer
             {
                 Id = 456932814,
                 Name = "Rivka Ochayoun",
-                Phone = "058-256-4258",
-                Longitude = r.Next(317082, 318830) / 10000.0,
-                Latitude = r.Next(351252, 352642) / 10000.0
+                Phone = "0582564258",
+                Latitude = 31.770637478956328,
+                Longitude = 35.18372692586983
             });
         }
 
+        /// <summary>
+        /// adds 10 parcels to the list of parcels
+        /// </summary>
         private static void createParcels()
         {
-            for (int i = 0; i < 10; i++)
+            Parcels.Add(new Parcel
             {
-                Parcels.Add(new Parcel
-                {
-                    Id = Config.IdNumber,
-                    SenderId = r.Next(111111111, 999999999),
-                    TargetId = r.Next(111111111, 999999999),
-                    Weight = (WeightCategories)r.Next(0, 3),
-                    Priority = (Priorities)r.Next(0, 3),
-                    Requested = DateTime.Now,
-                    DroneId = 0,
-                    Scheduled = default,
-                    PickedUp = default,
-                    Delivered = default
-                });
-                Config.IdNumber++;
-            }
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 0,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 4582,
+                Scheduled = DateTime.Now,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 2131,
+                Scheduled = DateTime.Now - new TimeSpan(1, 30, 50),
+                PickedUp = DateTime.Now - new TimeSpan(0, 30, 45),
+                Delivered = DateTime.Now - new TimeSpan(0, 15, 30)
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 9215,
+                Scheduled = DateTime.Now - new TimeSpan(1, 30, 50),
+                PickedUp = DateTime.Now,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 2131,
+                Scheduled = DateTime.Now,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 2586,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 3674,
+                Scheduled = DateTime.Now,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 0,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 0,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
+
+            Parcels.Add(new Parcel
+            {
+                Id = Config.IdNumber,
+                SenderId = Customers[r.Next(0, 10)].Id,
+                TargetId = Customers[r.Next(0, 10)].Id,
+                Weight = (WeightCategories)r.Next(0, 3),
+                Priority = (Priorities)r.Next(0, 3),
+                Requested = DateTime.Now,
+                DroneId = 0,
+                Scheduled = DateTime.MinValue,
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue
+            });
+            Config.IdNumber++;
         }
 
         /// <summary>
