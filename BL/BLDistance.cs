@@ -67,7 +67,7 @@ namespace IBL
         /// <param name="senderId">The ID of the sender</param>
         /// <param name="targetId">The ID of the target</param>
         /// <returns>The distance</returns>
-        internal double distanceForDelivery(int droneId, int senderId, int targetId)
+        private double distanceForDelivery(int droneId, int senderId, int targetId)
         {
             Drone drone = GetDrone(droneId); //getting the drone from the list
             Customer sender = GetCustomer(senderId); //getting the sender
@@ -76,17 +76,23 @@ namespace IBL
             return getDistance(drone.CurrentLocation, sender.Location) + getDistance(sender.Location, target.Location) + getDistance(target.Location, nearestStationLocation(target.Location));
         }
 
-        private Parcel closestParcel(int droneId, List<Parcel> parcels)
+        /// <summary>
+        /// Finds the closest parcel to a drone
+        /// </summary>
+        /// <param name="droneId">The ID of the drone</param>
+        /// <param name="parcels">The list of parcels to search in</param>
+        /// <returns>The closest parcel</returns>
+        private ParcelInShipping closestParcel(int droneId, List<ParcelInShipping> parcels)
         {
             Drone drone = GetDrone(droneId);
             double min = 100000; //no two places in Jerusalem hava a greater distance (our company is placed in Jerusalem)
-            Parcel parcel;
+            ParcelInShipping parcel = new ParcelInShipping();
 
             parcels.ForEach(p =>
             {
-                if (getDistance(drone.CurrentLocation, p.Sender.Id) < min)
+                if (getDistance(drone.CurrentLocation, p.DeliveryLocation) < min)
                 {
-                    min = getDistance(drone.CurrentLocation, p.Sender.Id);
+                    min = getDistance(drone.CurrentLocation, p.DeliveryLocation);
                     parcel = p;
                 }
             });

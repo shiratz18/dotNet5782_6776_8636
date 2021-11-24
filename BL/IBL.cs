@@ -35,7 +35,6 @@ namespace IBL
         public void AddParcel(Parcel parcel);
 
         //request functions
-
         /// <summary>
         /// Returns a station according to ID
         /// </summary>
@@ -114,6 +113,11 @@ namespace IBL
         /// <param name="name">the new name</param>
         public void UpdateDroneName(int id, string name);
         /// <summary>
+        /// Updates a station
+        /// </summary>
+        /// <param name="station">The updated station</param>
+        public void UpdateStation(Station station);
+        /// <summary>
         /// Update the name of the station
         /// </summary>
         /// <param name="id">The id of the station</param>
@@ -125,6 +129,11 @@ namespace IBL
         /// <param name="id">The id of the station</param>
         /// <param name="num">The number to update</param>
         public void UpdateStationChargingSlots(int id, int num);
+        /// <summary>
+        /// Updates a customer
+        /// </summary>
+        /// <param name="customer">The updates customer</param>
+        public void UpdateCustomer(Customer customer);
         /// <summary>
         /// Update the name of a cuatomer
         /// </summary>
@@ -166,8 +175,6 @@ namespace IBL
 
 
         //delete functions
-
-
         /// <summary>
         /// Remove a station from the list
         /// </summary>

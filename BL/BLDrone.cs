@@ -26,7 +26,7 @@ namespace IBL
                 MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
             };
 
-            Station s = GetStation(stationNum); //getting the station
+            Station s = GetStation(stationNum); //getting the station, will throw an exception if the station does not exist
             if (s.AvailableChargeSlots < 1) //checking that the station has available charging slots
             {
                 throw new NoAvailableChargeSlotsException($"Station {stationNum} has no available charging slots.");
@@ -81,7 +81,7 @@ namespace IBL
                 MaxWeight = temp.MaxWeight,
                 Battery = temp.Battery,
                 Status = temp.Status,
-                InShipping = GetParcelInShipping(temp.ParcelId),
+                InShipping = getParcelInShipping(temp.ParcelId),
                 CurrentLocation = temp.CurrentLocation
             };
 
@@ -138,19 +138,9 @@ namespace IBL
         /// <param name="name">the new name</param>
         public void UpdateDroneName(int id, string name)
         {
-            try //try to get the drone from the list
-            {
-                IDAL.DO.Drone temp = data.GetDrone(id);
-
-                temp.Model = name;
-                data.UpdateDrone(temp); //sending the update to the data layer
-
-                Drones[Drones.FindIndex(x => x.Id == id)].Model = name; //updtating in the list of drones of bll
-            }
-            catch (IDAL.DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
+            Drone drone = GetDrone(id);
+            drone.Model = name;
+            UpdateDrone(drone);
         }
 
         /// <summary>
@@ -167,14 +157,25 @@ namespace IBL
             if (d.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is not available.");
 
-            Station s = GetStation(nearestStationId(d.CurrentLocation)); //the station that is nearest to the drone
+            IEnumerable<Station> stations = getListOfAvailableChargeSlotsStations(); //getting the list of available charging slots, will throw an exception if there arent stations like that
+            SortedList<double, Station> ids = new SortedList<double, Station>(); //a sorted list to save the stations according to distance
 
-            while (s.AvailableChargeSlots == 0)
+            foreach (Station tmp in stations)
             {
-
+                ids.Add(getDistance(d.CurrentLocation, tmp.Location), tmp);
             }
 
-            if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location)) //if there is not enough battery to get to the station
+            Station s = new Station();
+            int i = 0;
+
+            //find the nearest station with available charging slots
+            do
+            {
+                s = ids[i];
+            } while (s.AvailableChargeSlots == 0);
+
+            //if there is not enough battery to get to the station
+            if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
             {
                 throw new NoBatteryException($"Drone {d.Id} does not have enough battery to get to a charging station.");
             }
@@ -245,98 +246,95 @@ namespace IBL
         /// <param name="id">The ID of the drone</param>
         public void AssignDroneToParcel(int id)
         {
-            Drone drone;
-            try
-            {
-                drone = GetDrone(id); //try to get the drone, will throw an exception if ID doesnt exist
-            }
-            catch (NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
+            Drone drone = GetDrone(id); //try to get the drone, will throw an exception if ID doesnt exist
 
             if (drone.Status != DroneStatuses.Available) //checking that the drone is available
                 throw new DroneStateException($"Drone {id} is currently unavailable for shipping.");
 
-            //IEnumerable<Parcel> parcels = getListOfParcels(); //getting the list of parcels
-            IEnumerable<ParcelInShipping> parcels = getListOfNoDroneParcelsInShipping();
-
-            List<Parcel> highPriority = new List<Parcel>();
-            List<Parcel> mediumPriority = new List<Parcel>();
-            List<Parcel> lowPriority = new List<Parcel>();
-            //List<ParcelInShipping> highPriority = new List<ParcelInShipping>();
-            //List<ParcelInShipping> mediumPriority = new List<ParcelInShipping>();
-            //List<ParcelInShipping> lowPriority = new List<ParcelInShipping>();
-
-            //deviding the parcels into 3 lists according to priority, and making sure they are not heavy enough and that they have enough battery to complete the delivery
-            foreach (Parcel p in parcels)
+            IEnumerable<ParcelInShipping> parcels;
+            try
             {
-                if (p.AssignedDrone.Id == 0) //if the parcel does not yet have a drone
+                parcels = getListOfNoDroneParcelsInShipping();
+            }
+            catch (EmptyListException ex)
+            {
+                throw new EmptyListException(ex.Message);
+            }
+
+            List<ParcelInShipping> highPriority = new List<ParcelInShipping>();
+            List<ParcelInShipping> mediumPriority = new List<ParcelInShipping>();
+            List<ParcelInShipping> lowPriority = new List<ParcelInShipping>();
+
+            //deviding the parcels into 3 lists according to priority,
+            //and checking that the drone could actually deliver them according to weight, distance and battery
+            foreach (ParcelInShipping p in parcels)
+            {
+                if (p.Priority == Priorities.Urgent && p.Weight <= drone.MaxWeight) //creating the list of urgent parcels
                 {
-                    if (p.Priority == Priorities.Urgent && p.Weight <= drone.MaxWeight)
+                    switch (p.Weight) //checking that there is enough battery according to weight and distance
                     {
-                        switch (p.Weight)
-                        {
-                            case WeightCategories.Heavy:
-                                if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    highPriority.Add(p);
-                                break;
-                            case WeightCategories.Medium:
-                                if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    highPriority.Add(p);
-                                break;
-                            case WeightCategories.Light:
-                                if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    highPriority.Add(p);
-                                break;
-                        }
+                        case WeightCategories.Heavy:
+                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                highPriority.Add(p);
+                            break;
+                        case WeightCategories.Medium:
+                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                highPriority.Add(p);
+                            break;
+                        case WeightCategories.Light:
+                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                highPriority.Add(p);
+                            break;
                     }
-                    else if (p.Priority == Priorities.Express && p.Weight <= drone.MaxWeight)
+                }
+
+                else if (p.Priority == Priorities.Express && p.Weight <= drone.MaxWeight) //creating the list of less uregent parcels
+                {
+                    switch (p.Weight) //checking that there is enough battery according to weight and distance
                     {
-                        switch (p.Weight)
-                        {
-                            case WeightCategories.Heavy:
-                                if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    mediumPriority.Add(p);
-                                break;
-                            case WeightCategories.Medium:
-                                if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    mediumPriority.Add(p);
-                                break;
-                            case WeightCategories.Light:
-                                if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    mediumPriority.Add(p);
-                                break;
-                        }
+                        case WeightCategories.Heavy:
+                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                mediumPriority.Add(p);
+                            break;
+                        case WeightCategories.Medium:
+                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                mediumPriority.Add(p);
+                            break;
+                        case WeightCategories.Light:
+                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                mediumPriority.Add(p);
+                            break;
                     }
-                    else if (p.Priority == Priorities.Regular && p.Weight <= drone.MaxWeight)
+                }
+
+                else if (p.Priority == Priorities.Regular && p.Weight <= drone.MaxWeight) //creating the list of low ptiority parcels
+                {
+                    switch (p.Weight) //checking that there is enough battery according to weight and distance
                     {
-                        switch (p.Weight)
-                        {
-                            case WeightCategories.Heavy:
-                                if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    lowPriority.Add(p);
-                                break;
-                            case WeightCategories.Medium:
-                                if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    lowPriority.Add(p);
-                                break;
-                            case WeightCategories.Light:
-                                if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id)) //if there is enough battery to do the delivery
-                                    lowPriority.Add(p);
-                                break;
-                        }
+                        case WeightCategories.Heavy:
+                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                lowPriority.Add(p);
+                            break;
+                        case WeightCategories.Medium:
+                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                lowPriority.Add(p);
+                            break;
+                        case WeightCategories.Light:
+                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                                lowPriority.Add(p);
+                            break;
                     }
                 }
             }
 
-            List<Parcel> heavy = new List<Parcel>();
-            List<Parcel> medium = new List<Parcel>();
-            List<Parcel> light = new List<Parcel>();
+            List<ParcelInShipping> heavy = new List<ParcelInShipping>();
+            List<ParcelInShipping> medium = new List<ParcelInShipping>();
+            List<ParcelInShipping> light = new List<ParcelInShipping>();
 
             if (highPriority.Count > 0) //if there is at least one high priority parcel that the drone could carry
             {
-                foreach (Parcel p in highPriority)
+                //dividing the list according to weight categories
+                foreach (ParcelInShipping p in highPriority)
                 {
                     if (p.Weight == WeightCategories.Heavy)
                         heavy.Add(p);
@@ -348,7 +346,8 @@ namespace IBL
             }
             else if (mediumPriority.Count > 0) //otherwise if there is at least one medium priotity parcel that the drone can carry
             {
-                foreach (Parcel p in highPriority)
+                //dividing the list according to weight categories
+                foreach (ParcelInShipping p in highPriority)
                 {
                     if (p.Weight == WeightCategories.Heavy)
                         heavy.Add(p);
@@ -360,7 +359,8 @@ namespace IBL
             }
             else if (lowPriority.Count > 0) //otherwise if there is at least one low priotity parcel that the drone can carry
             {
-                foreach (Parcel p in highPriority)
+                //dividing the list according to weight categories
+                foreach (ParcelInShipping p in highPriority)
                 {
                     if (p.Weight == WeightCategories.Heavy)
                         heavy.Add(p);
@@ -373,7 +373,7 @@ namespace IBL
             else //otherwise the drone cannot carry any parcel, throw an exception
                 throw new DroneStateException($"Drone {id} cannot currently deliver any parcel.");
 
-            Parcel parcel;
+            ParcelInShipping parcel;
 
             //finding the nearest parcel among the possible parcels
             if (heavy.Count > 0) //if there is at least one heavy parcel the drone could carry
@@ -404,35 +404,34 @@ namespace IBL
         {
             Drone drone = GetDrone(id);
 
-            if (drone.InShipping.Id != 0) //if the drone does not have a parcel 
+            if (drone.InShipping.Id == 0) //if the drone does not have a parcel 
             {
                 throw new DroneStateException($"Drone {id} does not have a parcel assigned.");
             }
-            if (drone.InShipping.PickedUp != DateTime.MinValue) //if the parcel has already been picked up
+            if (drone.InShipping.IsPickedUp) //if the parcel has already been picked up
             {
                 throw new DroneStateException($"Drone {id} cannot pick up the parcel since it has already been picked up.");
             }
 
-            Parcel p = drone.InShipping;
+            ParcelInShipping p = drone.InShipping;
 
             switch (p.Weight)
             {
                 //update the battery according to weight and distance
                 case WeightCategories.Heavy:
-                    drone.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Sender.Id).Location);
+                    drone.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
                 case WeightCategories.Medium:
-                    drone.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Sender.Id).Location);
+                    drone.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
                 case WeightCategories.Light:
-                    drone.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Sender.Id).Location);
+                    drone.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
                     break;
             }
-            drone.CurrentLocation = GetCustomer(p.Sender.Id).Location; //changing the location of the drone to the location of the sender
+            drone.CurrentLocation = p.PickUpLocation; //changing the location of the drone to the location of the sender
             UpdateDrone(drone); //update the drone
 
-            p.PickedUp = DateTime.Now; //update the pick up time to be now
-            UpdateParcel(p); //update the parcel
+            data.ParcelPickUp(p.Id); //updating the parcel in dll
         }
 
         /// <summary>
@@ -447,31 +446,30 @@ namespace IBL
             {
                 throw new DroneStateException($"Drone {id} does not have a parcel assigned.");
             }
-            if (drone.InShipping.PickedUp == DateTime.MinValue) //if the parcel has not already been picked up
+            if (!drone.InShipping.IsPickedUp) //if the parcel has not already been picked up
             {
                 throw new DroneStateException($"Drone {id} cannot deliver the parcel since it has not been picked up.");
             }
 
-            Parcel p = drone.InShipping;
+            ParcelInShipping p = drone.InShipping;
 
             switch (p.Weight)
             {
                 //update the battery according to weight and distance
                 case WeightCategories.Heavy:
-                    drone.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Target.Id).Location);
+                    drone.Battery -= HeavyWeightConsumption * p.DeliveryDistance;
                     break;
                 case WeightCategories.Medium:
-                    drone.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Target.Id).Location);
+                    drone.Battery -= MediumWeightConsumption * p.DeliveryDistance;
                     break;
                 case WeightCategories.Light:
-                    drone.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, GetCustomer(p.Target.Id).Location);
+                    drone.Battery -= LightWeightConsumption * p.DeliveryDistance;
                     break;
             }
-            drone.CurrentLocation = GetCustomer(p.Target.Id).Location; //changing the location of the drone to the location of the target
+            drone.CurrentLocation = p.DeliveryLocation; //changing the location of the drone to the location of the target
             UpdateDrone(drone); //update the drone
 
-            p.Delivered = DateTime.Now; //update the deliverey time to be now
-            UpdateParcel(p); //update the parcel
+            data.ParcelDelivered(p.Id);
         }
 
         /// <summary>

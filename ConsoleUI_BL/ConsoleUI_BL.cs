@@ -71,13 +71,13 @@ namespace ConsoleUI_BL
                 {
                     case AddOptions.Station:
                         Console.WriteLine("Enter the ID, name, location, and number charging slots of the station:");
-                        int.TryParse(Console.ReadLine(), out id); //5 digits
-                        name = Console.ReadLine(); //alphabet
-                        double.TryParse(Console.ReadLine(), out lng); //in jerusalem
+                        int.TryParse(Console.ReadLine(), out id);
+                        name = Console.ReadLine();
+                        double.TryParse(Console.ReadLine(), out lng);
                         loc.Longitude = lng;
-                        double.TryParse(Console.ReadLine(), out lat); //in jerusalem
+                        double.TryParse(Console.ReadLine(), out lat);
                         loc.Latitude = lat;
-                        int.TryParse(Console.ReadLine(), out num); //positive
+                        int.TryParse(Console.ReadLine(), out num);
                         Station station = new Station()
                         {
                             Id = id,
@@ -91,7 +91,7 @@ namespace ConsoleUI_BL
                         {
                             myBL.AddStation(station);
                         }
-                        catch(InvalidNumberException ex)
+                        catch (InvalidNumberException ex)
                         {
                             Console.WriteLine(ex.Message);
                         }
@@ -99,17 +99,14 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine(ex.Message);
                         }
-                        
                         break;
-
-
 
                     case AddOptions.Drone:
                         Console.WriteLine("Enter the ID, model, maximum weight (0-light, 1-mediun, 2-heavy), and station number for the drone:");
-                        int.TryParse(Console.ReadLine(), out id); //4 digits
+                        int.TryParse(Console.ReadLine(), out id);
                         name = Console.ReadLine();
                         WeightCategories.TryParse(Console.ReadLine(), out WeightCategories maxWeight);
-                        int.TryParse(Console.ReadLine(), out num); //that its a station
+                        int.TryParse(Console.ReadLine(), out num);
                         Drone drone = new Drone()
                         {
                             Id = id,
@@ -141,12 +138,12 @@ namespace ConsoleUI_BL
 
                     case AddOptions.Customer:
                         Console.WriteLine("Enter the  ID, name, phone, location of the customer:");
-                        int.TryParse(Console.ReadLine(), out id); //9 digits
+                        int.TryParse(Console.ReadLine(), out id);
                         name = Console.ReadLine(); //alphabet
                         string phone = Console.ReadLine(); //10 digits
-                        double.TryParse(Console.ReadLine(), out lng); //in jerusalem
+                        double.TryParse(Console.ReadLine(), out lng);
                         loc.Longitude = lng;
-                        double.TryParse(Console.ReadLine(), out lat); //in jerusalem
+                        double.TryParse(Console.ReadLine(), out lat);
                         loc.Latitude = lat;
                         Customer customer = new Customer()
                         {
@@ -162,7 +159,11 @@ namespace ConsoleUI_BL
                         {
                             myBL.AddCustomer(customer);
                         }
-                        catch(InvalidNumberException ex)
+                        catch (InvalidNumberException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch (WrongFormatException ex)
                         {
                             Console.WriteLine(ex.Message);
                         }
@@ -192,6 +193,10 @@ namespace ConsoleUI_BL
                         try
                         {
                             myBL.AddParcel(parcel);
+                        }
+                        catch (NoIDException ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         catch (DoubleIDException ex)
                         {
@@ -271,11 +276,41 @@ namespace ConsoleUI_BL
 
                     case UpdateOptions.Customer:
                         Console.WriteLine("Enter the customer ID, the new name and/or the new phone number:");
-                        int.TryParse(Console.ReadLine(), out id); // customer exists
-                        name = Console.ReadLine(); //alphabet
+                        int.TryParse(Console.ReadLine(), out id);
+                        name = Console.ReadLine(); 
                         phone = Console.ReadLine(); //10 digits
-                        myBL.UpdateCustomerName(id, name);
-                        myBL.UpdateCustomerPhone(id, phone);
+                        
+                        if (name != null)
+                        {
+                            try
+                            {
+                                myBL.UpdateCustomerName(id, name);
+                            }
+                            catch (WrongFormatException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            catch (NoIDException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+
+                        if (phone != null)
+                        {
+                            try
+                            {
+                                myBL.UpdateCustomerPhone(id, phone);
+                            }
+                            catch (WrongFormatException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            catch (NoIDException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
                         break;
 
                     case UpdateOptions.DroneCharge:
@@ -291,6 +326,10 @@ namespace ConsoleUI_BL
                             Console.WriteLine(ex.Message);
                         }
                         catch (DroneStateException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        catch(EmptyListException ex)
                         {
                             Console.WriteLine(ex.Message);
                         }
@@ -322,6 +361,7 @@ namespace ConsoleUI_BL
                     case UpdateOptions.ParcelToDrone:
                         Console.WriteLine("Enter the drone ID:");
                         int.TryParse(Console.ReadLine(), out id); //, drone exists, drone available
+                        
                         try
                         {
                             myBL.AssignDroneToParcel(id);
@@ -334,11 +374,16 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine(ex.Message);
                         }
+                        catch(EmptyListException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
 
                     case UpdateOptions.PickUp:
                         Console.WriteLine("Enter the drone ID:");
                         int.TryParse(Console.ReadLine(), out id); // drone exists, drone assigned to parcel
+                        
                         try
                         {
                             myBL.DronePickUp(id);
@@ -356,6 +401,7 @@ namespace ConsoleUI_BL
                     case UpdateOptions.Deliver:
                         Console.WriteLine("Enter the drone ID:");
                         int.TryParse(Console.ReadLine(), out id); //drone exists, drone picked up parcel
+                        
                         try
                         {
                             myBL.DroneDeliver(id);
@@ -461,7 +507,7 @@ namespace ConsoleUI_BL
                                 Console.WriteLine(ls);
                             }
                         }
-                        catch(EmptyListException ex)
+                        catch (EmptyListException ex)
                         {
                             Console.WriteLine(ex.Message);
                         }

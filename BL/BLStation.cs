@@ -18,9 +18,12 @@ namespace IBL
             if (station.Id < 1000 || station.Id > 9999)
                 throw new InvalidNumberException($"Station ID must be 4 digits.");
             if (station.Location.Longitude > 31.8830 && station.Location.Longitude < 31.7082)
-                throw new Exception           ($"{station.Location.Longitude} not in the proper field.");//צריך להוסיף את המחלקה של החריגה
+                throw new InvalidNumberException($"Longitude {station.Location.Longitude} is not in Jerusalem.");
             if ((station.Location.Latitude > 35.2642 && station.Location.Latitude < 35.1252))
-                throw new Exception          ($"{station.Location.Longitude} not in the proper field.");
+                throw new InvalidNumberException($"Latitude {station.Location.Longitude} is not in Jerusalem.");
+            if (station.AvailableChargeSlots < 0)
+                throw new InvalidNumberException($"Cannot have negative number of charging slots.");
+            
             IDAL.DO.Station temp = new IDAL.DO.Station()
             {
                 Id = station.Id,
@@ -192,22 +195,53 @@ namespace IBL
         }
 
         /// <summary>
+        /// Returns the list of stations with available charge slots Station type
+        /// </summary>
+        /// <returns>The list of stations</returns>
+        private IEnumerable<Station>getListOfAvailableChargeSlotsStations()
+        {
+            List<Station> stations = new List<Station>();
+
+            foreach (Station s in getListOfStations())
+            {
+                if (s.AvailableChargeSlots > 0)
+                    stations.Add(s);
+            }
+
+            if (stations.Count == 0)
+                throw new EmptyListException("No stations with available charge slots to display.");
+
+            return stations;
+        }
+
+        /// <summary>
+        /// Updates a station
+        /// </summary>
+        /// <param name="station">The updated station</param>
+        public void UpdateStation(Station station)
+        {
+            IDAL.DO.Station s = new IDAL.DO.Station()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                ChargeSlots = station.AvailableChargeSlots,
+                Longitude = station.Location.Longitude,
+                Latitude = station.Location.Latitude
+            };
+
+            data.UpdateStation(s);
+        }
+
+        /// <summary>
         /// Update the name of the station
         /// </summary>
         /// <param name="id">The id of the station</param>
         /// <param name="name">The new name</param>
         public void UpdateStationName(int id, string name)
         {
-            try
-            {
-                IDAL.DO.Station temp = data.GetStation(id);
-                temp.Name = name;
-                data.UpdateStation(temp); //try to update the station, will throw exception if station id doesnt exist
-            }
-            catch (IDAL.DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
+            Station station = GetStation(id);
+            station.Name = name;
+            UpdateStation(station);
         }
 
         /// <summary>

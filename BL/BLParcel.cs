@@ -15,6 +15,17 @@ namespace IBL
         /// <param name="parcel">The parcel to add</param>
         public void AddParcel(Parcel parcel)
         {
+            try //checking if the customers in the parcel exist
+            {
+                //get function will throw an exception if the customers do not exist
+                GetCustomer(parcel.Sender.Id);
+                GetCustomer(parcel.Target.Id);
+            }
+            catch(NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
+
             IDAL.DO.Parcel temp = new IDAL.DO.Parcel()
             {
                 SenderId = parcel.Sender.Id,
@@ -144,7 +155,8 @@ namespace IBL
             }
 
             if (parcels.Count == 0)
-                throw new EmptyListException("No Parcels with no drone to diplay");
+                throw new EmptyListException("No Parcels with no drone to display");
+
             return parcels;
         }
 
@@ -152,7 +164,7 @@ namespace IBL
         /// Returns a list of Parcel object
         /// </summary>
         /// <returns>The list of parcels</returns>
-        internal IEnumerable<Parcel> getListOfParcels()
+        private IEnumerable<Parcel> getListOfParcels()
         {
             IEnumerable<IDAL.DO.Parcel> parcels = data.GetParcelList(); //getting the parcels from data layer
 
@@ -178,6 +190,26 @@ namespace IBL
             }
 
             return ps;
+        }
+
+        /// <summary>
+        /// Returns a list of parcels without a drone
+        /// </summary>
+        /// <returns>The list of parcels</returns>
+        private IEnumerable<Parcel> getListOfNoDroneParcels()
+        {
+            List<Parcel> parcels = new List<Parcel>();
+
+            foreach(Parcel p in getListOfParcels())
+            {
+                if (p.Scheduled == DateTime.MinValue)
+                    parcels.Add(p);
+            }
+
+            if (parcels.Count == 0)
+                throw new EmptyListException("No Parcels with no drone to display");
+
+            return parcels;
         }
 
         /// <summary>

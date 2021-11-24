@@ -17,10 +17,16 @@ namespace IBL
         {
             if (customer.Id < 100000000 || customer.Id > 999999999)
                 throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
-            if (customer.Location.Longitude > 31.8830 && customer.Location.Longitude< 31.7082)
-                throw new ($"{customer.Location.Longitude} not in the proper field.");//צריך להוסיף את המחלקה של החריגה
+            if (customer.Location.Longitude > 31.8830 && customer.Location.Longitude < 31.7082)
+                throw new InvalidNumberException($"Longitude {customer.Location.Longitude} is not in Jerusalem.");
             if ((customer.Location.Latitude > 35.2642 && customer.Location.Latitude < 35.1252))
-                throw new($"{customer.Location.Longitude} not in the proper field.");
+                throw new InvalidNumberException($"Latitude {customer.Location.Longitude} is not in Jerusalem.");
+            foreach (char c in customer.Name)
+                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+                    throw new WrongFormatException($"Customer name must contain alphabet letters only.");
+            if (customer.Phone.Length != 10 || !customer.Phone.All(char.IsDigit))
+                throw new WrongFormatException($"Customer phone number must be 10 digits.");
+
             IDAL.DO.Customer temp = new IDAL.DO.Customer()
             {
                 Id = customer.Id,
@@ -119,36 +125,37 @@ namespace IBL
         }
 
         /// <summary>
+        /// Updates a customer
+        /// </summary>
+        /// <param name="customer">The updates customer</param>
+        public void UpdateCustomer(Customer customer)
+        {
+            IDAL.DO.Customer c = new IDAL.DO.Customer()
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone,
+                Longitude = customer.Location.Longitude,
+                Latitude = customer.Location.Latitude
+            };
+            data.UpdateCustomer(c);
+        }
+
+        /// <summary>
         /// Update the name of a cuatomer
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <param name="name">The name of the customer</param>
         public void UpdateCustomerName(int id, string name)
         {
-            IDAL.DO.Customer c;
-            try
-            {
-                c = data.GetCustomer(id); //trying to get the customer from dll, will throw an exception if customer ID doesnt exist
-            }
-            catch (IDAL.DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
 
-            if (name != null)
-            {
-                c.Name = name;
-                try
-                {
-                    data.UpdateCustomer(c); //send the updates customer to dll
-                }
-                catch (IDAL.DO.NoIDException ex)
-                {
-                    throw new NoIDException(ex.Message);
-                }
-            }
-            else
-                throw new WrongFormatException("Wrong string format.");
+            foreach (char c in name)
+                if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
+                    throw new WrongFormatException($"Customer name must contain alphabet letters only.");
+
+            Customer customer = GetCustomer(id);
+            customer.Name = name;
+            UpdateCustomer(customer);
         }
 
         /// <summary>
@@ -158,30 +165,12 @@ namespace IBL
         /// <param name="phone">The new phone number</param>
         public void UpdateCustomerPhone(int id, string phone)
         {
-            IDAL.DO.Customer c;
-            try
-            {
-                c = data.GetCustomer(id); //trying to get the customer from dll, will throw an exception if customer ID doesnt exist
-            }
-            catch (IDAL.DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
+            if (phone.Length != 10 || !phone.All(char.IsDigit))
+                throw new WrongFormatException($"Customer phone number must be 10 digits.");
 
-            if (phone != null)
-            {
-                c.Phone = phone;
-                try
-                {
-                    data.UpdateCustomer(c); //send the updates customer to dll
-                }
-                catch (IDAL.DO.NoIDException ex)
-                {
-                    throw new NoIDException(ex.Message);
-                }
-            }
-            else
-                throw new WrongFormatException("Wrong string format.");
+            Customer customer = GetCustomer(id);
+            customer.Phone = phone;
+            UpdateCustomer(customer);
         }
 
         /// <summary>
