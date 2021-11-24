@@ -9,14 +9,20 @@ namespace IBL
 {
     public partial class BL
     {
-        internal static double Deg2rad(double deg) => deg * (Math.PI / 180);
+        /// <summary>
+        /// Turns degrees to radians
+        /// </summary>
+        /// <param name="deg">The degree</param>
+        /// <returns>The radia</returns>
+        private static double Deg2rad(double deg) => deg * (Math.PI / 180);
+
         /// <summary>
         /// Calculates the distance between two locations
         /// </summary>
         /// <param name="loc1">The first location</param>
         /// <param name="loc2">The second location</param>
         /// <returns>The distance</returns>
-        internal static double getDistance(Location loc1, Location loc2)
+        private static double getDistance(Location loc1, Location loc2)
         {
             var R = 6371; // Radius of the earth in km
             var dLat = Deg2rad(loc2.Latitude - loc1.Latitude); // deg2rad below

@@ -41,10 +41,10 @@ namespace IBL
 
             //if the customer is the sender, so the other side is the target
             if (temp.SenderId == customerId)
-                p.OtherSide = GetCustomerInParcel(temp.TargetId);
+                p.OtherSide = getCustomerInParcel(temp.TargetId);
             //otherwise, the other side is the sender
             else
-                p.OtherSide = GetCustomerInParcel(temp.SenderId);
+                p.OtherSide = getCustomerInParcel(temp.SenderId);
 
             return p;
         }

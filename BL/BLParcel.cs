@@ -90,7 +90,7 @@ namespace IBL
                     Target = GetCustomerInParcel(temp.TargetId),
                     Weight = (WeightCategories)temp.Weight,
                     Priority = (Priorities)temp.Priority,
-                    AssignedDrone = GetDroneOfParcel(temp.DroneId),
+                    AssignedDrone = getDroneOfParcel(temp.DroneId),
                     Requested = temp.Requested,
                     Scheduled = temp.Scheduled,
                     PickedUp = temp.PickedUp,
@@ -175,8 +175,8 @@ namespace IBL
                 Parcel temp = new Parcel()
                 {
                     Id = p.Id,
-                    Sender = GetCustomerInParcel(p.SenderId),
-                    Target = GetCustomerInParcel(p.TargetId),
+                    Sender = getCustomerInParcel(p.SenderId),
+                    Target = getCustomerInParcel(p.TargetId),
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority,
                     Requested = p.Requested,
@@ -185,7 +185,7 @@ namespace IBL
                     Delivered = p.Delivered
                 };
                 if (p.DroneId != 0)
-                    temp.AssignedDrone = GetDroneOfParcel(p.DroneId);
+                    temp.AssignedDrone = getDroneOfParcel(p.DroneId);
 
                 ps.Add(temp);
             }

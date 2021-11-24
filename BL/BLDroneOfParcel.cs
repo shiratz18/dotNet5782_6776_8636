@@ -14,7 +14,7 @@ namespace IBL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <returns>The object DroneOfParcel</returns>
-        public DroneOfParcel GetDroneOfParcel(int id)
+        private DroneOfParcel getDroneOfParcel(int id)
         {
             try
             {

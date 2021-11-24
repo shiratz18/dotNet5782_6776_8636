@@ -18,15 +18,15 @@ namespace IBL.BO
         public override string ToString()
         {
             string str = $"\nCustomer {Id}:";
-            str += $"\nName - {Name}";
-            str += $"\nPhone - {Phone}";
-            str += $"\nLocation - {Location}";
-            str += $"\nParcels from customer - ";
+            str += $"\n Name - {Name}";
+            str += $"\n Phone - {Phone}";
+            str += $"\n Location - {Location}";
+            str += $"\n Parcels from customer - ";
             FromCustomer.ForEach(p =>
             {
                 str += $"\n\t{p}";
             });
-            str += $"\nParcels to customer - ";
+            str += $"\n Parcels to customer - ";
             ToCustomer.ForEach(p =>
             {
                 str += $"\n\t{p}";

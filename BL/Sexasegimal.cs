@@ -30,6 +30,7 @@ namespace IBL.BO
             sec = Math.Round(sec, 4);
             return $"{deg}° {min}' {string.Format("{0:0.0000}", sec)}'' {ch}";
         }
+
         /// <summary>
         /// finds sexasegimal value of longitude
         /// </summary>
@@ -52,6 +53,5 @@ namespace IBL.BO
             sec = Math.Round(sec, 4);
             return $"{deg}° {min}' {string.Format("{0:0.0000}", sec)}'' {ch}";
         }
-
     }
 }

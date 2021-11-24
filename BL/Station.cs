@@ -17,13 +17,13 @@ namespace IBL.BO
         public override string ToString()
         {
             string str = $"\nStation {Id}:";
-            str += $"\nName - {Name}";
-            str += $"\nLocation - {Location}";
-            str += $"\nAvaialble charge slots - {AvailableChargeSlots}";
-            str += $"\nCharging drones - ";
+            str += $"\n Name - {Name}";
+            str += $"\n Location - {Location}";
+            str += $"\n Avaialble charge slots - {AvailableChargeSlots}";
+            str += $"\n Charging drones - ";
             ChargingDrones.ForEach(d =>
             {
-                str += $"\n{d}";
+                str += $"\n {d}";
             });
             return str;
         }

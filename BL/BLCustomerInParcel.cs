@@ -14,7 +14,7 @@ namespace IBL
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <returns>The CustomerInParcel object</returns>
-        public CustomerInParcel GetCustomerInParcel(int id)
+        private CustomerInParcel getCustomerInParcel(int id)
         {
             try
             {
