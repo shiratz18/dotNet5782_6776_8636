@@ -18,16 +18,17 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox x:Name="StatusSelector" ToolTip="Status" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="StatusSelector_SelectionChanged"/>
             <Label Grid.Column="0"  HorizontalAlignment="Left" Margin="80,7,0,0" VerticalAlignment="Top"/>
+            <ComboBox x:Name="WeightSelector" ToolTip="Weight" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
+            <Button x:Name="btnAddDrone" Content="New Drone" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="btnAddDrone_Click" />
         </Grid>
-        <ListView x:Name="DronesListView" Grid.Row="1" Margin="0,0,0,20">
+        <ListView x:Name="DronesListView" Grid.Row="1" Margin="0,0,0,20" MouseDoubleClick="DronesListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Window>

@@ -111,8 +111,7 @@ namespace IBL
         /// Releases a drone from charging
         /// </summary>
         /// <param name="id">The ID of the drone</param>
-        /// <param name="time">The time it has charged</param>
-        public void ReleaseDroneCharge(int id, TimeSpan time);
+        public void ReleaseDroneCharge(int id);
         /// <summary>
         /// Assign a drone to a parcel
         /// </summary>

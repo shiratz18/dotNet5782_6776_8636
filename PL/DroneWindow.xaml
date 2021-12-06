@@ -1,0 +1,54 @@
+﻿<Window x:Class="PL.DroneWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="DroneWindow" Height="450" Width="800" Foreground="{x:Null}">
+    <Grid>
+        <Grid x:Name="AddGrid" Height="430" Width="291" Grid.Row="0" Margin="0,0,509,0">
+            <Label Content="New Drone" HorizontalAlignment="Center" Margin="0,54,0,0" VerticalAlignment="Top" FontSize="20"/>
+            <Label Content="ID" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" FontSize="15"/>
+            <TextBox x:Name="droneId" HorizontalAlignment="Left" Margin="50,130,0,0" Text="Enter ID here" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneId_TextChanged" MouseLeftButtonDown="droneId_MouseLeftButtonDown"/>
+            <Label Content="Model" HorizontalAlignment="Left" Margin="50,153,0,0" VerticalAlignment="Top" FontSize="15"/>
+            <TextBox x:Name="droneModel" HorizontalAlignment="Left" Margin="50,183,0,0" Text="Enter model here" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneModel_TextChanged"/>
+            <Label Content="Maximum Weight" HorizontalAlignment="Left" Margin="50,206,0,0" VerticalAlignment="Top" FontSize="15"/>
+            <ComboBox x:Name="droneMaxWeight" ToolTip="Select" HorizontalAlignment="Left" Margin="50,241,0,0" VerticalAlignment="Top" Width="182" BorderBrush="White" Foreground="Black" SelectionChanged="droneMaxWeight_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
+            <Label Content="Station To Charge" HorizontalAlignment="Left" Margin="50,259,0,0" VerticalAlignment="Top" FontSize="15"/>
+            <TextBox x:Name="stationId" HorizontalAlignment="Left" Margin="50,289,0,0" Text="Enter station ID here" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" TextChanged="stationId_TextChanged"/>
+            <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="102,327,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="115,359,0,0" VerticalAlignment="Top" Width="52" Click="btnCancel_Click"/>
+        </Grid>
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="291,2,87,2">
+            <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="20,12,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
+            <Label x:Name="idToPrint" Content="1" FontSize="15" HorizontalAlignment="Left" Margin="94,12,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="model" Content="Model:" FontSize="15" HorizontalAlignment="Left" Margin="20,45,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="modelToPrint" FontSize="15" HorizontalAlignment="Left" Margin="94,49,0,0" Text="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="maxWeight" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="20,76,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="maxWeightToPrint" Content="3" FontSize="15" HorizontalAlignment="Left" Margin="153,76,0,0" VerticalAlignment="Top" Width="110"/>
+            <Label x:Name="battery" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="20,106,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="batteryToPrint" Content="4" FontSize="15" HorizontalAlignment="Left" Margin="94,106,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="status" Content="Status:" FontSize="15" HorizontalAlignment="Left" Margin="20,136,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="statusToPrint" Content="5" FontSize="15" HorizontalAlignment="Left" Margin="94,136,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="20,166,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="locationToPrint" Content="6" FontSize="15" HorizontalAlignment="Left" Margin="95,166,0,0" VerticalAlignment="Top" Width="168"/>
+            <Label x:Name="parcelInShipping" Content="Parcel in shipping:" FontSize="15" HorizontalAlignment="Left" Margin="20,194,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="parcelToPrint" Content="7" FontSize="15" HorizontalAlignment="Left" Margin="153,194,0,0" VerticalAlignment="Top" Width="110"/>
+            <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="149,380,0,0" VerticalAlignment="Top" Click="btnClose_Click"/>
+            <Button x:Name="btnUpdate" Content="√" HorizontalAlignment="Left" Margin="358,49,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.51,1.388" Height="22" Click="btnUpdate_Click"/>
+            <Button x:Name="btnCharge" Content="Charge" HorizontalAlignment="Left" Margin="349,112,0,0" VerticalAlignment="Top" Click="btnCharge_Click"/>
+            <Button x:Name="btnReleaseCharge" Content="Release Charge" HorizontalAlignment="Left" Margin="298,111,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="93"/>
+            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" HorizontalAlignment="Left" Margin="298,195,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click"/>
+            <Button x:Name="btnDronePickUp" Content="Pick up parcel" HorizontalAlignment="Left" Margin="298,194,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94"/>
+            <Button x:Name="btnDroneDeliver" Content="Deliver parcel" HorizontalAlignment="Left" Margin="298,195,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="93"/>
+        </Grid>
+    </Grid>
+</Window>

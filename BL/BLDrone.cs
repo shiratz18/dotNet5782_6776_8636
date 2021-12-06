@@ -49,7 +49,8 @@ namespace IBL
                 Battery = R.Next(20, 41),
                 Status = DroneStatuses.Maintenance,
                 CurrentLocation = s.Location,
-                ParcelId = 0
+                ParcelId = 0,
+                ChargingBegin = DateTime.Now
             });
 
             IDAL.DO.DroneCharge charge = new IDAL.DO.DroneCharge()
@@ -205,6 +206,7 @@ namespace IBL
             d.Battery -= AvailableConsumption * getDistance(d.CurrentLocation, s.Location); //decreasing from the battery the percaentage it takes to get to the station
             d.CurrentLocation = s.Location; //changing the location to be the station
             d.Status = DroneStatuses.Maintenance; //change the status to be in maintenance
+            d.ChargingBegin = DateTime.Now;
 
             IDAL.DO.Drone drone = new IDAL.DO.Drone()
             {
@@ -229,7 +231,7 @@ namespace IBL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <param name="time">The time it has charged</param>
-        public void ReleaseDroneCharge(int id, TimeSpan time)
+        public void ReleaseDroneCharge(int id)
         {
             if (!Drones.Exists(d => d.Id == id))
                 throw new NoIDException($"Drone {id} does not exist.");
@@ -238,6 +240,8 @@ namespace IBL
 
             if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
                 throw new DroneStateException($"Drone {id} is not currently charging.");
+
+            TimeSpan time = DateTime.Now - d.ChargingBegin;
 
             d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
             if (d.Battery > 100)

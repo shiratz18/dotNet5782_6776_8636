@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DataSource
+    internal class DataSource
     {
         internal static List<Drone> Drones = new List<Drone>(10);
         internal static List<DroneCharge> DroneChargers = new List<DroneCharge>(10);
@@ -82,7 +82,7 @@ namespace DalObject
         {
             Stations.Add(new Station
             {
-                Id = r.Next(1000, 10000),
+                Id = 1234,
                 Name = "Jerusalem Central Station",
                 Latitude = 31.78954,
                 Longitude = 35.20373,
@@ -90,7 +90,7 @@ namespace DalObject
             });
             Stations.Add(new Station
             {
-                Id = r.Next(1000, 10000),
+                Id = 5678,
                 Name = "Malcha Mall",
                 Latitude = 31.75173,
                 Longitude = 35.18726,
