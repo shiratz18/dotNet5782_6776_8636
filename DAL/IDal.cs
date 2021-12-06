@@ -47,15 +47,11 @@ namespace IDAL
         /// <returns>The station</returns>
         public Station GetStation(int id);
         /// <summary>
-        /// Return the list of stations
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>Station list</returns>
-        public IEnumerable<Station> GetStationList();
-        /// <summary>
-        /// Returns the list of stations with empty charge slots
-        /// </summary>
-        /// <returns>Station list</returns>
-        public IEnumerable<Station> GetEmptyChargeSlots();
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Stations> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Station> GetStationList(Predicate<Station> predicate = null);
         /// <summary>
         /// Returns the object Parcel that matches the ID
         /// </summary>
@@ -63,15 +59,11 @@ namespace IDAL
         /// <returns>The parcel</returns>
         public Parcel GetParcel(int id);
         /// <summary>
-        /// Returns a list of the parcels
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>Parcel list</returns>
-        public IEnumerable<Parcel> GetParcelList();
-        /// <summary>
-        /// Returns a list with all the parcels that don't have an assigned drone
-        /// </summary>
-        /// <returns>Parcel list</returns>
-        public IEnumerable<Parcel> GetNoDroneParcels();
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Parcel></Parcel> containing the elements that match the predicate condition if found, otherwisr retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Parcel> GetParcelList(Predicate<Parcel> predicate = null);
         /// <summary>
         /// Returns the object Drone that matches the ID
         /// </summary>
@@ -79,10 +71,11 @@ namespace IDAL
         /// <returns>The drone</returns>
         public Drone GetDrone(int id);
         /// <summary>
-        /// Returns the list of drones
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>Drone list</returns>
-        public IEnumerable<Drone> GetDroneList();
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Drone></Drone> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Drone> GetDroneList(Predicate<Drone> predicate = null);
         /// <summary>
         /// Returns an array with info about the electricity consumption of a drone
         /// </summary>
@@ -95,15 +88,17 @@ namespace IDAL
         /// <returns>The customer</returns>
         public Customer GetCustomer(int id);
         /// <summary>
-        /// Returns the list of customers
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>Customer list</returns>
-        public IEnumerable<Customer> GetCustomerList();
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Customers> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Customer> GetCustomerList(Predicate<Customer> predicate = null);
         /// <summary>
-        /// Returns a list of the drones charging
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>List of drones</returns>
-        public IEnumerable<DroneCharge> GetDroneChargeList();
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<DroneCharge> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate = null);
 
         //updating functions
 

@@ -159,16 +159,22 @@ namespace IBL
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetAvailableChargeSlotsStationList()
         {
+            IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList(s => { return s.ChargeSlots > 0; });
+            if (tempStations.Count() == 0)
+                throw new EmptyListException("No stations with avavilable charge slots.");
+
             List<ListStation> stations = new List<ListStation>();
 
-            foreach (ListStation s in GetStationList())
+            foreach (IDAL.DO.Station s in tempStations)
             {
-                if (s.AvailableChargeSlots > 0)
-                    stations.Add(s);
-            }
-
-            if (stations.Count == 0)
-                throw new EmptyListException("No stations with available charge slots to display");
+                stations.Add(new ListStation()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    AvailableChargeSlots = s.ChargeSlots,
+                    UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
+                });
+            };
 
             return stations;
         }
@@ -201,16 +207,21 @@ namespace IBL
         /// <returns>The list of stations</returns>
         private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
+            IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList(s => { return s.ChargeSlots > 0; });
+            if (tempStations.Count() == 0)
+                throw new EmptyListException("No stations with avavilable charge slots.");
+
             List<Station> stations = new List<Station>();
-
-            foreach (Station s in getListOfStations())
+            foreach (IDAL.DO.Station tmp in tempStations)
             {
-                if (s.AvailableChargeSlots > 0)
-                    stations.Add(s);
+                stations.Add(new Station()
+                {
+                    Id = tmp.Id,
+                    Name = tmp.Name,
+                    Location = new Location() { Longitude = tmp.Longitude, Latitude = tmp.Latitude },
+                    AvailableChargeSlots = tmp.ChargeSlots
+                });
             }
-
-            if (stations.Count == 0)
-                throw new EmptyListException("No stations with available charge slots to display.");
 
             return stations;
         }

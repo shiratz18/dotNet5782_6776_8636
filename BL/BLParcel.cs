@@ -21,7 +21,7 @@ namespace IBL
                 GetCustomer(parcel.Sender.Id);
                 GetCustomer(parcel.Target.Id);
             }
-            catch(NoIDException ex)
+            catch (NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -125,11 +125,11 @@ namespace IBL
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority
                 };
-                if (p.Delivered != DateTime.MinValue)
+                if (p.Delivered != null)
                     temp.State = ParcelState.Delivered;
-                else if (p.PickedUp != DateTime.MinValue)
+                else if (p.PickedUp != null)
                     temp.State = ParcelState.PickedUp;
-                else if (p.Scheduled != DateTime.MinValue)
+                else if (p.Scheduled != null)
                     temp.State = ParcelState.PickedUp;
                 else
                     temp.State = ParcelState.Requested;
@@ -144,19 +144,35 @@ namespace IBL
         /// Returns the list of parcels which dont have an assigned drone
         /// </summary>
         /// <returns>The list of parcels</returns>
-        public IEnumerable<ListParcel>GetNoDroneParcelList()
+        public IEnumerable<ListParcel> GetNoDroneParcelList()
         {
-            List<ListParcel> parcels = new List<ListParcel>();
-
-            foreach(ListParcel p in GetParcelList())
-            {
-                if (p.State == ParcelState.Requested)
-                    parcels.Add(p);
-            }
-
-            if (parcels.Count == 0)
+            IEnumerable<IDAL.DO.Parcel> temps = data.GetParcelList(p => { return p.DroneId == 0; });
+            if (temps.Count() == 0)
                 throw new EmptyListException("No Parcels with no drone to display");
 
+            List<ListParcel> parcels = new List<ListParcel>();
+
+            foreach (IDAL.DO.Parcel p in temps)
+            {
+                ListParcel temp = new ListParcel()
+                {
+                    Id = p.Id,
+                    SenderName = data.GetCustomer(p.SenderId).Name,
+                    TargetName = data.GetCustomer(p.TargetId).Name,
+                    Weight = (WeightCategories)p.Weight,
+                    Priority = (Priorities)p.Priority
+                };
+                if (p.Delivered != null)
+                    temp.State = ParcelState.Delivered;
+                else if (p.PickedUp != null)
+                    temp.State = ParcelState.PickedUp;
+                else if (p.Scheduled != null)
+                    temp.State = ParcelState.PickedUp;
+                else
+                    temp.State = ParcelState.Requested;
+
+                parcels.Add(temp);
+            }
             return parcels;
         }
 
@@ -201,14 +217,26 @@ namespace IBL
         {
             List<Parcel> parcels = new List<Parcel>();
 
-            foreach(Parcel p in getListOfParcels())
-            {
-                if (p.Scheduled == DateTime.MinValue)
-                    parcels.Add(p);
-            }
+            IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList(p => { return p.Scheduled == null; });
 
-            if (parcels.Count == 0)
-                throw new EmptyListException("No Parcels with no drone to display");
+            if (tempParcels.Count() == 0)
+                throw new EmptyListException("No parcels without a drone.");
+
+            foreach (IDAL.DO.Parcel p in tempParcels)
+            {
+                parcels.Add(new Parcel()
+                {
+                    Id = p.Id,
+                    Sender = getCustomerInParcel(p.SenderId),
+                    Target = getCustomerInParcel(p.TargetId),
+                    Weight = (WeightCategories)p.Weight,
+                    Priority = (Priorities)p.Priority,
+                    Requested = p.Requested,
+                    Scheduled = p.Scheduled,
+                    PickedUp = p.PickedUp,
+                    Delivered = p.Delivered
+                });
+            }
 
             return parcels;
         }

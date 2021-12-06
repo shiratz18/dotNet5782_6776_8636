@@ -34,6 +34,33 @@ namespace IBL
             return d / 100;
         }
 
+        //private Station nearestStation(Location loc, Predicate<IDAL.DO.Station> predicate = null)
+        //{
+        //    double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
+        //    Station minStation;
+
+        //    IEnumerable<IDAL.DO.Station> stations = data.GetStationList(predicate); //get the list of all the stations
+
+        //    foreach (IDAL.DO.Station s in stations)
+        //    {
+        //        double dis = getDistance(loc, new Location() { Longitude = s.Longitude, Latitude = s.Latitude });
+        //        //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
+        //        if (dis < min)
+        //        {
+        //            min = dis;
+        //            minStation = new Station()
+        //            {
+        //                Id = s.Id,
+        //                Name = s.Name,
+        //                Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+        //                AvailableChargeSlots = s.ChargeSlots
+        //            }; //the the nearest station will be saved here
+        //        }
+        //    }
+
+        //    return minStation;
+        //}
+
         /// <summary>
         /// finds the nearest station to a given location
         /// </summary>
@@ -82,8 +109,8 @@ namespace IBL
             Customer sender = GetCustomer(senderId); //getting the sender
             Customer target = GetCustomer(targetId); //getting the target
 
-            return getDistance(drone.CurrentLocation, sender.Location) + 
-                getDistance(sender.Location, target.Location) + 
+            return getDistance(drone.CurrentLocation, sender.Location) +
+                getDistance(sender.Location, target.Location) +
                 getDistance(target.Location, nearestStationLocation(target.Location));
         }
 

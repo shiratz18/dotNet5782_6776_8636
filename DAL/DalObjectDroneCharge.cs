@@ -48,14 +48,28 @@ namespace DalObject
             DataSource.DroneChargers.Remove(d);
         }
 
+        ///// <summary>
+        ///// returns a list of the drones charging
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<DroneCharge> GetDroneChargeList()
+        //{
+        //    return DataSource.DroneChargers;
+        //}
+
         /// <summary>
-        /// returns a list of the drones charging
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns></returns>
-        public IEnumerable<DroneCharge> GetDroneChargeList()
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<DroneCharge> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate = null)
         {
-            return DataSource.DroneChargers;
+            if (predicate != null)
+                return DataSource.DroneChargers.FindAll(predicate);
+            else
+                return DataSource.DroneChargers;
         }
+
 
     }
 }

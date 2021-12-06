@@ -99,25 +99,38 @@ namespace DalObject
             return DataSource.Stations.Find(x => x.Id == id);
         }
 
-        /// <summary>
-        /// return the list of stations
-        /// </summary>
-        /// <returns>list Stations</returns>
-        public IEnumerable<Station> GetStationList()
-        {
-            return DataSource.Stations;
-        }
+        ///// <summary>
+        ///// return the list of stations
+        ///// </summary>
+        ///// <returns>list Stations</returns>
+        //public IEnumerable<Station> GetStationList()
+        //{
+        //    return DataSource.Stations;
+        //}
 
         /// <summary>
-        /// returns an array with the list of stations with empty charge slots
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Station> GetEmptyChargeSlots()
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Stations> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Station> GetStationList(Predicate<Station> predicate = null)
         {
-            List<Station> temp = new List<Station>();
-            DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); });
-            return temp;
+            if (predicate != null)
+                return DataSource.Stations.FindAll(predicate);
+            else
+                return DataSource.Stations;
         }
+
+        ///// <summary>
+        ///// returns an array with the list of stations with empty charge slots
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<Station> GetEmptyChargeSlots()
+        //{
+        //    List<Station> temp = new List<Station>();
+        //    DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); });
+        //    return temp;
+        //}
 
         /// <summary>
         /// finds the distance from a station

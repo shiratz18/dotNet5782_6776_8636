@@ -27,13 +27,13 @@ namespace IBL
             };
 
             //if it has been delivered, the state is delivered
-            if (temp.Delivered != DateTime.MinValue)
+            if (temp.Delivered != null)
                 p.State = ParcelState.Delivered;
             //otherwise if it has been picked up the state is picked up
-            else if (temp.PickedUp != DateTime.MinValue)
+            else if (temp.PickedUp != null)
                 p.State = ParcelState.PickedUp;
             //otherwise if it was assigned a drone the state is scheduled
-            else if (temp.Scheduled != DateTime.MinValue)
+            else if (temp.Scheduled != null)
                 p.State = ParcelState.Scheduled;
             //otherwise the state is requested
             else

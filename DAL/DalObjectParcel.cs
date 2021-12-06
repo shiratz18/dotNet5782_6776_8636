@@ -110,7 +110,7 @@ namespace DalObject
 
             Parcel temp = DataSource.Parcels[DataSource.Parcels.FindIndex(p => p.Id == id)];
             temp.Delivered = DateTime.Now;
-            UpdateParcel(temp);           
+            UpdateParcel(temp);
         }
 
         /// <summary>
@@ -128,24 +128,37 @@ namespace DalObject
             return DataSource.Parcels.Find(x => x.Id == id);
         }
 
-        /// <summary>
-        /// returns a list of the parcels
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Parcel> GetParcelList()
-        {
-            return DataSource.Parcels;
-        }
+        ///// <summary>
+        ///// returns a list of the parcels
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<Parcel> GetParcelList()
+        //{
+        //    return DataSource.Parcels;
+        //}
 
         /// <summary>
-        /// returns a list with all the parcels that are not associated to a drone
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Parcel> GetNoDroneParcels()
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Parcel></Parcel> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Parcel> GetParcelList(Predicate<Parcel> predicate = null)
         {
-            List<Parcel> temp = new List<Parcel>();
-            DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) temp.Add(x); });
-            return temp;
+            if (predicate != null)
+                return DataSource.Parcels.FindAll(predicate);
+            else
+                return DataSource.Parcels;
         }
+
+        ///// <summary>
+        ///// returns a list with all the parcels that are not associated to a drone
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<Parcel> GetNoDroneParcels()
+        //{
+        //    List<Parcel> temp = new List<Parcel>();
+        //    DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) temp.Add(x); });
+        //    return temp;
+        //}
     }
 }

@@ -109,9 +109,9 @@ namespace IBL
             if (customers.Count == 0)
                 throw new EmptyListException("No customers to display.");
 
-            foreach (IDAL.DO.Parcel p in data.GetParcelList()) //for each parcl
+            foreach (IDAL.DO.Parcel p in data.GetParcelList()) //for each parcel
             {
-                if (p.Delivered != DateTime.MinValue) //if it was delivered
+                if (p.Delivered != null) //if it was delivered
                 {
                     customers[customers.FindIndex(c => c.Id == p.SenderId)].DeliveredFromCustomer++; //add 1 to the number of delivered from of the sender
                     customers[customers.FindIndex(c => c.Id == p.TargetId)].DeliveredToCustomer++; //add 1 to the umber of parcels delivered to the target

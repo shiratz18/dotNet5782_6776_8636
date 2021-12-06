@@ -27,7 +27,7 @@ namespace IBL
                 Target = new CustomerInParcel() { Id = temp.TargetId, Name = data.GetCustomer(temp.TargetId).Name }
             };
 
-            if (temp.PickedUp == DateTime.MinValue)
+            if (temp.PickedUp == null)
                 parcel.IsPickedUp = false;
             else
                 parcel.IsPickedUp = true;
@@ -47,8 +47,17 @@ namespace IBL
         private IEnumerable<ParcelInShipping> getListOfNoDroneParcelsInShipping()
         {
             List<ParcelInShipping> pis = new List<ParcelInShipping>();
+            IEnumerable<Parcel> parcels;
+            try
+            {
+                parcels = getListOfNoDroneParcels();
+            }
+            catch(EmptyListException ex)
+            {
+                throw new EmptyListException(ex.Message);
+            }
 
-            foreach (Parcel p in getListOfNoDroneParcels())
+            foreach (Parcel p in parcels)
             {
                 pis.Add(new ParcelInShipping
                 {

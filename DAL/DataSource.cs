@@ -22,7 +22,7 @@ namespace DalObject
             internal static double LightWeightConsumption { get => 2; } //2% per km
             internal static double MediumWeightConsumption { get => 3; }  //3% per km
             internal static double HeavyWeightConsumption { get => 4; } //4% per km
-            internal static double ChargingRate { get => 1; } //5% per km
+            internal static double ChargingRate { get => 1; } //1% per minute
         }
 
         internal static Random r = new Random();
@@ -199,9 +199,9 @@ namespace DalObject
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 0,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -215,8 +215,8 @@ namespace DalObject
                 Requested = DateTime.Now,
                 DroneId = 4582,
                 Scheduled = DateTime.Now,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -246,7 +246,7 @@ namespace DalObject
                 DroneId = 9215,
                 Scheduled = DateTime.Now - new TimeSpan(1, 30, 50),
                 PickedUp = DateTime.Now,
-                Delivered = DateTime.MinValue
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -260,8 +260,8 @@ namespace DalObject
                 Requested = DateTime.Now,
                 DroneId = 2131,
                 Scheduled = DateTime.Now,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -274,9 +274,9 @@ namespace DalObject
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 2586,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -290,8 +290,8 @@ namespace DalObject
                 Requested = DateTime.Now,
                 DroneId = 3674,
                 Scheduled = DateTime.Now,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -304,9 +304,9 @@ namespace DalObject
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 0,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -319,9 +319,9 @@ namespace DalObject
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 0,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
 
@@ -334,9 +334,9 @@ namespace DalObject
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 0,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             });
             Config.IdNumber++;
         }

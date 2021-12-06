@@ -33,7 +33,7 @@ namespace DalObject
                 throw new NoIDException($"Customer {customer.Id} doesn't exist.");
             }
 
-            DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == customer.Id)]= customer;
+            DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == customer.Id)] = customer;
         }
 
         /// <summary>
@@ -41,14 +41,14 @@ namespace DalObject
         /// </summary>
         /// <param name="id">The customer ID</param>
         /// <param name="name">The new name</param>
-        public void EditCustomerName(int id,string name)
+        public void EditCustomerName(int id, string name)
         {
             if (!DataSource.Customers.Exists(c => c.Id == id))
             {
                 throw new NoIDException($"Customer {id} doesn't exist.");
             }
 
-            Customer customer=DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)];
+            Customer customer = DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)];
             customer.Name = name;
             DataSource.Customers[DataSource.Customers.FindIndex(c => c.Id == id)] = customer;
         }
@@ -99,13 +99,26 @@ namespace DalObject
             return DataSource.Customers.Find(x => x.Id == id);
         }
 
+        ///// <summary>
+        ///// returns the list of customers
+        ///// </summary>
+        ///// <returns>list Customers</returns>
+        //public IEnumerable<Customer> GetCustomerList()
+        //{
+        //    return DataSource.Customers;
+        //}
+
         /// <summary>
-        /// returns the list of customers
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>list Customers</returns>
-        public IEnumerable<Customer> GetCustomerList()
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Customers> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Customer> GetCustomerList(Predicate<Customer> predicate = null)
         {
-            return DataSource.Customers;
+            if (predicate != null)
+                return DataSource.Customers.FindAll(predicate);
+            else
+                return DataSource.Customers;
         }
 
         /// <summary>

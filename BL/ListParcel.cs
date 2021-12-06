@@ -20,7 +20,7 @@ namespace IBL.BO
             string str = $"\nParcel {Id}:";
             str += $"\n Sender - {SenderName}";
             str += $"\n Target - {TargetName}";
-            str += $"\n Weight -{Weight}";
+            str += $"\n Weight - {Weight}";
             str += $"\n Priority - {Priority}";
             str += $"\n State - {State}";
             return str;

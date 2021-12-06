@@ -163,44 +163,40 @@ namespace IBL
         /// <param name="id">The ID of the drone</param>
         public void ChargeDrone(int id)
         {
-            if (!Drones.Exists(x => x.Id == id)) //checking if the drone exists
-                throw new NoIDException($"Drone {id} does not exist.");
-
             ListDrone d = Drones.Find(x => x.Id == id); //finding the drone in the list of bll
 
+            //throw an exception if the drone wasnt found
+            if (d == null)
+                throw new NoIDException($"Drone {id} does not exist.");
+
+            //throw an exception if the drone is not available
             if (d.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is not available.");
 
             IEnumerable<Station> stations;
             try
             {
-                stations = getListOfAvailableChargeSlotsStations(); //getting the list of available charging slots, will throw an exception if there arent stations like that
+                stations = getListOfAvailableChargeSlotsStations(); //get the list of stations with availabe chargers
             }
-            catch (EmptyListException)
+            catch (EmptyListException ex)
             {
-                throw new EmptyListException("No stations with avavilable charge slots.");
+                throw new EmptyListException(ex.Message); //throw an exception if no station has available charge slots
             }
 
-            SortedList<double, Station> ids = new SortedList<double, Station>(); //a sorted list to save the stations according to distance
-
+            //get the station that is nearest to the drone, among the stations that have availabke charge slots
+            double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
+            Station s = new Station();
             foreach (Station tmp in stations)
             {
-                ids.Add(getDistance(d.CurrentLocation, tmp.Location), tmp);
-            }
-
-            Station s = new Station();
-
-            //find the nearest station with available charging slots
-            foreach (var tmp in ids)
-            {
-                if (tmp.Value.AvailableChargeSlots != 0)
+                //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
+                if (getDistance(d.CurrentLocation, tmp.Location) < min)
                 {
-                    s = tmp.Value;
-                    break;
+                    min = getDistance(d.CurrentLocation, tmp.Location);
+                    s = tmp; //the nearest station will be saved here
                 }
             }
 
-            //if there is not enough battery to get to the station
+            //throw an exception if there is not enough battery to get to the station
             if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
             {
                 throw new NoBatteryException($"Drone {d.Id} does not have enough battery to get to a charging station.");
@@ -216,7 +212,7 @@ namespace IBL
                 Model = d.Model,
                 MaxWeight = (IDAL.DO.WeightCategories)d.MaxWeight
             };
-            data.UpdateDrone(drone); //update the drone
+            data.UpdateDrone(drone); //update the drone in dal
 
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots - 1); //update the station charge slots to one less
 

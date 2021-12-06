@@ -34,9 +34,13 @@ namespace IBL
             //intializing drone list
             Drones = new List<ListDrone>();
 
+            //getting the list of all the drones
             IEnumerable<IDAL.DO.Drone> tempDrones = data.GetDroneList();
-            IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList();
+            //getting the list of all the parcels that have a drone but were not yet delivered
+            IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList(p => { return p.DroneId != 0 && p.Delivered == null; });
+            //getting the lisat of all the stations
             IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList();
+            //getting the list if all the customers
             IEnumerable<IDAL.DO.Customer> tempCustomers = data.GetCustomerList();
 
             //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
@@ -54,66 +58,62 @@ namespace IBL
             //checking all the parcels in dal to update drones that are currently shipping parcels
             foreach (IDAL.DO.Parcel p in tempParcels) //fore each parcel in the list of parcels from dal
             {
-                //if the parcel has a drone assigned but was not yet delivered
-                if (p.DroneId != 0 && p.Delivered == DateTime.MinValue)
+                var drone = Drones.Find(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
+                if (drone == null)
                 {
-                    var drone = Drones.Find(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
-                    if (drone == null)
-                    {
-                        throw new NoIDException($"Drone {p.DroneId} does not exist.");
-                    }
-                    drone.Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
-                    drone.ParcelId = p.Id; //updating the parcel of the drone to be this parcel
+                    throw new NoIDException($"Drone {p.DroneId} does not exist.");
+                }
+                drone.Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
+                drone.ParcelId = p.Id; //updating the parcel of the drone to be this parcel
 
-                    IDAL.DO.Customer sender = data.GetCustomer(p.SenderId); //getting the sender of the package
-                    Location senderLoc = new Location { Longitude = sender.Longitude, Latitude = sender.Latitude }; //saving the location of the sender
-                    IDAL.DO.Customer target = data.GetCustomer(p.TargetId); //getting the sender of the package
-                    Location targetLoc = new Location { Longitude = target.Longitude, Latitude = target.Latitude }; //saving the location of the target
+                IDAL.DO.Customer sender = data.GetCustomer(p.SenderId); //getting the sender of the package
+                Location senderLoc = new Location { Longitude = sender.Longitude, Latitude = sender.Latitude }; //saving the location of the sender
+                IDAL.DO.Customer target = data.GetCustomer(p.TargetId); //getting the sender of the package
+                Location targetLoc = new Location { Longitude = target.Longitude, Latitude = target.Latitude }; //saving the location of the target
 
-                    //finding the location of the nearest station to the sender
-                    int station1 = nearestStationId(senderLoc); //getting the id of the nearest station
-                    Location station1Loc = new Location //saving the location of that station
-                    {
-                        Longitude = data.GetStation(station1).Longitude,
-                        Latitude = data.GetStation(station1).Latitude,
-                    };
+                //finding the location of the nearest station to the sender
+                int station1 = nearestStationId(senderLoc); //getting the id of the nearest station
+                Location station1Loc = new Location //saving the location of that station
+                {
+                    Longitude = data.GetStation(station1).Longitude,
+                    Latitude = data.GetStation(station1).Latitude,
+                };
 
-                    //finding the location of the nearest station to the target
-                    int station2 = nearestStationId(targetLoc); //getting the id of the nearest station
-                    Location station2Loc = new Location //saving the location of that station
-                    {
-                        Longitude = data.GetStation(station2).Longitude,
-                        Latitude = data.GetStation(station2).Latitude,
-                    };
+                //finding the location of the nearest station to the target
+                int station2 = nearestStationId(targetLoc); //getting the id of the nearest station
+                Location station2Loc = new Location //saving the location of that station
+                {
+                    Longitude = data.GetStation(station2).Longitude,
+                    Latitude = data.GetStation(station2).Latitude,
+                };
 
-                    //the total distance the drone needs to go for the delivery
-                    double totalDIstance =
-                        getDistance(station1Loc, senderLoc) + getDistance(senderLoc, targetLoc) + getDistance(senderLoc, station2Loc);
+                //the total distance the drone needs to go for the delivery
+                double totalDIstance =
+                    getDistance(station1Loc, senderLoc) + getDistance(senderLoc, targetLoc) + getDistance(senderLoc, station2Loc);
 
-                    //the battery will be a random number between the minimum battery needed to complete the delivery (according to weight and distance), and full battery
-                    switch ((WeightCategories)p.Weight)
-                    {
-                        case WeightCategories.Light:
-                            drone.Battery = (double)R.Next((int)(totalDIstance * LightWeightConsumption), 100);
-                            break;
-                        case WeightCategories.Medium:
-                            drone.Battery = (double)R.Next((int)(totalDIstance * MediumWeightConsumption), 100);
-                            break;
-                        case WeightCategories.Heavy:
-                            drone.Battery = (double)R.Next((int)(totalDIstance * HeavyWeightConsumption), 100);
-                            break;
-                    }
+                //the battery will be a random number between the minimum battery needed to complete the delivery (according to weight and distance), and full battery
+                switch ((WeightCategories)p.Weight)
+                {
+                    case WeightCategories.Light:
+                        drone.Battery = (double)R.Next((int)(totalDIstance * LightWeightConsumption), 100);
+                        break;
+                    case WeightCategories.Medium:
+                        drone.Battery = (double)R.Next((int)(totalDIstance * MediumWeightConsumption), 100);
+                        break;
+                    case WeightCategories.Heavy:
+                        drone.Battery = (double)R.Next((int)(totalDIstance * HeavyWeightConsumption), 100);
+                        break;
+                }
 
-                    //if the parcel hasnt been picked up by a drone, the location is that of the station closest to the sender
-                    if (p.PickedUp == DateTime.MinValue)
-                    {
-                        drone.CurrentLocation = station1Loc; //saving the location of the nearest station to the sender to be the location of the drone
-                    }
-                    //otherwise if it was picked up by a drone but not yet delivered to to the target then the location of the drone is the location of the sender
-                    else
-                    {
-                        drone.CurrentLocation = senderLoc; //saving the location of the drone to be the location of the sender
-                    }
+                //if the parcel hasnt been picked up by a drone, the location is that of the station closest to the sender
+                if (p.PickedUp == null)
+                {
+                    drone.CurrentLocation = station1Loc; //saving the location of the nearest station to the sender to be the location of the drone
+                }
+                //otherwise if it was picked up by a drone but not yet delivered to to the target then the location of the drone is the location of the sender
+                else
+                {
+                    drone.CurrentLocation = senderLoc; //saving the location of the drone to be the location of the sender
                 }
             }
 

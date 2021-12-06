@@ -116,13 +116,26 @@ namespace DalObject
             return DataSource.Drones.Find(x => x.Id == id);
         }
 
+        ///// <summary>
+        ///// returns the list of drones
+        ///// </summary>
+        ///// <returns>list Drones</returns>
+        //public IEnumerable<Drone> GetDroneList()
+        //{
+        //    return DataSource.Drones;
+        //}
+
         /// <summary>
-        /// returns the list of drones
+        /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
-        /// <returns>list Drones</returns>
-        public IEnumerable<Drone> GetDroneList()
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A IEnumerable<Drone></Drone> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        public IEnumerable<Drone> GetDroneList(Predicate<Drone> predicate = null)
         {
-            return DataSource.Drones;
+            if (predicate != null)
+                return DataSource.Drones.FindAll(predicate);
+            else
+                return DataSource.Drones;
         }
 
         /// <summary>
