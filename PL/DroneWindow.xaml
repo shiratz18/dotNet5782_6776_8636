@@ -11,8 +11,10 @@
             <Label Content="New Drone" HorizontalAlignment="Center" Margin="0,54,0,0" VerticalAlignment="Top" FontSize="20"/>
             <Label Content="ID" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" FontSize="15"/>
             <TextBox x:Name="droneId" Text="Enter ID here" PreviewTextInput="numbersOnly" MaxLength="4" GotFocus="idTbGotFocus" HorizontalAlignment="Left" Margin="50,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneId_TextChanged" BorderBrush="#FFABADB3"/>
+            <Label x:Name="RedMes1" Content=" " HorizontalAlignment="Left" Margin="228,126,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478"/>
             <Label Content="Model" HorizontalAlignment="Left" Margin="50,148,0,0" VerticalAlignment="Top" FontSize="15"/>
             <TextBox x:Name="droneModel" Text="Enter model here" GotFocus="modelTbGotFocus" MaxLength="5" HorizontalAlignment="Left" Margin="50,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneModel_TextChanged"/>
+            <Label x:Name="RedMes2" Content=" " HorizontalAlignment="Left" Margin="228,174,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.256,0.601"/>
             <Label Content="Select Maximum Weight" HorizontalAlignment="Left" Margin="50,196,0,0" VerticalAlignment="Top" FontSize="15"/>
             <ComboBox x:Name="droneMaxWeight" ToolTip="Select" HorizontalAlignment="Left" Margin="50,226,0,0" VerticalAlignment="Top" Width="182" BorderBrush="White" Foreground="Black" SelectionChanged="droneMaxWeight_SelectionChanged">
                 <ComboBox.Background>
@@ -26,31 +28,30 @@
             <ComboBox x:Name="droneStation" HorizontalAlignment="Left" Margin="50,278,0,0" VerticalAlignment="Top" Width="182" SelectionChanged="droneStation_SelectionChanged"/>
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="102,327,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="115,359,0,0" VerticalAlignment="Top" Width="52" Click="btnCancel_Click"/>
-            <Label x:Name="RedMes1" Content="" HorizontalAlignment="Left" Margin="228,126,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478"/>
-            <Label x:Name="RedMes2" Content="" HorizontalAlignment="Left" Margin="228,174,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.256,0.601"/>
         </Grid>
         <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="10,0,0,19" Background="White">
             <Label Content="Update Drone" FontSize="20" HorizontalAlignment="Left" Margin="309,29,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="21,71,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
-            <Label x:Name="idToPrint" Content="1" FontSize="15" HorizontalAlignment="Left" Margin="95,71,0,0" VerticalAlignment="Top" Width="169"/>
-            <Label x:Name="model" Content="Model:" FontSize="15" HorizontalAlignment="Left" Margin="20,110,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,114,0,0" Text="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="modelToPrint_TextChanged"/>
-            <Label x:Name="maxWeight" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="21,145,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="maxWeightToPrint" Content="3" FontSize="15" HorizontalAlignment="Left" Margin="149,145,0,0" VerticalAlignment="Top" Width="110" Foreground="Black"/>
-            <Label x:Name="battery" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="21,180,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="batteryToPrint" Content="4" FontSize="15" HorizontalAlignment="Left" Margin="94,180,0,0" VerticalAlignment="Top" Width="169"/>
-            <Label x:Name="status" Content="Status:" FontSize="15" HorizontalAlignment="Left" Margin="24,215,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="statusToPrint" Content="5" FontSize="15" HorizontalAlignment="Left" Margin="94,215,0,0" VerticalAlignment="Top" Width="169"/>
-            <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="24,252,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="locationToPrint" Content="6" FontSize="15" HorizontalAlignment="Left" Margin="95,252,0,0" VerticalAlignment="Top" Width="298"/>
+            <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="23,73,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
+            <Label x:Name="idToPrint" Content="1" FontSize="15" HorizontalAlignment="Left" Margin="94,73,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="model" Content="Model:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
+            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,125,0,0" Text="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="modelToPrint_TextChanged" Background="{x:Null}"/>
+            <Label x:Name="RedMes3" Content=" " HorizontalAlignment="Left" Margin="94,147,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="193"/>
+            <Label x:Name="maxWeight" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="21,168,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
+            <Label x:Name="maxWeightToPrint" Content="3" FontSize="15" HorizontalAlignment="Left" Margin="149,168,0,0" VerticalAlignment="Top" Width="110" Foreground="Black"/>
+            <Label x:Name="battery" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="21,222,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="batteryToPrint" Content="4" FontSize="15" HorizontalAlignment="Left" Margin="96,222,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="status" Content="Status:" FontSize="15" HorizontalAlignment="Left" Margin="23,271,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="statusToPrint" Content="5" FontSize="15" HorizontalAlignment="Left" Margin="95,271,0,0" VerticalAlignment="Top" Width="169"/>
+            <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="23,322,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="locationToPrint" Content="6" FontSize="15" HorizontalAlignment="Left" Margin="96,322,0,0" VerticalAlignment="Top" Width="298"/>
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Center" Margin="0,416,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="58"/>
-            <Button x:Name="btnUpdate" Content="√" HorizontalAlignment="Left" Margin="360,114,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.51,1.388" Height="22" Click="btnUpdate_Click"/>
-            <Button x:Name="btnCharge" Content="Charge" HorizontalAlignment="Left" Margin="351,185,0,0" VerticalAlignment="Top" Click="btnCharge_Click"/>
-            <Button x:Name="btnReleaseCharge" Content="Release Charge" HorizontalAlignment="Left" Margin="300,185,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="93"/>
-            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" HorizontalAlignment="Left" Margin="300,221,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click"/>
-            <Button x:Name="btnDronePickUp" Content="Pick up parcel" HorizontalAlignment="Left" Margin="521,355,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94"/>
-            <Button x:Name="btnDroneDeliver" Content="Deliver parcel" HorizontalAlignment="Left" Margin="521,355,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="92"/>
-            <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="442,71,0,0" VerticalAlignment="Top" Width="252">
+            <Button x:Name="btnUpdate" Content="√" HorizontalAlignment="Left" Margin="362,125,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.51,1.388" Height="22" Click="btnUpdate_Click"/>
+            <Button x:Name="btnCharge" Content="Charge" HorizontalAlignment="Left" Margin="351,227,0,0" VerticalAlignment="Top" Click="btnCharge_Click"/>
+            <Button x:Name="btnReleaseCharge" Content="Release Charge" HorizontalAlignment="Left" Margin="300,227,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="93" RenderTransformOrigin="0.462,1.703"/>
+            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" HorizontalAlignment="Left" Margin="300,276,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click"/>
+            <Button x:Name="btnDronePickUp" Content="Pick up parcel" HorizontalAlignment="Left" Margin="521,370,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94"/>
+            <Button x:Name="btnDroneDeliver" Content="Deliver parcel" HorizontalAlignment="Left" Margin="521,370,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="92"/>
+            <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="442,84,0,0" VerticalAlignment="Top" Width="252">
                 <Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -82,7 +83,6 @@
                     </Grid>
                 </Grid>
             </Expander>
-            <Label x:Name="RedMes3" Content="" HorizontalAlignment="Left" Margin="216,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="26" Foreground="#FFFA0606"/>
         </Grid>
     </Grid>
 </Window>

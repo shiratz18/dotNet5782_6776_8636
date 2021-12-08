@@ -77,7 +77,7 @@ namespace PL
             else
             {
                 droneId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes1 != null && RedMes1.Content !="")
+                if (RedMes1 != null)
                     RedMes1.Content = "";
             }
             setOkButton();
@@ -122,7 +122,7 @@ namespace PL
             else
             {
                 droneModel.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes2 != null && RedMes2.Content != "")
+                if (RedMes2 != null)
                     RedMes2.Content = "";
             }
             setOkButton();
@@ -242,6 +242,7 @@ namespace PL
         /// </summary>
         private void display()
         {
+            RedMes3.Content = " ";
             idToPrint.Content = drone.Id;
             modelToPrint.Text = drone.Model;
             maxWeightToPrint.Content = drone.MaxWeight;
@@ -488,12 +489,13 @@ namespace PL
             if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
             {
                 modelToPrint.SelectionBrush = Brushes.Red;
-                RedMes3.Content = "Incorrect entry, please try again";
+                if (RedMes3 != null)
+                    RedMes3.Content = "Incorrect entry, please try again";
             }
             else
             {
                 modelToPrint.SelectionBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes3 != null && RedMes3.Content != "")
+                if (RedMes3 != null)
                     RedMes3.Content = "";
             }
         }
