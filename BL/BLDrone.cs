@@ -17,7 +17,11 @@ namespace IBL
         public void AddDrone(Drone drone, int stationNum)
         {
             if (drone.Id < 1000 || drone.Id > 9999)
-                throw new InvalidNumberException($"Station ID must be 4 digits.");
+                throw new InvalidNumberException("Drone ID must be 4 digits.");
+            if (drone.Model.Length < 5)
+            {
+                throw new WrongFormatException("Drone model must be 5 characters.");
+            }
 
             IDAL.DO.Drone temp = new IDAL.DO.Drone() //copy the drone to a temporary DAL drone
             {
@@ -98,9 +102,23 @@ namespace IBL
         /// <returns>List of drones</returns>
         public IEnumerable<ListDrone> GetDroneList()
         {
+            List<ListDrone> tmp = new List<ListDrone>();
+            //   if()
+            foreach (ListDrone d in Drones)
+                tmp.Add(new ListDrone()
+                {
+                    Id = d.Id,
+                    Battery = d.Battery,
+                    ChargingBegin = d.ChargingBegin,
+                    Status = d.Status,
+                    CurrentLocation = d.CurrentLocation,
+                    MaxWeight = d.MaxWeight,
+                    Model = d.Model,
+                    ParcelId = d.ParcelId
+                });
             if (Drones.Count == 0)
                 throw new EmptyListException("No drones to display.");
-            return Drones;
+            return tmp;
         }
 
         /// <summary>
@@ -408,10 +426,12 @@ namespace IBL
             {
                 parcel = closestParcel(id, medium); //finding the closest parcel to the drone among the parcels
             }
-            else //otherwise there is only a lowweight parcel the drone could carry
+            else if (light.Count > 0) //otherwise there is only a lowweight parcel the drone could carry
             {
                 parcel = closestParcel(id, light); //finding the closest parcel to the drone among the parcels
             }
+            else
+                throw new DroneStateException($"Drone {id} cannot currently deliver any parcel.");
 
             drone.Status = DroneStatuses.Shipping; //updating the status of the drone to be in shipping
             drone.ParcelId = parcel.Id; //updating the parcel the drone carries

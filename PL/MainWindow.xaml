@@ -8,9 +8,6 @@
         Title="J.A.P.S" Height="450" Width="800">
     <Grid>
         <Button x:Name="btnListView" Content="Click here to view your drones" FontSize="20" HorizontalAlignment="Left" Margin="361,84,0,0" VerticalAlignment="Top" Height="48" Width="334" Click="btnListView_Click" Background="#FFE8E7F0" BorderBrush="#FF23179E" Foreground="#FF23179E" FontFamily="Aharoni"/>
-        <Expander FontSize="18" Header="Contact Us" HorizontalAlignment="Left" Height="137" Margin="604,259,0,0" VerticalAlignment="Top" Width="166" IsExpanded="False" Foreground="#FF23179E">
-            <Label Content="Telephone: 02-6519856&#10;Email:    help@japs.co.il&#10;Fax:            02-6573849&#10;Addres:  Bet Ha'dfus 11" HorizontalAlignment="Left" FontSize="15" Margin="0,10,0,0" VerticalAlignment="Top" Height="102" Width="166" Foreground="#FF23179E"/>
-        </Expander>
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="286" Height="217">
             <Grid.Background>
                 <ImageBrush ImageSource="/WhatsApp Image 2021-12-08 at 01.03.51.jpeg"/>

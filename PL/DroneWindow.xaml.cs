@@ -24,7 +24,6 @@ namespace PL
     {
         private IBL.IBL myBL;
         private IBL.BO.Drone drone;
-        private bool enableOkBtn;
 
         /// <summary>
         /// Constructor for add grid
@@ -68,6 +67,15 @@ namespace PL
         /// <param name="e"></param>
         private void droneId_TextChanged(object sender, TextChangedEventArgs e)
         {
+            bool flag = int.TryParse(droneId.Text, out int num);
+            if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
+            {
+                droneId.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                droneId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+            }
             setOkButton();
         }
 
@@ -76,7 +84,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NumbersOnly(object sender, TextCompositionEventArgs e)
+        private void numbersOnly(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
@@ -101,6 +109,17 @@ namespace PL
         /// <param name="e"></param>
         private void droneModel_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string m = droneModel.Text;
+            if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
+            {
+                droneModel.BorderBrush = Brushes.Red;
+                //label"error"
+            }
+            else
+            {
+                droneModel.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+                //Label=""
+            }
             setOkButton();
         }
 
@@ -113,7 +132,7 @@ namespace PL
         {
             TextBox tb = sender as TextBox;
             tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idTbGotFocus;
+            tb.GotFocus -= modelTbGotFocus;
         }
 
         /// <summary>
@@ -136,6 +155,9 @@ namespace PL
             setOkButton();
         }
 
+        /// <summary>
+        /// Enables OK button only when all fields are filled
+        /// </summary>
         private void setOkButton()
         {
             //enable OK button only if all fields were filled
@@ -143,7 +165,9 @@ namespace PL
                 btnOK.IsEnabled = (!String.IsNullOrEmpty(droneId.Text) && droneId.Text != "Enter ID here") &&
                     (!String.IsNullOrEmpty(droneModel.Text) && droneModel.Text != "Enter model here") &&
                     (droneMaxWeight.SelectedItem != null) &&
-                    (droneStation.SelectedItem != null);
+                    (droneStation.SelectedItem != null) &&
+                    (droneId.BorderBrush != Brushes.Red) &&
+                    (droneModel.BorderBrush != Brushes.Red);
         }
 
         /// <summary>
@@ -169,6 +193,10 @@ namespace PL
                 myBL.AddDrone(drone, station.Id);
             }
             catch (InvalidNumberException ex)
+            {
+                mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
+            catch (WrongFormatException ex)
             {
                 mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
             }
@@ -215,11 +243,25 @@ namespace PL
             batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
             statusToPrint.Content = drone.Status;
             locationToPrint.Content = drone.CurrentLocation;
-
-            if (drone.Status != DroneStatuses.Shipping) //if the drone is not shipping print no parcel
-                parcelToPrint.Content = "(no parcel)";
+            if (drone.Status == DroneStatuses.Shipping)
+            {
+                parcelExpander.IsExpanded = true;
+                parcelExpander.IsEnabled = true;
+                parcelId.Content = drone.InShipping.Id;
+                isPickedUp.Content = drone.InShipping.IsPickedUp;
+                priority.Content = drone.InShipping.Priority;
+                weight.Content = drone.InShipping.Weight;
+                senderName.Content = drone.InShipping.Sender.Name;
+                targetName.Content = drone.InShipping.Target.Name;
+                pickUpLocation.Content = drone.InShipping.PickUpLocation;
+                deliveryLocation.Content = drone.InShipping.DeliveryLocation;
+                deliveryDistance.Content = drone.InShipping.DeliveryDistance;
+            }
             else
-                parcelToPrint.Content = drone.InShipping.Id; //if the drone is shipping print the parcel id
+            {
+                parcelExpander.IsEnabled = false;
+                parcelExpander.IsExpanded = false;
+            }
 
             if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
             {
@@ -232,11 +274,18 @@ namespace PL
                 btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
             }
 
-            if (drone.Status != DroneStatuses.Shipping || drone.InShipping.IsPickedUp == true) //if the drone has picked up the package or it is not in shipping, hide the button of pick up
+            if (drone.Status != DroneStatuses.Shipping)
+            {
+                btnDronePickUp.Visibility = Visibility.Hidden;
+                btnDroneDeliver.Visibility = Visibility.Hidden;
+            }
+
+            if (drone.InShipping.IsPickedUp)
                 btnDronePickUp.Visibility = Visibility.Hidden;
 
-            if (drone.Status != DroneStatuses.Shipping || drone.InShipping.IsPickedUp == false) //if the drone has not picked up the package or it is not in shipping, hide the button of pick up
+            if(!drone.InShipping.IsPickedUp)
                 btnDroneDeliver.Visibility = Visibility.Hidden;
+            
         }
 
         /// <summary>
@@ -263,6 +312,10 @@ namespace PL
                 drone.Model = newModel; //update also the current drone
 
                 MessageBox.Show("Drone model updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (WrongFormatException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (IBL.BO.NoIDException ex)
             {
@@ -336,9 +389,19 @@ namespace PL
                 myBL.AssignDroneToParcel(drone.Id); //assign a parcel to the drone
                 drone = myBL.GetDrone(drone.Id); //get updated drone
 
-                parcelToPrint.Content = drone.InShipping.Id;
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+                parcelExpander.IsExpanded = true;
+                parcelExpander.IsEnabled = true;
+                parcelId.Content = drone.InShipping.Id;
+                isPickedUp.Content = drone.InShipping.IsPickedUp;
+                priority.Content = drone.InShipping.Priority;
+                weight.Content = drone.InShipping.Weight;
+                senderName.Content = drone.InShipping.Sender.Name;
+                targetName.Content = drone.InShipping.Target.Name;
+                pickUpLocation.Content = drone.InShipping.PickUpLocation;
+                deliveryLocation.Content = drone.InShipping.DeliveryLocation;
+                deliveryDistance.Content = drone.InShipping.DeliveryDistance;
 
+                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
                 btnCharge.Visibility = Visibility.Hidden;
                 btnDroneToDelivery.Visibility = Visibility.Hidden;
                 btnDronePickUp.Visibility = Visibility.Visible;
@@ -364,6 +427,7 @@ namespace PL
 
                 batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
 
+                isPickedUp.Content = drone.InShipping.IsPickedUp;
                 btnDronePickUp.Visibility = Visibility.Hidden;
                 btnDroneDeliver.Visibility = Visibility.Visible;
                 MessageBox.Show("Drone picked up parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -388,6 +452,9 @@ namespace PL
                 statusToPrint.Content = drone.Status;
                 batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
 
+                parcelExpander.IsEnabled = false;
+                parcelExpander.IsExpanded = false;
+
                 btnDroneDeliver.Visibility = Visibility.Hidden;
                 btnDroneToDelivery.Visibility = Visibility.Visible;
                 btnCharge.Visibility = Visibility.Visible;
@@ -408,6 +475,19 @@ namespace PL
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string m = modelToPrint.Text;
+            if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
+            {
+                modelToPrint.SelectionBrush = Brushes.Red;
+            }
+            else
+            {
+                modelToPrint.SelectionBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+            }
         }
     }
 }

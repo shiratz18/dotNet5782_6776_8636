@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneWindow" Height="450" Width="435" WindowStyle="None" MouseDown="Window_MouseDown">
+        Title="DroneWindow" Height="503" Width="778" WindowStyle="None" MouseDown="Window_MouseDown">
     <Grid Margin="0,0,36,0">
         <Grid x:Name="AddGrid" Height="450" Width="292" Grid.Row="0" Margin="0,10,-35,-6" Background="White">
             <Label Content="New Drone" HorizontalAlignment="Center" Margin="0,54,0,0" VerticalAlignment="Top" FontSize="20"/>
             <Label Content="ID" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" FontSize="15"/>
-            <TextBox x:Name="droneId" Text="Enter ID here" PreviewTextInput="NumbersOnly" MaxLength="4" GotFocus="idTbGotFocus" HorizontalAlignment="Left" Margin="50,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneId_TextChanged"/>
+            <TextBox x:Name="droneId" Text="Enter ID here" PreviewTextInput="numbersOnly" MaxLength="4" GotFocus="idTbGotFocus" HorizontalAlignment="Left" Margin="50,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneId_TextChanged" BorderBrush="#FFABADB3"/>
             <Label Content="Model" HorizontalAlignment="Left" Margin="50,148,0,0" VerticalAlignment="Top" FontSize="15"/>
             <TextBox x:Name="droneModel" Text="Enter model here" GotFocus="modelTbGotFocus" MaxLength="5" HorizontalAlignment="Left" Margin="50,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Foreground="#FFABADB3" Height="18" TextChanged="droneModel_TextChanged"/>
             <Label Content="Select Maximum Weight" HorizontalAlignment="Left" Margin="50,196,0,0" VerticalAlignment="Top" FontSize="15"/>
@@ -27,12 +27,12 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="102,327,0,0" VerticalAlignment="Top" Width="78" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="115,359,0,0" VerticalAlignment="Top" Width="52" Click="btnCancel_Click"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,10,-37,-6" Background="White">
-            <Label Content="Update Drone" FontSize="20" HorizontalAlignment="Left" Margin="149,29,0,0" VerticalAlignment="Top"/>
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="10,4,0,0" Background="White">
+            <Label Content="Update Drone" FontSize="20" HorizontalAlignment="Left" Margin="309,29,0,0" VerticalAlignment="Top"/>
             <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="21,71,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
             <Label x:Name="idToPrint" Content="1" FontSize="15" HorizontalAlignment="Left" Margin="95,71,0,0" VerticalAlignment="Top" Width="169"/>
             <Label x:Name="model" Content="Model:" FontSize="15" HorizontalAlignment="Left" Margin="20,110,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,114,0,0" Text="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="169"/>
+            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,114,0,0" Text="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" TextChanged="modelToPrint_TextChanged"/>
             <Label x:Name="maxWeight" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="21,145,0,0" VerticalAlignment="Top"/>
             <Label x:Name="maxWeightToPrint" Content="3" FontSize="15" HorizontalAlignment="Left" Margin="149,145,0,0" VerticalAlignment="Top" Width="110"/>
             <Label x:Name="battery" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="21,180,0,0" VerticalAlignment="Top"/>
@@ -41,15 +41,45 @@
             <Label x:Name="statusToPrint" Content="5" FontSize="15" HorizontalAlignment="Left" Margin="94,215,0,0" VerticalAlignment="Top" Width="169"/>
             <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="24,252,0,0" VerticalAlignment="Top"/>
             <Label x:Name="locationToPrint" Content="6" FontSize="15" HorizontalAlignment="Left" Margin="95,252,0,0" VerticalAlignment="Top" Width="298"/>
-            <Label x:Name="parcelInShipping" Content="Parcel in shipping:" FontSize="15" HorizontalAlignment="Left" Margin="24,287,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="parcelToPrint" Content="7" FontSize="15" HorizontalAlignment="Center" Margin="0,289,0,0" VerticalAlignment="Top" Width="104"/>
-            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Center" Margin="0,352,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="58"/>
+            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Center" Margin="0,416,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="58"/>
             <Button x:Name="btnUpdate" Content="√" HorizontalAlignment="Left" Margin="360,114,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.51,1.388" Height="22" Click="btnUpdate_Click"/>
             <Button x:Name="btnCharge" Content="Charge" HorizontalAlignment="Left" Margin="351,185,0,0" VerticalAlignment="Top" Click="btnCharge_Click"/>
             <Button x:Name="btnReleaseCharge" Content="Release Charge" HorizontalAlignment="Left" Margin="300,185,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="93"/>
-            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" HorizontalAlignment="Left" Margin="300,295,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click"/>
-            <Button x:Name="btnDronePickUp" Content="Pick up parcel" HorizontalAlignment="Left" Margin="299,294,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94"/>
-            <Button x:Name="btnDroneDeliver" Content="Deliver parcel" HorizontalAlignment="Left" Margin="299,293,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="93"/>
+            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" HorizontalAlignment="Left" Margin="300,221,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click"/>
+            <Button x:Name="btnDronePickUp" Content="Pick up parcel" HorizontalAlignment="Left" Margin="521,355,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94"/>
+            <Button x:Name="btnDroneDeliver" Content="Deliver parcel" HorizontalAlignment="Left" Margin="521,355,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="92"/>
+            <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="442,71,0,0" VerticalAlignment="Top" Width="252">
+                <Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Stretch">
+                            <Label Content="ID:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Picked up:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Priority:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Weight:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Sender:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Reciever:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Delivery distance:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Pick up location:" FontSize="11" HorizontalAlignment="Left"/>
+                            <Label Content="Delivery location:" FontSize="11" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <StackPanel x:Name="parcelStackPanel" Grid.Column="1">
+                            <Label x:Name="parcelId" Content="0" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="isPickedUp" Content="1" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="priority" Content="2" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="weight" Content="3" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="senderName" Content="4" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="targetName" Content="5" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="deliveryDistance" Content="8" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="pickUpLocation" Content="6" FontSize="11" HorizontalAlignment="Right"/>
+                            <Label x:Name="deliveryLocation" Content="7" FontSize="11" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Expander>
         </Grid>
     </Grid>
 </Window>

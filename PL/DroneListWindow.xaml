@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneListWindow" Height="640" Width="800" WindowStyle="None" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style x:Key="StyleListViewItem" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Foreground" Value="#FF23179E"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </Window.Resources>
     <Grid Name="MainGrid" Margin="297,0,0,10">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -31,10 +38,15 @@
             <Button x:Name="btnClearStatusSelection" Content="Clear" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="228,28,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" BorderBrush="White" Click="btnClearStatusSelection_Click"/>
             <Button x:Name="btnClearAllSelections" Content="Clear All" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="211,4,0,0" Grid.Row="1" VerticalAlignment="Top" Background="#FFFFFDFD" BorderBrush="#FFFFFBFB" Click="btnClearAllSelections_Click"/>
         </Grid>
-        <ListView x:Name="DronesListView" Grid.Row="1" Margin="0,0,0,20" MouseDoubleClick="DronesListView_MouseDoubleClick">
+        <ListView x:Name="DronesListView" ItemsSource="{Binding Source={StaticResource StyleListViewItem}}" Margin="-14,0,48,21" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.Row="1">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="40"/>
+                    <GridViewColumn Header="MODEL" DisplayMemberBinding="{Binding Model}" Width="70"/>
+                    <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding MaxWeight}" Width="70"/>
+                    <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="70"/>
+                    <GridViewColumn Header="STATUS" DisplayMemberBinding="{Binding Status}" Width="70"/>
+                    <GridViewColumn Header="LOCATION" DisplayMemberBinding="{Binding CurrentLocation}" Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>

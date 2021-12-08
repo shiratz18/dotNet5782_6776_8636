@@ -13,7 +13,7 @@ namespace IBL.BO
         
         public override string ToString()
         {
-            string str = $"{Sexasegimal.Lat(Latitude)} {Sexasegimal.Lng(Longitude)}";
+            string str = $"{Sexasegimal.Lat(Latitude)}\n{Sexasegimal.Lng(Longitude)}";
             return str;
         }
     }
