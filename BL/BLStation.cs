@@ -67,7 +67,7 @@ namespace IBL
                 {
                     if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
                     {
-                        if (d.CurrentLocation.Longitude==s.Location.Longitude&& d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
+                        if (d.CurrentLocation.Longitude == s.Location.Longitude && d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
                         {
                             s.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
                             {
@@ -145,6 +145,25 @@ namespace IBL
                     AvailableChargeSlots = s.ChargeSlots,
                     UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
                 });
+            }
+
+            if (stations.Count == 0) //if no stations were added
+                throw new EmptyListException("No stations to display.");
+
+            return stations;
+        }
+
+        /// <summary>
+        /// Returns the list of the station names
+        /// </summary>
+        /// <returns>List of strings</returns>
+        public IEnumerable<string> GetStationNameList()
+        {
+            List<string> stations = new List<string>();
+
+            foreach (IDAL.DO.Station s in data.GetStationList())
+            {
+                stations.Add(s.Name);
             }
 
             if (stations.Count == 0) //if no stations were added
@@ -251,11 +270,11 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateStationName(int id, string name)
         {
-            try 
-            { 
+            try
+            {
                 data.EditStationName(id, name);
             }
-            catch(IDAL.DO.NoIDException ex)
+            catch (IDAL.DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }

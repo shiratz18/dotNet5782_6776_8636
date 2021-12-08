@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        IBL.IBL myBL;
+        private IBL.IBL myBL;
 
         public MainWindow()
         {

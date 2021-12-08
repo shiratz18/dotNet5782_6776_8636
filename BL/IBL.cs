@@ -45,6 +45,11 @@ namespace IBL
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetStationList();
         /// <summary>
+        /// Returns the list of the station names
+        /// </summary>
+        /// <returns>List of strings</returns>
+        public IEnumerable<string> GetStationNameList();
+        /// <summary>
         /// Returns list of stations with available charge slots
         /// </summary>
         /// <returns>The list of stations</returns>

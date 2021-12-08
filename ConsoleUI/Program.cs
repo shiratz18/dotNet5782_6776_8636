@@ -380,16 +380,16 @@ namespace ConsoleUI
         /// </summary>
         public static void PrintAllNoDroneParcels(IDAL.IDal data)
         {
-            List<Parcel> Parcels = (List<Parcel>)data.GetNoDroneParcels();
-            Parcels.ForEach(x => { Console.WriteLine(x); });
+            //List<Parcel> Parcels = (List<Parcel>)data.GetNoDroneParcels();
+           // Parcels.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the stations with empty charge slots
         /// </summary>
         public static void PrintAllAvailableChargeStations(IDAL.IDal data)
         {
-            List<Station> Stations = (List<Station>)data.GetEmptyChargeSlots();
-            Stations.ForEach(x => { Console.WriteLine(x); });
+            //List<Station> Stations = (List<Station>)data.GetEmptyChargeSlots();
+           // Stations.ForEach(x => { Console.WriteLine(x); });
         }
         /// <summary>
         /// print all the drones that are charging
