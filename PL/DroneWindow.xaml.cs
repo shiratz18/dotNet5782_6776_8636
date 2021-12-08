@@ -71,10 +71,14 @@ namespace PL
             if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
             {
                 droneId.BorderBrush = Brushes.Red;
+                RedMes1.Content = "Incorrect entry, please try again";
+                //droneId.SelectionBrush = Brushes.Red;
             }
             else
             {
                 droneId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+                if (RedMes1 != null && RedMes1.Content !="")
+                    RedMes1.Content = "";
             }
             setOkButton();
         }
@@ -113,12 +117,13 @@ namespace PL
             if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
             {
                 droneModel.BorderBrush = Brushes.Red;
-                //label"error"
+                RedMes2.Content = "Incorrect entry, please try again";
             }
             else
             {
                 droneModel.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                //Label=""
+                if (RedMes2 != null && RedMes2.Content != "")
+                    RedMes2.Content = "";
             }
             setOkButton();
         }
@@ -483,10 +488,13 @@ namespace PL
             if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
             {
                 modelToPrint.SelectionBrush = Brushes.Red;
+                RedMes3.Content = "Incorrect entry, please try again";
             }
             else
             {
                 modelToPrint.SelectionBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+                if (RedMes3 != null && RedMes3.Content != "")
+                    RedMes3.Content = "";
             }
         }
     }
