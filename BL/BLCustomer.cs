@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Add a customer to the data list of customers
@@ -27,7 +27,7 @@ namespace IBL
             if (customer.Phone.Length != 10 || !customer.Phone.All(char.IsDigit))
                 throw new WrongFormatException($"Customer phone number must be 10 digits.");
 
-            IDAL.DO.Customer temp = new IDAL.DO.Customer()
+            DO.Customer temp = new DO.Customer()
             {
                 Id = customer.Id,
                 Name = customer.Name,
@@ -38,9 +38,9 @@ namespace IBL
 
             try
             {
-                data.AddCustomer(temp);
+                Data.AddCustomer(temp);
             }
-            catch (IDAL.DO.DoubleIDException ex)
+            catch (DO.DoubleIDException ex)
             {
                 throw new DoubleIDException(ex.Message);
             }
@@ -53,13 +53,13 @@ namespace IBL
         /// <returns>Customer object</returns>
         public Customer GetCustomer(int id)
         {
-            IDAL.DO.Customer temp;
+            DO.Customer temp;
 
             try
             {
-                temp = data.GetCustomer(id); //getting the customer from dal
+                temp = Data.GetCustomer(id); //getting the customer from dal
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -74,9 +74,9 @@ namespace IBL
                 ToCustomer = new List<ParcelAtCustomer>()
             };
 
-            IEnumerable<IDAL.DO.Parcel> parcels = data.GetParcelList();
+            IEnumerable<DO.Parcel> parcels = Data.GetParcelList();
             //for each parcel
-            foreach (IDAL.DO.Parcel p in parcels)
+            foreach (DO.Parcel p in parcels)
             {
                 if (p.SenderId == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
                     c.FromCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
@@ -96,7 +96,7 @@ namespace IBL
         {
             List<ListCustomer> customers = new List<ListCustomer>();
 
-            foreach (IDAL.DO.Customer c in data.GetCustomerList())
+            foreach (DO.Customer c in Data.GetCustomerList())
             {
                 customers.Add(new ListCustomer()
                 {
@@ -109,7 +109,7 @@ namespace IBL
             if (customers.Count == 0)
                 throw new EmptyListException("No customers to display.");
 
-            foreach (IDAL.DO.Parcel p in data.GetParcelList()) //for each parcel
+            foreach (DO.Parcel p in Data.GetParcelList()) //for each parcel
             {
                 if (p.Delivered != null) //if it was delivered
                 {
@@ -132,7 +132,7 @@ namespace IBL
         /// <param name="customer">The updates customer</param>
         public void UpdateCustomer(Customer customer)
         {
-            IDAL.DO.Customer c = new IDAL.DO.Customer()
+            DO.Customer c = new DO.Customer()
             {
                 Id = customer.Id,
                 Name = customer.Name,
@@ -140,7 +140,7 @@ namespace IBL
                 Longitude = customer.Location.Longitude,
                 Latitude = customer.Location.Latitude
             };
-            data.UpdateCustomer(c);
+            Data.UpdateCustomer(c);
         }
 
         /// <summary>
@@ -157,9 +157,9 @@ namespace IBL
 
             try
             {
-                data.EditCustomerName(id, name);
+                Data.EditCustomerName(id, name);
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -177,9 +177,9 @@ namespace IBL
 
             try
             {
-                data.EditCustomerPhone(id, phone);
+                Data.EditCustomerPhone(id, phone);
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -191,7 +191,7 @@ namespace IBL
         /// <param name="customer">The customer to remove</param>
         public void RemoveCustomer(Customer customer)
         {
-            IDAL.DO.Customer temp = new IDAL.DO.Customer()
+            DO.Customer temp = new DO.Customer()
             {
                 Id = customer.Id,
                 Name = customer.Name,
@@ -202,9 +202,9 @@ namespace IBL
 
             try
             {
-                data.RemoveCustomer(temp);
+                Data.RemoveCustomer(temp);
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }

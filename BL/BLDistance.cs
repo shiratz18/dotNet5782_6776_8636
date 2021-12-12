@@ -3,19 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+   partial class BL
     {
-        /// <summary>
-        /// Turns degrees to radians
-        /// </summary>
-        /// <param name="deg">The degree</param>
-        /// <returns>The radia</returns>
-        private static double Deg2rad(double deg) => deg * (Math.PI / 180);
-
         /// <summary>
         /// Calculates the distance between two locations
         /// </summary>
@@ -24,42 +17,14 @@ namespace IBL
         /// <returns>The distance</returns>
         private static double getDistance(Location loc1, Location loc2)
         {
-            var R = 6371; // Radius of the earth in km
-            var dLat = Deg2rad(loc2.Latitude - loc1.Latitude); // deg2rad below
-            var dLon = Deg2rad(loc2.Longitude - loc2.Latitude);
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
-                + Math.Cos(Deg2rad(loc1.Latitude)) * Math.Cos(Deg2rad(loc2.Latitude)) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            var d = R * c; // Distance in km
-            return d / 100;
+            var d1 = loc1.Latitude * (Math.PI / 180.0);
+            var num1 = loc1.Longitude * (Math.PI / 180.0);
+            var d2 = loc2.Latitude * (Math.PI / 180.0);
+            var num2 = loc2.Longitude * (Math.PI / 180.0) - num1;
+            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) + Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
+
+            return 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3))) / 1000;
         }
-
-        //private Station nearestStation(Location loc, Predicate<IDAL.DO.Station> predicate = null)
-        //{
-        //    double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
-        //    Station minStation;
-
-        //    IEnumerable<IDAL.DO.Station> stations = data.GetStationList(predicate); //get the list of all the stations
-
-        //    foreach (IDAL.DO.Station s in stations)
-        //    {
-        //        double dis = getDistance(loc, new Location() { Longitude = s.Longitude, Latitude = s.Latitude });
-        //        //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
-        //        if (dis < min)
-        //        {
-        //            min = dis;
-        //            minStation = new Station()
-        //            {
-        //                Id = s.Id,
-        //                Name = s.Name,
-        //                Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
-        //                AvailableChargeSlots = s.ChargeSlots
-        //            }; //the the nearest station will be saved here
-        //        }
-        //    }
-
-        //    return minStation;
-        //}
 
         /// <summary>
         /// finds the nearest station to a given location

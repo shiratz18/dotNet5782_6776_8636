@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BlApi
 {
     public interface IBL
     {
@@ -64,7 +64,7 @@ namespace IBL
         /// Returns the list of drones
         /// </summary>
         /// <returns>List of drones</returns>
-        public IEnumerable<ListDrone> GetDroneList();
+        public IEnumerable<ListDrone> GetDroneList(WeightCategories? wc = null, DroneStatuses? ds = null);
         /// <summary>
         /// Returns the customer according to ID
         /// </summary>
@@ -171,7 +171,7 @@ namespace IBL
         /// <param name="id">The ID of the customer</param>
         /// <param name="phone">The new phone number</param>
         public void UpdateCustomerPhone(int id, string phone);
-        
+
         //delete functions
 
         /// <summary>

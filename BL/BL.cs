@@ -3,28 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
+using DalApi;
+using BlApi;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL : IBL
+    partial class BL : IBL
     {
-        internal IDAL.IDal data;
+        internal IDal Data;
         internal double AvailableConsumption, LightWeightConsumption, MediumWeightConsumption, HeavyWeightConsumption, DroneChargingRate;
         internal List<ListDrone> Drones { get; set; }
         internal static Random R = new Random();
 
+        private static BL instance = null;
+        private static readonly object padlock = new object();
+
+        public static BL Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (padlock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new BL();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
         /// <summary>
         /// constructor
         /// </summary>
-        public BL()
+        private BL()
         {
             //intializing data with a DalObject
-            data = new DalObject.DalObject();
+            Data = DalFactory.GetDal("DalObject");
 
             //getting electricity consumption of drones
             double[] temp = new double[5];
-            temp = data.GetDroneElectricityConsumption();
+            temp = Data.GetDroneElectricityConsumption();
             AvailableConsumption = temp[0];
             LightWeightConsumption = temp[1];
             MediumWeightConsumption = temp[2];
@@ -35,16 +58,16 @@ namespace IBL
             Drones = new List<ListDrone>();
 
             //getting the list of all the drones
-            IEnumerable<IDAL.DO.Drone> tempDrones = data.GetDroneList();
+            IEnumerable<DO.Drone> tempDrones = Data.GetDroneList();
             //getting the list of all the parcels that have a drone but were not yet delivered
-            IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList(p => { return p.DroneId != 0 && p.Delivered == null; });
+            IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => { return p.DroneId != 0 && p.Delivered == null; });
             //getting the lisat of all the stations
-            IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList();
+            IEnumerable<DO.Station> tempStations = Data.GetStationList();
             //getting the list if all the customers
-            IEnumerable<IDAL.DO.Customer> tempCustomers = data.GetCustomerList();
+            IEnumerable<DO.Customer> tempCustomers = Data.GetCustomerList();
 
             //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
-            foreach (IDAL.DO.Drone d in tempDrones)
+            foreach (DO.Drone d in tempDrones)
             {
                 Drones.Add(new ListDrone
                 {
@@ -56,7 +79,7 @@ namespace IBL
             }
 
             //checking all the parcels in dal to update drones that are currently shipping parcels
-            foreach (IDAL.DO.Parcel p in tempParcels) //fore each parcel in the list of parcels from dal
+            foreach (DO.Parcel p in tempParcels) //fore each parcel in the list of parcels from dal
             {
                 var drone = Drones.Find(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
                 if (drone == null)
@@ -66,25 +89,25 @@ namespace IBL
                 drone.Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
                 drone.ParcelId = p.Id; //updating the parcel of the drone to be this parcel
 
-                IDAL.DO.Customer sender = data.GetCustomer(p.SenderId); //getting the sender of the package
+                DO.Customer sender = Data.GetCustomer(p.SenderId); //getting the sender of the package
                 Location senderLoc = new Location { Longitude = sender.Longitude, Latitude = sender.Latitude }; //saving the location of the sender
-                IDAL.DO.Customer target = data.GetCustomer(p.TargetId); //getting the sender of the package
+                DO.Customer target = Data.GetCustomer(p.TargetId); //getting the sender of the package
                 Location targetLoc = new Location { Longitude = target.Longitude, Latitude = target.Latitude }; //saving the location of the target
 
                 //finding the location of the nearest station to the sender
                 int station1 = nearestStationId(senderLoc); //getting the id of the nearest station
                 Location station1Loc = new Location //saving the location of that station
                 {
-                    Longitude = data.GetStation(station1).Longitude,
-                    Latitude = data.GetStation(station1).Latitude,
+                    Longitude = Data.GetStation(station1).Longitude,
+                    Latitude = Data.GetStation(station1).Latitude,
                 };
 
                 //finding the location of the nearest station to the target
                 int station2 = nearestStationId(targetLoc); //getting the id of the nearest station
                 Location station2Loc = new Location //saving the location of that station
                 {
-                    Longitude = data.GetStation(station2).Longitude,
-                    Latitude = data.GetStation(station2).Latitude,
+                    Longitude = Data.GetStation(station2).Longitude,
+                    Latitude = Data.GetStation(station2).Latitude,
                 };
 
                 //the total distance the drone needs to go for the delivery
@@ -140,8 +163,8 @@ namespace IBL
                     int id = nearestStationId(d.CurrentLocation);
                     Location temp = new Location
                     {
-                        Longitude = data.GetStation(id).Longitude,
-                        Latitude = data.GetStation(id).Latitude,
+                        Longitude = Data.GetStation(id).Longitude,
+                        Latitude = Data.GetStation(id).Latitude,
                     };
                     d.Battery = R.Next((int)(getDistance(d.CurrentLocation, temp) * AvailableConsumption), 100); //battery between the minimum battery needed to get to the nearest station, and full battery
                 }

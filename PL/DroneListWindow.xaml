@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="640" Width="800" WindowStyle="None" MouseDown="Window_MouseDown">
+        Title="Your Drones" Height="640" Width="800" MouseDown="Window_MouseDown">
     <Window.Resources>
         <Style x:Key="StyleListViewItem" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

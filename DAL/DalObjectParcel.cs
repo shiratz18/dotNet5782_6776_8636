@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
+using DO;
 
 namespace DalObject
 {
-    public partial class DalObject
+   partial class DalObject
     {
         /// <summary>
         /// adds a parcel to the list of parcels

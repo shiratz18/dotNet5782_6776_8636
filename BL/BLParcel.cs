@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Add a parcel to the list
@@ -26,12 +26,12 @@ namespace IBL
                 throw new NoIDException(ex.Message);
             }
 
-            IDAL.DO.Parcel temp = new IDAL.DO.Parcel()
+            DO.Parcel temp = new DO.Parcel()
             {
                 SenderId = parcel.Sender.Id,
                 TargetId = parcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)parcel.Weight,
-                Priority = (IDAL.DO.Priorities)parcel.Priority,
+                Weight = (DO.WeightCategories)parcel.Weight,
+                Priority = (DO.Priorities)parcel.Priority,
                 Requested = DateTime.Now,
                 DroneId = 0,
                 Scheduled = DateTime.MinValue,
@@ -41,7 +41,7 @@ namespace IBL
 
             try
             {
-                data.AddParcel(temp);
+                Data.AddParcel(temp);
             }
             catch (DoubleIDException ex)
             {
@@ -55,13 +55,13 @@ namespace IBL
         /// <param name="parcel">The updated parcel</param>
         public void UpdateParcel(Parcel parcel)
         {
-            IDAL.DO.Parcel temp = new IDAL.DO.Parcel()
+            DO.Parcel temp = new DO.Parcel()
             {
                 Id = parcel.Id,
                 SenderId = parcel.Sender.Id,
                 TargetId = parcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)parcel.Weight,
-                Priority = (IDAL.DO.Priorities)parcel.Priority,
+                Weight = (DO.WeightCategories)parcel.Weight,
+                Priority = (DO.Priorities)parcel.Priority,
                 Requested = parcel.Requested,
                 DroneId = parcel.AssignedDrone.Id,
                 Scheduled = parcel.Scheduled,
@@ -69,7 +69,7 @@ namespace IBL
                 Delivered = parcel.Delivered
             };
 
-            data.UpdateParcel(temp);
+            Data.UpdateParcel(temp);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace IBL
         {
             try
             {
-                IDAL.DO.Parcel temp = data.GetParcel(id); //get the parcel from the data layer
+                DO.Parcel temp = Data.GetParcel(id); //get the parcel from the data layer
 
                 Parcel p = new Parcel() //copy the fields to a bl parel type
                 {
@@ -99,7 +99,7 @@ namespace IBL
 
                 return p;
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -111,17 +111,17 @@ namespace IBL
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetParcelList()
         {
-            IEnumerable<IDAL.DO.Parcel> parcels = data.GetParcelList(); //getting the parcels from data layer
+            IEnumerable<DO.Parcel> parcels = Data.GetParcelList(); //getting the parcels from data layer
 
             List<ListParcel> listParcels = new List<ListParcel>();
 
-            foreach (IDAL.DO.Parcel p in parcels)
+            foreach (DO.Parcel p in parcels)
             {
                 ListParcel temp = new ListParcel()
                 {
                     Id = p.Id,
-                    SenderName = data.GetCustomer(p.SenderId).Name,
-                    TargetName = data.GetCustomer(p.TargetId).Name,
+                    SenderName = Data.GetCustomer(p.SenderId).Name,
+                    TargetName = Data.GetCustomer(p.TargetId).Name,
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority
                 };
@@ -146,19 +146,19 @@ namespace IBL
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetNoDroneParcelList()
         {
-            IEnumerable<IDAL.DO.Parcel> temps = data.GetParcelList(p => { return p.DroneId == 0; });
+            IEnumerable<DO.Parcel> temps = Data.GetParcelList(p => { return p.DroneId == 0; });
             if (temps.Count() == 0)
                 throw new EmptyListException("No Parcels with no drone to display");
 
             List<ListParcel> parcels = new List<ListParcel>();
 
-            foreach (IDAL.DO.Parcel p in temps)
+            foreach (DO.Parcel p in temps)
             {
                 ListParcel temp = new ListParcel()
                 {
                     Id = p.Id,
-                    SenderName = data.GetCustomer(p.SenderId).Name,
-                    TargetName = data.GetCustomer(p.TargetId).Name,
+                    SenderName = Data.GetCustomer(p.SenderId).Name,
+                    TargetName = Data.GetCustomer(p.TargetId).Name,
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priorities)p.Priority
                 };
@@ -182,11 +182,11 @@ namespace IBL
         /// <returns>The list of parcels</returns>
         private IEnumerable<Parcel> getListOfParcels()
         {
-            IEnumerable<IDAL.DO.Parcel> parcels = data.GetParcelList(); //getting the parcels from data layer
+            IEnumerable<DO.Parcel> parcels = Data.GetParcelList(); //getting the parcels from data layer
 
             List<Parcel> ps = new List<Parcel>();
 
-            foreach (IDAL.DO.Parcel p in parcels)
+            foreach (DO.Parcel p in parcels)
             {
                 Parcel temp = new Parcel()
                 {
@@ -217,12 +217,12 @@ namespace IBL
         {
             List<Parcel> parcels = new List<Parcel>();
 
-            IEnumerable<IDAL.DO.Parcel> tempParcels = data.GetParcelList(p => { return p.Scheduled == null; });
+            IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => { return p.Scheduled == null; });
 
             if (tempParcels.Count() == 0)
                 throw new EmptyListException("No parcels without a drone.");
 
-            foreach (IDAL.DO.Parcel p in tempParcels)
+            foreach (DO.Parcel p in tempParcels)
             {
                 parcels.Add(new Parcel()
                 {
@@ -247,12 +247,12 @@ namespace IBL
         /// <param name="parcel">The parcel to remove</param>
         public void RemoveParcel(Parcel parcel)
         {
-            IDAL.DO.Parcel temp = new IDAL.DO.Parcel()
+            DO.Parcel temp = new DO.Parcel()
             {
                 SenderId = parcel.Sender.Id,
                 TargetId = parcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)parcel.Weight,
-                Priority = (IDAL.DO.Priorities)parcel.Priority,
+                Weight = (DO.WeightCategories)parcel.Weight,
+                Priority = (DO.Priorities)parcel.Priority,
                 Requested = DateTime.Now,
                 DroneId = 0,
                 Scheduled = DateTime.MinValue,
@@ -262,7 +262,7 @@ namespace IBL
 
             try
             {
-                data.RemoveParcel(temp);
+                Data.RemoveParcel(temp);
             }
             catch (NoIDException ex)
             {

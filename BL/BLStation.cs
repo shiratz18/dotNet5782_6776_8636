@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Adds a station to the list of station in data
@@ -24,7 +24,7 @@ namespace IBL
             if (station.AvailableChargeSlots < 0)
                 throw new InvalidNumberException($"Cannot have negative number of charging slots.");
 
-            IDAL.DO.Station temp = new IDAL.DO.Station()
+            DO.Station temp = new DO.Station()
             {
                 Id = station.Id,
                 Name = station.Name,
@@ -35,9 +35,9 @@ namespace IBL
 
             try
             {
-                data.AddStation(temp);
+                Data.AddStation(temp);
             }
-            catch (IDAL.DO.DoubleIDException)
+            catch (DO.DoubleIDException)
             {
                 throw new DoubleIDException($"Station {station.Id} already exists.");
             }
@@ -52,7 +52,7 @@ namespace IBL
         {
             try
             {
-                IDAL.DO.Station temp = data.GetStation(id); //getting the station from the data layer
+                DO.Station temp = Data.GetStation(id); //getting the station from the data layer
 
                 Station s = new Station() //copying the dal station to bll station
                 {
@@ -80,7 +80,7 @@ namespace IBL
 
                 return s;
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -93,9 +93,9 @@ namespace IBL
         /// <returns>The station</returns>
         private Station getStationByLocation(Location loc)
         {
-            IEnumerable<IDAL.DO.Station> stations = data.GetStationList(); //get the list of all the stations
+            IEnumerable<DO.Station> stations = Data.GetStationList(); //get the list of all the stations
 
-            foreach (IDAL.DO.Station s in stations)
+            foreach (DO.Station s in stations)
             {
                 if (s.Longitude == loc.Longitude && s.Latitude == loc.Latitude) //if it is in the same location
                 {
@@ -136,7 +136,7 @@ namespace IBL
         {
             List<ListStation> stations = new List<ListStation>();
 
-            foreach (IDAL.DO.Station s in data.GetStationList())
+            foreach (DO.Station s in Data.GetStationList())
             {
                 stations.Add(new ListStation()
                 {
@@ -161,7 +161,7 @@ namespace IBL
         {
             List<string> stations = new List<string>();
 
-            foreach (IDAL.DO.Station s in data.GetStationList())
+            foreach (DO.Station s in Data.GetStationList())
             {
                 stations.Add(s.Name);
             }
@@ -178,13 +178,13 @@ namespace IBL
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetAvailableChargeSlotsStationList()
         {
-            IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList(s => { return s.ChargeSlots > 0; });
+            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
             if (tempStations.Count() == 0)
                 throw new EmptyListException("No stations with avavilable charge slots.");
 
             List<ListStation> stations = new List<ListStation>();
 
-            foreach (IDAL.DO.Station s in tempStations)
+            foreach (DO.Station s in tempStations)
             {
                 stations.Add(new ListStation()
                 {
@@ -206,7 +206,7 @@ namespace IBL
         {
             List<Station> stations = new List<Station>();
 
-            foreach (IDAL.DO.Station s in data.GetStationList())
+            foreach (DO.Station s in Data.GetStationList())
             {
                 stations.Add(new Station()
                 {
@@ -226,12 +226,12 @@ namespace IBL
         /// <returns>The list of stations</returns>
         private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
-            IEnumerable<IDAL.DO.Station> tempStations = data.GetStationList(s => { return s.ChargeSlots > 0; });
+            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
             if (tempStations.Count() == 0)
                 throw new EmptyListException("No stations with avavilable charge slots.");
 
             List<Station> stations = new List<Station>();
-            foreach (IDAL.DO.Station tmp in tempStations)
+            foreach (DO.Station tmp in tempStations)
             {
                 stations.Add(new Station()
                 {
@@ -251,7 +251,7 @@ namespace IBL
         /// <param name="station">The updated station</param>
         public void UpdateStation(Station station)
         {
-            IDAL.DO.Station s = new IDAL.DO.Station()
+            DO.Station s = new DO.Station()
             {
                 Id = station.Id,
                 Name = station.Name,
@@ -260,7 +260,7 @@ namespace IBL
                 Latitude = station.Location.Latitude
             };
 
-            data.UpdateStation(s);
+            Data.UpdateStation(s);
         }
 
         /// <summary>
@@ -272,9 +272,9 @@ namespace IBL
         {
             try
             {
-                data.EditStationName(id, name);
+                Data.EditStationName(id, name);
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -287,12 +287,12 @@ namespace IBL
         /// <param name="num">The number to update</param>
         public void UpdateStationChargingSlots(int id, int number)
         {
-            IDAL.DO.Station s;
+            DO.Station s;
             try
             {
-                s = data.GetStation(id); //trying to get the station, will throw an exception if the station id doesnt exist
+                s = Data.GetStation(id); //trying to get the station, will throw an exception if the station id doesnt exist
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -317,7 +317,7 @@ namespace IBL
             }
 
             s.ChargeSlots = number - count; //num will be the number of available charging slots
-            data.UpdateStation(s); //send the updates station to the data layer
+            Data.UpdateStation(s); //send the updates station to the data layer
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace IBL
         /// <param name="station">The station to remove</param>
         public void RemoveStation(Station station)
         {
-            IDAL.DO.Station temp = new IDAL.DO.Station()
+            DO.Station temp = new DO.Station()
             {
                 Id = station.Id,
                 Name = station.Name,
@@ -337,9 +337,9 @@ namespace IBL
 
             try
             {
-                data.RemoveStation(temp);
+                Data.RemoveStation(temp);
             }
-            catch (IDAL.DO.NoIDException)
+            catch (DO.NoIDException)
             {
                 throw new NoIDException($"Station {station.Id} already exists.");
             }

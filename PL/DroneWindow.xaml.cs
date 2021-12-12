@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -9,11 +10,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL;
-using IBL.BO;
+using BlApi;
+using BO;
 
 namespace PL
 {
@@ -22,14 +24,14 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
-        private IBL.IBL myBL;
-        private IBL.BO.Drone drone;
+        private IBL myBL;
+        private Drone drone;
 
         /// <summary>
         /// Constructor for add grid
         /// </summary>
         /// <param name="bl"></param>
-        public DroneWindow(IBL.IBL bl)
+        public DroneWindow(IBL bl)
         {
             myBL = bl;
 
@@ -47,7 +49,7 @@ namespace PL
         /// </summary>
         /// <param name="bl"></param>
         /// <param name="d"></param>
-        public DroneWindow(IBL.IBL bl, IBL.BO.Drone d)
+        public DroneWindow(IBL bl, Drone d)
         {
             myBL = bl;
 
@@ -223,6 +225,7 @@ namespace PL
                 return;
             }
 
+            allowClosing = true;
             Close();
             MessageBox.Show("Drone successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -234,7 +237,12 @@ namespace PL
         /// <param name="e"></param>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+           var mb= MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (mb == MessageBoxResult.Yes)
+            {
+                allowClosing = true;
+                Close();
+            }
         }
 
         /// <summary>
@@ -301,6 +309,7 @@ namespace PL
         /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            allowClosing = true;
             Close();
         }
 
@@ -323,7 +332,7 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (IBL.BO.NoIDException ex)
+            catch (NoIDException ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -498,6 +507,59 @@ namespace PL
                 if (RedMes3 != null)
                     RedMes3.Content = "";
             }
+        }
+
+
+        //dont allow closig with x button
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+
+            if (hwndSource != null)
+            {
+                hwndSource.AddHook(HwndSourceHook);
+            }
+
+        }
+
+        private bool allowClosing = false;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        private const uint MF_BYCOMMAND = 0x00000000;
+        private const uint MF_GRAYED = 0x00000001;
+
+        private const uint SC_CLOSE = 0xF060;
+
+        private const int WM_SHOWWINDOW = 0x00000018;
+        private const int WM_CLOSE = 0x10;
+
+        private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case WM_SHOWWINDOW:
+                    {
+                        IntPtr hMenu = GetSystemMenu(hwnd, false);
+                        if (hMenu != IntPtr.Zero)
+                        {
+                            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+                        }
+                    }
+                    break;
+                case WM_CLOSE:
+                    if (!allowClosing)
+                    {
+                        handled = true;
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
         }
     }
 }

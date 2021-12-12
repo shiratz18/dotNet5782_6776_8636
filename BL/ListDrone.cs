@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace BO
 {
     public class ListDrone
     {
@@ -22,7 +22,7 @@ namespace IBL.BO
             string str = $"\nDrone {Id}:";
             str += $"\n Model - {Model}";
             str += $"\n Maximum weight - {MaxWeight}";
-            str += $"\n Battery - {Battery}%";
+            str += $"\n Battery - {string.Format("{0:0.0}", Battery)}%";
             str += $"\n Status - {Status}";
             str += $"\n Current location - {CurrentLocation}";
             if (Status == DroneStatuses.Shipping)

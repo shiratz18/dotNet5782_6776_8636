@@ -2,16 +2,34 @@
 using System.ComponentModel;
 using System.Text;
 using System.Collections.Generic;
-using IDAL.DO;
+using DalApi;
 
 namespace DalObject
 {
-    public partial class DalObject : IDAL.IDal
+    partial class DalObject : IDal
     {
-        /// <summary>
-        /// constructor for DalObject class
-        /// </summary>
-        public DalObject()
+        private static DalObject instance = null;
+        private static readonly object padlock = new object();
+
+        public static DalObject Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (padlock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new DalObject();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        private DalObject()
         {
             DataSource.Initialize();
         }

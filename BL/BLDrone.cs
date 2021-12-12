@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Add a drone to the list of drone in data
@@ -23,11 +23,11 @@ namespace IBL
                 throw new WrongFormatException("Drone model must be 5 characters.");
             }
 
-            IDAL.DO.Drone temp = new IDAL.DO.Drone() //copy the drone to a temporary DAL drone
+            DO.Drone temp = new DO.Drone() //copy the drone to a temporary DAL drone
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+                MaxWeight = (DO.WeightCategories)drone.MaxWeight
             };
 
             Station s = GetStation(stationNum); //getting the station, will throw an exception if the station does not exist
@@ -38,9 +38,9 @@ namespace IBL
 
             try //trying to add the drone to the list in data layer
             {
-                data.AddDrone(temp);
+                Data.AddDrone(temp);
             }
-            catch (IDAL.DO.DoubleIDException ex)
+            catch (DO.DoubleIDException ex)
             {
                 throw new DoubleIDException(ex.Message);
             }
@@ -57,12 +57,12 @@ namespace IBL
                 ChargingBegin = DateTime.Now
             });
 
-            IDAL.DO.DroneCharge charge = new IDAL.DO.DroneCharge()
+            DO.DroneCharge charge = new DO.DroneCharge()
             {
                 DroneId = drone.Id,
                 StationId = stationNum
             };
-            data.AddDroneCharge(charge); //adding drone charge to the list in data source
+            Data.AddDroneCharge(charge); //adding drone charge to the list in data source
 
             UpdateStationChargingSlots(stationNum, s.AvailableChargeSlots - 1); //update the station to have one less charging slots           
         }
@@ -100,22 +100,77 @@ namespace IBL
         /// Returns the list of drones
         /// </summary>
         /// <returns>List of drones</returns>
-        public IEnumerable<ListDrone> GetDroneList()
+        public IEnumerable<ListDrone> GetDroneList(WeightCategories? wc = null, DroneStatuses? ds = null)
         {
             List<ListDrone> tmp = new List<ListDrone>();
-            //   if()
-            foreach (ListDrone d in Drones)
-                tmp.Add(new ListDrone()
+
+            if (wc != null) //if the weight filter is not null
+            {
+                if (ds != null) //if also the status filter is not null then return a filtered list according to both of thme
                 {
-                    Id = d.Id,
-                    Battery = d.Battery,
-                    ChargingBegin = d.ChargingBegin,
-                    Status = d.Status,
-                    CurrentLocation = d.CurrentLocation,
-                    MaxWeight = d.MaxWeight,
-                    Model = d.Model,
-                    ParcelId = d.ParcelId
-                });
+                    foreach (ListDrone d in Drones)
+                        if (d.MaxWeight == wc && d.Status == ds)
+                            tmp.Add(new ListDrone()
+                            {
+                                Id = d.Id,
+                                Battery = d.Battery,
+                                ChargingBegin = d.ChargingBegin,
+                                Status = d.Status,
+                                CurrentLocation = d.CurrentLocation,
+                                MaxWeight = d.MaxWeight,
+                                Model = d.Model,
+                                ParcelId = d.ParcelId
+                            });
+                }
+                else //otherwise return a filtered list only according to the weight
+                {
+                    foreach (ListDrone d in Drones)
+                        if (d.MaxWeight == wc)
+                            tmp.Add(new ListDrone()
+                            {
+                                Id = d.Id,
+                                Battery = d.Battery,
+                                ChargingBegin = d.ChargingBegin,
+                                Status = d.Status,
+                                CurrentLocation = d.CurrentLocation,
+                                MaxWeight = d.MaxWeight,
+                                Model = d.Model,
+                                ParcelId = d.ParcelId
+                            });
+                }
+            }
+            else if (ds != null) //otherwise if only the status isnt null return a filtered list according to the status
+            {
+                foreach (ListDrone d in Drones)
+                    if (d.Status == ds)
+                        tmp.Add(new ListDrone()
+                        {
+                            Id = d.Id,
+                            Battery = d.Battery,
+                            ChargingBegin = d.ChargingBegin,
+                            Status = d.Status,
+                            CurrentLocation = d.CurrentLocation,
+                            MaxWeight = d.MaxWeight,
+                            Model = d.Model,
+                            ParcelId = d.ParcelId
+                        });
+            }
+            else //otherwise return the entire list
+            {
+                foreach (ListDrone d in Drones)
+                    tmp.Add(new ListDrone()
+                    {
+                        Id = d.Id,
+                        Battery = d.Battery,
+                        ChargingBegin = d.ChargingBegin,
+                        Status = d.Status,
+                        CurrentLocation = d.CurrentLocation,
+                        MaxWeight = d.MaxWeight,
+                        Model = d.Model,
+                        ParcelId = d.ParcelId
+                    });
+            }
+
             if (Drones.Count == 0)
                 throw new EmptyListException("No drones to display.");
             return tmp;
@@ -143,14 +198,14 @@ namespace IBL
 
             Drones[Drones.FindIndex(x => x.Id == drone.Id)] = ld; //updating the drone in the list of drones in bll
 
-            IDAL.DO.Drone d = new IDAL.DO.Drone()
+            DO.Drone d = new DO.Drone()
             {
                 Id = drone.Id,
-                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
+                MaxWeight = (DO.WeightCategories)drone.MaxWeight,
                 Model = drone.Model
             };
 
-            data.UpdateDrone(d); //update the drone in data layer
+            Data.UpdateDrone(d); //update the drone in data layer
         }
 
         /// <summary>
@@ -168,9 +223,9 @@ namespace IBL
 
             try
             {
-                data.EditDroneModel(id, name); //update the drone in data layer
+                Data.EditDroneModel(id, name); //update the drone in data layer
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -226,22 +281,22 @@ namespace IBL
             d.Status = DroneStatuses.Maintenance; //change the status to be in maintenance
             d.ChargingBegin = DateTime.Now;
 
-            IDAL.DO.Drone drone = new IDAL.DO.Drone()
+            DO.Drone drone = new DO.Drone()
             {
                 Id = d.Id,
                 Model = d.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)d.MaxWeight
+                MaxWeight = (DO.WeightCategories)d.MaxWeight
             };
-            data.UpdateDrone(drone); //update the drone in dal
+            Data.UpdateDrone(drone); //update the drone in dal
 
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots - 1); //update the station charge slots to one less
 
-            IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge()
+            DO.DroneCharge dc = new DO.DroneCharge()
             {
                 DroneId = drone.Id,
                 StationId = s.Id
             };
-            data.AddDroneCharge(dc); //add the drone charge in the data layer
+            Data.AddDroneCharge(dc); //add the drone charge in the data layer
         }
 
         /// <summary>
@@ -269,12 +324,12 @@ namespace IBL
             Station s = getStationByLocation(d.CurrentLocation);
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
 
-            IDAL.DO.DroneCharge dc = new IDAL.DO.DroneCharge()
+            DO.DroneCharge dc = new DO.DroneCharge()
             {
                 DroneId = d.Id,
                 StationId = s.Id
             };
-            data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
+            Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
         }
 
         /// <summary>
@@ -436,7 +491,7 @@ namespace IBL
             drone.Status = DroneStatuses.Shipping; //updating the status of the drone to be in shipping
             drone.ParcelId = parcel.Id; //updating the parcel the drone carries
 
-            data.AssignDroneToParcel(parcel.Id, drone.Id);
+            Data.AssignDroneToParcel(parcel.Id, drone.Id);
         }
 
         /// <summary>
@@ -474,7 +529,7 @@ namespace IBL
             }
             d.CurrentLocation = p.PickUpLocation;
 
-            data.ParcelPickUp(p.Id); //updating the parcel in dll
+            Data.ParcelPickUp(p.Id); //updating the parcel in dll
         }
 
         /// <summary>
@@ -514,7 +569,7 @@ namespace IBL
             d.Status = DroneStatuses.Available;
             d.ParcelId = 0;
 
-            data.ParcelDelivered(p.Id);
+            Data.ParcelDelivered(p.Id);
         }
 
         /// <summary>
@@ -523,21 +578,21 @@ namespace IBL
         /// <param name="drone">The drone to remove</param>
         public void RemoveDrone(Drone drone)
         {
-            IDAL.DO.Drone temp = new IDAL.DO.Drone() //copy the drone to a temporary DAL drone
+            DO.Drone temp = new DO.Drone() //copy the drone to a temporary DAL drone
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight
+                MaxWeight = (DO.WeightCategories)drone.MaxWeight
             };
 
             try
             {
-                data.RemoveDrone(temp); //removing from the list in data
+                Data.RemoveDrone(temp); //removing from the list in data
 
                 int index = Drones.FindIndex(d => d.Id == drone.Id); //finding the index for the list in bll
                 Drones.RemoveAt(index); //remove from the list in bll
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }

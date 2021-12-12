@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Returns a ParcelAtCustomer object according to parcel ID and customer ID
@@ -17,7 +17,7 @@ namespace IBL
         /// <returns>The ParcelAtCustomer object</returns>
         internal ParcelAtCustomer getParcelAtCustomer(int parcelId, int customerId)
         {
-            IDAL.DO.Parcel temp = data.GetParcel(parcelId);
+            DO.Parcel temp = Data.GetParcel(parcelId);
 
             ParcelAtCustomer p = new ParcelAtCustomer()
             {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL : IBL
+    partial class BL
     {
         /// <summary>
         /// Returns a ParcelInShipping object
@@ -16,15 +16,15 @@ namespace IBL
         /// <returns>The parcel</returns>
         private ParcelInShipping getParcelInShipping(int id)
         {
-            IDAL.DO.Parcel temp = data.GetParcel(id);
+            DO.Parcel temp = Data.GetParcel(id);
 
             ParcelInShipping parcel = new ParcelInShipping()
             {
                 Id = temp.Id,
                 Priority = (Priorities)temp.Priority,
                 Weight = (WeightCategories)temp.Weight,
-                Sender = new CustomerInParcel() { Id=temp.SenderId,Name=data.GetCustomer(temp.SenderId).Name},
-                Target = new CustomerInParcel() { Id = temp.TargetId, Name = data.GetCustomer(temp.TargetId).Name }
+                Sender = new CustomerInParcel() { Id=temp.SenderId,Name=Data.GetCustomer(temp.SenderId).Name},
+                Target = new CustomerInParcel() { Id = temp.TargetId, Name = Data.GetCustomer(temp.TargetId).Name }
             };
 
             if (temp.PickedUp == null)
@@ -32,8 +32,8 @@ namespace IBL
             else
                 parcel.IsPickedUp = true;
 
-            parcel.PickUpLocation = new Location() { Longitude=data.GetCustomer(temp.SenderId).Longitude, Latitude = data.GetCustomer(temp.SenderId).Latitude };
-            parcel.DeliveryLocation = new Location() { Longitude = data.GetCustomer(temp.TargetId).Longitude, Latitude = data.GetCustomer(temp.TargetId).Latitude };
+            parcel.PickUpLocation = new Location() { Longitude=Data.GetCustomer(temp.SenderId).Longitude, Latitude = Data.GetCustomer(temp.SenderId).Latitude };
+            parcel.DeliveryLocation = new Location() { Longitude = Data.GetCustomer(temp.TargetId).Longitude, Latitude = Data.GetCustomer(temp.TargetId).Latitude };
 
             parcel.DeliveryDistance = getDistance(parcel.PickUpLocation, parcel.DeliveryLocation);
 

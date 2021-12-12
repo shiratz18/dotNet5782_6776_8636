@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,11 +9,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL;
-using IBL.BO;
+using BlApi;
+using BO;
 
 namespace PL
 {
@@ -21,18 +23,22 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        private IBL.IBL myBL;
+        private IBL myBL;
 
         /// <summary>
         /// Window constructor
         /// </summary>
         /// <param name="bl">Business logic paramater</param>
-        public DroneListWindow(IBL.IBL bl)
+        public DroneListWindow(IBL bl)
         {
             myBL = bl;
             InitializeComponent();
 
-            DronesListView.ItemsSource = myBL.GetDroneList();
+            try
+            {
+                DronesListView.ItemsSource = myBL.GetDroneList();
+            }
+            catch (BO.EmptyListException) { }
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
@@ -54,14 +60,13 @@ namespace PL
                 //if there are no drones, catch the exception and do nothing
                 try
                 {
-                    IEnumerable<ListDrone> tmpList = myBL.GetDroneList(); //get all the drones
+                    if (WeightSelector.SelectedItem != null) //if there is a selectes weight, get all the drones with that weight and the status
+                        DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, ds);
 
-                    if (WeightSelector.SelectedItem != null) //if there is a selectes weight, get all the drones with that weight
-                        tmpList = tmpList.Where(d => d.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
-
-                    DronesListView.ItemsSource = tmpList.Where(d => d.Status == ds); //get all the drones with the selected status
+                    else
+                        DronesListView.ItemsSource = myBL.GetDroneList(null, ds); //get all the drones with the selected status
                 }
-                catch (IBL.BO.EmptyListException)
+                catch (EmptyListException)
                 { }
             }
         }
@@ -83,14 +88,13 @@ namespace PL
                 //if there are no drones, catch the exception and do nothing
                 try
                 {
-                    IEnumerable<ListDrone> tmpList = myBL.GetDroneList(); //get all the drones
-
                     if (StatusSelector.SelectedItem != null) //if there is a selected status get all the drones with that status
-                        tmpList = tmpList.Where(d => d.Status == (DroneStatuses)StatusSelector.SelectedItem);
+                        DronesListView.ItemsSource = myBL.GetDroneList(wc,(DroneStatuses)StatusSelector.SelectedItem);
 
-                    DronesListView.ItemsSource = tmpList.Where(d => d.MaxWeight == wc); //get all the drones with the selected weight
+                    else
+                        DronesListView.ItemsSource = myBL.GetDroneList(wc);   //get all the drones with the selected weight
                 }
-                catch (IBL.BO.EmptyListException)
+                catch (EmptyListException)
                 { }
             }
         }
@@ -105,12 +109,17 @@ namespace PL
             new DroneWindow(myBL).ShowDialog(); //open add drone window
 
             //update the list
-            IEnumerable<ListDrone> tmpList = myBL.GetDroneList();
             if (WeightSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
-            if (StatusSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.Status == (DroneStatuses)StatusSelector.SelectedItem);
-            DronesListView.ItemsSource = tmpList;
+            {
+                if (StatusSelector.SelectedItem != null)
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, (DroneStatuses)StatusSelector.SelectedItem);
+                else
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
+            }
+            else if (StatusSelector.SelectedItem != null)
+                DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
+            else
+                DronesListView.ItemsSource = myBL.GetDroneList();
         }
 
         /// <summary>
@@ -120,18 +129,23 @@ namespace PL
         /// <param name="e"></param>
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            IBL.BO.ListDrone tmp = (IBL.BO.ListDrone)DronesListView.SelectedItem;
+            ListDrone tmp = (ListDrone)DronesListView.SelectedItem;
 
-            IBL.BO.Drone d = myBL.GetDrone(tmp.Id); //get the drone information from the selected drone
+            Drone d = myBL.GetDrone(tmp.Id); //get the drone information from the selected drone
 
             new DroneWindow(myBL, d).ShowDialog(); //open action window
 
-            IEnumerable<ListDrone> tmpList = myBL.GetDroneList();
             if (WeightSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
-            if (StatusSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.Status == (DroneStatuses)StatusSelector.SelectedItem);
-            DronesListView.ItemsSource = tmpList;
+            {
+                if (StatusSelector.SelectedItem != null)
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, (DroneStatuses)StatusSelector.SelectedItem);
+                else
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
+            }
+            else if (StatusSelector.SelectedItem != null)
+                DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
+            else
+                DronesListView.ItemsSource = myBL.GetDroneList();
         }
 
         /// <summary>
@@ -141,6 +155,7 @@ namespace PL
         /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            allowClosing = true;
             this.Close();
         }
 
@@ -163,10 +178,10 @@ namespace PL
         {
             WeightSelector.SelectedItem = null;
 
-            IEnumerable<ListDrone> tmpList = myBL.GetDroneList();
             if (StatusSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.Status == (DroneStatuses)StatusSelector.SelectedItem);
-            DronesListView.ItemsSource = tmpList;
+                DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
+            else
+                DronesListView.ItemsSource = myBL.GetDroneList();
 
             weightLabel.Content = "Weight";
         }
@@ -180,10 +195,11 @@ namespace PL
         {
             StatusSelector.SelectedItem = null;
 
-            IEnumerable<ListDrone> tmpList = myBL.GetDroneList();
             if (WeightSelector.SelectedItem != null)
-                tmpList = tmpList.Where(d => d.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
-            DronesListView.ItemsSource = tmpList;
+                DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
+
+            else
+                DronesListView.ItemsSource = myBL.GetDroneList();
 
             statusLabel.Content = "Status";
         }
@@ -202,6 +218,58 @@ namespace PL
 
             weightLabel.Content = "Weight";
             statusLabel.Content = "Status";
+        }
+
+        //dont allow closig with x button
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
+
+            if (hwndSource != null)
+            {
+                hwndSource.AddHook(HwndSourceHook);
+            }
+
+        }
+
+        private bool allowClosing = false;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+        private const uint MF_BYCOMMAND = 0x00000000;
+        private const uint MF_GRAYED = 0x00000001;
+
+        private const uint SC_CLOSE = 0xF060;
+
+        private const int WM_SHOWWINDOW = 0x00000018;
+        private const int WM_CLOSE = 0x10;
+
+        private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case WM_SHOWWINDOW:
+                    {
+                        IntPtr hMenu = GetSystemMenu(hwnd, false);
+                        if (hMenu != IntPtr.Zero)
+                        {
+                            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+                        }
+                    }
+                    break;
+                case WM_CLOSE:
+                    if (!allowClosing)
+                    {
+                        handled = true;
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
         }
     }
 }

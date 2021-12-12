@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         /// <summary>
         /// Returns a customer in parcel according to ID
@@ -18,7 +18,7 @@ namespace IBL
         {
             try
             {
-                IDAL.DO.Customer temp = data.GetCustomer(id); //getteing the customer from the data layer
+                DO.Customer temp = Data.GetCustomer(id); //getteing the customer from the data layer
 
                 CustomerInParcel c = new CustomerInParcel()
                 {
@@ -27,7 +27,7 @@ namespace IBL
                 };
                 return c;
             }
-            catch (IDAL.DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
