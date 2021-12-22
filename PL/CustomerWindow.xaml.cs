@@ -12,32 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
-
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for CustomerListWindow.xaml
+    /// Interaction logic for CustomerWindow.xaml
     /// </summary>
-    public partial class CustomerListWindow : Window
+    public partial class CustomerWindow : Window
     {
         private IBL myBL;
-
-        public CustomerListWindow(IBL bl)
+        public CustomerWindow(IBL bl)
         {
             myBL = bl;
+            
             InitializeComponent();
-            try
-            {
-                CustomersListView.ItemsSource = myBL.GetCustomerList();
-            }
-            catch (BO.EmptyListException) { }
         }
-
-        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-       
     }
 }

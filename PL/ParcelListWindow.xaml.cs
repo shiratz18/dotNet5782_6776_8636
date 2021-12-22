@@ -26,11 +26,18 @@ namespace PL
         {
             myBL = bl;
             InitializeComponent();
+            try
+            {
+                ParcelsListView.ItemsSource = myBL.GetParcelList();
+            }
+            catch (BO.EmptyListException) { }
         }
 
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-
+            new ParcelWindow(myBL).ShowDialog();
         }
+
+        
     }
 }
