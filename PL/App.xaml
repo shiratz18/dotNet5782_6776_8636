@@ -5,7 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ControlTemplate x:Key="btnTemplate" TargetType="Button">
-            
+
         </ControlTemplate>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="Black"></Setter>
@@ -47,7 +47,7 @@
         <Style TargetType="ListViewItem">
             <Setter Property="Margin" Value="0,15,0,15"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="Century Gothic"></Setter>
+            <Setter Property="FontFamily" Value="Century Gothic"/>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="FontFamily" Value="Century Gothic"/>

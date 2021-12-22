@@ -57,8 +57,9 @@ namespace PL
 
             AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
             this.Title = "Update drone"; //change the title
-
             drone = d;
+            DataContext = drone;
+
             display();
         }
 
@@ -74,7 +75,6 @@ namespace PL
             {
                 droneId.BorderBrush = Brushes.Red;
                 RedMes1.Content = "Incorrect entry, please try again";
-                //droneId.SelectionBrush = Brushes.Red;
             }
             else
             {
@@ -137,7 +137,7 @@ namespace PL
         /// <param name="e"></param>
         private void modelTbGotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox tb = sender as TextBox;
+           TextBox tb = sender as TextBox;
             tb.Text = ""; //changing the text to be empty
             tb.GotFocus -= modelTbGotFocus;
         }
@@ -149,6 +149,8 @@ namespace PL
         /// <param name="e"></param>
         private void droneMaxWeight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (droneMaxWeight.SelectedItem != null)
+                maxWeightLbl.Content = "";
             setOkButton();
         }
 
@@ -159,6 +161,8 @@ namespace PL
         /// <param name="e"></param>
         private void droneStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (droneStation.SelectedItem != null)
+                stationLbl.Content = "";
             setOkButton();
         }
 
@@ -225,7 +229,7 @@ namespace PL
                 return;
             }
 
-            allowClosing = true;
+ 
             Close();
             MessageBox.Show("Drone successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -240,7 +244,6 @@ namespace PL
            var mb= MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (mb == MessageBoxResult.Yes)
             {
-                allowClosing = true;
                 Close();
             }
         }
@@ -251,12 +254,12 @@ namespace PL
         private void display()
         {
             RedMes3.Content = " ";
-            idToPrint.Content = drone.Id;
-            modelToPrint.Text = drone.Model;
-            maxWeightToPrint.Content = drone.MaxWeight;
-            batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-            statusToPrint.Content = drone.Status;
-            locationToPrint.Content = drone.CurrentLocation;
+            //idToPrint.Content = drone.Id;
+            //modelToPrint.Text = drone.Model;
+            //maxWeightToPrint.Content = drone.MaxWeight;
+            //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+            //statusToPrint.Content = drone.Status;
+            //locationToPrint.Content = drone.CurrentLocation;
             if (drone.Status == DroneStatuses.Shipping)
             {
                 parcelExpander.IsExpanded = true;
@@ -309,7 +312,6 @@ namespace PL
         /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            allowClosing = true;
             Close();
         }
 
@@ -507,59 +509,6 @@ namespace PL
                 if (RedMes3 != null)
                     RedMes3.Content = "";
             }
-        }
-
-
-        //dont allow closig with x button
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            HwndSource hwndSource = PresentationSource.FromVisual(this) as HwndSource;
-
-            if (hwndSource != null)
-            {
-                hwndSource.AddHook(HwndSourceHook);
-            }
-
-        }
-
-        private bool allowClosing = false;
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-        [DllImport("user32.dll")]
-        private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
-
-        private const uint MF_BYCOMMAND = 0x00000000;
-        private const uint MF_GRAYED = 0x00000001;
-
-        private const uint SC_CLOSE = 0xF060;
-
-        private const int WM_SHOWWINDOW = 0x00000018;
-        private const int WM_CLOSE = 0x10;
-
-        private IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            switch (msg)
-            {
-                case WM_SHOWWINDOW:
-                    {
-                        IntPtr hMenu = GetSystemMenu(hwnd, false);
-                        if (hMenu != IntPtr.Zero)
-                        {
-                            EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
-                        }
-                    }
-                    break;
-                case WM_CLOSE:
-                    if (!allowClosing)
-                    {
-                        handled = true;
-                    }
-                    break;
-            }
-            return IntPtr.Zero;
         }
     }
 }
