@@ -27,5 +27,10 @@ namespace PL
             myBL = bl;
             InitializeComponent();
         }
+
+        private void btnAddParcel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

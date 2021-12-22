@@ -15,10 +15,10 @@
             <ListView x:Name="StationsListView" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="100"/>
-                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="300"/>
-                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="150"/>
-                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="150"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="110"/>
+                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="310"/>
+                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="180"/>
+                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="180"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="24,10,0,10" HorizontalAlignment="Left" FontWeight="Bold"/>
-            <Button x:Name="btnAddStation" Content="+" Background="LightGray" Foreground="Black" Opacity="0.5" FontSize="70" HorizontalAlignment="Left" Width="96" Click="btnAddStation_Click" Grid.Column="3" Margin="38,304,0,-339">
+            <Button x:Name="btnAddStation" ToolTip="Click to add a new drone"  Content="+" Background="LightGray" Foreground="Black" Opacity="0.5" FontSize="70" HorizontalAlignment="Left" Width="96" Click="btnAddStation_Click" Grid.Column="3" Margin="38,304,0,-339">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
