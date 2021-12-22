@@ -218,7 +218,5 @@ namespace PL
             weightLabel.Content = "Weight";
             statusLabel.Content = "Status";
         }
-
-        
     }
 }

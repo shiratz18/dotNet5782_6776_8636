@@ -39,5 +39,12 @@ namespace PL
         {
             new StationWindow(myBL).ShowDialog();
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult ans = MessageBox.Show("Are you sure you want to close this window?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (ans == MessageBoxResult.Yes)
+                Close();
+        }
     }
 }
