@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
-        mc:Ignorable="d"
-        Title="Your Drones" Height="640" Width="800" MouseDown="Window_MouseDown">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Your Drones" Height="450" Width="800" MouseDown="Window_MouseDown">
     <Window.Resources>
         <Style x:Key="StyleListViewItem" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -13,42 +13,44 @@
             <Setter Property="FontSize" Value="12"/>
         </Style>
     </Window.Resources>
-    <Grid Name="MainGrid" Margin="297,0,0,10">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="41*"/>
-        </Grid.RowDefinitions>
-        <Grid Name="LeftGrid" HorizontalAlignment="Left" Height="639" Margin="-295,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="276">
+    <Grid>
+        <Grid Name="MainGrid" Margin="297,0,0,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition/>
+                <RowDefinition Height="41*"/>
             </Grid.RowDefinitions>
-            <ComboBox x:Name="StatusSelector" ToolTip="Select status" Grid.Row="1" SelectionChanged="StatusSelector_SelectionChanged" Margin="30,24,72,59" Foreground="#FF23179E"/>
-            <Label x:Name="statusLabel" Content="Status" HorizontalAlignment="Left" Foreground="#FF23179E" FontFamily="Aharoni" Margin="46,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="85"/>
-            <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="30,54,72,29" Grid.Row="1" Foreground="#FF23179E"/>
-            <Label x:Name="weightLabel" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Top" Width="52" Foreground="#FF23179E" FontFamily="Aharoni" Grid.Row="1" Margin="46,56,0,0" />
-            <Button x:Name="btnAddDrone" Content="New Drone" Foreground="#FF23179E" FontFamily="Aharoni" Click="btnAddDrone_Click" Margin="23,22,27,27" />
-            <Button x:Name="btnClose" Content="Close" Foreground="#FF23179E" FontFamily="Aharoni" Click="btnClose_Click" Margin="18,42,10,22" Grid.Row="4"/>
-            <Label Content="Filter" FontSize="15" Foreground="#FF23179E" FontFamily="Aharoni" HorizontalAlignment="Left" Margin="23,106,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
-            <Button x:Name="btnClearWeightSelection" Content="Clear" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="228,56,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" BorderBrush="White" Click="btnClearWeightSelection_Click"/>
-            <Button x:Name="btnClearStatusSelection" Content="Clear" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="228,28,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" BorderBrush="White" Click="btnClearStatusSelection_Click"/>
-            <Button x:Name="btnClearAllSelections" Content="Clear All" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="211,4,0,0" Grid.Row="1" VerticalAlignment="Top" Background="#FFFFFDFD" BorderBrush="#FFFFFBFB" Click="btnClearAllSelections_Click"/>
+            <Grid Name="LeftGrid" HorizontalAlignment="Left" Height="449" Margin="-295,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="276">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ComboBox x:Name="StatusSelector" ToolTip="Select status" Grid.Row="1" SelectionChanged="StatusSelector_SelectionChanged" Margin="30,24,72,59" Foreground="#FF23179E"/>
+                <Label x:Name="statusLabel" Content="Status" HorizontalAlignment="Left" FontSize="13" Margin="46,26,0,0" Grid.Row="1" VerticalAlignment="Top" Width="85"/>
+                <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="30,54,72,29" Grid.Row="1" Foreground="#FF23179E"/>
+                <Label x:Name="weightLabel" Content="Weight" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Grid.Row="1" Margin="46,56,0,0" />
+                <Button x:Name="btnAddDrone" Content="New Drone" FontSize="20" Foreground="#FF23179E" FontFamily="Aharoni" Click="btnAddDrone_Click" Margin="23,22,27,27" />
+                <Button x:Name="btnClose" Content="Close" Foreground="#FF23179E" FontFamily="Aharoni" Click="btnClose_Click" Margin="18,42,10,22" Grid.Row="4"/>
+                <Label Content="Filter" FontSize="15" HorizontalAlignment="Left" Margin="23,106,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+                <Button x:Name="btnClearWeightSelection" Content="Clear" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="228,56,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" BorderBrush="White" Click="btnClearWeightSelection_Click"/>
+                <Button x:Name="btnClearStatusSelection" Content="Clear" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="228,28,0,0" Grid.Row="1" VerticalAlignment="Top" Background="White" BorderBrush="White" Click="btnClearStatusSelection_Click"/>
+                <Button x:Name="btnClearAllSelections" Content="Clear All" Foreground="#FF23179E" HorizontalAlignment="Left" Margin="211,4,0,0" Grid.Row="1" VerticalAlignment="Top" Background="#FFFFFDFD" BorderBrush="#FFFFFBFB" Click="btnClearAllSelections_Click"/>
+            </Grid>
+            <ListView x:Name="DronesListView" ItemsSource="{Binding Source={StaticResource StyleListViewItem}}" Margin="-14,0,48,21" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.Row="1">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="40"/>
+                        <GridViewColumn Header="MODEL" DisplayMemberBinding="{Binding Model}" Width="70"/>
+                        <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding MaxWeight}" Width="70"/>
+                        <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="70"/>
+                        <GridViewColumn Header="STATUS" DisplayMemberBinding="{Binding Status}" Width="70"/>
+                        <GridViewColumn Header="LOCATION" DisplayMemberBinding="{Binding CurrentLocation}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
-        <ListView x:Name="DronesListView" ItemsSource="{Binding Source={StaticResource StyleListViewItem}}" Margin="-14,0,48,21" MouseDoubleClick="DronesListView_MouseDoubleClick" Grid.Row="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="40"/>
-                    <GridViewColumn Header="MODEL" DisplayMemberBinding="{Binding Model}" Width="70"/>
-                    <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding MaxWeight}" Width="70"/>
-                    <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="70"/>
-                    <GridViewColumn Header="STATUS" DisplayMemberBinding="{Binding Status}" Width="70"/>
-                    <GridViewColumn Header="LOCATION" DisplayMemberBinding="{Binding CurrentLocation}" Width="150"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
     </Grid>
 </Window>

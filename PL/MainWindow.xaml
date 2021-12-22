@@ -4,16 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
-        mc:Ignorable="d"
-        Title="J.A.P.S" Height="450" Width="800">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="JPS" Height="450" Width="400">
     <Grid>
-        <Button x:Name="btnListView" Content="Click here to view your drones" FontSize="20" HorizontalAlignment="Left" Margin="361,84,0,0" VerticalAlignment="Top" Height="48" Width="334" Click="btnListView_Click" Background="#FFE8E7F0" BorderBrush="#FF23179E" Foreground="#FF23179E" FontFamily="Aharoni"/>
-        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="286" Height="217">
-            <Grid.Background>
-                <ImageBrush ImageSource="/WhatsApp Image 2021-12-08 at 01.03.51.jpeg"/>
-            </Grid.Background>
-
-        </Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="87*"/>
+            <RowDefinition Height="130*"/>
+        </Grid.RowDefinitions>
+        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Center" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="85,0,0,0"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="214" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="85,130,0,0" RenderTransformOrigin="0.28,0.368"/>
+        <Image Grid.Row="0" Margin="139,30,-96,90" Source="/Screenshot (130).png"/>
+        <Label Content="Log in:" FontSize="25" Grid.Row="1" Margin="148,14,113,175"/>
+        <StackPanel Grid.Row="1" Margin="0,70,0,0">
+            <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Height="50" Width="394" Background="Black" Opacity="0.15" Foreground="White"/>
+            <Button x:Name="btnClient" Content="Client" Height="50" Width="394" Background="Black" Opacity="0.15" Foreground="White" Click="btnClient_Click"/>
+            <Label Content="Dont have an account?" Margin="25,25,30,0" HorizontalAlignment="Center" FontSize="10" Foreground="#FF120374" Opacity="0.3"/>
+            <Button x:Name="btnSignUp" Content="Sign Up" Margin="0,0,0,0" FontSize="10" Foreground="#FF120374" Opacity="0.6" Height="15" Width="80" Background="{x:Null}" Click="btnSignUp_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

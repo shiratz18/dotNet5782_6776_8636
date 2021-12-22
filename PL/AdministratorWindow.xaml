@@ -1,0 +1,22 @@
+﻿<Window x:Class="PL.AdministratorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="JPS" Height="400" Width="800">
+    <Grid Margin="0,0,0,-6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="38,22,0,0"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="214" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="32,124,0,0" RenderTransformOrigin="0.28,0.368"/>
+        <Image Grid.Row="0" Margin="-111,10,154,110" Source="/Screenshot (130).png"/>
+        <Button x:Name="btnDrones" Content="Drones" Click="btnDrones_Click" Grid.Row="1" HorizontalAlignment="Left" Width="197" Height="60" Margin="0,0,0,0"/>
+        <Button x:Name="btnStations" Content="Stations" Click="btnStations_Click" Grid.Row="1" HorizontalAlignment="Left" Width="197" Height="60" Margin="202,0,0,0"/>
+        <Button x:Name="btnCustomers" Content="Customers" Grid.Row="1" HorizontalAlignment="Left" Width="197" Height="60" Margin="404,0,0,0" Click="btnCustomers_Click"/>
+        <Button x:Name="btnParcels" Content="Parcels" Grid.Row="1" HorizontalAlignment="Left" Width="197" Height="60" Margin="606,0,0,0" Click="btnParcels_Click"/>
+    </Grid>
+</Window>

@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="WhatsApp Image 2021-12-08 at 01.03.51.jpeg" />
+    <None Remove="Screenshot %28130%29.png" />
+    <None Remove="WhatsApp Image 2021-12-22 at 01.25.33.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="WhatsApp Image 2021-12-08 at 01.03.51.jpeg" />
+    <Resource Include="Screenshot (130).png" />
+    <Resource Include="WhatsApp Image 2021-12-22 at 01.25.33.jpeg" />
   </ItemGroup>
 
 </Project>

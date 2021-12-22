@@ -29,9 +29,19 @@ namespace PL
             InitializeComponent();
         }
 
-        private void btnListView_Click(object sender, RoutedEventArgs e)
+        private void btnWorker_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(myBL).Show();
+            new AdministratorPasswordWindow(myBL).Show();
+        }
+
+        private void btnSignUp_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUpWindow(myBL).Show();
+        }
+
+        private void btnClient_Click(object sender, RoutedEventArgs e)
+        {
+            new ClientWindow(myBL).Show();
         }
     }
 }
