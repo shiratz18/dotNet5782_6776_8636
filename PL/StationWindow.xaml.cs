@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -18,26 +16,16 @@ using BlApi;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for StationListWindow.xaml
+    /// Interaction logic for StationWindow.xaml
     /// </summary>
-    public partial class StationListWindow : Window
+    public partial class StationWindow : Window
     {
         private IBL myBL;
 
-        public StationListWindow(IBL bl)
+        public StationWindow(IBL bl)
         {
             myBL = bl;
             InitializeComponent();
-            try
-            {
-                StationsListView.ItemsSource = myBL.GetStationList();
-            }
-            catch (BO.EmptyListException) { }
-        }
-
-        private void btnAddStation_Click(object sender, RoutedEventArgs e)
-        {
-            new StationWindow(myBL).ShowDialog();
         }
     }
 }
