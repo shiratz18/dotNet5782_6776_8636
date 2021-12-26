@@ -324,16 +324,9 @@ namespace BL
         /// Remove a station from the list
         /// </summary>
         /// <param name="station">The station to remove</param>
-        public void RemoveStation(Station station)
+        public void RemoveStation(int id)
         {
-            DO.Station temp = new DO.Station()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Longitude = station.Location.Longitude,
-                Latitude = station.Location.Latitude,
-                ChargeSlots = station.AvailableChargeSlots
-            };
+            DO.Station temp = Data.GetStation(id);
 
             try
             {
@@ -341,7 +334,7 @@ namespace BL
             }
             catch (DO.NoIDException)
             {
-                throw new NoIDException($"Station {station.Id} already exists.");
+                throw new NoIDException($"Station {id} does not exist.");
             }
         }
     }

@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Add drone
         /// <summary>
         /// Add a drone to the list of drone in data
         /// </summary>
@@ -18,6 +19,7 @@ namespace BL
         {
             if (drone.Id < 1000 || drone.Id > 9999)
                 throw new InvalidNumberException("Drone ID must be 4 digits.");
+
             if (drone.Model.Length < 5)
             {
                 throw new WrongFormatException("Drone model must be 5 characters.");
@@ -27,14 +29,13 @@ namespace BL
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                MaxWeight = (DO.WeightCategories)drone.MaxWeight
+                MaxWeight = (DO.WeightCategories)drone.MaxWeight,
+                Active = true
             };
 
             Station s = GetStation(stationNum); //getting the station, will throw an exception if the station does not exist
             if (s.AvailableChargeSlots < 1) //checking that the station has available charging slots
-            {
                 throw new NoAvailableChargeSlotsException($"Station {stationNum} has no available charging slots.");
-            }
 
             try //trying to add the drone to the list in data layer
             {
@@ -54,7 +55,8 @@ namespace BL
                 Status = DroneStatuses.Maintenance,
                 CurrentLocation = s.Location,
                 ParcelId = 0,
-                ChargingBegin = DateTime.Now
+                ChargingBegin = DateTime.Now,
+                Active = true
             });
 
             DO.DroneCharge charge = new DO.DroneCharge()
@@ -66,7 +68,9 @@ namespace BL
 
             UpdateStationChargingSlots(stationNum, s.AvailableChargeSlots - 1); //update the station to have one less charging slots           
         }
+        #endregion
 
+        #region Get drone
         /// <summary>
         /// Returns a drone according to ID
         /// </summary>
@@ -78,6 +82,9 @@ namespace BL
                 throw new NoIDException($"Drone {id} doesn't exist");
 
             ListDrone temp = Drones.Find(d => d.Id == id); //find the drone in the list of drones
+
+            if (!temp.Active) //if the drone was deleted
+                throw new NoIDException($"Drone {id} doesn't exist");
 
             Drone drone = new Drone()
             {
@@ -95,7 +102,9 @@ namespace BL
 
             return drone;
         }
+        #endregion
 
+        #region Get drone list
         /// <summary>
         /// Returns the list of drones
         /// </summary>
@@ -109,7 +118,7 @@ namespace BL
                 if (ds != null) //if also the status filter is not null then return a filtered list according to both of thme
                 {
                     foreach (ListDrone d in Drones)
-                        if (d.MaxWeight == wc && d.Status == ds)
+                        if (d.Active && d.MaxWeight == wc && d.Status == ds)
                             tmp.Add(new ListDrone()
                             {
                                 Id = d.Id,
@@ -125,7 +134,7 @@ namespace BL
                 else //otherwise return a filtered list only according to the weight
                 {
                     foreach (ListDrone d in Drones)
-                        if (d.MaxWeight == wc)
+                        if (d.Active && d.MaxWeight == wc)
                             tmp.Add(new ListDrone()
                             {
                                 Id = d.Id,
@@ -142,7 +151,7 @@ namespace BL
             else if (ds != null) //otherwise if only the status isnt null return a filtered list according to the status
             {
                 foreach (ListDrone d in Drones)
-                    if (d.Status == ds)
+                    if (d.Active && d.Status == ds)
                         tmp.Add(new ListDrone()
                         {
                             Id = d.Id,
@@ -158,24 +167,27 @@ namespace BL
             else //otherwise return the entire list
             {
                 foreach (ListDrone d in Drones)
-                    tmp.Add(new ListDrone()
-                    {
-                        Id = d.Id,
-                        Battery = d.Battery,
-                        ChargingBegin = d.ChargingBegin,
-                        Status = d.Status,
-                        CurrentLocation = d.CurrentLocation,
-                        MaxWeight = d.MaxWeight,
-                        Model = d.Model,
-                        ParcelId = d.ParcelId
-                    });
+                    if (d.Active)
+                        tmp.Add(new ListDrone()
+                        {
+                            Id = d.Id,
+                            Battery = d.Battery,
+                            ChargingBegin = d.ChargingBegin,
+                            Status = d.Status,
+                            CurrentLocation = d.CurrentLocation,
+                            MaxWeight = d.MaxWeight,
+                            Model = d.Model,
+                            ParcelId = d.ParcelId
+                        });
             }
 
             if (Drones.Count == 0)
                 throw new EmptyListException("No drones to display.");
             return tmp;
         }
+        #endregion
 
+        #region Update drone
         /// <summary>
         /// Update a drone
         /// </summary>
@@ -185,7 +197,12 @@ namespace BL
             if (!Drones.Exists(x => x.Id == drone.Id))
                 throw new NoIDException($"Drone {drone.Id} does not exist.");
 
-            ListDrone ld = new ListDrone()
+            ListDrone ld = Drones.Find(x => x.Id == drone.Id);
+
+            if (!ld.Active)
+                throw new NoIDException($"Drone {drone.Id} does not exist.");
+
+            ListDrone tmp = new ListDrone()
             {
                 Id = drone.Id,
                 Model = drone.Model,
@@ -196,18 +213,21 @@ namespace BL
                 ParcelId = drone.InShipping.Id
             };
 
-            Drones[Drones.FindIndex(x => x.Id == drone.Id)] = ld; //updating the drone in the list of drones in bll
+            ld = tmp; //updating the drone in the list of drones in bll
 
             DO.Drone d = new DO.Drone()
             {
                 Id = drone.Id,
                 MaxWeight = (DO.WeightCategories)drone.MaxWeight,
-                Model = drone.Model
+                Model = drone.Model,
+                Active = true
             };
 
             Data.UpdateDrone(d); //update the drone in data layer
         }
+        #endregion
 
+        #region Update drone model
         /// <summary>
         /// Update the name of the drone
         /// </summary>
@@ -219,6 +239,10 @@ namespace BL
                 throw new NoIDException($"Drone {id} does not exist.");
 
             var drone = Drones.Find(d => d.Id == id);
+
+            if (!drone.Active)
+                throw new NoIDException($"Drone {id} does not exist.");
+
             drone.Model = name;
 
             try
@@ -230,7 +254,9 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
 
+        #region Charge
         /// <summary>
         /// Send a drone to charge
         /// </summary>
@@ -241,6 +267,10 @@ namespace BL
 
             //throw an exception if the drone wasnt found
             if (d == null)
+                throw new NoIDException($"Drone {id} does not exist.");
+
+            //throw an exception if d was deleted
+            if (!d.Active)
                 throw new NoIDException($"Drone {id} does not exist.");
 
             //throw an exception if the drone is not available
@@ -298,7 +328,9 @@ namespace BL
             };
             Data.AddDroneCharge(dc); //add the drone charge in the data layer
         }
+        #endregion
 
+        #region Release charge
         /// <summary>
         /// Releases a drone from charging
         /// </summary>
@@ -310,6 +342,9 @@ namespace BL
                 throw new NoIDException($"Drone {id} does not exist.");
 
             ListDrone d = Drones.Find(d => d.Id == id);
+
+            if (!d.Active)
+                throw new NoIDException($"Drone {id} does not exist.");
 
             if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
                 throw new DroneStateException($"Drone {id} is not currently charging.");
@@ -331,7 +366,9 @@ namespace BL
             };
             Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
         }
+        #endregion
 
+        #region Assign drone to parcel
         /// <summary>
         /// Assign a drone to a parcel
         /// </summary>
@@ -343,6 +380,9 @@ namespace BL
                 throw new NoIDException($"Drone {id} does not exist.");
 
             ListDrone drone = Drones.Find(d => d.Id == id);
+
+            if (!drone.Active)
+                throw new NoIDException($"Drone {id} does not exist.");
 
             //checking that the drone is available
             if (drone.Status != DroneStatuses.Available)
@@ -493,26 +533,29 @@ namespace BL
 
             Data.AssignDroneToParcel(parcel.Id, drone.Id);
         }
+        #endregion
 
+        #region Drone pick up parcel
         /// <summary>
         /// Update that a drone picked up a parcel
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         public void DronePickUp(int id)
         {
+            ListDrone d = Drones.Find(x => x.Id == id);
+
+            if (d == null || !d.Active)
+                throw new NoIDException($"Drone {id} does not exist.");
+
             Drone drone = GetDrone(id);
 
             if (drone.InShipping.Id == 0) //if the drone does not have a parcel 
-            {
                 throw new DroneStateException($"Drone {id} does not have a parcel assigned.");
-            }
+
             if (drone.InShipping.IsPickedUp) //if the parcel has already been picked up
-            {
                 throw new DroneStateException($"Drone {id} cannot pick up the parcel since it has already been picked up.");
-            }
 
             ParcelInShipping p = drone.InShipping;
-            ListDrone d = Drones.Find(x => x.Id == drone.Id);
 
             switch (p.Weight)
             {
@@ -531,13 +574,20 @@ namespace BL
 
             Data.ParcelPickUp(p.Id); //updating the parcel in dll
         }
+        #endregion
 
+        #region Drone deliver parcel
         /// <summary>
         /// Update that a drone delivered a parcel
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         public void DroneDeliver(int id)
         {
+            ListDrone d = Drones.Find(x => x.Id == id);
+
+            if (d == null || !d.Active)
+                throw new NoIDException($"Drone {id} does not exist.");
+
             Drone drone = GetDrone(id);
 
             if (drone.InShipping.Id == 0) //if the drone does not have a parcel 
@@ -550,7 +600,6 @@ namespace BL
             }
 
             ParcelInShipping p = drone.InShipping;
-            ListDrone d = Drones.Find(x => x.Id == drone.Id);
 
             switch (p.Weight)
             {
@@ -571,32 +620,33 @@ namespace BL
 
             Data.ParcelDelivered(p.Id);
         }
+        #endregion
 
+        #region Remove drone
         /// <summary>
         /// Remove a drone from the list 
         /// </summary>
         /// <param name="drone">The drone to remove</param>
-        public void RemoveDrone(Drone drone)
+        public void RemoveDrone(int id)
         {
-            DO.Drone temp = new DO.Drone() //copy the drone to a temporary DAL drone
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                MaxWeight = (DO.WeightCategories)drone.MaxWeight
-            };
-
             try
             {
-                Data.RemoveDrone(temp); //removing from the list in data
+                DO.Drone drone = new DO.Drone()
+                {
+                    Id = id
+                };
+                Data.RemoveDrone(drone); //removing from the list in data
 
-                int index = Drones.FindIndex(d => d.Id == drone.Id); //finding the index for the list in bll
-                Drones.RemoveAt(index); //remove from the list in bll
+                //deactivating the drone
+                ListDrone d = Drones.Find(x => x.Id == id);
+                d.Active = false;
             }
             catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
     }
 }
 

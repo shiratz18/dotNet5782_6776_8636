@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
 
 namespace PL
 {
@@ -23,7 +24,9 @@ namespace PL
     public partial class StationListWindow : Window
     {
         private IBL myBL;
+        private bool isGrouped;
 
+        #region Constructor
         public StationListWindow(IBL bl)
         {
             myBL = bl;
@@ -34,17 +37,97 @@ namespace PL
             }
             catch (BO.EmptyListException) { }
         }
+        #endregion
 
+        #region Close window
+        /// <summary>
+        /// Closes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        #endregion
+
+        #region Refresh
+        /// <summary>
+        /// Refreshes the list to the updates list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            StationsListView.ItemsSource = myBL.GetStationList();
+
+            if (isGrouped)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+                view.GroupDescriptions.Add(groupDescription);
+            }
+        }
+        #endregion
+
+        #region Add station
+        /// <summary>
+        /// Adds a station to the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddStation_Click(object sender, RoutedEventArgs e)
         {
             new StationWindow(myBL).ShowDialog();
-        }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult ans = MessageBox.Show("Are you sure you want to close this window?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (ans == MessageBoxResult.Yes)
-                Close();
+            StationsListView.ItemsSource = myBL.GetStationList();
+
+            if (isGrouped)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+                view.GroupDescriptions.Add(groupDescription);
+            }
         }
+        #endregion
+
+        #region Edit drone
+        /// <summary>
+        /// Opens a station windows to update the selected station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            ListStation ls = b.CommandParameter as ListStation;
+            Station s = myBL.GetStation(ls.Id);
+            // new StationWindow(myBL, b).ShowDialog();
+
+            StationsListView.ItemsSource = myBL.GetStationList();
+
+            if (isGrouped)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+                view.GroupDescriptions.Add(groupDescription);
+            }
+        }
+        #endregion
+
+        #region Group
+        /// <summary>
+        /// Groups the list by number of available chargers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGroupByNumber_Click(object sender, RoutedEventArgs e)
+        {
+            isGrouped = true;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+            view.GroupDescriptions.Add(groupDescription);
+        }
+        #endregion    
     }
 }

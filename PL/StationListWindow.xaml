@@ -8,17 +8,26 @@
         Title="Stations" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="59*"/>
-            <RowDefinition Height="375*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="37*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="0,0,0,0">
+        <Grid Grid.Row="1">
             <ListView x:Name="StationsListView" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="110"/>
-                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="310"/>
-                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="180"/>
-                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="180"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="105"/>
+                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="295"/>
+                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="173"/>
+                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="173"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
+                                        <Image Source="/Screenshot (135).png"/>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -30,16 +39,17 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="24,10,0,10" HorizontalAlignment="Left" FontWeight="Bold"/>
-            <Button x:Name="btnAddStation" ToolTip="Click to add a new drone"  Content="+" Background="LightGray" Foreground="Black" Opacity="0.5" FontSize="70" HorizontalAlignment="Left" Width="96" Click="btnAddStation_Click" Grid.Column="3" Margin="38,304,0,-339">
+            <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="10,35,0,-15" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C"/>
+            <Button x:Name="btnGroupByNumber" Content="Group by number of available chargers" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2" Margin="90,52,0,2" Click="btnGroupByNumber_Click" Grid.Column="2"/>
+            <Button x:Name="btnAddStation" ToolTip="Click to add a new station"  Content="+" Background="#FFE2EDFB" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="47" Click="btnAddStation_Click" Grid.Column="3" Margin="143,4,0,28">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <ComboBox x:Name="name" Margin="190,9,10,11" Grid.ColumnSpan="2"/>
-            <Button x:Name="btnClose" Content="Sign out" Opacity="1" Grid.Column="3" HorizontalAlignment="Left" Margin="86,0,0,0" VerticalAlignment="Top" Height="35" Width="114" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="Black" BorderThickness="1" BorderBrush="Black" Click="btnClose_Click"/>
+            <Button x:Name="btnRefresh" Content="⟳" ToolTip="Refresh" VerticalAlignment="Top" Height="35" Width="48" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="48,0,104,0" Click="btnRefresh_Click"/>
+            <Button x:Name="btnClose" Content="←" ToolTip="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="48" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click"/>
         </Grid>
     </Grid>
 </Window>

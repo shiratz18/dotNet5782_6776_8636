@@ -9,19 +9,20 @@ namespace DalObject
 {
     partial class DalObject
     {
+        #region Add drone
         /// <summary>
         /// adds a drone to the list of drones
         /// </summary>
         public void AddDrone(Drone drone)
         {
             if (DataSource.Drones.Exists(d => d.Id == drone.Id))
-            {
                 throw new DoubleIDException($"Drone {drone.Id} already exists.");
-            }
 
             DataSource.Drones.Add(drone);
         }
+        #endregion
 
+        #region Update drone
         /// <summary>
         /// updates a drone in the list
         /// </summary>
@@ -29,13 +30,13 @@ namespace DalObject
         public void UpdateDrone(Drone drone)
         {
             if (!DataSource.Drones.Exists(d => d.Id == drone.Id))
-            {
                 throw new NoIDException($"Drone {drone.Id} doesn't exists.");
-            }
 
             DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == drone.Id)] = drone;
         }
+        #endregion
 
+        #region Edit drone
         /// <summary>
         /// Updates the ID of a drone
         /// </summary>
@@ -44,9 +45,7 @@ namespace DalObject
         public void EditDroneId(int currentId, int newId)
         {
             if (!DataSource.Drones.Exists(d => d.Id == currentId))
-            {
                 throw new NoIDException($"Drone {currentId} doesn't exists.");
-            }
 
             Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == currentId)];
             drone.Id = newId;
@@ -61,9 +60,7 @@ namespace DalObject
         public void EditDroneModel(int id, string model)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
-            {
                 throw new NoIDException($"Drone {id} doesn't exists.");
-            }
 
             Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)];
             drone.Model = model;
@@ -75,18 +72,18 @@ namespace DalObject
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <param name="weight">The new maximum weight</param>
-        public void EditDroneMaxWeight(int id,WeightCategories weight)
+        public void EditDroneMaxWeight(int id, WeightCategories weight)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
-            {
                 throw new NoIDException($"Drone {id} doesn't exists.");
-            }
 
             Drone drone = DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)];
             drone.MaxWeight = weight;
             DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == id)] = drone;
         }
+        #endregion
 
+        #region Remove drone
         /// <summary>
         /// removes a drone from the list
         /// </summary>
@@ -94,37 +91,31 @@ namespace DalObject
         public void RemoveDrone(Drone drone)
         {
             if (!DataSource.Drones.Exists(d => d.Id == drone.Id))
-            {
                 throw new NoIDException($"Drone {drone.Id} doesn't exists.");
-            }
 
-            DataSource.Drones.Remove(drone);
+            drone.Active = false;
+            DataSource.Drones[DataSource.Drones.FindIndex(s => s.Id == drone.Id)] = drone;
         }
+        #endregion
 
+        #region Get drone
         /// <summary>
-        /// returns the object Drone that matches the id
+        /// Returns the object Drone that matches the id
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns></returns>
         public Drone GetDrone(int id)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
-            {
                 throw new NoIDException($"Drone {id} doesn't exists.");
-            }
 
-            return DataSource.Drones.Find(x => x.Id == id);
+            Drone d = DataSource.Drones.Find(x => x.Id == id);
+
+            return d;
         }
+        #endregion
 
-        ///// <summary>
-        ///// returns the list of drones
-        ///// </summary>
-        ///// <returns>list Drones</returns>
-        //public IEnumerable<Drone> GetDroneList()
-        //{
-        //    return DataSource.Drones;
-        //}
-
+        #region Get drone list
         /// <summary>
         /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
@@ -137,7 +128,9 @@ namespace DalObject
             else
                 return DataSource.Drones;
         }
+        #endregion
 
+        #region Get drone electricity consumption
         /// <summary>
         /// function returns an array with info about the electricity consumption of a drone
         /// </summary>
@@ -152,5 +145,6 @@ namespace DalObject
             temp[4] = DataSource.Config.ChargingRate;
             return temp;
         }
+        #endregion
     }
 }

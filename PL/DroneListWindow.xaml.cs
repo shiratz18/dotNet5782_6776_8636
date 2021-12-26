@@ -24,7 +24,9 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         private IBL myBL;
+        private bool grouped;
 
+        #region Constructor
         /// <summary>
         /// Window constructor
         /// </summary>
@@ -42,63 +44,35 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
+        #endregion
 
+        #region Close window
         /// <summary>
-        /// Filters list of drones according to status selected
+        /// Closes this window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            if (StatusSelector.SelectedItem != null)
-            {
-                DroneStatuses ds = (DroneStatuses)StatusSelector.SelectedItem;
-
-                statusLabel.Content = "";
-
-                //get all the drones with the selected status
-                //if there are no drones, catch the exception and do nothing
-                try
-                {
-                    if (WeightSelector.SelectedItem != null) //if there is a selectes weight, get all the drones with that weight and the status
-                        DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, ds);
-
-                    else
-                        DronesListView.ItemsSource = myBL.GetDroneList(null, ds); //get all the drones with the selected status
-                }
-                catch (EmptyListException)
-                { }
-            }
+            Close();
         }
+        #endregion
 
+        #region Refresh
         /// <summary>
-        /// Filters list of drones according to selected status
+        /// Refreshes the list of drones
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            if (WeightSelector.SelectedItem != null)
-            {
-                WeightCategories wc = (WeightCategories)WeightSelector.SelectedItem;
+            DronesListView.ItemsSource = myBL.GetDroneList();
 
-                weightLabel.Content = "";
-
-                //get all the drones with the selected weight category
-                //if there are no drones, catch the exception and do nothing
-                try
-                {
-                    if (StatusSelector.SelectedItem != null) //if there is a selected status get all the drones with that status
-                        DronesListView.ItemsSource = myBL.GetDroneList(wc,(DroneStatuses)StatusSelector.SelectedItem);
-
-                    else
-                        DronesListView.ItemsSource = myBL.GetDroneList(wc);   //get all the drones with the selected weight
-                }
-                catch (EmptyListException)
-                { }
-            }
+            checkFilters();
         }
+        #endregion
 
+        #region Add drone
         /// <summary>
         /// Opens new DroneWindow in order to add a drone to the list, and updates DronesListView
         /// </summary>
@@ -108,64 +82,96 @@ namespace PL
         {
             new DroneWindow(myBL).ShowDialog(); //open add drone window
 
-            //update the list
-            if (WeightSelector.SelectedItem != null)
-            {
-                if (StatusSelector.SelectedItem != null)
-                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, (DroneStatuses)StatusSelector.SelectedItem);
-                else
-                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
-            }
-            else if (StatusSelector.SelectedItem != null)
-                DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
-            else
-                DronesListView.ItemsSource = myBL.GetDroneList();
+            checkFilters();
         }
+        #endregion
 
+        #region Edit drone
         /// <summary>
         /// Opens a new DroneWindow in order to update the selcted drone
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            ListDrone tmp = (ListDrone)DronesListView.SelectedItem;
+            Button b = sender as Button;
+            ListDrone ld = b.CommandParameter as ListDrone;
+            Drone d = myBL.GetDrone(ld.Id);
 
-            Drone d = myBL.GetDrone(tmp.Id); //get the drone information from the selected drone
+            new DroneWindow(myBL, d).ShowDialog();
 
-            new DroneWindow(myBL, d).ShowDialog(); //open action window
+            checkFilters();
+        }
+        #endregion
 
+        #region Remove drone
+        /// <summary>
+        /// Removes the selected drone from the list of drones
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult ans = MessageBox.Show("Are you sure you want to delete this drone?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (ans == MessageBoxResult.Yes)
+            {
+                Button b = sender as Button;
+                ListDrone ld = b.CommandParameter as ListDrone;
+                myBL.RemoveDrone(ld.Id);
+
+         //       DronesListView.ItemsSource = myBL.GetDroneList();
+
+                checkFilters();
+            }
+        }
+        #endregion
+
+        #region Filters and grouping
+
+        #region Status filter
+        /// <summary>
+        /// Filters list of drones according to status selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StatusSelector.SelectedItem != null)
+            {
+                statusLabel.Content = "";
+
+                checkFilters();
+            }
+        }
+
+        /// <summary>
+        /// clears status selction
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClearStatusSelection_Click(object sender, RoutedEventArgs e)
+        {
+            StatusSelector.SelectedItem = null;
+            statusLabel.Content = "- All Statuses -";
+
+            checkFilters();
+        }
+        #endregion
+
+        #region Weight filter
+        /// <summary>
+        /// Filters list of drones according to selected status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             if (WeightSelector.SelectedItem != null)
             {
-                if (StatusSelector.SelectedItem != null)
-                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, (DroneStatuses)StatusSelector.SelectedItem);
-                else
-                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
+                weightLabel.Content = "";
+
+                checkFilters();
             }
-            else if (StatusSelector.SelectedItem != null)
-                DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
-            else
-                DronesListView.ItemsSource = myBL.GetDroneList();
-        }
-
-        /// <summary>
-        /// Closes this window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// Drags the window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
         }
 
         /// <summary>
@@ -177,46 +183,47 @@ namespace PL
         {
             WeightSelector.SelectedItem = null;
 
-            if (StatusSelector.SelectedItem != null)
+            weightLabel.Content = "- All Weights -";
+
+            checkFilters();
+        }
+        #endregion
+
+        #region Group
+        private void btnGroupByStatus_Click(object sender, RoutedEventArgs e)
+        {
+            grouped = true;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
+            view.GroupDescriptions.Add(groupDescription);
+        }
+        #endregion
+
+        /// <summary>
+        /// Checks if any filters are applied and updates list accordingly
+        /// </summary>
+        private void checkFilters()
+        {
+            if (WeightSelector.SelectedItem != null)
+            {
+                if (StatusSelector.SelectedItem != null)
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem, (DroneStatuses)StatusSelector.SelectedItem);
+                else
+                    DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
+            }
+            else if (StatusSelector.SelectedItem != null)
                 DronesListView.ItemsSource = myBL.GetDroneList(null, (DroneStatuses)StatusSelector.SelectedItem);
             else
                 DronesListView.ItemsSource = myBL.GetDroneList();
 
-            weightLabel.Content = "Weight";
+            if(grouped)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
+                view.GroupDescriptions.Add(groupDescription);
+            }
         }
 
-        /// <summary>
-        /// clears status selction
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnClearStatusSelection_Click(object sender, RoutedEventArgs e)
-        {
-            StatusSelector.SelectedItem = null;
-
-            if (WeightSelector.SelectedItem != null)
-                DronesListView.ItemsSource = myBL.GetDroneList((WeightCategories)WeightSelector.SelectedItem);
-
-            else
-                DronesListView.ItemsSource = myBL.GetDroneList();
-
-            statusLabel.Content = "Status";
-        }
-
-        /// <summary>
-        /// clears all selections
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnClearAllSelections_Click(object sender, RoutedEventArgs e)
-        {
-            WeightSelector.SelectedItem = null;
-            StatusSelector.SelectedItem = null;
-
-            DronesListView.ItemsSource = myBL.GetDroneList();
-
-            weightLabel.Content = "Weight";
-            statusLabel.Content = "Status";
-        }
+        #endregion
     }
 }

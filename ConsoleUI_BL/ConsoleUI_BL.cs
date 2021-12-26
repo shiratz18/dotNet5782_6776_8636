@@ -5,18 +5,21 @@
 //using System.Threading.Tasks;
 //using IBL.BO;
 
-//namespace ConsoleUI_BL
-//{
-//    class ConsoleUI_BL
-//    {
-//        public enum MenuOptions { Exit, Add, Update, DisplayOne, DisplayList }
-//        public enum AddOptions { Exit, Station, Drone, Customer, Parcel }
-//        public enum UpdateOptions { Exit, Drone, Station, Customer, DroneCharge, ReleaseCharge, ParcelToDrone, PickUp, Deliver }
-//        public enum DisplayOptions { Exit, Station, Drone, Customer, Parcel, NoDroneParcel, AvailableChargeStations }
-//        public enum DistanceOptions { Exit, Station, Customer }
+namespace ConsoleUI_BL
+{
+    class ConsoleUI_BL
+    {
+        //        public enum MenuOptions { Exit, Add, Update, DisplayOne, DisplayList }
+        //        public enum AddOptions { Exit, Station, Drone, Customer, Parcel }
+        //        public enum UpdateOptions { Exit, Drone, Station, Customer, DroneCharge, ReleaseCharge, ParcelToDrone, PickUp, Deliver }
+        //        public enum DisplayOptions { Exit, Station, Drone, Customer, Parcel, NoDroneParcel, AvailableChargeStations }
+        //        public enum DistanceOptions { Exit, Station, Customer }
 
-//        static void Main(string[] args)
-//        {
+        static void Main(string[] args)
+        {
+        }
+    }
+}
 //            IBL.IBL myBL = new IBL.BL();
 //            MainMenu(myBL);
 //        }
@@ -279,7 +282,7 @@
 //                        int.TryParse(Console.ReadLine(), out id);
 //                        name = Console.ReadLine(); 
 //                        phone = Console.ReadLine(); 
-                        
+
 //                        if (!String.IsNullOrEmpty(phone))
 //                        {
 //                            try
@@ -361,7 +364,7 @@
 //                    case UpdateOptions.ParcelToDrone:
 //                        Console.WriteLine("Enter the drone ID:");
 //                        int.TryParse(Console.ReadLine(), out id); //, drone exists, drone available
-                        
+
 //                        try
 //                        {
 //                            myBL.AssignDroneToParcel(id);
@@ -383,7 +386,7 @@
 //                    case UpdateOptions.PickUp:
 //                        Console.WriteLine("Enter the drone ID:");
 //                        int.TryParse(Console.ReadLine(), out id); // drone exists, drone assigned to parcel
-                        
+
 //                        try
 //                        {
 //                            myBL.DronePickUp(id);
@@ -401,7 +404,7 @@
 //                    case UpdateOptions.Deliver:
 //                        Console.WriteLine("Enter the drone ID:");
 //                        int.TryParse(Console.ReadLine(), out id); //drone exists, drone picked up parcel
-                        
+
 //                        try
 //                        {
 //                            myBL.DroneDeliver(id);

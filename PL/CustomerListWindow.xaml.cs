@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
 
 namespace PL
 {
@@ -22,6 +23,11 @@ namespace PL
     {
         private IBL myBL;
 
+        #region Consttructor
+        /// <summary>
+        /// Contructor
+        /// </summary>
+        /// <param name="bl"></param>
         public CustomerListWindow(IBL bl)
         {
             myBL = bl;
@@ -32,12 +38,45 @@ namespace PL
             }
             catch (BO.EmptyListException) { }
         }
+        #endregion
 
+        #region Close window
+        /// <summary>
+        /// Closes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        #endregion
+
+        #region Refresh
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            CustomersListView.ItemsSource = myBL.GetCustomerList();
+        }
+        #endregion
+
+        #region Add customer
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
+            new CustomerWindow(myBL);
 
+            CustomersListView.ItemsSource = myBL.GetCustomerList();
         }
+        #endregion
 
-       
+        #region Edit
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            ListCustomer lc = b.CommandParameter as ListCustomer;
+            Customer c = myBL.GetCustomer(lc.Id);
+
+            // new CustomerWindow(myBL, lc);
+        }
+        #endregion
     }
 }

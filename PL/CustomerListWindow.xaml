@@ -4,24 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
-        mc:Ignorable="d"  ResizeMode="NoResize" WindowStyle="None"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="Customers" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="59*"/>
-            <RowDefinition Height="375*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="37*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="0,0,0,0">
-            <ListView x:Name="CustomersListView" Grid.ColumnSpan="3">
+        <Grid Grid.Row="1">
+            <ListView x:Name="CustomersListView">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="100"/>
-                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="100"/>
-                        <GridViewColumn Header="PHONE" DisplayMemberBinding="{Binding Phone}" Width="100"/>
-                        <GridViewColumn Header="?" DisplayMemberBinding="{Binding DeliveredFromCustomer}" Width="100"/>
-                        <GridViewColumn Header="?" DisplayMemberBinding="{Binding NotDeliveredFromCustomer}" Width="100"/>
-                        <GridViewColumn Header="?" DisplayMemberBinding="{Binding DeliveredToCustomer}" Width="150"/>
-                        <GridViewColumn Header="?" DisplayMemberBinding="{Binding NotDeliveredToCustomer}" Width="150"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="90"/>
+                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="120"/>
+                        <GridViewColumn Header="PHONE" DisplayMemberBinding="{Binding Phone}" Width="109"/>
+                        <GridViewColumn Header="SENT" DisplayMemberBinding="{Binding NotDeliveredFromCustomer}" Width="104"/>
+                        <GridViewColumn Header="DELIVERED" DisplayMemberBinding="{Binding DeliveredFromCustomer}" Width="104"/>
+                        <GridViewColumn Header="ON THE WAY" DisplayMemberBinding="{Binding NotDeliveredToCustomer}" Width="104"/>
+                        <GridViewColumn Header="ARRIVED" DisplayMemberBinding="{Binding DeliveredToCustomer}" Width="104"/>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
+                                        <Image Source="/Screenshot (135).png"/>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -33,16 +42,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="24,10,0,10" HorizontalAlignment="Left" FontWeight="Bold"/>
-
-            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new drone"  Content="+" Background="LightGray" Foreground="Black" Opacity="0.5" FontSize="70" HorizontalAlignment="Left" Width="96" Click="btnAddCustomer_Click" Grid.Column="3" Margin="38,304,0,-339">
+            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="10,32,0,3" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C"/>
+            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new customer"  Content="+" Background="#FFE2EDFB" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="54" Click="btnAddCustomer_Click" Grid.Column="3" Margin="123,16,0,9">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <ComboBox x:Name="name" Margin="10,11,0,9" Grid.Column="1" HorizontalAlignment="Left" Width="158"/>
+            <Button x:Name="btnRefresh" Content="⟳" ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="34,0,134,0" Click="btnRefresh_Click"/>
+            <Button x:Name="btnClose" Content="←" ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="34" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C"/>
         </Grid>
     </Grid>
 </Window>

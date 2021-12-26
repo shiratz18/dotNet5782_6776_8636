@@ -87,7 +87,7 @@ namespace BlApi
         /// Returns the list of parcels
         /// </summary>
         /// <returns>The list of parcels</returns>
-        public IEnumerable<ListParcel> GetParcelList();
+        public IEnumerable<ListParcel> GetParcelList(WeightCategories? wc = null, ParcelState? ps = null, Priorities? pr = null);
         /// <summary>
         /// Returns the list of parcels which dont have an assigned drone
         /// </summary>
@@ -178,12 +178,12 @@ namespace BlApi
         /// Remove a station from the list
         /// </summary>
         /// <param name="station">The station to remove</param>
-        public void RemoveStation(Station station);
+        public void RemoveStation(int id);
         /// <summary>
         /// Remove a drone from the list 
         /// </summary>
         /// <param name="drone">The drone to remove</param>
-        public void RemoveDrone(Drone drone);
+        public void RemoveDrone(int id);
         /// <summary>
         /// Removes a customer from the list
         /// </summary>
@@ -193,6 +193,6 @@ namespace BlApi
         /// Removes a parcel from the list
         /// </summary>
         /// <param name="parcel">The parcel to remove</param>
-        public void RemoveParcel(Parcel parcel);
+        public void RemoveParcel(int id);
     }
 }

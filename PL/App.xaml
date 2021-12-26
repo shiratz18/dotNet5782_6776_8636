@@ -14,9 +14,8 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="Background" Value="#FF0489BE"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="Opacity" Value="0.3"/>
             <Setter Property="FontFamily" Value="Century Gothic"></Setter>
             <Setter Property="FontSize" Value="20"></Setter>
             <Setter Property="Foreground" Value="White"/>
@@ -28,7 +27,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Gray" TargetName="Border" />
+                                <Setter Property="Background" Value="LightGray" TargetName="Border" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -48,6 +47,12 @@
             <Setter Property="Margin" Value="0,15,0,15"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Century Gothic"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="FontFamily" Value="Century Gothic"/>

@@ -48,30 +48,35 @@ namespace DalObject
                 Id = 4582,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Heavy,
+                Active = true
             });
             Drones.Add(new Drone
             {
                 Id = 9215,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Heavy,
+                Active = true
             });
             Drones.Add(new Drone
             {
                 Id = 2131,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Medium,
+                Active = true
             });
             Drones.Add(new Drone
             {
                 Id = 2586,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Heavy,
+                Active = true
             });
             Drones.Add(new Drone
             {
                 Id = 3674,
                 Model = randomString(5),
                 MaxWeight = WeightCategories.Light,
+                Active = true
             });
         }
 

@@ -5,27 +5,30 @@ using System.Collections.Generic;
 using DO;
 using DalApi;
 
-//namespace ConsoleUI
-//{
-//    class Program
-//    {
-//        public enum MenuOptions { Exit, Add, Update, DisplayOne, DisplayList, FindDistance }
-//        public enum AddOptions { Exit, Station, Drone, Customer, Parcel }
-//        public enum UpdateOptions { Exit, ParcelToDrone, PickUp, Deliver, Charge, ReleaseCharge, DroneStatus }
-//        public enum DisplayOptions { Exit, Station, Drone, Customer, Parcel, NoDroneParcel, AvailableChargeStations }
-//        public enum DistanceOptions { Exit, Station, Customer }
+namespace ConsoleUI
+{
+    class Program
+    {
+        //        public enum MenuOptions { Exit, Add, Update, DisplayOne, DisplayList, FindDistance }
+        //        public enum AddOptions { Exit, Station, Drone, Customer, Parcel }
+        //        public enum UpdateOptions { Exit, ParcelToDrone, PickUp, Deliver, Charge, ReleaseCharge, DroneStatus }
+        //        public enum DisplayOptions { Exit, Station, Drone, Customer, Parcel, NoDroneParcel, AvailableChargeStations }
+        //        public enum DistanceOptions { Exit, Station, Customer }
 
-//        static void Main(string[] args)
-//        {
-//            IDal data = new DalObject.DalObject();
-//            MainMenu(data);
-//        }
+        //        static void Main(string[] args)
+        //        {
+        //            IDal data = new DalObject.DalObject();
+        //            MainMenu(data);
+        //        }
 
-//        /// <summary>
-//        /// Print main menu to user
-//        /// </summary>
-//        public static void MainMenu(IDal data)
-//        {
+        /// <summary>
+        /// Print main menu to user
+        /// </summary>
+        public static void MainMenu(IDal data)
+        {
+        }
+    }
+}
 //            Console.WriteLine("What would you like to do:\n 1 - Add an object\n 2 - Update an object\n 3" +
 //                " - Display an object\n 4 - Display a list of objects\n 5 - Find distance\n 0 - Exit");
 //            MenuOptions choice;

@@ -74,7 +74,8 @@ namespace BL
                     Id = d.Id,
                     Model = d.Model,
                     MaxWeight = (WeightCategories)d.MaxWeight,
-                    Status = (DroneStatuses)(R.Next(0, 2)) //intialize status to be available or maintenance
+                    Status = (DroneStatuses)(R.Next(0, 2)), //intialize status to be available or maintenance
+                    Active = true
                 });
             }
 
