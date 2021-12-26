@@ -176,10 +176,9 @@ namespace PL
                 btnOK.IsEnabled = (!String.IsNullOrEmpty(droneId.Text) && droneId.Text != "Enter ID here") &&
                     (!String.IsNullOrEmpty(droneModel.Text) && droneModel.Text != "Enter model here") &&
                     (droneMaxWeight.SelectedItem != null) &&
-                    (droneStation.SelectedItem != null) &&
-                    (droneId.BorderBrush != Brushes.Red) &&
-                    (droneModel.BorderBrush != Brushes.Red);
+                    (droneStation.SelectedItem != null) ;
         }
+
 
         /// <summary>
         /// Adds drone with user input
