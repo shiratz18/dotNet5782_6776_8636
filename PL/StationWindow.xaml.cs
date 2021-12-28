@@ -194,18 +194,26 @@ namespace PL
             catch (InvalidNumberException ex)
             {
                 mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (mb == MessageBoxResult.Cancel)
+                    Close();
             }
             catch (WrongFormatException ex)
             {
                 mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (mb == MessageBoxResult.Cancel)
+                    Close();
             }
             catch (NoAvailableChargeSlotsException ex)
             {
                 mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (mb == MessageBoxResult.Cancel)
+                    Close();
             }
             catch (DoubleIDException ex)
             {
                 mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (mb == MessageBoxResult.Cancel)
+                    Close();
             }
 
             if (mb == MessageBoxResult.Cancel) //if there was an error and the user clicked cancel, close the window
