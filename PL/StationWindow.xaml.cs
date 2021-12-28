@@ -56,7 +56,7 @@ namespace PL
             station = s;
             DataContext = station;
 
-            display();
+            //display();
         }
         /// <summary>
         /// Text changed event for stationId textBox

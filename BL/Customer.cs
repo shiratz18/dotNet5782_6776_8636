@@ -14,6 +14,7 @@ namespace BO
         public Location Location { get; set; }
         public List<ParcelAtCustomer> FromCustomer { get; set; }
         public List<ParcelAtCustomer> ToCustomer { get; set; }
+        public bool Active { get; set; }
 
         public override string ToString()
         {

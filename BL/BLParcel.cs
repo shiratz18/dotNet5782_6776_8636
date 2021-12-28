@@ -307,13 +307,15 @@ namespace BL
             return listParcels;
         }
 
+        #region Get parcels with no drone
         /// <summary>
         /// Returns the list of parcels which dont have an assigned drone
         /// </summary>
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetNoDroneParcelList()
         {
-            IEnumerable<DO.Parcel> temps = Data.GetParcelList(p => { return p.DroneId == 0; });
+            IEnumerable<DO.Parcel> temps = Data.GetParcelList(p => p.DroneId == 0);
+
             if (temps.Count() == 0)
                 throw new EmptyListException("No Parcels with no drone to display");
 
@@ -342,6 +344,8 @@ namespace BL
             }
             return parcels;
         }
+        #endregion
+
 
         /// <summary>
         /// Returns a list of Parcel object
@@ -384,7 +388,7 @@ namespace BL
         {
             List<Parcel> parcels = new List<Parcel>();
 
-            IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => { return p.Scheduled == null; });
+            IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => p.Scheduled == null);
 
             if (tempParcels.Count() == 0)
                 throw new EmptyListException("No parcels without a drone.");

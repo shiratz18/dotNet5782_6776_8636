@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Add station
         /// <summary>
         /// Adds a station to the list of station in data
         /// </summary>
@@ -30,7 +31,8 @@ namespace BL
                 Name = station.Name,
                 Longitude = station.Location.Longitude,
                 Latitude = station.Location.Latitude,
-                ChargeSlots = station.AvailableChargeSlots
+                ChargeSlots = station.AvailableChargeSlots,
+                Active = true
             };
 
             try
@@ -42,7 +44,9 @@ namespace BL
                 throw new DoubleIDException($"Station {station.Id} already exists.");
             }
         }
+        #endregion
 
+        #region Get station
         /// <summary>
         /// Returns a station according to ID
         /// </summary>
@@ -60,7 +64,8 @@ namespace BL
                     Name = temp.Name,
                     Location = new Location() { Longitude = temp.Longitude, Latitude = temp.Latitude },
                     AvailableChargeSlots = temp.ChargeSlots,
-                    ChargingDrones = new List<ChargingDrone>()
+                    ChargingDrones = new List<ChargingDrone>(),
+                    Active = temp.Active
                 };
 
                 Drones.ForEach(d =>
@@ -127,7 +132,9 @@ namespace BL
             }
             throw new NoIDException($"Station in location {loc} does not exist.");
         }
+        #endregion
 
+        #region Get station list
         /// <summary>
         /// Returns the list of stations for a list
         /// </summary>
@@ -178,7 +185,7 @@ namespace BL
         /// <returns>The list of stations</returns>
         public IEnumerable<ListStation> GetAvailableChargeSlotsStationList()
         {
-            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
+            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => s.ChargeSlots > 0);
             if (tempStations.Count() == 0)
                 throw new EmptyListException("No stations with avavilable charge slots.");
 
@@ -213,7 +220,8 @@ namespace BL
                     Id = s.Id,
                     Name = s.Name,
                     Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
-                    AvailableChargeSlots = s.ChargeSlots
+                    AvailableChargeSlots = s.ChargeSlots,
+                    Active = s.Active
                 });
             }
 
@@ -238,13 +246,16 @@ namespace BL
                     Id = tmp.Id,
                     Name = tmp.Name,
                     Location = new Location() { Longitude = tmp.Longitude, Latitude = tmp.Latitude },
-                    AvailableChargeSlots = tmp.ChargeSlots
+                    AvailableChargeSlots = tmp.ChargeSlots,
+                    Active = tmp.Active
                 });
             }
 
             return stations;
         }
+        #endregion
 
+        #region Update station
         /// <summary>
         /// Updates a station
         /// </summary>
@@ -257,7 +268,8 @@ namespace BL
                 Name = station.Name,
                 ChargeSlots = station.AvailableChargeSlots,
                 Longitude = station.Location.Longitude,
-                Latitude = station.Location.Latitude
+                Latitude = station.Location.Latitude,
+                Active = station.Active
             };
 
             Data.UpdateStation(s);
@@ -296,6 +308,8 @@ namespace BL
             {
                 throw new NoIDException(ex.Message);
             }
+            if (!s.Active)
+                throw new NoIDException($"Station {id} is no longer active.");
 
             if (number < 0)
             {
@@ -319,7 +333,9 @@ namespace BL
             s.ChargeSlots = number - count; //num will be the number of available charging slots
             Data.UpdateStation(s); //send the updates station to the data layer
         }
+        #endregion
 
+        #region Remove station
         /// <summary>
         /// Remove a station from the list
         /// </summary>
@@ -337,5 +353,6 @@ namespace BL
                 throw new NoIDException($"Station {id} does not exist.");
             }
         }
+        #endregion
     }
 }

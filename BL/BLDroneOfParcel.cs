@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Get drone of a parcel
         /// <summary>
         /// Get the drone of a parcel. according to ID
         /// </summary>
@@ -34,5 +35,6 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
     }
 }

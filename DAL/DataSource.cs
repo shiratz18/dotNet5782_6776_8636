@@ -38,6 +38,7 @@ namespace DalObject
             createParcels();
         }
 
+        #region Create drones
         /// <summary>
         /// adds to the list of drones 5 drones
         /// </summary>
@@ -79,7 +80,9 @@ namespace DalObject
                 Active = true
             });
         }
+        #endregion
 
+        #region Create stations
         /// <summary>
         /// adds to the list of stations 2 stations
         /// </summary>
@@ -91,7 +94,8 @@ namespace DalObject
                 Name = "Jerusalem Central Station",
                 Latitude = 31.78954,
                 Longitude = 35.20373,
-                ChargeSlots = 10
+                ChargeSlots = 10,
+                Active = true
             });
             Stations.Add(new Station
             {
@@ -99,10 +103,13 @@ namespace DalObject
                 Name = "Malcha Mall",
                 Latitude = 31.75173,
                 Longitude = 35.18726,
-                ChargeSlots = 7
+                ChargeSlots = 7,
+                Active = true
             });
         }
+        #endregion
 
+        #region Create customers
         /// <summary>
         /// adds 10 customers to the list of customers
         /// </summary>
@@ -114,7 +121,8 @@ namespace DalObject
                 Name = "Reuvan Cohen",
                 Phone = "0583952489",
                 Latitude = 31.78913413396946,
-                Longitude = 35.17102699703434
+                Longitude = 35.17102699703434,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -122,7 +130,8 @@ namespace DalObject
                 Name = "Shimon Levy",
                 Phone = "0583522962",
                 Latitude = 31.786015836732847,
-                Longitude = 35.18862021237819
+                Longitude = 35.18862021237819,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -130,7 +139,8 @@ namespace DalObject
                 Name = "Tirtza Bitton",
                 Phone = "0503567495",
                 Latitude = 31.78619053512268,
-                Longitude = 35.21472236819816
+                Longitude = 35.21472236819816,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -138,7 +148,8 @@ namespace DalObject
                 Name = "Isachar Friedman",
                 Phone = "0559632587",
                 Latitude = 31.76275454575024,
-                Longitude = 35.18716715470557
+                Longitude = 35.18716715470557,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -146,7 +157,8 @@ namespace DalObject
                 Name = "David Peretz",
                 Phone = "0532459852",
                 Latitude = 31.76335370891613,
-                Longitude = 35.18259758354167
+                Longitude = 35.18259758354167,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -154,7 +166,8 @@ namespace DalObject
                 Name = "Avraham Segal",
                 Phone = "0527453969",
                 Latitude = 31.789408369550717,
-                Longitude = 35.17261664121437
+                Longitude = 35.17261664121437,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -162,7 +175,8 @@ namespace DalObject
                 Name = "Yaakov Kats",
                 Phone = "0548521365",
                 Latitude = 31.787829416071816,
-                Longitude = 35.18189506819828
+                Longitude = 35.18189506819828,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -170,7 +184,8 @@ namespace DalObject
                 Name = "Leah Chadad",
                 Phone = "0509850256",
                 Latitude = 31.78437499940112,
-                Longitude = 35.21786601052626
+                Longitude = 35.21786601052626,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -178,7 +193,8 @@ namespace DalObject
                 Name = "Sara Silver",
                 Phone = "0509879955",
                 Latitude = 31.817709663575744,
-                Longitude = 35.19441221052715
+                Longitude = 35.19441221052715,
+                Active = true
             });
             Customers.Add(new Customer
             {
@@ -186,10 +202,13 @@ namespace DalObject
                 Name = "Rivka Ochayoun",
                 Phone = "0582564258",
                 Latitude = 31.770637478956328,
-                Longitude = 35.18372692586983
+                Longitude = 35.18372692586983,
+                Active = true
             });
         }
+        #endregion
 
+        #region Create parcels
         /// <summary>
         /// adds 10 parcels to the list of parcels
         /// </summary>
@@ -345,6 +364,7 @@ namespace DalObject
             });
             Config.IdNumber++;
         }
+        #endregion
 
         /// <summary>
         /// generates a random string

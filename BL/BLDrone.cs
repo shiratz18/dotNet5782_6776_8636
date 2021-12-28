@@ -33,10 +33,21 @@ namespace BL
                 Active = true
             };
 
-            Station s = GetStation(stationNum); //getting the station, will throw an exception if the station does not exist
+            Station s;
+            try
+            { 
+           //getting the station, will throw an exception if the station does not exist
+                s = GetStation(stationNum);
+            }
+            catch(DO.NoIDException ex)
+            {
+                throw new NoIDException(ex.Message);
+            }
             if (s.AvailableChargeSlots < 1) //checking that the station has available charging slots
                 throw new NoAvailableChargeSlotsException($"Station {stationNum} has no available charging slots.");
-
+            if (!s.Active)
+                throw new NoIDException($"Station {stationNum} is no longer active.");
+            
             try //trying to add the drone to the list in data layer
             {
                 Data.AddDrone(temp);
@@ -82,9 +93,6 @@ namespace BL
                 throw new NoIDException($"Drone {id} doesn't exist");
 
             ListDrone temp = Drones.Find(d => d.Id == id); //find the drone in the list of drones
-
-            if (!temp.Active) //if the drone was deleted
-                throw new NoIDException($"Drone {id} doesn't exist");
 
             Drone drone = new Drone()
             {

@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Get parcel
         /// <summary>
         /// Returns a ParcelInShipping object
         /// </summary>
@@ -39,7 +40,9 @@ namespace BL
 
             return parcel;
         }
+        #endregion
 
+        #region Get parcels without a drone
         /// <summary>
         /// Returns the parcels with no drones in ParcelInShipping object
         /// </summary>
@@ -79,5 +82,6 @@ namespace BL
 
             return pis;
         }
+        #endregion
     }
 }

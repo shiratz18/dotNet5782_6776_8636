@@ -193,9 +193,9 @@ namespace PL
             //get the data the user entered
             parcel = new Parcel();
             bool flag1 = int.TryParse(parcelSenderId.Text, out int id);
-            parcel.Sender = id;
-            bool flag2 = int.TryParse(parcelSenderId.Text, out int id);
-            parcel.Target = id;
+            parcel.Sender.Id = id;
+            bool flag2 = int.TryParse(parcelSenderId.Text, out id);
+            parcel.Target.Id = id;
 
             parcel.Weight = (WeightCategories)parcelWeight.SelectedItem;
             parcel.Priority= (Priorities)parcelPriority.SelectedItem;
@@ -267,48 +267,48 @@ namespace PL
             //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
             //statusToPrint.Content = drone.Status;
             //locationToPrint.Content = drone.CurrentLocation;
-            if (drone.Status == DroneStatuses.Shipping)
-            {
-                parcelExpander.IsExpanded = true;
-                parcelExpander.IsEnabled = true;
-                parcelId.Content = drone.InShipping.Id;
-                isPickedUp.Content = drone.InShipping.IsPickedUp;
-                priority.Content = drone.InShipping.Priority;
-                weight.Content = drone.InShipping.Weight;
-                senderName.Content = drone.InShipping.Sender.Name;
-                targetName.Content = drone.InShipping.Target.Name;
-                pickUpLocation.Content = drone.InShipping.PickUpLocation;
-                deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-                deliveryDistance.Content = drone.InShipping.DeliveryDistance;
-            }
-            else
-            {
-                parcelExpander.IsEnabled = false;
-                parcelExpander.IsExpanded = false;
-            }
+            //if (drone.Status == DroneStatuses.Shipping)
+            //{
+            //    parcelExpander.IsExpanded = true;
+            //    parcelExpander.IsEnabled = true;
+            //    parcelId.Content = drone.InShipping.Id;
+            //    isPickedUp.Content = drone.InShipping.IsPickedUp;
+            //    priority.Content = drone.InShipping.Priority;
+            //    weight.Content = drone.InShipping.Weight;
+            //    senderName.Content = drone.InShipping.Sender.Name;
+            //    targetName.Content = drone.InShipping.Target.Name;
+            //    pickUpLocation.Content = drone.InShipping.PickUpLocation;
+            //    deliveryLocation.Content = drone.InShipping.DeliveryLocation;
+            //    deliveryDistance.Content = drone.InShipping.DeliveryDistance;
+            //}
+            //else
+            //{
+            //    parcelExpander.IsEnabled = false;
+            //    parcelExpander.IsExpanded = false;
+            //}
 
-            if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
-            {
-                btnCharge.Visibility = Visibility.Hidden;
-                btnDroneToDelivery.Visibility = Visibility.Hidden;
-            }
+            //if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
+            //{
+            //    btnCharge.Visibility = Visibility.Hidden;
+            //    btnDroneToDelivery.Visibility = Visibility.Hidden;
+            //}
 
-            if (drone.Status != DroneStatuses.Maintenance)
-            {
-                btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
-            }
+            //if (drone.Status != DroneStatuses.Maintenance)
+            //{
+            //    btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
+            //}
 
-            if (drone.Status != DroneStatuses.Shipping)
-            {
-                btnDronePickUp.Visibility = Visibility.Hidden;
-                btnDroneDeliver.Visibility = Visibility.Hidden;
-            }
+            //if (drone.Status != DroneStatuses.Shipping)
+            //{
+            //    btnDronePickUp.Visibility = Visibility.Hidden;
+            //    btnDroneDeliver.Visibility = Visibility.Hidden;
+            //}
 
-            if (drone.InShipping.IsPickedUp)
-                btnDronePickUp.Visibility = Visibility.Hidden;
+            //if (drone.InShipping.IsPickedUp)
+            //    btnDronePickUp.Visibility = Visibility.Hidden;
 
-            if (!drone.InShipping.IsPickedUp)
-                btnDroneDeliver.Visibility = Visibility.Hidden;
+            //if (!drone.InShipping.IsPickedUp)
+            //    btnDroneDeliver.Visibility = Visibility.Hidden;
 
         }
 

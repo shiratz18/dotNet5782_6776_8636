@@ -16,26 +16,16 @@ using BlApi;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for ClientWindow.xaml
+    /// Interaction logic for ClientParcelWindow.xaml
     /// </summary>
-    public partial class ClientWindow : Window
+    public partial class ClientParcelWindow : Window
     {
-        IBL MyBL;
+        IBL myBL;
 
-        public ClientWindow(IBL bl)
+        public ClientParcelWindow(IBL bl)
         {
-            MyBL = bl;
+            myBL = bl;
             InitializeComponent();
-        }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void btnAddParcel_Click(object sender, RoutedEventArgs e)
-        {
-            new ClientParcelWindow(myBL).ShowDialog();
         }
     }
 }

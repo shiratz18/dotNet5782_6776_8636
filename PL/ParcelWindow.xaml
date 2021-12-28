@@ -33,7 +33,7 @@
                 <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="23,73,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
                 <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15" HorizontalAlignment="Left" Margin="94,73,0,0" VerticalAlignment="Top" Width="169"/>
                 <Label x:Name="model" Content="Model:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-                <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="modelToPrint_TextChanged" Background="{x:Null}"/>
+                <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" Background="{x:Null}"/>
                 <Label x:Name="RedMes3" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="94,147,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="224"/>
                 <Label x:Name="maxWeight" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="21,168,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
                 <Label x:Name="maxWeightToPrint" Content="{Binding MaxWeight}" FontSize="15" HorizontalAlignment="Left" Margin="149,168,0,0" VerticalAlignment="Top" Width="110" Foreground="Black"/>
@@ -45,12 +45,12 @@
                
                 <Label x:Name="locationToPrint" Content="{Binding CurrentLocation}" FontSize="15" HorizontalAlignment="Left" Margin="96,322,0,0" VerticalAlignment="Top" Width="298" Height="60"/>
                 <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="326,418,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE"/>
-                <Button x:Name="btnUpdate" Content="Change" FontSize="12" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="58" RenderTransformOrigin="0.51,1.388" Height="24" Click="btnUpdate_Click" Background="#FF0489BE"/>
-                <Button x:Name="btnCharge" Content="Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,221,0,0" VerticalAlignment="Top" Click="btnCharge_Click" Background="#FF0489BE" Height="25" Width="106"/>
-                <Button x:Name="btnReleaseCharge" Content="Release Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,222,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="106" RenderTransformOrigin="0.462,1.703" Background="#FF0489BE" Height="24"/>
-                <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="289,275,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click" Background="#FF0489BE" Height="24" Width="106"/>
-                <Button x:Name="btnDronePickUp" Content="Pick up parcel" FontSize="12" HorizontalAlignment="Left" Margin="552,370,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94" Background="#FF0489BE" RenderTransformOrigin="-2.213,-2.175" Height="24"/>
-                <Button x:Name="btnDroneDeliver" Content="Deliver parcel" FontSize="12" HorizontalAlignment="Left" Margin="554,370,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="92" Background="#FF0489BE" Height="24"/>
+                <Button x:Name="btnUpdate" Content="Change" FontSize="12" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="58" RenderTransformOrigin="0.51,1.388" Height="24" Background="#FF0489BE"/>
+                <Button x:Name="btnCharge" Content="Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,221,0,0" VerticalAlignment="Top"  Background="#FF0489BE" Height="25" Width="106"/>
+                <Button x:Name="btnReleaseCharge" Content="Release Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,222,0,0" VerticalAlignment="Top"  Width="106" RenderTransformOrigin="0.462,1.703" Background="#FF0489BE" Height="24"/>
+                <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="289,275,0,0" VerticalAlignment="Top" Background="#FF0489BE" Height="24" Width="106"/>
+                <Button x:Name="btnDronePickUp" Content="Pick up parcel" FontSize="12" HorizontalAlignment="Left" Margin="552,370,0,0" VerticalAlignment="Top"  Width="94" Background="#FF0489BE" RenderTransformOrigin="-2.213,-2.175" Height="24"/>
+                <Button x:Name="btnDroneDeliver" Content="Deliver parcel" FontSize="12" HorizontalAlignment="Left" Margin="554,370,0,0" VerticalAlignment="Top"  Width="92" Background="#FF0489BE" Height="24"/>
                
             </Grid>
         </Grid>

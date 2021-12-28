@@ -13,6 +13,7 @@ namespace BO
         public Location Location { get; set; }
         public int AvailableChargeSlots { get; set; }
         public List<ChargingDrone> ChargingDrones { get; set; }
+        public bool Active { get; set; }
 
         public override string ToString()
         {

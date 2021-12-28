@@ -111,6 +111,9 @@ namespace DalObject
 
             Drone d = DataSource.Drones.Find(x => x.Id == id);
 
+            if(!d.Active)
+                throw new NoIDException($"Drone {id} doesn't exists.");
+
             return d;
         }
         #endregion

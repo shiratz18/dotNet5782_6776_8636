@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Get customer in parcel
         /// <summary>
         /// Returns a customer in parcel according to ID
         /// </summary>
@@ -32,5 +33,6 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
     }
 }

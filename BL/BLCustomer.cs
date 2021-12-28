@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Add customer
         /// <summary>
         /// Add a customer to the data list of customers
         /// </summary>
@@ -17,13 +18,17 @@ namespace BL
         {
             if (customer.Id < 100000000 || customer.Id > 999999999)
                 throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
+
             if (customer.Location.Latitude > 31.8830 || customer.Location.Latitude < 31.7082)
                 throw new InvalidNumberException($"Longitude {customer.Location.Longitude} is not in Jerusalem.");
+
             if ((customer.Location.Longitude > 35.2642 || customer.Location.Longitude < 35.1252))
                 throw new InvalidNumberException($"Latitude {customer.Location.Longitude} is not in Jerusalem.");
+
             foreach (char c in customer.Name)
                 if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ')
                     throw new WrongFormatException($"Customer name must contain alphabet letters only.");
+
             if (customer.Phone.Length != 10 || !customer.Phone.All(char.IsDigit))
                 throw new WrongFormatException($"Customer phone number must be 10 digits.");
 
@@ -33,7 +38,8 @@ namespace BL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
-                Latitude = customer.Location.Latitude
+                Latitude = customer.Location.Latitude,
+                Active = true
             };
 
             try
@@ -45,7 +51,9 @@ namespace BL
                 throw new DoubleIDException(ex.Message);
             }
         }
+        #endregion
 
+        #region Get customer
         /// <summary>
         /// Returns the customer according to ID
         /// </summary>
@@ -71,7 +79,8 @@ namespace BL
                 Phone = temp.Phone,
                 Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude },
                 FromCustomer = new List<ParcelAtCustomer>(),
-                ToCustomer = new List<ParcelAtCustomer>()
+                ToCustomer = new List<ParcelAtCustomer>(),
+                Active = temp.Active
             };
 
             IEnumerable<DO.Parcel> parcels = Data.GetParcelList();
@@ -87,7 +96,9 @@ namespace BL
 
             return c;
         }
+        #endregion
 
+        #region Get customer list
         /// <summary>
         /// Returns the list of customers
         /// </summary>
@@ -125,7 +136,9 @@ namespace BL
 
             return customers;
         }
+        #endregion
 
+        #region Update customer
         /// <summary>
         /// Updates a customer
         /// </summary>
@@ -138,13 +151,14 @@ namespace BL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
-                Latitude = customer.Location.Latitude
+                Latitude = customer.Location.Latitude,
+                Active = customer.Active
             };
             Data.UpdateCustomer(c);
         }
 
         /// <summary>
-        /// Update the name of a cuatomer
+        /// Update the name of a customer
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <param name="name">The name of the customer</param>
@@ -184,24 +198,18 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
 
+        #region Remove customer
         /// <summary>
         /// Removes a customer from the list
         /// </summary>
         /// <param name="customer">The customer to remove</param>
-        public void RemoveCustomer(Customer customer)
+        public void RemoveCustomer(int id)
         {
-            DO.Customer temp = new DO.Customer()
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Longitude = customer.Location.Longitude,
-                Latitude = customer.Location.Latitude
-            };
-
             try
             {
+                DO.Customer temp = Data.GetCustomer(id);
                 Data.RemoveCustomer(temp);
             }
             catch (DO.NoIDException ex)
@@ -209,5 +217,6 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        #endregion
     }
 }

@@ -15,15 +15,24 @@
             <ListView x:Name="StationsListView" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="105"/>
-                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="295"/>
-                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="173"/>
-                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="173"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                        <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="200"/>
+                        <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="200"/>
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
                                         <Image Source="/Screenshot (135).png"/>
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
+                                        <Image Source="/Screenshot (133).png"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

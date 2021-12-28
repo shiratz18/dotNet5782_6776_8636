@@ -9,6 +9,7 @@ namespace BL
 {
    partial class BL
     {
+        #region Distance between two locations
         /// <summary>
         /// Calculates the distance between two locations
         /// </summary>
@@ -25,7 +26,9 @@ namespace BL
 
             return 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3))) / 1000;
         }
+        #endregion
 
+        #region Nearest station to a location in ID
         /// <summary>
         /// finds the nearest station to a given location
         /// </summary>
@@ -50,7 +53,9 @@ namespace BL
 
             return minId;
         }
+        #endregion
 
+        #region Nearest station to a location in Location
         /// <summary>
         /// Finds the location of the nearest station to given location
         /// </summary>
@@ -60,7 +65,9 @@ namespace BL
         {
             return GetStation(nearestStationId(loc)).Location;
         }
+        #endregion
 
+        #region Delivery distance for drone
         /// <summary>
         /// Returns the distance a drone needs to make in order to make a delivery
         /// </summary>
@@ -78,7 +85,9 @@ namespace BL
                 getDistance(sender.Location, target.Location) +
                 getDistance(target.Location, nearestStationLocation(target.Location));
         }
+        #endregion
 
+        #region Nearest parcel to a drone
         /// <summary>
         /// Finds the closest parcel to a drone
         /// </summary>
@@ -102,5 +111,6 @@ namespace BL
 
             return parcel;
         }
+        #endregion
     }
 }

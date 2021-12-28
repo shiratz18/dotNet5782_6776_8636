@@ -52,7 +52,7 @@ namespace PL
             customer = c;
             DataContext = customer;
 
-            display();
+            //display();
         }
 
 
@@ -107,13 +107,13 @@ namespace PL
         private void setOkButton()
         {
             //enable OK button only if all fields were filled
-            if (btnOK != null)
-                btnOK.IsEnabled = (!String.IsNullOrEmpty(customerId.Text) && customerId.Text != "Enter ID here") &&
-                    (!String.IsNullOrEmpty(customerName.Text) && customerName.Text != "Enter model here") &&
-                    (!String.IsNullOrEmpty(customerPhone.Text) && customerPhone.Text != "Enter ID here") &&
-                    (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here") &&
-                    (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here") &&
-                   ;
+            //if (btnOK != null)
+            //    btnOK.IsEnabled = (!String.IsNullOrEmpty(customerId.Text) && customerId.Text != "Enter ID here") &&
+            //        (!String.IsNullOrEmpty(customerName.Text) && customerName.Text != "Enter model here") &&
+            //        (!String.IsNullOrEmpty(customerPhone.Text) && customerPhone.Text != "Enter ID here") &&
+            //        (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here") &&
+            //        (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here")
+            //       ;
         }
         /// <summary>
         /// Text changed event for customerModel
@@ -175,7 +175,7 @@ namespace PL
         /// <param name="e"></param>
         private void customerLongitude_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string m = customerLongitude.Text;
+            //string m = customerLongitude.Text;
         }
         /// <summary>
         /// Text changed event for customerLatitude
@@ -184,7 +184,7 @@ namespace PL
         /// <param name="e"></param>
         private void customerLatitude_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string m = customerLatitude.Text;
+           // string m = customerLatitude.Text;
 
         }
 
@@ -205,10 +205,10 @@ namespace PL
             string phone = customerPhone.Text;
             customer.Phone = name;
 
-            double flag2 = double.Parse(customerLongitude.Text,out double longitude);
-            customer.Location.Longitude = longitude;
-            bool flag3 = double.Parse(customerLatitude.Text, out double latitude);
-            customer.Location.Latitude = latitude;
+            //double flag2 = double.Parse(customerLongitude.Text,out double longitude);
+            //customer.Location.Longitude = longitude;
+            //bool flag3 = double.Parse(customerLatitude.Text, out double latitude);
+            //customer.Location.Latitude = latitude;
 
 
 

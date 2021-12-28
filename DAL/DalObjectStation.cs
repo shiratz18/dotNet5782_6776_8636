@@ -9,6 +9,7 @@ namespace DalObject
 {
     partial class DalObject
     {
+        #region Add station
         /// <summary>
         /// adds a station to the list of stations
         /// </summary>
@@ -21,7 +22,9 @@ namespace DalObject
 
             DataSource.Stations.Add(station);
         }
+        #endregion
 
+        #region Update station
         /// <summary>
         /// updates the station in the list
         /// </summary>
@@ -29,9 +32,8 @@ namespace DalObject
         public void UpdateStation(Station station)
         {
             if (!DataSource.Stations.Exists(s => s.Id == station.Id))
-            {
                 throw new NoIDException($"Station {station.Id} doesn't exist.");
-            }
+
 
             DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == station.Id)] = station;
         }
@@ -41,14 +43,14 @@ namespace DalObject
         /// </summary>
         /// <param name="id">The station ID</param>
         /// <param name="name">The new name</param>
-        public void EditStationName(int id,string name)
+        public void EditStationName(int id, string name)
         {
-            if(!DataSource.Stations.Exists(s => s.Id == id))
+            if (!DataSource.Stations.Exists(s => s.Id == id))
             {
                 throw new NoIDException($"Station {id} doesn't exist.");
             }
 
-            Station station=DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)];
+            Station station = DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)];
             station.Name = name;
             DataSource.Stations[DataSource.Stations.FindIndex(s => s.Id == id)] = station;
         }
@@ -69,7 +71,9 @@ namespace DalObject
             temp.ChargeSlots -= num;
             UpdateStation(temp);
         }
+        #endregion
 
+        #region Remove station
         /// <summary>
         /// removes a station from the list
         /// </summary>
@@ -77,13 +81,15 @@ namespace DalObject
         public void RemoveStation(Station station)
         {
             if (!DataSource.Stations.Exists(s => s.Id == station.Id))
-            {
                 throw new NoIDException($"Station {station.Id} doesn't exist.");
-            }
 
-            DataSource.Stations.Remove(station);
-        }     
+            station.Active = false;
 
+            DataSource.Stations[DataSource.Stations.FindIndex(x => x.Id == station.Id)] = station;
+        }
+        #endregion
+
+        #region Get station
         /// <summary>
         /// returns the object Station that matches the id
         /// </summary>
@@ -98,16 +104,9 @@ namespace DalObject
 
             return DataSource.Stations.Find(x => x.Id == id);
         }
+        #endregion
 
-        ///// <summary>
-        ///// return the list of stations
-        ///// </summary>
-        ///// <returns>list Stations</returns>
-        //public IEnumerable<Station> GetStationList()
-        //{
-        //    return DataSource.Stations;
-        //}
-
+        #region Get station list
         /// <summary>
         /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
@@ -116,22 +115,13 @@ namespace DalObject
         public IEnumerable<Station> GetStationList(Predicate<Station> predicate = null)
         {
             if (predicate != null)
-                return DataSource.Stations.FindAll(predicate);
+                return DataSource.Stations.FindAll(x => predicate(x) && x.Active);
             else
-                return DataSource.Stations;
+                return DataSource.Stations.FindAll(x => x.Active);
         }
+        #endregion
 
-        ///// <summary>
-        ///// returns an array with the list of stations with empty charge slots
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<Station> GetEmptyChargeSlots()
-        //{
-        //    List<Station> temp = new List<Station>();
-        //    DataSource.Stations.ForEach(x => { if (x.ChargeSlots > 0) temp.Add(x); });
-        //    return temp;
-        //}
-
+        #region Returns distance from a station
         /// <summary>
         /// finds the distance from a station
         /// </summary>
@@ -150,5 +140,6 @@ namespace DalObject
             Double lat2 = temp.Latitude, lng2 = temp.Longitude;
             return Location.GetDistance(lng1, lat1, lng2, lat2);
         }
+        #endregion
     }
 }

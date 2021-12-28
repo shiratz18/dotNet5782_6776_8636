@@ -23,7 +23,7 @@ namespace PL
     {
         private IBL myBL;
 
-        #region Consttructor
+        #region Constructor
         /// <summary>
         /// Contructor
         /// </summary>
@@ -76,6 +76,33 @@ namespace PL
             Customer c = myBL.GetCustomer(lc.Id);
 
             // new CustomerWindow(myBL, lc);
+        }
+        #endregion
+
+        #region Remove customer
+        /// <summary>
+        /// Removes a customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult ans = MessageBox.Show("Are you sure you want to delete this customer?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (ans == MessageBoxResult.Yes)
+            {
+                Button b = sender as Button;
+                ListCustomer lp = b.CommandParameter as ListCustomer;
+                try
+                {
+                    myBL.RemoveCustomer(lp.Id);
+
+                    CustomersListView.ItemsSource = myBL.GetCustomerList();
+                }
+                catch (CannotDeleteException ex)
+                {
+                    MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
         #endregion
     }

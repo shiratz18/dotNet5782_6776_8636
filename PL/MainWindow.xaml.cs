@@ -41,7 +41,7 @@ namespace PL
 
         private void btnClient_Click(object sender, RoutedEventArgs e)
         {
-            new ClientWindow(myBL).Show();
+            new ClientPasswordWindow(myBL).Show();
         }
     }
 }

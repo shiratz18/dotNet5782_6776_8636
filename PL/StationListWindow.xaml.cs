@@ -115,6 +115,40 @@ namespace PL
         }
         #endregion
 
+        #region Remove station
+        /// <summary>
+        /// Removes a parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult ans = MessageBox.Show("Are you sure you want to delete this station?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (ans == MessageBoxResult.Yes)
+            {
+                Button b = sender as Button;
+                ListStation ls = b.CommandParameter as ListStation;
+                try
+                {
+                    myBL.RemoveStation(ls.Id);
+
+                    StationsListView.ItemsSource = myBL.GetStationList();
+
+                    if (isGrouped)
+                    {
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+                        PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+                        view.GroupDescriptions.Add(groupDescription);
+                    }
+                }
+                catch (CannotDeleteException ex)
+                {
+                    MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        #endregion
+
         #region Group
         /// <summary>
         /// Groups the list by number of available chargers
