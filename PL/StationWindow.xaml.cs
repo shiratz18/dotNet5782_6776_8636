@@ -56,7 +56,7 @@ namespace PL
             station = s;
             DataContext = station;
 
-            display();
+            //display();
         }
         /// <summary>
         /// Text changed event for stationId textBox
@@ -113,11 +113,38 @@ namespace PL
             setOkButton();
         }
 
+        /// <summary>
+        ///  Removes the current text from stationName text box, occurs only once and then removed drom events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void nameTbGotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            tb.Text = ""; //changing the text to be empty
+            tb.GotFocus -= nameTbGotFocus;
+        }
+        /// <summary>
+        /// Text changed event for ChargeSlotsi
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChargeSlots_TextChanged(object sender, TextChangedEventArgs e)
         {
             setOkButton();
         }
 
+        /// <summary>
+        /// Removes the current text from ChargeSlots text box, occurs only once and then removed drom events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChargeSlotsTbGotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            tb.Text = ""; //changing the text to be empty
+            tb.GotFocus -= ChargeSlotsTbGotFocus;
+        }
 
         /// <summary>
         /// Enables OK button only when all fields are filled
@@ -226,7 +253,7 @@ namespace PL
             string newName = nameToPrint.Text;
             try
             {
-                myBL.UpdateDroneName(station.Id, newName); //update the drone model
+                myBL.UpdateStationName(station.Id, newName); //update the drone model
                 station.Name = newName; //update also the current drone
 
                 MessageBox.Show("Station name updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -245,5 +272,21 @@ namespace PL
         {
 
         }
+
+        private void nameToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// Allows to drag the window (because there is no title to drag from)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+
     }
 }

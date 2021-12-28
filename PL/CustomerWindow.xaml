@@ -42,13 +42,13 @@
             </Label>
             <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,303,0,0" Foreground="#FF0489BE" RenderTransformOrigin="1.213,0.433"/>
             <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="599,308,99,151"/>
-            <Slider x:Name="SliderLongitude" Minimum="35.174572" Maximum="35.241141" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426" ValueChanged="SliderLongitude_ValueChanged" Margin="403,328,186,142" Foreground="#FF076E97" />
+            <Slider x:Name="SliderLongitude" Minimum="35.174572" Maximum="35.241141" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="403,328,186,142" Foreground="#FF076E97" />
 
             <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,361,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40">
             </Label>
             <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="729,378,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
             <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="598,378,100,81"/>
-            <Slider x:Name="SliderLatitude" Minimum="35.174572" Maximum="35.241141" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" Height="31" RenderTransformOrigin="1.585,2.426" ValueChanged="SliderLongitude_ValueChanged" Margin="403,406,186,56" Foreground="#FF076E97" />
+            <Slider x:Name="SliderLatitude" Minimum="35.174572" Maximum="35.241141" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" Height="31" RenderTransformOrigin="1.585,2.426"  Margin="403,406,186,56" Foreground="#FF076E97" />
 
 
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="421,433,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE"/>
@@ -60,17 +60,17 @@
             <Image Grid.Row="0" Margin="65,0,561,443" Source="/Screenshot (130).png"/>
             <Label Content="Update Customer" FontSize="20" HorizontalAlignment="Left" Margin="309,29,0,0" VerticalAlignment="Top"/>
             <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="23,73,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
-            <TextBox x:Name="idToPrint" FontSize="15" MaxLength="4" HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Id}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="idToPrint_TextChanged" Background="{x:Null}"/>
+            <TextBox x:Name="idToPrint" FontSize="15" MaxLength="4" HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Id}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
             <Label x:Name="RedMes6" Content="h" FontSize="12" HorizontalAlignment="Left" Margin="92,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="207"/>
 
             <Label x:Name="name" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-            <TextBox x:Name="nameToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,74,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="nameToPrint_TextChanged" Background="{x:Null}"/>
+            <TextBox x:Name="nameToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,74,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
             <Label x:Name="RedMes7" Content=" h" FontSize="12" HorizontalAlignment="Left" Margin="92,151,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="224"/>
             <Label x:Name="phone" Content="Phone:" FontSize="15" HorizontalAlignment="Left" Margin="21,168,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
-            <TextBox x:Name="phoneToPrint" FontSize="15" MaxLength="10" HorizontalAlignment="Left" Margin="94,174,0,0" Text="{Binding Phone}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127" TextChanged="nameToPrint_TextChanged" Background="{x:Null}"/>
+            <TextBox x:Name="phoneToPrint" FontSize="15" MaxLength="10" HorizontalAlignment="Left" Margin="94,174,0,0" Text="{Binding Phone}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
             <Label x:Name="RedMes8" Content=" hb" FontSize="12" HorizontalAlignment="Left" Margin="92,198,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="224"/>
             <Label x:Name="longitude" Content="Longitude:" FontSize="15" HorizontalAlignment="Left" Margin="21,222,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="longitudeToPrint" Content="{Binding Longitude}" FontSize="15" HorizontalAlignment="Left" Margin="106,230,0,0" VerticalAlignment="Top" Width="158" Height="8"/>
+            <Label x:Name="longitudeToPrint" Content="{Binding Longitude}" FontSize="15" HorizontalAlignment="Left" Margin="106,234,0,0" VerticalAlignment="Top" Width="158" Height="8"/>
             <Label x:Name="latitude" Content="Latitude:" FontSize="15" HorizontalAlignment="Left" Margin="23,271,0,0" VerticalAlignment="Top"/>
             <Label x:Name="latitudeToPrint" Content="{Binding Latitude}" FontSize="15" HorizontalAlignment="Left" Margin="95,280,0,0" VerticalAlignment="Top" Width="169"/>
 
