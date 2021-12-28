@@ -21,22 +21,29 @@ namespace PL
     /// </summary>
     public partial class ClientWindow : Window
     {
-       private IBL MyBL;
+        IBL myBL;
+        Customer client;
 
-        public ClientWindow(IBL bl)
+        public ClientWindow(IBL bl, Customer c)
         {
-            MyBL = bl;
+            myBL = bl;
+            client = c;
             InitializeComponent();
+            DataContext = client;
         }
 
+        #region Close button
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+        #endregion
 
+        #region Add parcel
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ClientParcelWindow(MyBL).ShowDialog();
+            new ClientParcelWindow(myBL, client).ShowDialog();
         }
+        #endregion
     }
 }

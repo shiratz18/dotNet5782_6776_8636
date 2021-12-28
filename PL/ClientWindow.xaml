@@ -20,11 +20,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="68,41,0,0"/>
-        <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="238" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="64,148,0,0"/>
-        <Image Grid.Row="0" Margin="264,10,450,140" Source="/Screenshot (130).png"/>
+        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,10,0,0"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="238" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,0,0,0"/>
+        <Image Grid.Row="0" Margin="201,0,513,150" Source="/Screenshot (130).png"/>
         <Button x:Name="btnClose" Content="Sign Out" FontSize="20" Grid.Row="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="677,10,0,0" HorizontalAlignment="Left" Width="113" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click"/>
-        <Button x:Name="btnAddParcel" ToolTip="New parcel" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Width="94" BorderBrush="White" Margin="677,113,0,0" Grid.Row="1" Click="btnAddParcel_Click" >
+        <Button x:Name="btnAddParcel" ToolTip="New parcel" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Center" Height="80" Width="94" BorderBrush="White" Margin="640,0,0,0" Grid.Row="1" Click="btnAddParcel_Click">
             <materialDesign:PackIcon Kind="PackageVariantAdd" Height="64" Width="59" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
     </Grid>
