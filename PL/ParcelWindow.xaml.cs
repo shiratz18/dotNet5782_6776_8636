@@ -38,7 +38,7 @@ namespace PL
             InitializeComponent();
 
             ActionGrid.Visibility = Visibility.Hidden; //hide the action grid
-            this.Title = "New drone"; //change the title
+            this.Title = "New parcel"; //change the title
 
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             parcelPriority.ItemsSource = Enum.GetValues(typeof(Priorities));
@@ -61,7 +61,7 @@ namespace PL
             parcel = p;
             DataContext = parcel;
 
-            display();
+          //  display();
         }
 
 
@@ -166,7 +166,7 @@ namespace PL
         private void parcelPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (parcelPriority.SelectedItem != null)
-                parcelPriorityLbl.Content = "";
+                PriorityLbl.Content = "";
             setOkButton();
         }
 
@@ -194,7 +194,7 @@ namespace PL
             parcel = new Parcel();
             bool flag1 = int.TryParse(parcelSenderId.Text, out int id);
             parcel.Sender.Id = id;
-            bool flag2 = int.TryParse(parcelSenderId.Text, out id);
+            bool flag2 = int.TryParse(parcelTargetId.Text, out  id);
             parcel.Target.Id = id;
 
             parcel.Weight = (WeightCategories)parcelWeight.SelectedItem;
@@ -251,66 +251,65 @@ namespace PL
             }
         }
 
-
-
+       
 
 
         /// <summary>
         /// Display the chosen drone and update button options according to drone status
         /// </summary>
-        private void display()
-        {
-            RedMes3.Content = " ";
-            //idToPrint.Content = drone.Id;
-            //modelToPrint.Text = drone.Model;
-            //maxWeightToPrint.Content = drone.MaxWeight;
-            //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-            //statusToPrint.Content = drone.Status;
-            //locationToPrint.Content = drone.CurrentLocation;
-            //if (drone.Status == DroneStatuses.Shipping)
-            //{
-            //    parcelExpander.IsExpanded = true;
-            //    parcelExpander.IsEnabled = true;
-            //    parcelId.Content = drone.InShipping.Id;
-            //    isPickedUp.Content = drone.InShipping.IsPickedUp;
-            //    priority.Content = drone.InShipping.Priority;
-            //    weight.Content = drone.InShipping.Weight;
-            //    senderName.Content = drone.InShipping.Sender.Name;
-            //    targetName.Content = drone.InShipping.Target.Name;
-            //    pickUpLocation.Content = drone.InShipping.PickUpLocation;
-            //    deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-            //    deliveryDistance.Content = drone.InShipping.DeliveryDistance;
-            //}
-            //else
-            //{
-            //    parcelExpander.IsEnabled = false;
-            //    parcelExpander.IsExpanded = false;
-            //}
+        //private void display()
+        //{
+        //    RedMes3.Content = " ";
+        //    //idToPrint.Content = drone.Id;
+        //    //modelToPrint.Text = drone.Model;
+        //    //maxWeightToPrint.Content = drone.MaxWeight;
+        //    //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+        //    //statusToPrint.Content = drone.Status;
+        //    //locationToPrint.Content = drone.CurrentLocation;
+        //    if (drone.Status == DroneStatuses.Shipping)
+        //    {
+        //        parcelExpander.IsExpanded = true;
+        //        parcelExpander.IsEnabled = true;
+        //        parcelId.Content = drone.InShipping.Id;
+        //        isPickedUp.Content = drone.InShipping.IsPickedUp;
+        //        priority.Content = drone.InShipping.Priority;
+        //        weight.Content = drone.InShipping.Weight;
+        //        senderName.Content = drone.InShipping.Sender.Name;
+        //        targetName.Content = drone.InShipping.Target.Name;
+        //        pickUpLocation.Content = drone.InShipping.PickUpLocation;
+        //        deliveryLocation.Content = drone.InShipping.DeliveryLocation;
+        //        deliveryDistance.Content = drone.InShipping.DeliveryDistance;
+        //    }
+        //    else
+        //    {
+        //        parcelExpander.IsEnabled = false;
+        //        parcelExpander.IsExpanded = false;
+        //    }
 
-            //if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
-            //{
-            //    btnCharge.Visibility = Visibility.Hidden;
-            //    btnDroneToDelivery.Visibility = Visibility.Hidden;
-            //}
+        //    if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
+        //    {
+        //        btnCharge.Visibility = Visibility.Hidden;
+        //        btnDroneToDelivery.Visibility = Visibility.Hidden;
+        //    }
 
-            //if (drone.Status != DroneStatuses.Maintenance)
-            //{
-            //    btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
-            //}
+        //    if (drone.Status != DroneStatuses.Maintenance)
+        //    {
+        //        btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
+        //    }
 
-            //if (drone.Status != DroneStatuses.Shipping)
-            //{
-            //    btnDronePickUp.Visibility = Visibility.Hidden;
-            //    btnDroneDeliver.Visibility = Visibility.Hidden;
-            //}
+        //    if (drone.Status != DroneStatuses.Shipping)
+        //    {
+        //        btnDronePickUp.Visibility = Visibility.Hidden;
+        //        btnDroneDeliver.Visibility = Visibility.Hidden;
+        //    }
 
-            //if (drone.InShipping.IsPickedUp)
-            //    btnDronePickUp.Visibility = Visibility.Hidden;
+        //    if (drone.InShipping.IsPickedUp)
+        //        btnDronePickUp.Visibility = Visibility.Hidden;
 
-            //if (!drone.InShipping.IsPickedUp)
-            //    btnDroneDeliver.Visibility = Visibility.Hidden;
+        //    if (!drone.InShipping.IsPickedUp)
+        //        btnDroneDeliver.Visibility = Visibility.Hidden;
 
-        }
+        //}
 
 
 
@@ -342,5 +341,9 @@ namespace PL
             Close();
         }
 
+        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

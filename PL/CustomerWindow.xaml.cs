@@ -52,7 +52,7 @@ namespace PL
             customer = c;
             DataContext = customer;
 
-            //display();
+           // display();
         }
 
 
@@ -107,23 +107,21 @@ namespace PL
         private void setOkButton()
         {
             //enable OK button only if all fields were filled
-            //if (btnOK != null)
-            //    btnOK.IsEnabled = (!String.IsNullOrEmpty(customerId.Text) && customerId.Text != "Enter ID here") &&
-            //        (!String.IsNullOrEmpty(customerName.Text) && customerName.Text != "Enter model here") &&
-            //        (!String.IsNullOrEmpty(customerPhone.Text) && customerPhone.Text != "Enter ID here") &&
-            //        (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here") &&
-            //        (!String.IsNullOrEmpty(customerLongitude.Text) && customerLongitude.Text != "Enter ID here")
-            //       ;
+            if (btnOK != null)
+                btnOK.IsEnabled = (!String.IsNullOrEmpty(customerId.Text) && customerId.Text != "Enter ID here") &&
+                    (!String.IsNullOrEmpty(customerName.Text) && customerName.Text != "Enter model here") &&
+                    (!String.IsNullOrEmpty(customerPhone.Text) && customerPhone.Text != "Enter ID here") ;
         }
+
         /// <summary>
-        /// Text changed event for customerModel
+        /// Text changed event for customerName
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void customerModel_TextChanged(object sender, TextChangedEventArgs e)
+        private void customerName_TextChanged(object sender, TextChangedEventArgs e)
         {
             string m = customerName.Text;
-            if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
+            if (!String.IsNullOrEmpty(m) && m.Length < 10)//if the model the user entered is less than 5 characters the border is red
             {
                 customerName.BorderBrush = Brushes.Red;
                 RedMes2.Content = "Incorrect entry, please try again";
@@ -136,17 +134,19 @@ namespace PL
             }
             setOkButton();
         }
+
         /// <summary>
-        ///  Removes the current text from customerModel text box, occurs only once and then removed drom events
+        ///  Removes the current text from customerName text box, occurs only once and then removed drom events
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void modelTbGotFocus(object sender, RoutedEventArgs e)
+        private void nameTbGotFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
             tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= modelTbGotFocus;
+            tb.GotFocus -= nameTbGotFocus;
         }
+        
         /// <summary>
         /// Text changed event for customerPhone
         /// </summary>
@@ -168,25 +168,19 @@ namespace PL
             }
             setOkButton();
         }
-        /// <summary>
-        /// Text changed event for customerLatitude
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void customerLongitude_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //string m = customerLongitude.Text;
-        }
-        /// <summary>
-        /// Text changed event for customerLatitude
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void customerLatitude_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           // string m = customerLatitude.Text;
 
+        /// <summary>
+        ///  Removes the current text from customerPhone text box, occurs only once and then removed drom events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void phoneTbGotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            tb.Text = ""; //changing the text to be empty
+            tb.GotFocus -= phoneTbGotFocus;
         }
+
 
 
         /// <summary>
@@ -205,10 +199,10 @@ namespace PL
             string phone = customerPhone.Text;
             customer.Phone = name;
 
-            //double flag2 = double.Parse(customerLongitude.Text,out double longitude);
-            //customer.Location.Longitude = longitude;
-            //bool flag3 = double.Parse(customerLatitude.Text, out double latitude);
-            //customer.Location.Latitude = latitude;
+          // double flag2 = double.Parse(customerLongitude.Text,out double longitude);
+          //customer.Location.Longitude = longitude;
+          //  bool flag3 = double.Parse(customerLatitude.Text, out double latitude);
+          //  customer.Location.Latitude = latitude;
 
 
 
@@ -356,6 +350,7 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+       
         /// <summary>
         /// Allows to drag the window (because there is no title to drag from)
         /// </summary>
@@ -365,6 +360,8 @@ namespace PL
         {
             this.DragMove();
         }
+
+        
     }
     
 
