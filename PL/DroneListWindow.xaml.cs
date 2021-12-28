@@ -225,5 +225,10 @@ namespace PL
         }
 
         #endregion
+
+        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

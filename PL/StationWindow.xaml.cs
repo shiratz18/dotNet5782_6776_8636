@@ -216,7 +216,7 @@ namespace PL
 
 
             Close();
-            MessageBox.Show("Drone successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Station successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         /// <summary>

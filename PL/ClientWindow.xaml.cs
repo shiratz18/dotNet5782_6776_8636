@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
 
 namespace PL
 {
@@ -20,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class ClientWindow : Window
     {
-        IBL MyBL;
+       private IBL MyBL;
 
         public ClientWindow(IBL bl)
         {
@@ -35,7 +36,7 @@ namespace PL
 
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ClientParcelWindow(myBL).ShowDialog();
+            new ClientParcelWindow(MyBL).ShowDialog();
         }
     }
 }
