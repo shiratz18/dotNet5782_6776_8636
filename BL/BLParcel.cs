@@ -27,6 +27,9 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
 
+            if (parcel.Sender.Id < 0 || parcel.Sender.Id > 9 || parcel.Target.Id < 0 || parcel.Target.Id > 9)
+                throw new InvalidNumberException("ID must be 9 digits.");
+
             DO.Parcel temp = new DO.Parcel()
             {
                 SenderId = parcel.Sender.Id,

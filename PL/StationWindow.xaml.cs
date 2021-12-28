@@ -173,9 +173,12 @@ namespace PL
             station.Id = id;
 
             string name = stationName.Text;
-            station.Name =name;
-            station.Location.Longitude = SliderLongitude.Value;
-            station.Location.Latitude = SliderLatitude.Value;
+            station.Name = name;
+            station.Location = new Location()
+            {
+                Longitude = SliderLongitude.Value,
+                Latitude = SliderLatitude.Value
+            };
 
             bool flag2 = int.TryParse(ChargeSlots.Text, out int charges);
             station.AvailableChargeSlots = charges;

@@ -193,9 +193,9 @@ namespace PL
             //get the data the user entered
             parcel = new Parcel();
             bool flag1 = int.TryParse(parcelSenderId.Text, out int id);
-            parcel.Sender.Id = id;
+            parcel.Sender = new CustomerInParcel() { Id = id };
             bool flag2 = int.TryParse(parcelTargetId.Text, out  id);
-            parcel.Target.Id = id;
+            parcel.Target = new CustomerInParcel() { Id = id };
 
             parcel.Weight = (WeightCategories)parcelWeight.SelectedItem;
             parcel.Priority= (Priorities)parcelPriority.SelectedItem;
