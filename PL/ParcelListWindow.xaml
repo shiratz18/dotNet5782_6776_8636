@@ -4,8 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"  ResizeMode="NoResize" WindowStyle="None"
         Title="ParcelListWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="11*"/>
@@ -56,26 +67,36 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="PARCELS" FontSize="25"  Grid.Column="0" Margin="10,53,0,0" HorizontalAlignment="Left" FontWeight="Bold"  Foreground="#FF10287C"/>
-            <Button x:Name="btnAddParcel" ToolTip="Add a new drone"  Content="+" Background="#FFE2EDFB" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="56" Click="btnAddParcel_Click" Grid.Column="4" Margin="94,10,0,43" RenderTransformOrigin="1.481,0.474">
+            <Button x:Name="btnAddParcel" ToolTip="Add a new drone"   Background="#00000000" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Click="btnAddParcel_Click" Grid.Column="4" Margin="75,1,0,59" RenderTransformOrigin="1.481,0.474" BorderBrush="Transparent" Height="50">
+                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnRefresh" Content="⟳" ToolTip="Refresh" VerticalAlignment="Top" Height="38" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="34,0,80,0" Click="btnRefresh_Click"/>
-            <Button x:Name="btnClose" Content="←" ToolTip="Back" VerticalAlignment="Top" Height="38" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click" Margin="0,0,126,0"/>
+            <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="51,1,56,0" Click="btnRefresh_Click" BorderBrush="Transparent" Width="53">
+
+                <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE" />
+
+            </Button>
+            <Button x:Name="btnClose"  ToolTip="Back" VerticalAlignment="Top" Height="31" RenderTransformOrigin="1.272,0.316" 
+                    FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click" Margin="0,0,126,0" BorderBrush="Transparent" Width="51">
+                <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
+            </Button>
+
             <ComboBox x:Name="StatusSelector" ToolTip="Select status" SelectionChanged="StatusSelector_SelectionChanged" Margin="0,77,0,10" Foreground="#FF10287C" FontFamily="Century Gothic" FontSize="13" Grid.Column="1"/>
-            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="117,57,0,31" Grid.Column="1" Background="{x:Null}" Foreground="#FF10287C"/>
+            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="80,57,0,21" Grid.Column="1" Background="{x:Null}" Foreground="#FF10287C" BorderBrush="Transparent"/>
             <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="0,75,60,12" FontWeight="Normal" Foreground="#FF10287C" Grid.Column="1"/>
             <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="0,29,0,58" Grid.Column="1" Foreground="#FF10287C" FontFamily="Century Gothic" FontSize="13"/>
             <Label x:Name="weightLabel" Content="- All Weights -" VerticalContentAlignment="Center" FontSize="13" Margin="0,26,60,58" FontWeight="Normal" Foreground="#FF10287C" Grid.Column="1" RenderTransformOrigin="0.48,0.346"/>
-            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="117,7,0,79" Grid.Column="1" Background="{x:Null}" Foreground="#FF10287C"/>
+            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="80,7,0,71" Grid.Column="1" Background="{x:Null}" Foreground="#FF10287C" BorderBrush="Transparent"/>
             <ComboBox x:Name="PrioritySelector" ToolTip="Select priority" SelectionChanged="PrioritySelector_SelectionChanged" Margin="5,29,155,58" Grid.Column="2" Foreground="#FF10287C" FontFamily="Century Gothic" FontSize="13" Grid.ColumnSpan="2"/>
             <Label x:Name="priorityLabel" Content="- All Priorities -" VerticalContentAlignment="Center" FontSize="13" Margin="10,26,50,55" FontWeight="Normal" Foreground="#FF10287C" Grid.Column="2"/>
-            <Button x:Name="btnClearPrioritySelection" Content="Clear" Click="btnClearPrioritySelection_Click" ToolTip="Clear selection" FontSize="13" Margin="122,7,155,79" Grid.Column="2" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2"/>
-            <Button x:Name="btnGroupBySender" Content="Group by sender" Click="btnGroupBySender_Click" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Margin="10,72,150,0" Grid.Column="3" Grid.ColumnSpan="2"/>
-            <Button x:Name="btnGroupByReciever" Content="Group by reciever" Click="btnGroupByReciever_Click" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Margin="155,72,5,0" Grid.ColumnSpan="2" Grid.Column="3"/>
+            <Button x:Name="btnClearPrioritySelection" Content="Clear" Click="btnClearPrioritySelection_Click" ToolTip="Clear selection" FontSize="13" Margin="85,7,155,71" Grid.Column="2" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2" BorderBrush="Transparent"/>
+            <Button x:Name="btnGroupBySender" Content="Group by sender" Click="btnGroupBySender_Click" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Margin="150,75,10,3" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Transparent"/>
+            <Button x:Name="btnGroupByReciever" Content="Group by reciever" Click="btnGroupByReciever_Click" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Margin="155,72,5,0" Grid.ColumnSpan="2" Grid.Column="3" BorderBrush="Transparent"/>
         </Grid>
     </Grid>
 </Window>

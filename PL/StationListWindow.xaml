@@ -4,15 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="Stations" Height="450" Width="800">
+    <Window.Resources>
+        <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="37*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
-            <ListView x:Name="StationsListView" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="561*"/>
+                <ColumnDefinition Width="239*"/>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="StationsListView" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
@@ -23,7 +38,9 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <Image Source="/Screenshot (135).png"/>
+                                        <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center" Margin="0,0,0,0" Background="{x:Null}" />
+
+                                        <!--<Image Source="/Screenshot (135).png"/>-->
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -49,16 +66,27 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="10,35,0,-15" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C"/>
-            <Button x:Name="btnGroupByNumber" Content="Group by number of available chargers" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2" Margin="90,52,0,2" Click="btnGroupByNumber_Click" Grid.Column="2"/>
-            <Button x:Name="btnAddStation" ToolTip="Click to add a new station"  Content="+" Background="#FFE2EDFB" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="47" Click="btnAddStation_Click" Grid.Column="3" Margin="143,4,0,28">
+            <Button x:Name="btnGroupByNumber" Content="Group by number of available chargers" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2" Margin="90,52,0,2" Click="btnGroupByNumber_Click" Grid.Column="2" BorderBrush="Transparent"/>
+            <Button x:Name="btnAddStation" ToolTip="Click to add a new station"  Background="#00000000" Foreground="#00000000" 
+                    Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Click="btnAddStation_Click" Grid.Column="3" Margin="110,0,0,30" BorderBrush="Transparent" Height="50" >
+                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnRefresh" Content="⟳" ToolTip="Refresh" VerticalAlignment="Top" Height="35" Width="48" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="48,0,104,0" Click="btnRefresh_Click"/>
-            <Button x:Name="btnClose" Content="←" ToolTip="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="48" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click"/>
+
+            <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" 
+                    Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="48,0,89,0" Click="btnRefresh_Click" BorderBrush="Transparent" Width="53">
+                <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE"  />
+            </Button>
+
+            <Button x:Name="btnClose"  ToolTip="Back" HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" Height="32" Width="52" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click" BorderBrush="Transparent">
+                <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
+            </Button>
         </Grid>
     </Grid>
 </Window>

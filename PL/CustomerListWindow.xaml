@@ -4,8 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="Customers" Height="450" Width="800">
+    <Window.Resources>
+        <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
@@ -51,16 +62,23 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="10,32,0,3" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C"/>
-            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new customer"  Content="+" Background="#FFE2EDFB" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="54" Click="btnAddCustomer_Click" Grid.Column="3" Margin="123,16,0,9">
+            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="10,32,0,3" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C" BorderBrush="Black"/>
+            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new customer"   Background="#00000000" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="90" Click="btnAddCustomer_Click" Grid.Column="3" Margin="100,4,0,26" BorderBrush="#00000000" Height="50">
+                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="60"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="btnRefresh" Content="⟳" ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="34,0,134,0" Click="btnRefresh_Click"/>
-            <Button x:Name="btnClose" Content="←" ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="34" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C"/>
+            <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="58,0,89,0" Click="btnRefresh_Click" Width="53" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE"  />
+
+            </Button>
+            <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="53" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" Background="Transparent" BorderBrush="White"  />
+            </Button>
         </Grid>
     </Grid>
 </Window>

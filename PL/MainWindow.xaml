@@ -16,10 +16,10 @@
         <Image Grid.Row="0" Margin="139,30,-96,90" Source="/Screenshot (130).png"/>
         <Label Content="Log in:" FontSize="25" Grid.Row="1" Margin="148,14,113,175"/>
         <StackPanel Grid.Row="1" Margin="0,70,0,0">
-            <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Margin="0,0,0,3" Height="50" Width="394" Foreground="White"/>
-            <Button x:Name="btnClient" Content="Client" Margin="0,0,0,3" Height="50" Width="394" Foreground="White" Click="btnClient_Click"/>
+            <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Background="#FF0489BE" Margin="0,0,0,3" Height="50" Width="394" Foreground="White"/>
+            <Button x:Name="btnClient" Content="Client" Margin="0,0,0,3" Height="50" Width="394" Background="#FF0489BE" Foreground="White" Click="btnClient_Click"/>
             <Label Content="Dont have an account?" Margin="25,22,30,0" HorizontalAlignment="Center" FontSize="10" Foreground="#FF120374" Opacity="0.3"/>
-            <Button x:Name="btnSignUp" Content="Sign Up" Margin="0,0,0,0" FontSize="10" Foreground="#FF120374" Opacity="0.6" Height="15" Width="80" Background="{x:Null}" Click="btnSignUp_Click"/>
+            <Button x:Name="btnSignUp" Content="Sign Up" Margin="0,0,0,0" FontSize="10" Foreground="#FF120374" Opacity="0.6" Height="21" Width="80" Background="{x:Null}" Click="btnSignUp_Click"/>
         </StackPanel>
     </Grid>
 </Window>
