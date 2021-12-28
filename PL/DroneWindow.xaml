@@ -8,6 +8,14 @@
 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None"
         Title="DroneWindow" Height="503" Width="778" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="0,0,36,0">
         <Grid x:Name="AddGrid" Grid.Row="0" Margin="10,10,-32,0" Background="White">
             <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,202" Panel.ZIndex="1"/>
@@ -44,7 +52,9 @@
             <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="23,322,0,0" VerticalAlignment="Top"/>
             <Label x:Name="locationToPrint" Content="{Binding CurrentLocation}" FontSize="15" HorizontalAlignment="Left" Margin="96,322,0,0" VerticalAlignment="Top" Width="298" Height="60"/>
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="326,418,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE"/>
-            <Button x:Name="btnUpdate" Content="Change" FontSize="12" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="24" Click="btnUpdate_Click" Background="#FF0489BE"/>
+            <Button x:Name="btnUpdate"  FontSize="12" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="40" Click="btnUpdate_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
+            </Button>
             <Button x:Name="btnCharge" Content="Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,221,0,0" VerticalAlignment="Top" Click="btnCharge_Click" Background="#FF0489BE" Height="25" Width="106"/>
             <Button x:Name="btnReleaseCharge" Content="Release Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,222,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="106" RenderTransformOrigin="0.462,1.703" Background="#FF0489BE" Height="24"/>
             <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="289,275,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click" Background="#FF0489BE" Height="24" Width="106"/>

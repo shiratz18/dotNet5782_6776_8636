@@ -324,32 +324,7 @@ namespace PL
 
 
 
-        /// <summary>
-        /// Update the customer name
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-           
-            string newName = nameToPrint.Text;
-           
-            try
-            {
-                myBL.UpdateCustomerName(customer.Id, newName); //update the customer name
-                customer.Name = newName; //update also the current customer
-
-                MessageBox.Show("Drone model updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (WrongFormatException ex)
-            {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (NoIDException ex)
-            {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+       
        
         /// <summary>
         /// Allows to drag the window (because there is no title to drag from)
@@ -362,6 +337,59 @@ namespace PL
         }
 
         
+        /// <summary>
+        /// Update the customer name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void btnUpdateNAME_Click(object sender, RoutedEventArgs e)
+        {
+
+            string newName = nameToPrint.Text;
+
+            try
+            {
+                myBL.UpdateCustomerName(customer.Id, newName); //update the customer name
+                customer.Name = newName; //update also the current customer
+
+                MessageBox.Show("Customer name updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (WrongFormatException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoIDException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        
+        /// <summary>
+        /// Update the customer phone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnUpdatePHON_Click(object sender, RoutedEventArgs e)
+        {
+            string newPhone = phoneToPrint.Text;
+
+            try
+            {
+                myBL.UpdateCustomerPhone(customer.Id, newPhone); //update the customer phone
+                customer.Name = newPhone; //update also the current customer
+
+                MessageBox.Show("Customer phone updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (WrongFormatException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoIDException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
     
 

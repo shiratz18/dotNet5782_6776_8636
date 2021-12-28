@@ -243,18 +243,40 @@ namespace PL
             Close();
         }
      
+       
+
+        private void chargeSlotsToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void nameToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        
+        /// <summary>
+        /// Allows to drag the window (because there is no title to drag from)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        
         /// <summary>
         /// Update the station name
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateNAME_Click(object sender, RoutedEventArgs e)
         {
             string newName = nameToPrint.Text;
             try
             {
                 myBL.UpdateStationName(station.Id, newName); //update the drone model
-                station.Name = newName; //update also the current drone
+                station.Name = newName; //update also the current station
 
                 MessageBox.Show("Station name updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -267,26 +289,31 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void chargeSlotsToPrint_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void nameToPrint_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+      
         /// <summary>
-        /// Allows to drag the window (because there is no title to drag from)
+        /// Update the number of charge slots in a station
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void btnUpdateCHARGESLOTS_Click(object sender, RoutedEventArgs e)
         {
-            this.DragMove();
+
+            string newCHARGE = chargeSlotsToPrint.Text;
+            try
+            {
+                myBL.UpdateStationName(station.Id, newCHARGE); //update the charge slots 
+                station.Name = newCHARGE; //update also the current station
+
+                MessageBox.Show("Station charge slots updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (WrongFormatException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (NoIDException ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
-
     }
 }
