@@ -102,7 +102,7 @@ namespace PL
             Button b = sender as Button;
             ListStation ls = b.CommandParameter as ListStation;
             Station s = myBL.GetStation(ls.Id);
-            // new StationWindow(myBL, b).ShowDialog();
+            new StationWindow(myBL, s).ShowDialog();
 
             StationsListView.ItemsSource = myBL.GetStationList();
 

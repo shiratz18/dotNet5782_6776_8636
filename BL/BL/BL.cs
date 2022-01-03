@@ -43,7 +43,7 @@ namespace BL
         private BL()
         {
             //intializing data with a DalObject
-            Data = DalFactory.GetDal("DalObject");
+            Data = DalFactory.GetDal();
 
             //getting electricity consumption of drones
             double[] temp = new double[5];

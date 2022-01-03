@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using DalApi;
 
-namespace DalObject
+namespace Dal
 {
     partial class DalObject : IDal
     {

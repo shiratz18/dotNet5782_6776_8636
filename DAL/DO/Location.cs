@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    class Location
+    public class Location
     {
         //bonus methods to display sexasegimal coordination and find distance between ocations
 
