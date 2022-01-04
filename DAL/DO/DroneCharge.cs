@@ -10,6 +10,7 @@ namespace DO
     {
         public int DroneId { get; set; }
         public int StationId { get; set; }
+        public DateTime ChargingBegin { get; set; }
         public override string ToString()
         {
             string result = "";

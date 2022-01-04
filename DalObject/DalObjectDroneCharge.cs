@@ -9,6 +9,7 @@ namespace Dal
 {
     partial class DalObject
     {
+        #region Add Drone charge
         /// <summary>
         /// Add a drone to charge
         /// </summary>
@@ -26,9 +27,10 @@ namespace Dal
             }
 
             DataSource.DroneChargers.Add(d);
-
         }
+        #endregion
 
+        #region Remove Drone charge
         /// <summary>
         /// release a drone from charge
         /// </summary>
@@ -47,16 +49,24 @@ namespace Dal
 
             DataSource.DroneChargers.Remove(d);
         }
+        #endregion
 
-        ///// <summary>
-        ///// returns a list of the drones charging
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<DroneCharge> GetDroneChargeList()
-        //{
-        //    return DataSource.DroneChargers;
-        //}
+        #region Get DroneCharge
+        /// <summary>
+        /// Returns the object Dronecharge that matches the id
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <returns>The DroneCharge</returns>
+        public DroneCharge GetDroneCharge(int id)
+        {
+            if (!DataSource.DroneChargers.Exists(dc => dc.DroneId == id))
+                throw new NoIDException($"Drone {id} doesn't exist or is not currently charging.");
 
+            return DataSource.DroneChargers.Find(dc => dc.DroneId == id);
+        }
+        #endregion
+
+        #region Get DroneCharge list
         /// <summary>
         /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
@@ -69,7 +79,6 @@ namespace Dal
             else
                 return DataSource.DroneChargers;
         }
-
-
+        #endregion
     }
 }

@@ -55,12 +55,10 @@ namespace Dal
         /// <param name="parcel">the parcel to remove</param>
         public void RemoveParcel(Parcel parcel)
         {
-            if (!DataSource.Parcels.Exists(p => p.Id == parcel.Id))
+            if (!DataSource.Parcels.Remove(parcel))
             {
                 throw new NoIDException($"Parcel {parcel.Id} doesn't exist.");
             }
-
-            DataSource.Parcels.Remove(parcel);
         }
         #endregion
 
@@ -77,7 +75,7 @@ namespace Dal
                 throw new NoIDException($"Parcel {parcelId} doesn't exist.");
             }
 
-            if (!DataSource.Drones.Exists(d => d.Id == droneId))
+            if (!DataSource.Drones.Exists(d => d.Id == droneId || !d.Active))
             {
                 throw new NoIDException($"Drone {droneId} doesn't exists.");
             }
