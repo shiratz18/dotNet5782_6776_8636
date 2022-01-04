@@ -59,7 +59,7 @@ namespace Dal
         /// update the number of available charge slots in a station
         /// </summary>
         /// <param name="id">station id</param>
-        /// <param name="num">the number to updat (add 1 or substarct 1)</param>
+        /// <param name="num">the number to updat</param>
         public void UpdateChargeSlots(int id, int num)
         {
             if (!DataSource.Stations.Exists(s => s.Id == id))
@@ -121,25 +121,25 @@ namespace Dal
         }
         #endregion
 
-        #region Returns distance from a station
-        /// <summary>
-        /// finds the distance from a station
-        /// </summary>
-        /// <param name="Lat1"></param>
-        /// <param name="Lng1"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public double FindDistanceStation(double lng1, double lat1, int id)
-        {
-            if (!DataSource.Stations.Exists(s => s.Id == id))
-            {
-                throw new NoIDException($"Station {id} doesn't exist.");
-            }
+        //#region Returns distance from a station
+        ///// <summary>
+        ///// finds the distance from a station
+        ///// </summary>
+        ///// <param name="Lat1"></param>
+        ///// <param name="Lng1"></param>
+        ///// <param name="Id"></param>
+        ///// <returns></returns>
+        //public double FindDistanceStation(double lng1, double lat1, int id)
+        //{
+        //    if (!DataSource.Stations.Exists(s => s.Id == id))
+        //    {
+        //        throw new NoIDException($"Station {id} doesn't exist.");
+        //    }
 
-            Station temp = DataSource.Stations.Find(x => x.Id == id);
-            Double lat2 = temp.Latitude, lng2 = temp.Longitude;
-            return Location.GetDistance(lng1, lat1, lng2, lat2);
-        }
-        #endregion
+        //    Station temp = DataSource.Stations.Find(x => x.Id == id);
+        //    Double lat2 = temp.Latitude, lng2 = temp.Longitude;
+        //    return Location.GetDistance(lng1, lat1, lng2, lat2);
+        //}
+        //#endregion
     }
 }

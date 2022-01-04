@@ -121,25 +121,25 @@ namespace Dal
         }
         #endregion
 
-        #region Get distance to a customer
-        /// <summary>
-        /// finds the distance from a customer
-        /// </summary>
-        /// <param name="Lat1"></param>
-        /// <param name="Lng1"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public double FindDistanceCustomer(double lng1, double lat1, int id)
-        {
-            if (!DataSource.Customers.Exists(c => c.Id == id))
-            {
-                throw new NoIDException($"Customer {id} doesn't exist.");
-            }
+        //#region Get distance to a customer
+        ///// <summary>
+        ///// finds the distance from a customer
+        ///// </summary>
+        ///// <param name="Lat1"></param>
+        ///// <param name="Lng1"></param>
+        ///// <param name="Id"></param>
+        ///// <returns></returns>
+        //public double FindDistanceCustomer(double lng1, double lat1, int id)
+        //{
+        //    if (!DataSource.Customers.Exists(c => c.Id == id))
+        //    {
+        //        throw new NoIDException($"Customer {id} doesn't exist.");
+        //    }
 
-            Customer temp = DataSource.Customers.Find(x => x.Id == id);
-            Double lat2 = temp.Latitude, lng2 = temp.Longitude;
-            return Location.GetDistance(lng1, lat1, lng2, lat2);
-        }
-        #endregion
+        //    Customer temp = DataSource.Customers.Find(x => x.Id == id);
+        //    Double lat2 = temp.Latitude, lng2 = temp.Longitude;
+        //    return Location.GetDistance(lng1, lat1, lng2, lat2);
+        //}
+        //#endregion
     }
 }

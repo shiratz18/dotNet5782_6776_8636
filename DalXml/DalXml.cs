@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 using DalApi;
-using System.Reflection;
-using System.IO;
 
 namespace Dal
 {
@@ -41,30 +39,18 @@ namespace Dal
         readonly string dronesPath = @"DronesXml.xml";
         readonly string droneChargePath = @"DroneChargeXml.xml";
         readonly string parcelsPath = @"ParcelsXml.xml";
-        readonly string userPath = @"UserXml.xml";
-        readonly string configPath;
-        public static string localPath;
+        readonly string usersPath = @"UserXml.xml";
+        readonly string configPath = @"ConfigXml.xml";
         #endregion
 
         #region Constructor
-        DalXml()
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        private DalXml()
         {
-            string str = Assembly.GetExecutingAssembly().Location;
-            localPath = Path.GetDirectoryName(str);
-            localPath = Path.GetDirectoryName(localPath);
 
-            localPath += @"\Data";
-
-            dronesPath = localPath + @"\DroneXml.xml";
-            droneChargePath = localPath + @"\DroneChargeXml.xml";
-            stationsPath = localPath + @"\StationXml.xml";
-            customersPath = localPath + @"\CustomerXml.xml";
-            parcelsPath = localPath + @"\ParcelXml.xml";
-            userPath = localPath + @"\UserXml.xml";
-            configPath = localPath + @"\configXml.xml";
         }
         #endregion
     }
-
-
 }

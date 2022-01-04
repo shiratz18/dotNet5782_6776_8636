@@ -7,19 +7,20 @@ using DO;
 
 namespace Dal
 {
-   partial class DalObject
+    partial class DalObject
     {
+        #region Add parcel
         /// <summary>
         /// adds a parcel to the list of parcels
         /// </summary>
         public int AddParcel(Parcel parcel)
         {
-            if (!DataSource.Customers.Exists(c => c.Id == parcel.SenderId))
+            if (!DataSource.Customers.Exists(c => c.Id == parcel.SenderId || !c.Active))
             {
                 throw new NoIDException($"Customer {parcel.SenderId} doesn't exist.");
             }
 
-            if (!DataSource.Customers.Exists(c => c.Id == parcel.TargetId))
+            if (!DataSource.Customers.Exists(c => c.Id == parcel.TargetId || !c.Active))
             {
                 throw new NoIDException($"Customer {parcel.TargetId} doesn't exist.");
             }
@@ -29,7 +30,9 @@ namespace Dal
             DataSource.Config.IdNumber++;
             return DataSource.Config.IdNumber;
         }
+        #endregion
 
+        #region Update parcel
         /// <summary>
         /// updates a parcel
         /// </summary>
@@ -43,7 +46,9 @@ namespace Dal
 
             DataSource.Parcels[DataSource.Parcels.FindIndex(p => p.Id == parcel.Id)] = parcel;
         }
+        #endregion
 
+        #region Remove parcel
         /// <summary>
         /// removes a parcel from the list
         /// </summary>
@@ -57,7 +62,9 @@ namespace Dal
 
             DataSource.Parcels.Remove(parcel);
         }
+        #endregion
 
+        #region Assign drone to parcel
         /// <summary>
         /// assign a drone to a parcel and update the scheduled time
         /// </summary>
@@ -80,7 +87,9 @@ namespace Dal
             temp.Scheduled = DateTime.Now;
             UpdateParcel(temp);
         }
+        #endregion
 
+        #region Pick up parcel
         /// <summary>
         /// updates the pick up time of the parcel
         /// </summary>
@@ -96,7 +105,9 @@ namespace Dal
             temp.PickedUp = DateTime.Now;
             UpdateParcel(temp);
         }
+        #endregion
 
+        #region Deliver parcel
         /// <summary>
         /// updates that the parcel was delivered to the target
         /// </summary>
@@ -112,7 +123,9 @@ namespace Dal
             temp.Delivered = DateTime.Now;
             UpdateParcel(temp);
         }
+        #endregion
 
+        #region Get parcel
         /// <summary>
         /// returns the object Parcel that matches the id
         /// </summary>
@@ -127,16 +140,9 @@ namespace Dal
 
             return DataSource.Parcels.Find(x => x.Id == id);
         }
+        #endregion
 
-        ///// <summary>
-        ///// returns a list of the parcels
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<Parcel> GetParcelList()
-        //{
-        //    return DataSource.Parcels;
-        //}
-
+        #region Get parcel list
         /// <summary>
         /// Returns list of elements in the list that match the given predicate's condidition.
         /// </summary>
@@ -149,16 +155,6 @@ namespace Dal
             else
                 return DataSource.Parcels;
         }
-
-        ///// <summary>
-        ///// returns a list with all the parcels that are not associated to a drone
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<Parcel> GetNoDroneParcels()
-        //{
-        //    List<Parcel> temp = new List<Parcel>();
-        //    DataSource.Parcels.ForEach(x => { if (x.DroneId == 0) temp.Add(x); });
-        //    return temp;
-        //}
+        #endregion
     }
 }
