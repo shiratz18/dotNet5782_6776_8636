@@ -38,5 +38,10 @@ namespace PL
             new AdministratorWindow(myBL).ShowDialog();
             Close();
         }
+
+        private void btnForgotPassword_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
