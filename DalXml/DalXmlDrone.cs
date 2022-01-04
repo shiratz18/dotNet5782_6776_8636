@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading.Tasks;
-using System.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DO;
 
 namespace Dal
 {
-    partial class DalXml 
+    partial class DalXml
     {
         #region Add drone
         /// <summary>
@@ -24,7 +15,7 @@ namespace Dal
         public void AddDrone(Drone drone)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
-            
+
             if (droneList.Exists(d => d.Id == drone.Id))
                 throw new DoubleIDException($"Drone {drone.Id} already exists.");
             droneList.Add(drone);
@@ -68,7 +59,7 @@ namespace Dal
                 return XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath);
         }
         #endregion
-       
+
         #region Remove drone
         /// <summary>
         /// Mark a drone as deleted
@@ -76,8 +67,8 @@ namespace Dal
         /// <param name="drone">The drone to remove</param>
         public void RemoveDrone(Drone drone)
         {
-          
-          var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
+
+            var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
 
             if (!droneList.Exists(d => d.Id == drone.Id))
                 throw new NoIDException($"Drone {drone.Id} doesn't exists.");
@@ -95,7 +86,7 @@ namespace Dal
         /// <returns>the array</returns>
         public double[] GetDroneElectricityConsumption()
         {
-            List<string> config= XmlTools.LoadListFromXMLSerializer<string>(@"DalConfig.xml")
+            List<string> config = XmlTools.LoadListFromXMLSerializer<string>(@"DalConfig.xml");
             double[] temp = new double[5];
             temp[0] = double.Parse(config[0]);
             temp[1] = double.Parse(config[1]);
@@ -103,7 +94,7 @@ namespace Dal
             temp[3] = double.Parse(config[3]);
             temp[4] = double.Parse(config[4]);
             return temp;
-           
+
         }
         #endregion
 
@@ -164,7 +155,7 @@ namespace Dal
 
         }
         #endregion
-       
+
         #region Update drone
         /// <summary>
         /// updates a drone in the list
@@ -184,3 +175,4 @@ namespace Dal
         }
         #endregion
     }
+}
