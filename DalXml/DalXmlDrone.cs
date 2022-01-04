@@ -8,9 +8,8 @@ using System.Reflection;
 using System.Xml.Linq;
 using DalApi;
 using DO;
-using Dal;
 
-namespace DalXml
+namespace Dal
 {
     partial class DalXml : IDal
     {
