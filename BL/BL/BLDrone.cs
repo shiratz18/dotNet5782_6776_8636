@@ -35,11 +35,11 @@ namespace BL
 
             Station s;
             try
-            { 
-           //getting the station, will throw an exception if the station does not exist
+            {
+                //getting the station, will throw an exception if the station does not exist
                 s = GetStation(stationNum);
             }
-            catch(DO.NoIDException ex)
+            catch (DO.NoIDException ex)
             {
                 throw new NoIDException(ex.Message);
             }
@@ -47,7 +47,7 @@ namespace BL
                 throw new NoAvailableChargeSlotsException($"Station {stationNum} has no available charging slots.");
             if (!s.Active)
                 throw new NoIDException($"Station {stationNum} is no longer active.");
-            
+
             try //trying to add the drone to the list in data layer
             {
                 Data.AddDrone(temp);
@@ -317,7 +317,6 @@ namespace BL
             d.Battery -= AvailableConsumption * getDistance(d.CurrentLocation, s.Location); //decreasing from the battery the percaentage it takes to get to the station
             d.CurrentLocation = s.Location; //changing the location to be the station
             d.Status = DroneStatuses.Maintenance; //change the status to be in maintenance
-            d.ChargingBegin = DateTime.Now;
 
             DO.Drone drone = new DO.Drone()
             {
@@ -332,8 +331,10 @@ namespace BL
             DO.DroneCharge dc = new DO.DroneCharge()
             {
                 DroneId = drone.Id,
-                StationId = s.Id
+                StationId = s.Id,
+                ChargingBegin = DateTime.Now
             };
+
             Data.AddDroneCharge(dc); //add the drone charge in the data layer
         }
         #endregion
@@ -357,7 +358,8 @@ namespace BL
             if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
                 throw new DroneStateException($"Drone {id} is not currently charging.");
 
-            TimeSpan time = DateTime.Now - d.ChargingBegin;
+            DO.DroneCharge dc = Data.GetDroneCharge(d.Id);
+            TimeSpan time = DateTime.Now - dc.ChargingBegin;
 
             d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
             if (d.Battery > 100)
@@ -367,11 +369,6 @@ namespace BL
             Station s = getStationByLocation(d.CurrentLocation);
             UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
 
-            DO.DroneCharge dc = new DO.DroneCharge()
-            {
-                DroneId = d.Id,
-                StationId = s.Id
-            };
             Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
         }
         #endregion

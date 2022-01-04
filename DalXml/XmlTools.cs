@@ -14,40 +14,6 @@ namespace Dal
     {
         static XmlTools() { }
 
-        #region XML element
-        public static void CreateXmlFromList<T>(List<T> list, string path, string name)
-        {
-            XElement root = new XElement(name);
-            foreach (var item in list)
-            {
-                root.Add(CreateElement(item));
-            }
-            root.Save(path);
-        }
-
-        public static XElement CreateElement<T>(T obj)
-        {
-            var res = new XElement(typeof(T).Name);
-            foreach (PropertyInfo prop in obj.GetType().GetProperties())
-            {
-                res.Add(new XElement(prop.Name, prop.GetValue(obj)));
-            }
-            return res;
-        }
-
-        public static void UpdateElement<T>(this XElement element, T obj)
-        {
-            foreach (var elem in element.Elements())
-            {
-                foreach (PropertyInfo prop in obj.GetType().GetProperties())
-                {
-                    if (prop.Name == elem.Name)
-                        elem.SetValue(prop.GetValue(obj));
-                }
-            }
-        }
-        #endregion
-
         #region Save and Load With XElement
         public static void SaveListToXMLElement(XElement rootElem, string filePath)
         {
@@ -55,9 +21,9 @@ namespace Dal
             {
                 rootElem.Save(filePath);
             }
-            catch (DO.XmlFileCreateException)
+            catch (Exception)
             {
-                throw new DO.XmlFileCreateException(filePath);
+                throw new DO.XmlFileCreationFailException($"Failed to create XML file {filePath}");
             }
         }
 
@@ -76,9 +42,9 @@ namespace Dal
                     return rootElem;
                 }
             }
-            catch (DO.XmlFileLoadException)
+            catch (Exception)
             {
-                throw new DO.XmlFileLoadException(filePath);
+                throw new DO.XmlFileCreationFailException($"Failed to create XML file {filePath}");
             }
         }
         #endregion
@@ -93,9 +59,9 @@ namespace Dal
                 x.Serialize(file, list);
                 file.Close();
             }
-            catch (DO.XmlFileCreateException)
+            catch (Exception)
             {
-                throw new DO.XmlFileCreateException(filePath);
+                throw new DO.XmlFileCreationFailException(filePath);
             }
         }
 
@@ -115,9 +81,9 @@ namespace Dal
                 else
                     return new List<T>();
             }
-            catch (DO.XmlFileLoadException)
+            catch (Exception)
             {
-                throw new DO.XmlFileLoadException(filePath);
+                throw new DO.XmlFileCreationFailException(filePath);
             }
         }
         #endregion

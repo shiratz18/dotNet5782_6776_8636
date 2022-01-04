@@ -136,6 +136,15 @@ namespace DalApi
         public IEnumerable<Customer> GetCustomerList(Predicate<Customer> predicate = null);
         #endregion
 
+        #region Get DroneCharge
+        /// <summary>
+        /// Returns the object Dronecharge that matches the id
+        /// </summary>
+        /// <param name="id">The drone ID</param>
+        /// <returns>The DroneCharge</returns>
+        public DroneCharge GetDroneCharge(int id);
+        #endregion
+
         #region Get drone charge list
         /// <summary>
         /// Returns list of elements in the list that match the given predicate's condidition.
