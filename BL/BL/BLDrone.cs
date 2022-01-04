@@ -66,7 +66,6 @@ namespace BL
                 Status = DroneStatuses.Maintenance,
                 CurrentLocation = s.Location,
                 ParcelId = 0,
-                ChargingBegin = DateTime.Now,
                 Active = true
             });
 
@@ -131,7 +130,6 @@ namespace BL
                             {
                                 Id = d.Id,
                                 Battery = d.Battery,
-                                ChargingBegin = d.ChargingBegin,
                                 Status = d.Status,
                                 CurrentLocation = d.CurrentLocation,
                                 MaxWeight = d.MaxWeight,
@@ -147,7 +145,6 @@ namespace BL
                             {
                                 Id = d.Id,
                                 Battery = d.Battery,
-                                ChargingBegin = d.ChargingBegin,
                                 Status = d.Status,
                                 CurrentLocation = d.CurrentLocation,
                                 MaxWeight = d.MaxWeight,
@@ -164,7 +161,6 @@ namespace BL
                         {
                             Id = d.Id,
                             Battery = d.Battery,
-                            ChargingBegin = d.ChargingBegin,
                             Status = d.Status,
                             CurrentLocation = d.CurrentLocation,
                             MaxWeight = d.MaxWeight,
@@ -180,7 +176,6 @@ namespace BL
                         {
                             Id = d.Id,
                             Battery = d.Battery,
-                            ChargingBegin = d.ChargingBegin,
                             Status = d.Status,
                             CurrentLocation = d.CurrentLocation,
                             MaxWeight = d.MaxWeight,
