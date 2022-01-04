@@ -1,4 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Stations>
-	
-</Stations>
+<?xml version="1.0"?>
+<ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
+    <Id>1234</Id>
+    <Name>Jerusalem Central Station</Name>
+    <Longitude>35.20373</Longitude>
+    <Latitude>31.78954</Latitude>
+    <ChargeSlots>10</ChargeSlots>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <Id>5678</Id>
+    <Name>Malcha Mall</Name>
+    <Longitude>35.18726</Longitude>
+    <Latitude>31.75173</Latitude>
+    <ChargeSlots>7</ChargeSlots>
+    <Active>true</Active>
+  </Station>
+</ArrayOfStation>

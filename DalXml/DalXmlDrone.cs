@@ -86,7 +86,7 @@ namespace Dal
         /// <returns>the array</returns>
         public double[] GetDroneElectricityConsumption()
         {
-            List<string> config = XmlTools.LoadListFromXMLSerializer<string>(@"DalConfig.xml");
+            List<string> config = XmlTools.LoadListFromXMLSerializer<string>(@"ConfigXml.xml");
             double[] temp = new double[5];
             temp[0] = double.Parse(config[0]);
             temp[1] = double.Parse(config[1]);

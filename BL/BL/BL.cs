@@ -65,6 +65,8 @@ namespace BL
             IEnumerable<DO.Station> tempStations = Data.GetStationList();
             //getting the list if all the customers
             IEnumerable<DO.Customer> tempCustomers = Data.GetCustomerList();
+            //getting the list of all drone charges
+            IEnumerable<DO.DroneCharge> DroneCharges = Data.GetDroneChargeList();
 
             //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
             foreach (DO.Drone d in tempDrones)
@@ -74,7 +76,7 @@ namespace BL
                     Id = d.Id,
                     Model = d.Model,
                     MaxWeight = (WeightCategories)d.MaxWeight,
-                    Status = (DroneStatuses)(R.Next(0, 2)), //intialize status to be available or maintenance
+                    Status = DroneStatuses.Available,
                     Active = true
                 });
             }
@@ -84,9 +86,8 @@ namespace BL
             {
                 var drone = Drones.Find(d => d.Id == p.DroneId); //finding the index of the drone of the parcel in the list of drones
                 if (drone == null)
-                {
                     throw new NoIDException($"Drone {p.DroneId} does not exist.");
-                }
+
                 drone.Status = DroneStatuses.Shipping; //changing the status of the drone to be in shipping
                 drone.ParcelId = p.Id; //updating the parcel of the drone to be this parcel
 
@@ -141,6 +142,23 @@ namespace BL
                 }
             }
 
+            //checking all the drones that are charging to update their status and location
+            foreach (DO.DroneCharge dc in DroneCharges)
+            {
+                ListDrone drone = Drones.Find(d => d.Id == dc.DroneId);
+                if (drone == null)
+                    throw new NoIDException($"Drone {dc.DroneId} does not exist.");
+
+                drone.Status = DroneStatuses.Maintenance; //update the status to be maintenance
+
+                DO.Station station = Data.GetStation(dc.StationId);
+                drone.CurrentLocation = new Location() //updating the drone location
+                {
+                    Longitude = station.Longitude,
+                    Latitude = station.Latitude
+                };
+            }
+
             //updating info about the drones that are not shipping
             Drones.ForEach(d => //for each drone in the list of drones
             {
@@ -168,21 +186,6 @@ namespace BL
                         Latitude = Data.GetStation(id).Latitude,
                     };
                     d.Battery = R.Next((int)(getDistance(d.CurrentLocation, temp) * AvailableConsumption), 100); //battery between the minimum battery needed to get to the nearest station, and full battery
-                }
-
-                //if the drone is in maintenance, the location is a random station, the battery is betweer 0-20%
-                else if (d.Status == DroneStatuses.Maintenance)
-                {
-                    rand = R.Next(0, tempStations.Count() + 1); //a ranodm number in the range of the station list size
-                    d.CurrentLocation = new Location
-                    {
-                        //getting the location of a station from a random index
-                        Longitude = tempStations.ElementAt(rand).Longitude,
-                        Latitude = tempStations.ElementAt(rand).Latitude
-                    };
-
-                    //battery is between 0-20%
-                    d.Battery = R.Next(0, 21);
                 }
             });
         }

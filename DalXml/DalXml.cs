@@ -49,7 +49,7 @@ namespace Dal
         /// </summary>
         private DalXml()
         {
-
+            //DataSource.Initialize(); //intialize files once 
         }
         #endregion
     }

@@ -1,4 +1,83 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Customers>
-	
-</Customers>
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>123456789</Id>
+    <Name>Reuvan Cohen</Name>
+    <Phone>0583952489</Phone>
+    <Longitude>35.17102699703434</Longitude>
+    <Latitude>31.78913413396946</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>324968520</Id>
+    <Name>Shimon Levy</Name>
+    <Phone>0583522962</Phone>
+    <Longitude>35.18862021237819</Longitude>
+    <Latitude>31.786015836732847</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>323658962</Id>
+    <Name>Tirtza Bitton</Name>
+    <Phone>0503567495</Phone>
+    <Longitude>35.21472236819816</Longitude>
+    <Latitude>31.78619053512268</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>312696584</Id>
+    <Name>Isachar Friedman</Name>
+    <Phone>0559632587</Phone>
+    <Longitude>35.18716715470557</Longitude>
+    <Latitude>31.76275454575024</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>213695826</Id>
+    <Name>David Peretz</Name>
+    <Phone>0532459852</Phone>
+    <Longitude>35.18259758354167</Longitude>
+    <Latitude>31.76335370891613</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>326987415</Id>
+    <Name>Avraham Segal</Name>
+    <Phone>0527453969</Phone>
+    <Longitude>35.17261664121437</Longitude>
+    <Latitude>31.789408369550717</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>213698521</Id>
+    <Name>Yaakov Kats</Name>
+    <Phone>0548521365</Phone>
+    <Longitude>35.18189506819828</Longitude>
+    <Latitude>31.787829416071816</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>236985426</Id>
+    <Name>Leah Chadad</Name>
+    <Phone>0509850256</Phone>
+    <Longitude>35.21786601052626</Longitude>
+    <Latitude>31.78437499940112</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>206985147</Id>
+    <Name>Sara Silver</Name>
+    <Phone>0509879955</Phone>
+    <Longitude>35.19441221052715</Longitude>
+    <Latitude>31.817709663575744</Latitude>
+    <Active>true</Active>
+  </Customer>
+  <Customer>
+    <Id>456932814</Id>
+    <Name>Rivka Ochayoun</Name>
+    <Phone>0582564258</Phone>
+    <Longitude>35.18372692586983</Longitude>
+    <Latitude>31.770637478956328</Latitude>
+    <Active>true</Active>
+  </Customer>
+</ArrayOfCustomer>
