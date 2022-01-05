@@ -100,4 +100,14 @@
     <Answer>tttt</Answer>
     <Active>true</Active>
   </Customer>
+  <Customer>
+    <Id>213088636</Id>
+    <Name>Chaya Phillips</Name>
+    <Phone>0586713868</Phone>
+    <Longitude>35.13085</Longitude>
+    <Latitude>31.716050000000003</Latitude>
+    <Password>aaaaa</Password>
+    <Answer>Shulman</Answer>
+    <Active>true</Active>
+  </Customer>
 </ArrayOfCustomer>

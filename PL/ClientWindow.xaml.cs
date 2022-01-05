@@ -30,6 +30,9 @@ namespace PL
             client = c;
             InitializeComponent();
             DataContext = client;
+
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            lstParcelsTo.ItemsSource = client.ToCustomer;
         }
 
         #region Close button
@@ -45,5 +48,14 @@ namespace PL
             new ClientParcelWindow(myBL, client).ShowDialog();
         }
         #endregion
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
+
+            Parcel parcel = myBL.GetParcel(p.Id);
+            //new ParcelTrackWindow(myBL, parcel).ShowDialog();
+        }
     }
 }

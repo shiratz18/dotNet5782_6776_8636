@@ -25,6 +25,7 @@ namespace PL
         IBL myBL;
         Customer client;
 
+        #region Constructor
         public ClientParcelWindow(IBL bl, Customer c)
         {
             myBL = bl;
@@ -34,6 +35,7 @@ namespace PL
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             parcelPriority.ItemsSource = Enum.GetValues(typeof(Priorities));
         }
+        #endregion
 
         #region Numbers only
         /// <summary>
@@ -57,10 +59,11 @@ namespace PL
         }
         #endregion
 
+        #region Target Text box
         private void parcelTargetId_LostFocus(object sender, RoutedEventArgs e)
         {
             bool flag = int.TryParse(parcelTargetId.Text, out int num);
-            if (flag && num < 100000000) 
+            if (flag && num < 100000000)
                 redMes1.Content = "Incorrect entry, please try again";
             else
             {
@@ -68,6 +71,15 @@ namespace PL
                     redMes1.Content = "";
             }
         }
+        private void parcelTargetId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool flag = int.TryParse(parcelTargetId.Text, out int num);
+            if (flag && num >= 100000000)
+                if (redMes1 != null)
+                    redMes1.Content = "";
+
+        }
+        #endregion
 
         #region Add parcel
         /// <summary>
@@ -88,8 +100,7 @@ namespace PL
                     },
                     Target = new CustomerInParcel()
                     {
-                        Id = int.Parse(parcelTargetId.Text),
-                        //  Name = parcelTargetName.Text
+                        Id = int.Parse(parcelTargetId.Text)
                     },
                     Priority = (Priorities)parcelPriority.SelectedItem,
                     Weight = (WeightCategories)parcelWeight.SelectedItem
@@ -106,13 +117,5 @@ namespace PL
         }
         #endregion
 
-        private void parcelTargetId_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            bool flag = int.TryParse(parcelTargetId.Text, out int num);
-            if (flag && num >= 100000000) 
-                if (redMes1 != null)
-                    redMes1.Content = "";
-
-        }
     }
 }
