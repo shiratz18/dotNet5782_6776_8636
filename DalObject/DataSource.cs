@@ -23,6 +23,7 @@ namespace Dal
             internal static double MediumWeightConsumption { get => 3; }  //3% per km
             internal static double HeavyWeightConsumption { get => 4; } //4% per km
             internal static double ChargingRate { get => 1; } //1% per minute
+            internal static string AccessCode = "1234"; //acces code for worker interface
         }
 
         internal static Random r = new Random();
@@ -122,6 +123,8 @@ namespace Dal
                 Phone = "0583952489",
                 Latitude = 31.78913413396946,
                 Longitude = 35.17102699703434,
+                Password = "aaaa",
+                Answer = "bbbb",
                 Active = true
             });
             Customers.Add(new Customer
@@ -131,6 +134,8 @@ namespace Dal
                 Phone = "0583522962",
                 Latitude = 31.786015836732847,
                 Longitude = 35.18862021237819,
+                Password = "cccc",
+                Answer = "dddd",
                 Active = true
             });
             Customers.Add(new Customer
@@ -140,6 +145,8 @@ namespace Dal
                 Phone = "0503567495",
                 Latitude = 31.78619053512268,
                 Longitude = 35.21472236819816,
+                Password = "eeee",
+                Answer = "ffff",
                 Active = true
             });
             Customers.Add(new Customer
@@ -149,6 +156,8 @@ namespace Dal
                 Phone = "0559632587",
                 Latitude = 31.76275454575024,
                 Longitude = 35.18716715470557,
+                Password = "gggg",
+                Answer = "hhhh",
                 Active = true
             });
             Customers.Add(new Customer
@@ -158,6 +167,8 @@ namespace Dal
                 Phone = "0532459852",
                 Latitude = 31.76335370891613,
                 Longitude = 35.18259758354167,
+                Password = "iiii",
+                Answer = "jjjj",
                 Active = true
             });
             Customers.Add(new Customer
@@ -167,6 +178,8 @@ namespace Dal
                 Phone = "0527453969",
                 Latitude = 31.789408369550717,
                 Longitude = 35.17261664121437,
+                Password = "kkkk",
+                Answer = "llll",
                 Active = true
             });
             Customers.Add(new Customer
@@ -176,6 +189,8 @@ namespace Dal
                 Phone = "0548521365",
                 Latitude = 31.787829416071816,
                 Longitude = 35.18189506819828,
+                Password = "mmmm",
+                Answer = "nnnn",
                 Active = true
             });
             Customers.Add(new Customer
@@ -185,6 +200,8 @@ namespace Dal
                 Phone = "0509850256",
                 Latitude = 31.78437499940112,
                 Longitude = 35.21786601052626,
+                Password = "oooo",
+                Answer = "pppp",
                 Active = true
             });
             Customers.Add(new Customer
@@ -194,6 +211,8 @@ namespace Dal
                 Phone = "0509879955",
                 Latitude = 31.817709663575744,
                 Longitude = 35.19441221052715,
+                Password = "qqqq",
+                Answer = "rrrr",
                 Active = true
             });
             Customers.Add(new Customer
@@ -203,6 +222,8 @@ namespace Dal
                 Phone = "0582564258",
                 Latitude = 31.770637478956328,
                 Longitude = 35.18372692586983,
+                Password = "ssss",
+                Answer = "tttt",
                 Active = true
             });
         }

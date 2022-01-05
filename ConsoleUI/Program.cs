@@ -15,11 +15,11 @@ namespace ConsoleUI
         //        public enum DisplayOptions { Exit, Station, Drone, Customer, Parcel, NoDroneParcel, AvailableChargeStations }
         //        public enum DistanceOptions { Exit, Station, Customer }
 
-        //        static void Main(string[] args)
-        //        {
-        //            IDal data = new DalObject.DalObject();
-        //            MainMenu(data);
-        //        }
+        static void Main(string[] args)
+        {
+         //   IDal data = new DalObject.DalObject();
+           // MainMenu(data);
+        }
 
         /// <summary>
         /// Print main menu to user

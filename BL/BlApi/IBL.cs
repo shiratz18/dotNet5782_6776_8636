@@ -137,6 +137,15 @@ namespace BlApi
         /// <returns>The list of parcels</returns>
         public IEnumerable<ListParcel> GetNoDroneParcelList();
         #endregion
+
+        #region Get access code
+        /// <summary>
+        /// Returns the access code for worker interface
+        /// </summary>
+        /// <returns>The access code</returns>
+        public string GetAccessCode();
+        #endregion
+
         #endregion
 
         #region Update functions

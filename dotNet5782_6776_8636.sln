@@ -32,7 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{907A97E1-5
 		DronesXml.xml = DronesXml.xml
 		ParcelsXml.xml = ParcelsXml.xml
 		StationsXml.xml = StationsXml.xml
-		UserXml.xml = UserXml.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{B7CBAFB7-8C7D-4791-AA20-84F691C9471E}"

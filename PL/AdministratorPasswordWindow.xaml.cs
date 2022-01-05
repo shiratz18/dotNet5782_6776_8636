@@ -15,9 +15,6 @@ using BlApi;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for AdministratorPasswordWindow.xaml
-    /// </summary>
     public partial class AdministratorPasswordWindow : Window
     {
         private IBL myBL;
@@ -35,13 +32,15 @@ namespace PL
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            new AdministratorWindow(myBL).ShowDialog();
-            Close();
-        }
-
-        private void btnForgotPassword_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (password.Password == myBL.GetAccessCode())
+            {
+                new AdministratorWindow(myBL).ShowDialog();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Wrong code.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

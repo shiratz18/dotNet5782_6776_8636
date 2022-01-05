@@ -13,6 +13,8 @@ namespace DO
         public string Phone { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+        public string Password { get; set; }
+        public string Answer { get; set; }
         public bool Active { get; set; }
         public override string ToString()
         {

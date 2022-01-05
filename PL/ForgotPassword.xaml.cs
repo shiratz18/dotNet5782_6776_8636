@@ -22,7 +22,7 @@ namespace PL
         public ForgotPassword()
         {
             InitializeComponent();
-            ques.Text = BO.Configuration.question;
+         //   ques.Text = BO.Configuration.question;
         }
 
         private void forgotDone_Click(object sender, RoutedEventArgs e)
@@ -30,20 +30,20 @@ namespace PL
 
             try
             {
-                if ((password.Password == BO.Configuration.answer))
-                {
-                    new MainWindow().ShowDialog();
-                    this.Close();
+                //if ((password.Password == BO.Configuration.answer))
+                //{
+                //    new MainWindow().ShowDialog();
+                //    this.Close();
 
-                }
-                else
-                {
+                //}
+                //else
+                //{
 
-                    ERROR error = new ERROR();
-                    error.errorName.Content = "The answer is incorrect";
-                    error.ShowDialog();
+                //    ERROR error = new ERROR();
+                //    error.errorName.Content = "The answer is incorrect";
+                //    error.ShowDialog();
 
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -63,20 +63,20 @@ namespace PL
             {
                 try
                 {
-                    if ((password.Password == BO.Configuration.answer))
-                    {
-                        new MainWindow().ShowDialog();
-                        this.Close();
+                    //if ((password.Password == BO.Configuration.answer))
+                    //{
+                    //    new MainWindow().ShowDialog();
+                    //    this.Close();
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
 
-                        ERROR error = new ERROR();
-                        error.errorName.Content = "The answer is incorrect";
-                        error.ShowDialog();
+                    //    ERROR error = new ERROR();
+                    //    error.errorName.Content = "The answer is incorrect";
+                    //    error.ShowDialog();
 
-                    }
+                    //}
                 }
                 catch (Exception ex)
                 {

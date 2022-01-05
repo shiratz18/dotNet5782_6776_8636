@@ -39,6 +39,8 @@ namespace BL
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
                 Latitude = customer.Location.Latitude,
+                Password = customer.Password,
+                Answer = customer.Answer,
                 Active = true
             };
 
@@ -80,6 +82,8 @@ namespace BL
                 Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude },
                 FromCustomer = new List<ParcelAtCustomer>(),
                 ToCustomer = new List<ParcelAtCustomer>(),
+                Password = temp.Password,
+                Answer = temp.Answer,
                 Active = temp.Active
             };
 
@@ -152,6 +156,8 @@ namespace BL
                 Phone = customer.Phone,
                 Longitude = customer.Location.Longitude,
                 Latitude = customer.Location.Latitude,
+                Password = customer.Password,
+                Answer = customer.Answer,
                 Active = customer.Active
             };
             Data.UpdateCustomer(c);

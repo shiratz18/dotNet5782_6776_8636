@@ -6,6 +6,8 @@
     <Phone>0583952489</Phone>
     <Longitude>35.17102699703434</Longitude>
     <Latitude>31.78913413396946</Latitude>
+    <Password>aaaa</Password>
+    <Answer>bbbb</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -14,6 +16,8 @@
     <Phone>0583522962</Phone>
     <Longitude>35.18862021237819</Longitude>
     <Latitude>31.786015836732847</Latitude>
+    <Password>cccc</Password>
+    <Answer>dddd</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -22,6 +26,8 @@
     <Phone>0503567495</Phone>
     <Longitude>35.21472236819816</Longitude>
     <Latitude>31.78619053512268</Latitude>
+    <Password>eeee</Password>
+    <Answer>ffff</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -30,6 +36,8 @@
     <Phone>0559632587</Phone>
     <Longitude>35.18716715470557</Longitude>
     <Latitude>31.76275454575024</Latitude>
+    <Password>gggg</Password>
+    <Answer>hhhh</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -38,6 +46,8 @@
     <Phone>0532459852</Phone>
     <Longitude>35.18259758354167</Longitude>
     <Latitude>31.76335370891613</Latitude>
+    <Password>iiii</Password>
+    <Answer>jjjj</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -46,6 +56,8 @@
     <Phone>0527453969</Phone>
     <Longitude>35.17261664121437</Longitude>
     <Latitude>31.789408369550717</Latitude>
+    <Password>kkkk</Password>
+    <Answer>llll</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -54,6 +66,8 @@
     <Phone>0548521365</Phone>
     <Longitude>35.18189506819828</Longitude>
     <Latitude>31.787829416071816</Latitude>
+    <Password>mmmm</Password>
+    <Answer>nnnn</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -62,6 +76,8 @@
     <Phone>0509850256</Phone>
     <Longitude>35.21786601052626</Longitude>
     <Latitude>31.78437499940112</Latitude>
+    <Password>oooo</Password>
+    <Answer>pppp</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -70,6 +86,8 @@
     <Phone>0509879955</Phone>
     <Longitude>35.19441221052715</Longitude>
     <Latitude>31.817709663575744</Latitude>
+    <Password>qqqq</Password>
+    <Answer>rrrr</Answer>
     <Active>true</Active>
   </Customer>
   <Customer>
@@ -78,6 +96,8 @@
     <Phone>0582564258</Phone>
     <Longitude>35.18372692586983</Longitude>
     <Latitude>31.770637478956328</Latitude>
+    <Password>ssss</Password>
+    <Answer>tttt</Answer>
     <Active>true</Active>
   </Customer>
 </ArrayOfCustomer>

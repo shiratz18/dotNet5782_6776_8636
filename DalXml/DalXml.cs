@@ -39,7 +39,6 @@ namespace Dal
         readonly string dronesPath = @"DronesXml.xml";
         readonly string droneChargePath = @"DroneChargeXml.xml";
         readonly string parcelsPath = @"ParcelsXml.xml";
-        readonly string usersPath = @"UserXml.xml";
         readonly string configPath = @"ConfigXml.xml";
         #endregion
 
