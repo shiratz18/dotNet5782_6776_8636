@@ -26,6 +26,7 @@ namespace PL
     {
         private IBL myBL;
         private Parcel parcel;
+      
 
         /// <summary>
         /// Constructor for add grid
@@ -43,7 +44,7 @@ namespace PL
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             parcelPriority.ItemsSource = Enum.GetValues(typeof(Priorities));
 
-            //droneStation.ItemsSource = myBL.GetStationNameList();
+           
         }
         /// <summary>
         /// Constructor for action grid
@@ -267,76 +268,18 @@ namespace PL
             }
         }
 
+
+
+        
+
+
+
+        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
        
-
-
-        /// <summary>
-        /// Display the chosen drone and update button options according to drone status
-        /// </summary>
-        //private void display()
-        //{
-        //    RedMes3.Content = " ";
-        //    //idToPrint.Content = drone.Id;
-        //    //modelToPrint.Text = drone.Model;
-        //    //maxWeightToPrint.Content = drone.MaxWeight;
-        //    //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-        //    //statusToPrint.Content = drone.Status;
-        //    //locationToPrint.Content = drone.CurrentLocation;
-        //    if (drone.Status == DroneStatuses.Shipping)
-        //    {
-        //        parcelExpander.IsExpanded = true;
-        //        parcelExpander.IsEnabled = true;
-        //        parcelId.Content = drone.InShipping.Id;
-        //        isPickedUp.Content = drone.InShipping.IsPickedUp;
-        //        priority.Content = drone.InShipping.Priority;
-        //        weight.Content = drone.InShipping.Weight;
-        //        senderName.Content = drone.InShipping.Sender.Name;
-        //        targetName.Content = drone.InShipping.Target.Name;
-        //        pickUpLocation.Content = drone.InShipping.PickUpLocation;
-        //        deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-        //        deliveryDistance.Content = drone.InShipping.DeliveryDistance;
-        //    }
-        //    else
-        //    {
-        //        parcelExpander.IsEnabled = false;
-        //        parcelExpander.IsExpanded = false;
-        //    }
-
-        //    if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
-        //    {
-        //        btnCharge.Visibility = Visibility.Hidden;
-        //        btnDroneToDelivery.Visibility = Visibility.Hidden;
-        //    }
-
-        //    if (drone.Status != DroneStatuses.Maintenance)
-        //    {
-        //        btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
-        //    }
-
-        //    if (drone.Status != DroneStatuses.Shipping)
-        //    {
-        //        btnDronePickUp.Visibility = Visibility.Hidden;
-        //        btnDroneDeliver.Visibility = Visibility.Hidden;
-        //    }
-
-        //    if (drone.InShipping.IsPickedUp)
-        //        btnDronePickUp.Visibility = Visibility.Hidden;
-
-        //    if (!drone.InShipping.IsPickedUp)
-        //        btnDroneDeliver.Visibility = Visibility.Hidden;
-
-        //}
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Allows to drag the window (because there is no title to drag from)
         /// </summary>
@@ -357,8 +300,22 @@ namespace PL
             Close();
         }
 
-        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        private void SenderInformation_Click(object sender, RoutedEventArgs e)
         {
+            var customer = myBL.GetCustomer(parcel.Target.Id);
+            new CustomerWindow(myBL, customer).Show();
+        }
+
+        private void TargetInformation_Click(object sender, RoutedEventArgs e)
+        {
+            var customer = myBL.GetCustomer(parcel.Sender.Id);
+            new CustomerWindow(myBL, customer).Show();
+        }
+
+        private void DroneInformation_Click(object sender, RoutedEventArgs e)
+        {
+            var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
+            new DroneWindow(myBL, drone);
 
         }
     }

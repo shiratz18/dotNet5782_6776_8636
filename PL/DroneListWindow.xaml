@@ -23,7 +23,11 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
-            <ListView x:Name="DronesListView" SelectionChanged="DronesListView_SelectionChanged" Background="Transparent" Margin="0,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="373*"/>
+                <ColumnDefinition Width="427*"/>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="DronesListView" SelectionChanged="DronesListView_SelectionChanged" Background="Transparent" Margin="0,0,10,0" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="85"/>
@@ -36,7 +40,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <Image Source="/Screenshot (135).png"/>
+
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -45,7 +49,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <Image Source="/Screenshot (133).png"/>
+
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
