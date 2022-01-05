@@ -6,26 +6,79 @@
         xmlns:local="clr-namespace:PL" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="ClientWindow" Height="450" Width="800">
-    <Window.Resources>
-        <Style x:Key="BoldButton" TargetType="{x:Type TextBlock}">
-            <Style.Triggers>
-                <Trigger Property="IsMouseDirectlyOver" Value="True">
-                    <Setter Property="FontWeight" Value="Bold"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="161*"/>
+            <RowDefinition Height="289*"/>
         </Grid.RowDefinitions>
         <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,10,0,0"/>
-        <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="238" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,0,0,0"/>
-        <Image Grid.Row="0" Margin="201,0,513,150" Source="/Screenshot (130).png"/>
-        <Button x:Name="btnClose" Content="Sign Out" FontSize="20" Grid.Row="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="677,10,0,0" HorizontalAlignment="Left" Width="113" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click"/>
-        <Button x:Name="btnAddParcel" ToolTip="New parcel" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Center" Height="80" Width="94" BorderBrush="White" Margin="640,0,0,0" Grid.Row="1" Click="btnAddParcel_Click">
-            <materialDesign:PackIcon Kind="PackageVariantAdd" Height="64" Width="59" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="212" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,109,0,0"/>
+        <Image Grid.Row="0" Margin="174,0,513,100" Source="/Screenshot (130).png"/>
+        <Label Content="Welcome," FontSize="17" Margin="433,15,283,111"/>
+        <Label Content="{Binding Name}" FontSize="17" Margin="522,15,128,111"/>
+        <Button x:Name="btnClose" Content="Sign Out" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="677,10,0,0" HorizontalAlignment="Left" Width="113" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White"/>
+        <Button x:Name="btnAddParcel" Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" ToolTip="New parcel" BorderThickness="3" BorderBrush="#FF0489BE" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="70" Width="70" Click="btnAddParcel_Click" Margin="720,81,0,0">
+            <materialDesign:PackIcon Kind="PackageVariantAdd" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
+        <Grid Grid.Row="1">
+            <Grid Height="289">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="49*"/>
+                        <RowDefinition Height="240*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" Content="PARCELS SENT BY YOU" FontSize="30" FontWeight="Bold" Foreground="#FF0489BE"/>
+                    <ListView x:Name="lstParcelsFrom" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>
+                                <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding Weight}" Width="120"/>
+                                <GridViewColumn Header="PRIORITY" DisplayMemberBinding="{Binding Priority}" Width="120"/>
+                                <GridViewColumn Header="RECIPIENT" DisplayMemberBinding="{Binding OtherSide.Name}" Width="140"/>
+                                <GridViewColumn Header="TRACK">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="White" Click="btnEdit_Click" Width="50" Height="50">
+                                                <materialDesign:PackIcon Kind="TruckShipping" Foreground="#FF0489BE" Width="30" Height="40"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="49*"/>
+                        <RowDefinition Height="240*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" Content="PARCELS SENT TO YOU" FontSize="30" FontWeight="Bold" Foreground="#FF0489BE"/>
+                    <ListView x:Name="lstParcelsTo" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>
+                                <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding Weight}" Width="120"/>
+                                <GridViewColumn Header="PRIORITY" DisplayMemberBinding="{Binding Priority}" Width="120"/>
+                                <GridViewColumn Header="SENDER" DisplayMemberBinding="{Binding OtherSide.Name}" Width="140"/>
+                                <GridViewColumn Header="TRACK">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="White" Click="btnEdit_Click" Width="50" Height="50">
+                                                <materialDesign:PackIcon Kind="TruckShipping" Foreground="#FF0489BE" Width="30" Height="40"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

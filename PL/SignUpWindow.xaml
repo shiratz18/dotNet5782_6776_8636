@@ -4,11 +4,62 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="SignUpWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="56,129,502,207" Panel.ZIndex="1"/>
-        <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="312" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="21,243,0,0" Panel.ZIndex="1"/>
-        <Image Grid.Row="0" Margin="79,15,108,52" Source="/Screenshot (130).png" Opacity="0.3"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="63,78,35,253" Panel.ZIndex="1"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="310" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1" Margin="19,197,0,0" Grid.ColumnSpan="2"/>
+        <Label Content="Sign Up" FontSize="50" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="34,372,64,10" Panel.ZIndex="1"/>
+        <materialDesign:PackIcon Kind="EditOutline" Height="67" Width="73" Margin="256,372,0,0" Panel.ZIndex="1" Grid.ColumnSpan="2"/>
+        <Image Grid.Row="0" Margin="60,34,98,33" Source="/Screenshot (130).png" Opacity="0.3" Grid.ColumnSpan="2"/>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible">
+            <StackPanel Height="640" Width="458">
+                <Label FontWeight="Bold" Margin="0,15,0,0" Foreground="#FF0489BE" FontSize="20" Height="68"  Content="                    We just need a few details,&#10;                              and you're set!"/>
+                <Grid>
+                    <TextBox x:Name="txtBoxId" PreviewTextInput="numbersOnly" MaxLength="9" materialDesign:HintAssist.Hint="ID" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6"  FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE" Margin="54,-15,54,0"/>
+                    <materialDesign:PackIcon Kind="User"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,0,0,0" VerticalAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <TextBox x:Name="txtBoxName" materialDesign:HintAssist.Hint="NAME" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <materialDesign:PackIcon Kind="Edit"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
+                </Grid>
+                <Grid>
+                    <TextBox x:Name="txtBoxPhone" PreviewTextInput="numbersOnly" materialDesign:HintAssist.Hint="PHONE NO." MaxLength="10" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <materialDesign:PackIcon Kind="Phone"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
+                </Grid>
+                <Grid Margin="0,15,0,0" Height="50">
+                    <Label Content="Longitude " FontSize="20"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FFABADB3" Height="36" Margin="70,-10,0,0"/>
+                    <Slider x:Name="sliderLongitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.00005" IsSnapToTickEnabled="True" Foreground="#FF076E97" Margin="54,24,194,0" />
+                    <TextBox x:Name="Longitude" Text="{Binding Value, ElementName=sliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left" Height="35" Margin="324,8,58,7"/>
+                    <materialDesign:PackIcon Kind="Longitude"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,0,0,0" VerticalAlignment="Center" />
+                </Grid>
+                <Grid Margin="0,15,0,0" Height="50">
+                    <Label Content="Latitude " FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FFABADB3" Height="36" Margin="68,-10,0,0"/>
+                    <Slider x:Name="sliderLatitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.00005" IsSnapToTickEnabled="True" Foreground="#FF076E97" Margin="54,23,192,0" />
+                    <TextBox x:Name="Latitude" Text="{Binding Value, ElementName=sliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left" Height="35" Margin="322,8,62,7"/>
+                    <materialDesign:PackIcon Kind="Latitude"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,7,0,0" />
+                </Grid>
+                <Grid>
+                    <PasswordBox x:Name="password" MaxLength="8" materialDesign:HintAssist.Hint="PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <materialDesign:PackIcon Kind="Password"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
+                </Grid>
+                <Grid>
+                    <PasswordBox x:Name="passwordConfirm" PasswordChanged="passwordConfirm_PasswordChanged"  MaxLength="8" materialDesign:HintAssist.Hint="CONFIRM PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <materialDesign:PackIcon x:Name="confirmed" Kind="PasswordCheck"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0"/>
+                </Grid>
+                <Grid>
+                    <PasswordBox x:Name="answer" materialDesign:HintAssist.Hint="What is your mother's maiden name?" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <materialDesign:PackIcon Kind="QuestionMarkCircle" ToolTip="This is a security&#10;question in case&#10;you forget your&#10;password so we can&#10;make sure it's you"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
+                </Grid>
+                <CheckBox x:Name="chkBoxAgree" FontWeight="Bold" Content="Agree to terms of service" FontSize="15" Margin="0,10,0,0" Width="350" Height="39" Background="#FF0489BE" BorderBrush="#FF0489BE" Foreground="#FF0489BE"/>
+                <Button x:Name="btnAdd" Content="SIGN UP" Click="btnAdd_Click" IsEnabled="{Binding ElementName=chkBoxAgree, Path=IsChecked}" Margin="0,10,0,0" Width="164" Background="#FF0489BE" BorderBrush="White"/>
+                <Button x:Name="btnClose" Content="Cancel" Click="btnClose_Click" Margin="0,10,0,0" Width="100" Background="#FF0489BE" BorderBrush="White"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
