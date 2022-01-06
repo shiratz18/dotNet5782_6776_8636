@@ -75,7 +75,7 @@ namespace PL
             ListCustomer lc = b.CommandParameter as ListCustomer;
             Customer c = myBL.GetCustomer(lc.Id);
 
-            // new CustomerWindow(myBL, lc);
+            new CustomerWindow(myBL, c).ShowDialog();
         }
         #endregion
 

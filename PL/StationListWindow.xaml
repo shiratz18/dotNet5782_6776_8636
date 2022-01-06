@@ -34,20 +34,20 @@
                         <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="200"/>
                         <GridViewColumn Header="AVAILABLE CHARGERS" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="200"/>
                         <GridViewColumn Header="CHARGING DRONES" DisplayMemberBinding="{Binding UnavailableChargeSlots}" Width="200"/>
-                        <GridViewColumn>
+                        <GridViewColumn Header="EDIT"  Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30">
-                                        <materialDesign:PackIcon Kind="Edit" Foreground="#FF0489BE"/>
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Edit" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
+                        <GridViewColumn Header="DELETE"  Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30">
-                                        <materialDesign:PackIcon Kind="Delete" Foreground="#FF0489BE"/>
+                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Delete" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -63,11 +63,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="10,35,0,-15" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C"/>
-            <Button x:Name="btnGroupByNumber" Content="Group by number of available chargers" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Grid.ColumnSpan="2" Margin="90,52,0,2" Click="btnGroupByNumber_Click" Grid.Column="2" BorderBrush="Transparent"/>
+            <Label Content="STATIONS" FontSize="25"  Grid.Column="0" Margin="10,35,0,-15" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF0489BE"/>
+            <Button x:Name="btnGroupByNumber" Content="GROUP BY NUMBER OF AVAILABLE CHARGERS" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Grid.ColumnSpan="2" Margin="36,44,10,4" Click="btnGroupByNumber_Click" Grid.Column="2" BorderBrush="#FF0489BE"/>
             <Button x:Name="btnAddStation" ToolTip="Click to add a new station"  Background="#00000000" Foreground="#00000000" 
-                    Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Click="btnAddStation_Click" Grid.Column="3" Margin="110,0,0,30" BorderBrush="Transparent" Height="50" >
-                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+                    HorizontalAlignment="Left" Width="90" Click="btnAddStation_Click" Grid.Column="3" Margin="124,-7,0,37" BorderBrush="Transparent" Height="50" >
+                <materialDesign:PackIcon Kind="PlusCircleOutline"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
             </Button>
             <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" 
                     Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="48,0,89,0" Click="btnRefresh_Click" BorderBrush="Transparent" Width="53">

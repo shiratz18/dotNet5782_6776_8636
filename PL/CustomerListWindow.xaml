@@ -8,15 +8,6 @@
 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="Customers" Height="450" Width="800">
-    <Window.Resources>
-        <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Width" Value="70"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-        </Style>
-    </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
@@ -27,26 +18,26 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
-                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="100"/>
+                        <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="110"/>
                         <GridViewColumn Header="PHONE" DisplayMemberBinding="{Binding Phone}" Width="107"/>
                         <GridViewColumn Header="SENT" DisplayMemberBinding="{Binding NotDeliveredFromCustomer}" Width="100"/>
-                        <GridViewColumn Header="DELIVERED" DisplayMemberBinding="{Binding DeliveredFromCustomer}" Width="115"/>
-                        <GridViewColumn Header="ON THE WAY" DisplayMemberBinding="{Binding NotDeliveredToCustomer}" Width="104"/>
-                        <GridViewColumn Header="ARRIVED" DisplayMemberBinding="{Binding DeliveredToCustomer}" Width="104"/>
-                        <GridViewColumn>
+                        <GridViewColumn Header="DELIVERED" DisplayMemberBinding="{Binding DeliveredFromCustomer}" Width="130"/>
+                        <GridViewColumn Header="ON THE WAY" DisplayMemberBinding="{Binding NotDeliveredToCustomer}" Width="142"/>
+                        <GridViewColumn Header="ARRIVED" DisplayMemberBinding="{Binding DeliveredToCustomer}" Width="119"/>
+                        <GridViewColumn Header="EDIT"  Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <Image Source="/Screenshot (135).png"/>
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Edit" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
+                        <GridViewColumn Header="DELETE"  Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <Image Source="/Screenshot (133).png"/>
+                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Delete" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -62,21 +53,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="10,32,0,3" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C" BorderBrush="Black"/>
-            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new customer"   Background="#00000000" Foreground="#FF0A3977" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="90" Click="btnAddCustomer_Click" Grid.Column="3" Margin="100,4,0,26" BorderBrush="#00000000" Height="50">
-                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
-
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="60"/>
-                    </Style>
-                </Button.Resources>
+            <Label Content="CUTOMERS" FontSize="25"  Grid.Column="0" Margin="10,32,0,3" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF0489BE" BorderBrush="Black"/>
+            <Button x:Name="btnAddCustomer" ToolTip="Click to add a new customer" materialDesign:ButtonAssist.CornerRadius="50"  Width="90" Click="btnAddCustomer_Click" Grid.Column="3" Margin="100,16,0,14" BorderBrush="{x:Null}" Height="50" Background="{x:Null}">
+                <materialDesign:PackIcon Kind="PlusCircleOutline"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
             </Button>
-            <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Margin="58,0,89,0" Click="btnRefresh_Click" Width="53" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE"  />
-
+            <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" Height="32" Background="{x:Null}" Margin="58,0,89,0" Click="btnRefresh_Click" Width="53" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE"/>
             </Button>
-            <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="53" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" BorderBrush="{x:Null}">
+            <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="53" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" Background="Transparent" BorderBrush="White"  />
             </Button>
         </Grid>
