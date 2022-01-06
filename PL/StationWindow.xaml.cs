@@ -55,7 +55,7 @@ namespace PL
             this.Title = "Update station"; //change the title
             station = s;
             DataContext = station;
-
+            ChargingDronesListView.ItemsSource = station.ChargingDrones;
             //display();
         }
         /// <summary>
@@ -325,6 +325,22 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+
+
+
+
+       
+
+        private void ChargingDronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Button b = sender as Button;
+            ChargingDrone ld = b.CommandParameter as ChargingDrone;
+
+            Drone d = myBL.GetDrone(ld.Id);
+            new DroneWindow(myBL,d).ShowDialog();
+             
         }
     }
 }
