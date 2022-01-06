@@ -23,11 +23,7 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="373*"/>
-                <ColumnDefinition Width="427*"/>
-            </Grid.ColumnDefinitions>
-            <ListView x:Name="DronesListView" SelectionChanged="DronesListView_SelectionChanged" Background="Transparent" Margin="0,0,10,0" Grid.ColumnSpan="2">
+            <ListView x:Name="DronesListView" SelectionChanged="DronesListView_SelectionChanged" Background="Transparent">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="85"/>
@@ -36,22 +32,20 @@
                         <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="120"/>
                         <GridViewColumn Header="STATUS" DisplayMemberBinding="{Binding Status}" Width="120"/>
                         <GridViewColumn Header="LOCATION" DisplayMemberBinding="{Binding CurrentLocation}" Width="194"/>
-                        <GridViewColumn>
+                        <GridViewColumn Header="EDIT"  Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}" Foreground="{x:Null}">
-                                        <materialDesign:PackIcon Kind="Edit" Foreground="#FF0489BE" />
-
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Edit" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn>
+                        <GridViewColumn Header="DELETE"  Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
-                                        <materialDesign:PackIcon Kind="Delete" Foreground="#FF0489BE"/>
-
+                                    <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Delete" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -69,34 +63,23 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="DRONES" FontSize="25"  Grid.Column="0" Margin="10,32,0,-12" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF10287C" Grid.RowSpan="2" Width="107"/>
-            <ComboBox x:Name="StatusSelector" ToolTip="Select status" SelectionChanged="StatusSelector_SelectionChanged" Margin="133,42,6,26" Grid.ColumnSpan="2" Foreground="#FF10287C" FontFamily="Century Gothic" FontSize="13"/>
-            <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="133,33,36,19" FontWeight="Normal" Foreground="#FF10287C" Grid.ColumnSpan="2" RenderTransformOrigin="0.466,0.382"/>
-            <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="5,42,0,26" Grid.Column="2" Foreground="#FF10287C" FontFamily="Century Gothic" FontSize="13"/>
-            <Label x:Name="weightLabel" Content="- All Weights -" VerticalContentAlignment="Center" FontSize="13" Margin="5,34,36,18" FontWeight="Normal" Foreground="#FF10287C" Grid.Column="2"/>
-            <Button x:Name="btnAddDrone" ToolTip="Add a new drone"  Background="#00000000" BorderBrush="#00000000" Foreground="#00000000"
-                    Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Height="50" Click="btnAddDrone_Click" Grid.Column="5" Margin="43,0,0,40" >
-                <materialDesign:PackIcon Kind="PlusCircle"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
-
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="60"/>
-                    </Style>
-                </Button.Resources>
+            <Label Content="DRONES" FontSize="25"  Grid.Column="0" Margin="10,32,0,-12" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#FF0489BE" Grid.RowSpan="2" Width="107"/>
+            <ComboBox x:Name="StatusSelector" ToolTip="Select status" SelectionChanged="StatusSelector_SelectionChanged" Margin="133,42,6,26" Grid.ColumnSpan="2" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13"/>
+            <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="133,33,36,19" FontWeight="Normal" Foreground="#FF0489BE" Grid.ColumnSpan="2" RenderTransformOrigin="0.466,0.382"/>
+            <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="5,42,0,26" Grid.Column="2" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13"/>
+            <Label x:Name="weightLabel" Content="- All Weights -" VerticalContentAlignment="Center" FontSize="13" Margin="5,34,36,18" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="2"/>
+            <Button x:Name="btnAddDrone" ToolTip="Add a new drone"  materialDesign:ButtonAssist.CornerRadius="50" Background="#00000000" BorderBrush="#00000000" Foreground="#00000000" FontSize="40" HorizontalAlignment="Left" Width="80" Height="50" Click="btnAddDrone_Click" Grid.Column="5" Margin="43,0,0,40" >
+                <materialDesign:PackIcon Kind="PlusCircleOutline"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
             </Button>
-            <Button x:Name="btnRefresh"  ToolTip="Refresh" BorderBrush="{x:Null}" VerticalAlignment="Top" Height="32" FontWeight="Normal" 
-                    Background="Transparent" Foreground="#FF10287C" Margin="56,0,24,0" Click="btnRefresh_Click">
+            <Button x:Name="btnRefresh"  ToolTip="Refresh" BorderBrush="{x:Null}" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="Transparent" Foreground="#FF10287C" Margin="56,0,24,0" Click="btnRefresh_Click">
                 <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE"  />
-
             </Button>
-            <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click"  BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32"
-                    RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="Transparent" Foreground="#00000000" Width="51">
+            <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click"  BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Background="Transparent" Foreground="#00000000" Width="51">
                 <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
-
-            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click"  BorderBrush="{x:Null}" ToolTip="Clear selection" FontSize="13" Margin="66,10,0,48" Grid.Column="2" Background="Transparent" Foreground="#FF10287C" RenderTransformOrigin="0.551,0.417"/>
-            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" BorderBrush="{x:Null}" ToolTip="Clear selection" FontSize="13" Margin="64,9,6,49" Grid.Column="1" Background="Transparent" Foreground="#FF10287C" RenderTransformOrigin="0.523,0.344"/>
-            <Button x:Name="btnGroupByStatus" Content="Group by Status" Click="btnGroupByStatus_Click"  BorderBrush="#00000000" FontSize="15" Background="{x:Null}" Foreground="#FF10287C" Margin="125,58,0,0" Grid.Column="4" Grid.ColumnSpan="2"/>
+            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click"  BorderBrush="{x:Null}" ToolTip="Clear selection" FontSize="13" Margin="66,10,0,48" Grid.Column="2" Background="Transparent" Foreground="#FF0489BE" RenderTransformOrigin="0.551,0.417"/>
+            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" BorderBrush="{x:Null}" ToolTip="Clear selection" FontSize="13" Margin="64,9,6,49" Grid.Column="1" Background="Transparent" Foreground="#FF0489BE" RenderTransformOrigin="0.523,0.344"/>
+            <Button x:Name="btnGroupByStatus" Content="GROUP BY STATUS" Click="btnGroupByStatus_Click"  BorderBrush="#FF0489BE" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Margin="100,53,5,5" Grid.Column="4" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 </Window>

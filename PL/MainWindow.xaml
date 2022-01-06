@@ -18,8 +18,8 @@
         <StackPanel Grid.Row="1" Margin="0,70,0,0">
             <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Background="#FF0489BE" Margin="0,0,0,3" Height="50" Width="394" Foreground="White" BorderBrush="{x:Null}"/>
             <Button x:Name="btnClient" Content="Client" Margin="0,0,0,3" Height="50" Width="394" Background="#FF0489BE" Foreground="White" Click="btnClient_Click" BorderBrush="{x:Null}"/>
-            <Label Content="Don't have an account?" Margin="25,22,30,0" HorizontalAlignment="Center" FontSize="10" Foreground="#FF120374" Opacity="0.3"/>
-            <Button x:Name="btnSignUp" Content="Sign Up" Margin="0,0,0,0" FontSize="10" Foreground="#FF120374" Opacity="0.6" Height="21" Width="80" Background="{x:Null}" Click="btnSignUp_Click" BorderBrush="#FF0489BE"/>
+            <Label Content="Don't have an account?" Margin="25,15,30,0" HorizontalAlignment="Center" FontSize="10" Foreground="#FF120374" Opacity="0.3"/>
+            <Button x:Name="btnSignUp" Content="Sign Up" HorizontalContentAlignment="Center" Margin="0,0,0,0" FontSize="10" Foreground="#FF0489BE" Opacity="0.6" Height="21" Width="80" Background="{x:Null}" Click="btnSignUp_Click" BorderBrush="#FF0489BE"/>
         </StackPanel>
     </Grid>
 </Window>

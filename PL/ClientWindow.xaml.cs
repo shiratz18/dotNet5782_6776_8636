@@ -46,6 +46,7 @@ namespace PL
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             new ClientParcelWindow(myBL, client).ShowDialog();
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
         }
         #endregion
 
@@ -55,7 +56,12 @@ namespace PL
             ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
 
             Parcel parcel = myBL.GetParcel(p.Id);
-            //new ParcelTrackWindow(myBL, parcel).ShowDialog();
+            bool isSender = false;
+            if (parcel.Sender.Id == client.Id)
+                isSender = true;
+            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            lstParcelsTo.ItemsSource = client.ToCustomer;
         }
     }
 }
