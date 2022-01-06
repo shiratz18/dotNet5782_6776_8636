@@ -43,9 +43,8 @@ namespace PL
 
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             parcelPriority.ItemsSource = Enum.GetValues(typeof(Priorities));
-
-           
         }
+
         /// <summary>
         /// Constructor for action grid
         /// </summary>
@@ -62,11 +61,10 @@ namespace PL
             parcel = p;
             DataContext = parcel;
 
-          //  display();
         }
 
 
-
+        #region Sender ID
         /// <summary>
         /// Text changed event for SenderId textBox
         /// </summary>
@@ -88,19 +86,9 @@ namespace PL
             }
             setOkButton();
         }
+        #endregion
 
-        /// <summary>
-        /// Removes the current text from parcelSenderId text box, occurs only once and then removed parcel events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void idSenderTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idSenderTbGotFocus;
-        }
-
+        #region Target ID
         /// <summary>
         /// Text changed event for TargetId textBox
         /// </summary>
@@ -122,18 +110,7 @@ namespace PL
             }
             setOkButton();
         }
-
-        /// <summary>
-        /// Removes the current text from parcelTargetId text box, occurs only once and then removed parcel events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void idTargetTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idTargetTbGotFocus;
-        }
+        #endregion
 
         /// <summary>
         /// Sets parcelSenderId and parcelTargetId text box to accept only numbers
@@ -146,6 +123,7 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
         }
 
+        #region Weight
         /// <summary>
         /// parcelWeight combobox selection event
         /// </summary>
@@ -158,7 +136,9 @@ namespace PL
                 WeightLbl.Content = "";
             setOkButton();
         }
-        
+        #endregion
+
+        #region Priority
         /// <summary>
         /// parcelPriority combobox selection event
         /// </summary>
@@ -170,7 +150,9 @@ namespace PL
                 PriorityLbl.Content = "";
             setOkButton();
         }
+        #endregion
 
+        #region OK button
         /// <summary>
         /// Enables OK button only when all fields are filled
         /// </summary>
@@ -253,7 +235,9 @@ namespace PL
             MessageBox.Show("parcel successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         
         }
+        #endregion
 
+        #region Close window
         /// <summary>
         /// Closes this window
         /// </summary>
@@ -268,28 +252,6 @@ namespace PL
             }
         }
 
-
-
-        
-
-
-
-        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-       
-        /// <summary>
-        /// Allows to drag the window (because there is no title to drag from)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-
         /// <summary>
         /// Close this window
         /// </summary>
@@ -299,23 +261,27 @@ namespace PL
         {
             Close();
         }
+        #endregion
 
         private void SenderInformation_Click(object sender, RoutedEventArgs e)
         {
             var customer = myBL.GetCustomer(parcel.Target.Id);
-            new CustomerWindow(myBL, customer).Show();
+            new CustomerWindow(myBL, customer).ShowDialog();
         }
 
         private void TargetInformation_Click(object sender, RoutedEventArgs e)
         {
             var customer = myBL.GetCustomer(parcel.Sender.Id);
-            new CustomerWindow(myBL, customer).Show();
+            new CustomerWindow(myBL, customer).ShowDialog();
         }
 
         private void DroneInformation_Click(object sender, RoutedEventArgs e)
         {
-            var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
-            new DroneWindow(myBL, drone);
+            if (parcel.AssignedDrone.Id != 0)
+            {
+                var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
+                new DroneWindow(myBL, drone).ShowDialog();
+            }
 
         }
     }

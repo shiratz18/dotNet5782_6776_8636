@@ -21,7 +21,7 @@
             <StackPanel Height="640" Width="458">
                 <Label FontWeight="Bold" Margin="0,15,0,0" Foreground="#FF0489BE" FontSize="20" Height="68"  Content="                    We just need a few details,&#10;                              and you're set!"/>
                 <Grid>
-                    <TextBox x:Name="txtBoxId" PreviewTextInput="numbersOnly" MaxLength="9" materialDesign:HintAssist.Hint="ID" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6"  FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE" Margin="54,-15,54,0"/>
+                    <TextBox x:Name="txtBoxId" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly" MaxLength="9" materialDesign:HintAssist.Hint="ID" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6"  FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE" Margin="54,-15,54,0"/>
                     <materialDesign:PackIcon Kind="User"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,0,0,0" VerticalAlignment="Center"/>
                 </Grid>
                 <Grid>
@@ -29,7 +29,7 @@
                     <materialDesign:PackIcon Kind="Edit"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <Grid>
-                    <TextBox x:Name="txtBoxPhone" PreviewTextInput="numbersOnly" materialDesign:HintAssist.Hint="PHONE NO." MaxLength="10" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <TextBox x:Name="txtBoxPhone" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly" materialDesign:HintAssist.Hint="PHONE NO." MaxLength="10" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
                     <materialDesign:PackIcon Kind="Phone"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <Grid Margin="0,15,0,0" Height="50">
@@ -45,11 +45,11 @@
                     <materialDesign:PackIcon Kind="Latitude"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,7,0,0" />
                 </Grid>
                 <Grid>
-                    <PasswordBox x:Name="password" MaxLength="8" materialDesign:HintAssist.Hint="PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <PasswordBox x:Name="password" MaxLength="8" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Hint="PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
                     <materialDesign:PackIcon Kind="Password"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <Grid>
-                    <PasswordBox x:Name="passwordConfirm" PasswordChanged="passwordConfirm_PasswordChanged"  MaxLength="8" materialDesign:HintAssist.Hint="CONFIRM PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <PasswordBox x:Name="passwordConfirm" materialDesign:TextFieldAssist.UnderlineBrush="Black" PasswordChanged="passwordConfirm_PasswordChanged"  MaxLength="8" materialDesign:HintAssist.Hint="CONFIRM PASSWORD" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
                     <materialDesign:PackIcon x:Name="confirmed" Kind="PasswordCheck"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0"/>
                 </Grid>
                 <Grid>

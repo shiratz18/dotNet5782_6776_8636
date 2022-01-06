@@ -328,20 +328,13 @@ namespace PL
             }
         }
 
-
-
-
-
-       
-
-        private void ChargingDronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
             ChargingDrone ld = b.CommandParameter as ChargingDrone;
 
             Drone d = myBL.GetDrone(ld.Id);
-            new DroneWindow(myBL,d).ShowDialog();
-             
+            new DroneWindow(myBL, d).ShowDialog();
         }
     }
 }

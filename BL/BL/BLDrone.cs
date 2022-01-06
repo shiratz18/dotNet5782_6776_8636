@@ -317,7 +317,8 @@ namespace BL
             {
                 Id = d.Id,
                 Model = d.Model,
-                MaxWeight = (DO.WeightCategories)d.MaxWeight
+                MaxWeight = (DO.WeightCategories)d.MaxWeight,
+                Active=true
             };
             Data.UpdateDrone(drone); //update the drone in dal
 

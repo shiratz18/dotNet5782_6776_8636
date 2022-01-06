@@ -68,6 +68,8 @@ namespace BL
             //getting the list of all drone charges
             IEnumerable<DO.DroneCharge> DroneCharges = Data.GetDroneChargeList();
 
+            bool areCharging = false;
+
             //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
             foreach (DO.Drone d in tempDrones)
             {

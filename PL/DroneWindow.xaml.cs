@@ -27,6 +27,9 @@ namespace PL
         private IBL myBL;
         private Drone drone;
 
+        #region Add drone grid
+
+        #region Constructor
         /// <summary>
         /// Constructor for add grid
         /// </summary>
@@ -43,26 +46,9 @@ namespace PL
             droneMaxWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             droneStation.ItemsSource = myBL.GetStationNameList();
         }
+        #endregion
 
-        /// <summary>
-        /// Constructor for action grid
-        /// </summary>
-        /// <param name="bl"></param>
-        /// <param name="d"></param>
-        public DroneWindow(IBL bl, Drone d)
-        {
-            myBL = bl;
-
-            InitializeComponent();
-
-            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
-            this.Title = "Update drone"; //change the title
-            drone = d;
-            DataContext = drone;
-
-            //display();
-        }
-
+        #region ID
         /// <summary>
         /// Text changed event for droenId textBox
         /// </summary>
@@ -107,7 +93,9 @@ namespace PL
             tb.Text = ""; //changing the text to be empty
             tb.GotFocus -= idTbGotFocus;
         }
+        #endregion
 
+        #region Model
         /// <summary>
         /// Text changed event for droneModel
         /// </summary>
@@ -137,11 +125,13 @@ namespace PL
         /// <param name="e"></param>
         private void modelTbGotFocus(object sender, RoutedEventArgs e)
         {
-           TextBox tb = sender as TextBox;
+            TextBox tb = sender as TextBox;
             tb.Text = ""; //changing the text to be empty
             tb.GotFocus -= modelTbGotFocus;
         }
+        #endregion
 
+        #region Weight
         /// <summary>
         /// droneMaxWeight combobox selection event
         /// </summary>
@@ -153,7 +143,9 @@ namespace PL
                 maxWeightLbl.Content = "";
             setOkButton();
         }
+        #endregion
 
+        #region Station
         /// <summary>
         /// droneStation combobox selection event
         /// </summary>
@@ -165,7 +157,9 @@ namespace PL
                 stationLbl.Content = "";
             setOkButton();
         }
+        #endregion
 
+        #region OK button
         /// <summary>
         /// Enables OK button only when all fields are filled
         /// </summary>
@@ -176,9 +170,8 @@ namespace PL
                 btnOK.IsEnabled = (!String.IsNullOrEmpty(droneId.Text) && droneId.Text != "Enter ID here") &&
                     (!String.IsNullOrEmpty(droneModel.Text) && droneModel.Text != "Enter model here") &&
                     (droneMaxWeight.SelectedItem != null) &&
-                    (droneStation.SelectedItem != null) ;
+                    (droneStation.SelectedItem != null);
         }
-
 
         /// <summary>
         /// Adds drone with user input
@@ -248,11 +241,12 @@ namespace PL
                 return;
             }
 
- 
             Close();
             MessageBox.Show("Drone successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        #endregion
 
+        #region Close window
         /// <summary>
         /// Closes this window
         /// </summary>
@@ -260,38 +254,48 @@ namespace PL
         /// <param name="e"></param>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-           var mb= MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var mb = MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (mb == MessageBoxResult.Yes)
             {
                 Close();
             }
         }
+        #endregion
 
-         //<summary>
-         //Display the chosen drone and update button options according to drone status
+        #endregion
+
+        #region Action drone
+
+        #region Constructor
+        /// <summary>
+        /// Constructor for action grid
+        /// </summary>
+        /// <param name="bl"></param>
+        /// <param name="d"></param>
+        public DroneWindow(IBL bl, Drone d)
+        {
+            myBL = bl;
+
+            InitializeComponent();
+
+            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
+            this.Title = "Update drone"; //change the title
+            drone = d;
+            DataContext = drone;
+
+            display();
+        }
+
+        //<summary>
+        //Display the chosen drone and update button options according to drone status
         // </summary>
         private void display()
         {
             RedMes3.Content = " ";
-            idToPrint.Content = drone.Id;
-            modelToPrint.Text = drone.Model;
-            maxWeightToPrint.Content = drone.MaxWeight;
-            batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-            statusToPrint.Content = drone.Status;
-            locationToPrint.Content = drone.CurrentLocation;
             if (drone.Status == DroneStatuses.Shipping)
             {
                 parcelExpander.IsExpanded = true;
                 parcelExpander.IsEnabled = true;
-                parcelId.Content = drone.InShipping.Id;
-                isPickedUp.Content = drone.InShipping.IsPickedUp;
-                priority.Content = drone.InShipping.Priority;
-                weight.Content = drone.InShipping.Weight;
-                senderName.Content = drone.InShipping.Sender.Name;
-                targetName.Content = drone.InShipping.Target.Name;
-                pickUpLocation.Content = drone.InShipping.PickUpLocation;
-                deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-                deliveryDistance.Content = drone.InShipping.DeliveryDistance;
             }
             else
             {
@@ -323,7 +327,9 @@ namespace PL
                 btnDroneDeliver.Visibility = Visibility.Hidden;
 
         }
+        #endregion
 
+        #region Close window
         /// <summary>
         /// Close this window
         /// </summary>
@@ -333,7 +339,9 @@ namespace PL
         {
             Close();
         }
+        #endregion
 
+        #region Update
         /// <summary>
         /// Update the model name
         /// </summary>
@@ -358,7 +366,28 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+        #region Model
+        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string m = modelToPrint.Text;
+            if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
+            {
+                modelToPrint.SelectionBrush = Brushes.Red;
+                if (RedMes3 != null)
+                    RedMes3.Content = "Incorrect entry, please try again";
+            }
+            else
+            {
+                modelToPrint.SelectionBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+                if (RedMes3 != null)
+                    RedMes3.Content = "";
+            }
+        }
+        #endregion
+
+        #region Release charge
         /// <summary>
         /// Release the chosen drone from charge
         /// </summary>
@@ -385,7 +414,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+        #region Charge
         /// <summary>
         /// Charge the chosen drone
         /// </summary>
@@ -412,7 +443,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+        #region Parcel delivery
         /// <summary>
         /// Send drone to delivery
         /// </summary>
@@ -502,41 +535,16 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Allows to drag the window (because there is no title to drag from)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-
-        private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string m = modelToPrint.Text;
-            if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
-            {
-                modelToPrint.SelectionBrush = Brushes.Red;
-                if (RedMes3 != null)
-                    RedMes3.Content = "Incorrect entry, please try again";
-            }
-            else
-            {
-                modelToPrint.SelectionBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes3 != null)
-                    RedMes3.Content = "";
-            }
-        }
-
+        
         private void parcelExpander_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
-            new ParcelWindow(myBL, p);
+            new ParcelWindow(myBL, p).ShowDialog();
         }
+
+        #endregion
     }
 }
 
