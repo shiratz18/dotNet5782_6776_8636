@@ -49,7 +49,7 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="422,446,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="588,446,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-187,537,197,-518" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,10,10,9" Background="White">
             <Label Content="JPS" FontSize="30" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,14,646,418"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="117" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,46,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="65,0,561,443" Source="/Screenshot (130).png"/>
@@ -59,7 +59,7 @@
             <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15" HorizontalAlignment="Left" Margin="78,84,0,0" VerticalAlignment="Top" Width="169"/>
 
             <Label x:Name="name" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-            <TextBox x:Name="nameToPrint" FontSize="15"  HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
+            <TextBox x:Name="nameToPrint" FontSize="15"  HorizontalAlignment="Left" Margin="94,125,0,0" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" Width="257"  Background="{x:Null}"/>
             <Label x:Name="RedMes3" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="199,190,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="23" Foreground="#FFFA0606" Width="152"/>
 
             <Label x:Name="chargeSlots" Content="Number of charchSlots:" FontSize="15" HorizontalAlignment="Left" Margin="21,168,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
@@ -80,16 +80,16 @@
             <Button x:Name="btnUpdateCHARGESLOTS"  FontSize="12" HorizontalAlignment="Center" Margin="0,163,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.51,1.388" Height="36" Click="btnUpdateCHARGESLOTS_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
-           
-            
-            
+
+
+
             <Grid Width="300" Margin="445,84,25,96">
                 <ListView x:Name="ChargingDronesListView"  Background="Transparent" Margin="0,0,10,0" MouseDoubleClick="ChargingDronesListView_MouseDoubleClick">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="85"/>
-                           <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="120"/>
-                          </GridView>
+                            <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="120"/>
+                        </GridView>
                     </ListView.View>
                 </ListView>
             </Grid>

@@ -93,7 +93,11 @@ namespace PL
         /// <param name="e"></param>
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            new ParcelWindow(myBL).ShowDialog();
+            Button b = sender as Button;
+            ListParcel ld = b.CommandParameter as ListParcel;
+            Parcel p = myBL.GetParcel(ld.Id);
+
+            new ParcelWindow(myBL, p ).ShowDialog();
         }
         #endregion
 

@@ -17,7 +17,7 @@
         </Style>
     </Window.Resources>
     <Grid Margin="0,0,36,0">
-        <Grid x:Name="AddGrid" Grid.Row="0" Margin="10,10,-32,0" Background="White">
+        <Grid x:Name="AddGrid" Grid.Row="0" Margin="-11,4,-11,6" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="191*"/>
                 <RowDefinition Height="302*"/>
@@ -37,7 +37,7 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="421,242,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE" Grid.Row="1"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,242,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" Grid.Row="1"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-48,523,58,-504" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-22,4,32,15" Background="White">
             <Label Content="JPS" FontSize="30" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,14,646,418"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="117" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,46,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="65,0,561,443" Source="/Screenshot (130).png"/>
@@ -64,7 +64,9 @@
             <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="289,275,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click" Background="#FF0489BE" Height="24" Width="117"/>
             <Button x:Name="btnDronePickUp" Content="Pick up parcel" FontSize="12" HorizontalAlignment="Left" Margin="552,370,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="94" Background="#FF0489BE" RenderTransformOrigin="-2.213,-2.175" Height="24"/>
             <Button x:Name="btnDroneDeliver" Content="Deliver parcel" FontSize="12" HorizontalAlignment="Left" Margin="534,370,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="112" Background="#FF0489BE" Height="24"/>
-            <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="442,84,0,0" VerticalAlignment="Top" Width="252">
+
+            
+            <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="442,84,0,0" VerticalAlignment="Top" Width="252" MouseDoubleClick="parcelExpander_MouseDoubleClick">
                 <Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

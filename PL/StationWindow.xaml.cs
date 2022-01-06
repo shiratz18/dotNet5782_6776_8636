@@ -56,6 +56,7 @@ namespace PL
             station = s;
             DataContext = station;
             ChargingDronesListView.ItemsSource = station.ChargingDrones;
+            DataContext = station;
             //display();
         }
         /// <summary>

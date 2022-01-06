@@ -60,7 +60,7 @@ namespace PL
             drone = d;
             DataContext = drone;
 
-            display();
+            //display();
         }
 
         /// <summary>
@@ -267,18 +267,18 @@ namespace PL
             }
         }
 
-        /// <summary>
-        /// Display the chosen drone and update button options according to drone status
-        /// </summary>
+         //<summary>
+         //Display the chosen drone and update button options according to drone status
+        // </summary>
         private void display()
         {
             RedMes3.Content = " ";
-            //idToPrint.Content = drone.Id;
-            //modelToPrint.Text = drone.Model;
-            //maxWeightToPrint.Content = drone.MaxWeight;
-            //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-            //statusToPrint.Content = drone.Status;
-            //locationToPrint.Content = drone.CurrentLocation;
+            idToPrint.Content = drone.Id;
+            modelToPrint.Text = drone.Model;
+            maxWeightToPrint.Content = drone.MaxWeight;
+            batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+            statusToPrint.Content = drone.Status;
+            locationToPrint.Content = drone.CurrentLocation;
             if (drone.Status == DroneStatuses.Shipping)
             {
                 parcelExpander.IsExpanded = true;
@@ -319,9 +319,9 @@ namespace PL
             if (drone.InShipping.IsPickedUp)
                 btnDronePickUp.Visibility = Visibility.Hidden;
 
-            if(!drone.InShipping.IsPickedUp)
+            if (!drone.InShipping.IsPickedUp)
                 btnDroneDeliver.Visibility = Visibility.Hidden;
-            
+
         }
 
         /// <summary>
@@ -528,6 +528,14 @@ namespace PL
                 if (RedMes3 != null)
                     RedMes3.Content = "";
             }
+        }
+
+        private void parcelExpander_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+
+            Parcel p = myBL.GetParcel(drone.InShipping.Id);
+            new ParcelWindow(myBL, p);
         }
     }
 }

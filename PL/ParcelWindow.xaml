@@ -37,7 +37,7 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="421,433,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,433,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click"  Background="#FF0489BE"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-48,523,58,-504" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,14,10,5" Background="White">
             <Label Content="JPS" FontSize="30" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,14,646,418"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="117" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,46,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="65,0,561,443" Source="/Screenshot (130).png"/>
@@ -66,39 +66,45 @@
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="132,417,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE"/>
 
 
-            <Label Content="Sender Infornation:" FontSize="20" Margin="415,69,25,372" FontWeight="Bold"/>
-            <Button Margin="643,76,0,0" Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="SenderInformation_Click" Background="#FF111111">
-            </Button>
-            <!--<materialDesign:PackIcon Kind="InformationVariant" Width="141" Height="123"/>-->
+            <Label Content="Sender Infornation:" FontSize="20" Margin="415,57,121,391" FontWeight="Bold" Foreground="#FF0489BE"/>
+            <Button Margin="606,46,0,0" Width="70" Height="59" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="SenderInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}" RenderTransformOrigin="0.524,0.593">
+                <materialDesign:PackIcon Kind="InformationOutline"  Width="69" Height="43"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
 
-            <Label Content="Id:"  FontSize="15" HorizontalAlignment="Left" Margin="423,104,0,0"  VerticalAlignment="Top"/>
-            <Label Content="{Binding Sender.Id}" Height="16" Width="134"  HorizontalAlignment="Left" Margin="490,110,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Name:"  FontSize="15" HorizontalAlignment="Left" Margin="423,135,0,0"  VerticalAlignment="Top"/>
-            <Label Content="{Binding Sender.Name}" Height="17" Width="134" HorizontalAlignment="Left" Margin="490,140,0,0"  VerticalAlignment="Top"/>
-
-            <Label Content="Target Infornation:" FontSize="20" Margin="415,172,25,268" FontWeight="Bold"/>
-            <Button  Width="26" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="TargetInformation_Click" Background="#FF111111" Margin="643,180,0,0">
-            </Button>
-            <!--<materialDesign:PackIcon Kind="InformationVariant" Width="60" Height="62" Margin="531,81,0,0"/>-->
-
-            <Label Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="423,209,0,0"  VerticalAlignment="Top" Height="27" Width="24"/>
-            <Label Content="{Binding Target.Id}"  HorizontalAlignment="Left" Margin="490,215,0,0"  VerticalAlignment="Top" Height="16" Width="134"/>
-            <Label Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="423,241,0,212" Width="78" />
-            <Label Content="{Binding Target.Name}"  HorizontalAlignment="Left" Margin="490,247,0,0"  VerticalAlignment="Top" Height="17" Width="134"/>
-
-            <Label Content="Drone Information:" FontSize="20" Margin="415,272,25,171" FontWeight="Bold"/>
-            <Button  Width="26" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="DroneInformation_Click" Background="#FF111111" Margin="643,278,0,0">
             </Button>
 
-            <Label Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="423,305,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="423,335,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Latitude:" FontSize="15" HorizontalAlignment="Left" Margin="423,365,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Longitude:" FontSize="15" HorizontalAlignment="Left" Margin="423,395,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Id:"  FontSize="15" HorizontalAlignment="Left" Margin="423,89,0,0"  VerticalAlignment="Top" Height="43"/>
+            <Label Content="{Binding Sender.Id}" Height="33" Width="134"  HorizontalAlignment="Left" Margin="490,93,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Name:"  FontSize="15" HorizontalAlignment="Left" Margin="423,126,0,0"  VerticalAlignment="Top" Height="37"/>
+            <Label Content="{Binding Sender.Name}" Height="26" Width="134" HorizontalAlignment="Left" Margin="490,131,0,0"  VerticalAlignment="Top"/>
 
-            <Label Content="{Binding Drone.Id}" Height="17" Width="134"  HorizontalAlignment="Left" Margin="508,313,0,0" VerticalAlignment="Top"/>
-            <Label Content="{Binding Drone.Battery}" Height="17" Width="134" HorizontalAlignment="Left" Margin="508,340,0,0"  VerticalAlignment="Top"/>
-            <Label Content="{Binding Drone.Location.Latitude}" Height="17" Width="134" HorizontalAlignment="Left" Margin="508,372,0,0"  VerticalAlignment="Top"/>
-            <Label Content="{Binding Drone.Location.Longitude}" Height="17" Width="134" HorizontalAlignment="Left" Margin="508,400,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Target Infornation:" FontSize="20" Margin="415,164,108,282" FontWeight="Bold" Foreground="#FF0489BE" RenderTransformOrigin="0.525,0.284"/>
+            <Button  Width="106" Height="59" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="TargetInformation_Click"  Margin="588,163,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="InformationOutline"  Width="57" Height="43"  Foreground="#FF0489BE" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+            </Button>
+
+            <Label Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="423,201,0,0"  VerticalAlignment="Top" Height="42" Width="24"/>
+            <Label Content="{Binding Target.Id}"  HorizontalAlignment="Left" Margin="490,201,0,0"  VerticalAlignment="Top" Height="30" Width="134"/>
+            <Label Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="423,231,0,212" Width="78" />
+            <Label Content="{Binding Target.Name}"  HorizontalAlignment="Left" Margin="490,236,0,0"  VerticalAlignment="Top" Height="28" Width="134"/>
+
+            <Label Content="Drone Information:" FontSize="20" Margin="415,273,108,170" FontWeight="Bold" Foreground="#FF0489BE"/>
+
+            <Button Margin="594,260,0,0" Width="94" Height="59" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="DroneInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="InformationOutline"  Width="69" Height="43"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+
+            </Button>
+
+
+            <Label Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="424,314,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="423,345,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Latitude:" FontSize="15" HorizontalAlignment="Left" Margin="423,380,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Longitude:" FontSize="15" HorizontalAlignment="Left" Margin="423,413,0,0"  VerticalAlignment="Top"/>
+
+            <Label Content="{Binding Drone.Id}" Height="29" Width="134"  HorizontalAlignment="Left" Margin="508,313,0,0" VerticalAlignment="Top"/>
+            <Label Content="{Binding Drone.Battery}" Height="27" Width="134" HorizontalAlignment="Left" Margin="508,345,0,0"  VerticalAlignment="Top"/>
+            <Label Content="{Binding Drone.Location.Latitude}" Height="30" Width="134" HorizontalAlignment="Left" Margin="508,372,0,0"  VerticalAlignment="Top"/>
+            <Label Content="{Binding Drone.Location.Longitude}" Height="23" Width="134" HorizontalAlignment="Left" Margin="508,418,0,0"  VerticalAlignment="Top"/>
 
             <Grid/>
 

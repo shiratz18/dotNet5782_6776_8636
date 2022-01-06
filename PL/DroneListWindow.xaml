@@ -39,7 +39,8 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
+                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}" Foreground="{x:Null}">
+                                        <materialDesign:PackIcon Kind="Edit" Foreground="#FF0489BE" />
 
                                     </Button>
                                 </DataTemplate>
@@ -49,6 +50,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="btnRemove" ToolTip="Delete" Click="btnRemove_Click" CommandParameter="{Binding}" Width="30" Height="30" Background="{x:Null}">
+                                        <materialDesign:PackIcon Kind="Delete" Foreground="#FF0489BE"/>
 
                                     </Button>
                                 </DataTemplate>
