@@ -60,7 +60,7 @@ namespace PL
             drone = d;
             DataContext = drone;
 
-            //display();
+            display();
         }
 
         /// <summary>
@@ -267,9 +267,9 @@ namespace PL
             }
         }
 
-         //<summary>
-         //Display the chosen drone and update button options according to drone status
-        // </summary>
+         ///<summary>
+         ///Display the chosen drone and update button options according to drone status
+        /// </summary>
         private void display()
         {
             RedMes3.Content = " ";

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -13,6 +14,7 @@ namespace Dal
         /// <summary>
         /// adds a parcel to the list of parcels
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int AddParcel(Parcel parcel)
         {
             if (!DataSource.Customers.Exists(c => c.Id == parcel.SenderId || !c.Active))
@@ -37,6 +39,7 @@ namespace Dal
         /// updates a parcel
         /// </summary>
         /// <param name="parcel">the updated parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             if (!DataSource.Parcels.Exists(p => p.Id == parcel.Id))
@@ -53,6 +56,7 @@ namespace Dal
         /// removes a parcel from the list
         /// </summary>
         /// <param name="parcel">the parcel to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(Parcel parcel)
         {
             if (!DataSource.Parcels.Remove(parcel))
@@ -68,6 +72,7 @@ namespace Dal
         /// </summary>
         /// <param name="parcelId">the id of the parcel</param>
         /// <param name="droneId">the id of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignDroneToParcel(int parcelId, int droneId)
         {
             if (!DataSource.Parcels.Exists(p => p.Id == parcelId))
@@ -92,6 +97,7 @@ namespace Dal
         /// updates the pick up time of the parcel
         /// </summary>
         /// <param name="id">the id of the parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelPickUp(int id)
         {
             if (!DataSource.Parcels.Exists(p => p.Id == id))
@@ -110,6 +116,7 @@ namespace Dal
         /// updates that the parcel was delivered to the target
         /// </summary>
         /// <param name="id">the id of the parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelDelivered(int id)
         {
             if (!DataSource.Parcels.Exists(p => p.Id == id))
@@ -129,6 +136,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">parcel id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             if (!DataSource.Parcels.Exists(p => p.Id == id))
@@ -146,6 +154,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>A IEnumerable<Parcel></Parcel> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcelList(Predicate<Parcel> predicate = null)
         {
             if (predicate != null)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalObject
@@ -13,6 +13,7 @@ namespace Dal
         /// <summary>
         /// adds a customer to list of customers
         /// </summary>
+       [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             if (DataSource.Customers.Exists(c => c.Id == customer.Id && c.Active)) //if this customer exists and is active
@@ -29,6 +30,7 @@ namespace Dal
         /// updates a customer in the list
         /// </summary>
         /// <param name="customer">the updated customer</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
             if (!DataSource.Customers.Exists(c => c.Id == customer.Id))
@@ -44,6 +46,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The customer ID</param>
         /// <param name="name">The new name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditCustomerName(int id, string name)
         {
             if (!DataSource.Customers.Exists(c => c.Id == id))
@@ -61,6 +64,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The customer ID</param>
         /// <param name="phone">The new phone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditCustomerPhone(int id, string phone)
         {
             if (!DataSource.Customers.Exists(c => c.Id == id))
@@ -79,6 +83,7 @@ namespace Dal
         /// removes a customer from the list
         /// </summary>
         /// <param name="customer">the customer to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(Customer customer)
         {
             if (!DataSource.Customers.Exists(c => c.Id == customer.Id))
@@ -97,6 +102,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">customer id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             if (!DataSource.Customers.Exists(c => c.Id == id))
@@ -112,6 +118,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>A IEnumerable<Customers> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomerList(Predicate<Customer> predicate = null)
         {
             if (predicate != null)

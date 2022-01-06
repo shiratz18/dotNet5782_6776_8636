@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Runtime.CompilerServices;
 namespace BL
 {
     partial class BL
@@ -14,6 +14,7 @@ namespace BL
         /// Adds a station to the list of station in data
         /// </summary>
         /// <param name="station">The station to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
             if (station.Id < 1000 || station.Id > 9999)
@@ -37,7 +38,10 @@ namespace BL
 
             try
             {
-                Data.AddStation(temp);
+                lock (Data)
+                {
+                    Data.AddStation(temp);
+                }
             }
             catch (DO.DoubleIDException)
             {
@@ -52,73 +56,33 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the station</param>
         /// <returns>The object of the station</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
-            try
+            lock (Data)
             {
-                DO.Station temp = Data.GetStation(id); //getting the station from the data layer
-
-                Station s = new Station() //copying the dal station to bll station
+                try
                 {
-                    Id = temp.Id,
-                    Name = temp.Name,
-                    Location = new Location() { Longitude = temp.Longitude, Latitude = temp.Latitude },
-                    AvailableChargeSlots = temp.ChargeSlots,
-                    ChargingDrones = new List<ChargingDrone>(),
-                    Active = temp.Active
-                };
 
-                Drones.ForEach(d =>
-                {
-                    if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
+                    DO.Station temp = Data.GetStation(id); //getting the station from the data layer
+
+                    Station s = new Station() //copying the dal station to bll station
                     {
-                        if (d.CurrentLocation.Longitude == s.Location.Longitude && d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
-                        {
-                            s.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
-                            {
-                                Id = d.Id,
-                                Battery = d.Battery
-                            });
-                        }
-                    }
-                });
-
-                return s;
-            }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Get the station according to location
-        /// </summary>
-        /// <param name="loc">The location of the station</param>
-        /// <returns>The station</returns>
-        private Station getStationByLocation(Location loc)
-        {
-            IEnumerable<DO.Station> stations = Data.GetStationList(); //get the list of all the stations
-
-            foreach (DO.Station s in stations)
-            {
-                if (s.Longitude == loc.Longitude && s.Latitude == loc.Latitude) //if it is in the same location
-                {
-                    Station temp = new Station() //copying the dal station to bll station
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
-                        AvailableChargeSlots = s.ChargeSlots
+                        Id = temp.Id,
+                        Name = temp.Name,
+                        Location = new Location() { Longitude = temp.Longitude, Latitude = temp.Latitude },
+                        AvailableChargeSlots = temp.ChargeSlots,
+                        ChargingDrones = new List<ChargingDrone>(),
+                        Active = temp.Active
                     };
 
                     Drones.ForEach(d =>
                     {
                         if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
                         {
-                            if (d.CurrentLocation == temp.Location) //if it is in the station
+                            if (d.CurrentLocation.Longitude == s.Location.Longitude && d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
                             {
-                                temp.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
+                                s.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
                                 {
                                     Id = d.Id,
                                     Battery = d.Battery
@@ -127,10 +91,60 @@ namespace BL
                         }
                     });
 
-                    return temp;
+                    return s;
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
                 }
             }
-            throw new NoIDException($"Station in location {loc} does not exist.");
+        }
+
+        /// <summary>
+        /// Get the station according to location
+        /// </summary>
+        /// <param name="loc">The location of the station</param>
+        /// <returns>The station</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private Station getStationByLocation(Location loc)
+        {
+            lock (Data)
+            {
+                IEnumerable<DO.Station> stations = Data.GetStationList(); //get the list of all the stations
+
+                foreach (DO.Station s in stations)
+                {
+                    if (s.Longitude == loc.Longitude && s.Latitude == loc.Latitude) //if it is in the same location
+                    {
+                        Station temp = new Station() //copying the dal station to bll station
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+                            AvailableChargeSlots = s.ChargeSlots
+                        };
+
+                        Drones.ForEach(d =>
+                        {
+                            if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
+                            {
+                                if (d.CurrentLocation == temp.Location) //if it is in the station
+                                {
+                                    temp.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
+                                    {
+                                        Id = d.Id,
+                                        Battery = d.Battery
+                                    });
+                                }
+                            }
+                        });
+
+                        return temp;
+                    }
+                }
+
+                throw new NoIDException($"Station in location {loc} does not exist.");
+            }
         }
         #endregion
 
@@ -139,119 +153,139 @@ namespace BL
         /// Returns the list of stations for a list
         /// </summary>
         /// <returns>The list of stations</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListStation> GetStationList()
         {
-            List<ListStation> stations = new List<ListStation>();
-
-            foreach (DO.Station s in Data.GetStationList())
+            lock (Data)
             {
-                stations.Add(new ListStation()
+                List<ListStation> stations = new List<ListStation>();
+
+                foreach (DO.Station s in Data.GetStationList())
                 {
-                    Id = s.Id,
-                    Name = s.Name,
-                    AvailableChargeSlots = s.ChargeSlots,
-                    UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
-                });
+                    stations.Add(new ListStation()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        AvailableChargeSlots = s.ChargeSlots,
+                        UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
+                    });
+                }
+
+                if (stations.Count == 0) //if no stations were added
+                    throw new EmptyListException("No stations to display.");
+
+                return stations;
             }
-
-            if (stations.Count == 0) //if no stations were added
-                throw new EmptyListException("No stations to display.");
-
-            return stations;
         }
 
         /// <summary>
         /// Returns the list of the station names
         /// </summary>
         /// <returns>List of strings</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<string> GetStationNameList()
         {
-            List<string> stations = new List<string>();
-
-            foreach (DO.Station s in Data.GetStationList())
+            lock (Data)
             {
-                stations.Add(s.Name);
+                List<string> stations = new List<string>();
+
+                foreach (DO.Station s in Data.GetStationList())
+                {
+                    stations.Add(s.Name);
+                }
+
+                if (stations.Count == 0) //if no stations were added
+                    throw new EmptyListException("No stations to display.");
+
+                return stations;
             }
-
-            if (stations.Count == 0) //if no stations were added
-                throw new EmptyListException("No stations to display.");
-
-            return stations;
         }
 
         /// <summary>
         /// Returns list of stations with available charge slots
         /// </summary>
         /// <returns>The list of stations</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListStation> GetAvailableChargeSlotsStationList()
         {
-            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => s.ChargeSlots > 0);
-            if (tempStations.Count() == 0)
-                throw new EmptyListException("No stations with avavilable charge slots.");
-
-            List<ListStation> stations = new List<ListStation>();
-
-            foreach (DO.Station s in tempStations)
+            lock (Data)
             {
-                stations.Add(new ListStation()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    AvailableChargeSlots = s.ChargeSlots,
-                    UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
-                });
-            };
+                IEnumerable<DO.Station> tempStations = Data.GetStationList(s => s.ChargeSlots > 0);
+                if (tempStations.Count() == 0)
+                    throw new EmptyListException("No stations with avavilable charge slots.");
 
-            return stations;
+                List<ListStation> stations = new List<ListStation>();
+
+                foreach (DO.Station s in tempStations)
+                {
+                    stations.Add(new ListStation()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        AvailableChargeSlots = s.ChargeSlots,
+                        UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
+                    });
+                };
+
+                return stations;
+            }
         }
 
         /// <summary>
         /// Returns a list of Station type stations, not including the list of drones
         /// </summary>
         /// <returns>The list</returns>
+    
         private IEnumerable<Station> getListOfStations()
         {
-            List<Station> stations = new List<Station>();
-
-            foreach (DO.Station s in Data.GetStationList())
+            lock (Data)
             {
-                stations.Add(new Station()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
-                    AvailableChargeSlots = s.ChargeSlots,
-                    Active = s.Active
-                });
-            }
+                List<Station> stations = new List<Station>();
 
-            return stations;
+                foreach (DO.Station s in Data.GetStationList())
+                {
+                    stations.Add(new Station()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+                        AvailableChargeSlots = s.ChargeSlots,
+                        Active = s.Active
+                    });
+                }
+
+                return stations;
+            }
         }
 
         /// <summary>
         /// Returns the list of stations with available charge slots Station type
         /// </summary>
         /// <returns>The list of stations</returns>
+    
         private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
-            IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
-            if (tempStations.Count() == 0)
-                throw new EmptyListException("No stations with avavilable charge slots.");
-
-            List<Station> stations = new List<Station>();
-            foreach (DO.Station tmp in tempStations)
+            lock (Data)
             {
-                stations.Add(new Station()
-                {
-                    Id = tmp.Id,
-                    Name = tmp.Name,
-                    Location = new Location() { Longitude = tmp.Longitude, Latitude = tmp.Latitude },
-                    AvailableChargeSlots = tmp.ChargeSlots,
-                    Active = tmp.Active
-                });
-            }
+                IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
+                if (tempStations.Count() == 0)
+                    throw new EmptyListException("No stations with avavilable charge slots.");
 
-            return stations;
+                List<Station> stations = new List<Station>();
+                foreach (DO.Station tmp in tempStations)
+                {
+                    stations.Add(new Station()
+                    {
+                        Id = tmp.Id,
+                        Name = tmp.Name,
+                        Location = new Location() { Longitude = tmp.Longitude, Latitude = tmp.Latitude },
+                        AvailableChargeSlots = tmp.ChargeSlots,
+                        Active = tmp.Active
+                    });
+                }
+
+                return stations;
+            }
         }
         #endregion
 
@@ -260,6 +294,7 @@ namespace BL
         /// Updates a station
         /// </summary>
         /// <param name="station">The updated station</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
             DO.Station s = new DO.Station()
@@ -271,8 +306,10 @@ namespace BL
                 Latitude = station.Location.Latitude,
                 Active = station.Active
             };
-
-            Data.UpdateStation(s);
+            lock (Data)
+            {
+                Data.UpdateStation(s);
+            }
         }
 
         /// <summary>
@@ -280,15 +317,19 @@ namespace BL
         /// </summary>
         /// <param name="id">The id of the station</param>
         /// <param name="name">The new name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStationName(int id, string name)
         {
-            try
+            lock (Data)
             {
-                Data.EditStationName(id, name);
-            }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
+                try
+                {
+                    Data.EditStationName(id, name);
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
+                }
             }
         }
 
@@ -297,41 +338,45 @@ namespace BL
         /// </summary>
         /// <param name="id">The id of the station</param>
         /// <param name="num">The number to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStationChargingSlots(int id, int number)
         {
-            DO.Station s;
-            try
+            lock (Data)
             {
-                s = Data.GetStation(id); //trying to get the station, will throw an exception if the station id doesnt exist
-            }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
-            if (!s.Active)
-                throw new NoIDException($"Station {id} is no longer active.");
+                DO.Station s;
+                try
+                {
+                    s = Data.GetStation(id); //trying to get the station, will throw an exception if the station id doesnt exist
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
+                }
+                if (!s.Active)
+                    throw new NoIDException($"Station {id} is no longer active.");
 
-            if (number < 0)
-            {
-                throw new InvalidNumberException($"Cannot have a negative number of charge slots.");
-            }
+                if (number < 0)
+                {
+                    throw new InvalidNumberException($"Cannot have a negative number of charge slots.");
+                }
 
-            Location loc = new Location() { Latitude = s.Latitude, Longitude = s.Longitude };
-            int count = 0; //counts how many drones are charging in the station
-            Drones.ForEach(d =>
-            {
-                if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
+                Location loc = new Location() { Latitude = s.Latitude, Longitude = s.Longitude };
+                int count = 0; //counts how many drones are charging in the station
+                Drones.ForEach(d =>
+                {
+                    if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
                     if (d.CurrentLocation == loc) //if it is in the station we want to update
                         count++; //count how many drones are charging in the station
             });
 
-            if (count > number)//if there are more drones in the station than the new number
-            {
-                throw new InvalidNumberException("Too many drones are in the station.");
-            }
+                if (count > number)//if there are more drones in the station than the new number
+                {
+                    throw new InvalidNumberException("Too many drones are in the station.");
+                }
 
-            s.ChargeSlots = number - count; //num will be the number of available charging slots
-            Data.UpdateStation(s); //send the updates station to the data layer
+                s.ChargeSlots = number - count; //num will be the number of available charging slots
+                Data.UpdateStation(s); //send the updates station to the data layer
+            }
         }
         #endregion
 
@@ -340,17 +385,21 @@ namespace BL
         /// Remove a station from the list
         /// </summary>
         /// <param name="station">The station to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveStation(int id)
         {
-            DO.Station temp = Data.GetStation(id);
+            lock (Data)
+            {
+                DO.Station temp = Data.GetStation(id);
 
-            try
-            {
-                Data.RemoveStation(temp);
-            }
-            catch (DO.NoIDException)
-            {
-                throw new NoIDException($"Station {id} does not exist.");
+                try
+                {
+                    Data.RemoveStation(temp);
+                }
+                catch (DO.NoIDException)
+                {
+                    throw new NoIDException($"Station {id} does not exist.");
+                }
             }
         }
         #endregion

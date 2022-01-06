@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Runtime.CompilerServices;
 namespace BL
 {
     partial class BL
@@ -14,6 +14,7 @@ namespace BL
         /// Add a customer to the data list of customers
         /// </summary>
         /// <param name="customer">the customer to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             if (customer.Id < 100000000 || customer.Id > 999999999)
@@ -46,7 +47,10 @@ namespace BL
 
             try
             {
-                Data.AddCustomer(temp);
+                lock (Data)
+                {
+                    Data.AddCustomer(temp);
+                }
             }
             catch (DO.DoubleIDException ex)
             {
@@ -61,44 +65,48 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <returns>Customer object</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
-            DO.Customer temp;
-
-            try
+            lock (Data)
             {
-                temp = Data.GetCustomer(id); //getting the customer from dal
+                DO.Customer temp;
+
+                try
+                {
+                    temp = Data.GetCustomer(id); //getting the customer from dal
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
+                }
+
+                Customer c = new Customer()
+                {
+                    Id = temp.Id,
+                    Name = temp.Name,
+                    Phone = temp.Phone,
+                    Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude },
+                    FromCustomer = new List<ParcelAtCustomer>(),
+                    ToCustomer = new List<ParcelAtCustomer>(),
+                    Password = temp.Password,
+                    Answer = temp.Answer,
+                    Active = temp.Active
+                };
+
+                IEnumerable<DO.Parcel> parcels = Data.GetParcelList();
+                //for each parcel
+                foreach (DO.Parcel p in parcels)
+                {
+                    if (p.SenderId == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
+                        c.FromCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
+
+                    if (p.TargetId == c.Id) //if the target is the requsted customer, add the parcel to the list of parcels to customer
+                        c.ToCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
+                }
+
+                return c;
             }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
-            }
-
-            Customer c = new Customer()
-            {
-                Id = temp.Id,
-                Name = temp.Name,
-                Phone = temp.Phone,
-                Location = new Location { Longitude = temp.Longitude, Latitude = temp.Latitude },
-                FromCustomer = new List<ParcelAtCustomer>(),
-                ToCustomer = new List<ParcelAtCustomer>(),
-                Password = temp.Password,
-                Answer = temp.Answer,
-                Active = temp.Active
-            };
-
-            IEnumerable<DO.Parcel> parcels = Data.GetParcelList();
-            //for each parcel
-            foreach (DO.Parcel p in parcels)
-            {
-                if (p.SenderId == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
-                    c.FromCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
-
-                if (p.TargetId == c.Id) //if the target is the requsted customer, add the parcel to the list of parcels to customer
-                    c.ToCustomer.Add(getParcelAtCustomer(p.Id, c.Id));
-            }
-
-            return c;
         }
         #endregion
 
@@ -107,9 +115,12 @@ namespace BL
         /// Returns the list of customers
         /// </summary>
         /// <returns>The list of customers</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListCustomer> GetCustomerList()
         {
-            List<ListCustomer> customers = new List<ListCustomer>();
+            lock (Data)
+            {
+                List<ListCustomer> customers = new List<ListCustomer>();
 
             foreach (DO.Customer c in Data.GetCustomerList())
             {
@@ -140,6 +151,7 @@ namespace BL
 
             return customers;
         }
+        }
         #endregion
 
         #region Update customer
@@ -147,6 +159,7 @@ namespace BL
         /// Updates a customer
         /// </summary>
         /// <param name="customer">The updates customer</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
             DO.Customer c = new DO.Customer()
@@ -160,7 +173,11 @@ namespace BL
                 Answer = customer.Answer,
                 Active = customer.Active
             };
-            Data.UpdateCustomer(c);
+            lock( Data)
+            { 
+                Data.UpdateCustomer(c); 
+            }
+            
         }
 
         /// <summary>
@@ -168,6 +185,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <param name="name">The name of the customer</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomerName(int id, string name)
         {
 
@@ -177,7 +195,10 @@ namespace BL
 
             try
             {
-                Data.EditCustomerName(id, name);
+                lock (Data)
+                {
+                    Data.EditCustomerName(id, name);
+                }
             }
             catch (DO.NoIDException ex)
             {
@@ -190,6 +211,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the customer</param>
         /// <param name="phone">The new phone number</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomerPhone(int id, string phone)
         {
             if (phone.Length != 10 || !phone.All(char.IsDigit))
@@ -197,7 +219,10 @@ namespace BL
 
             try
             {
-                Data.EditCustomerPhone(id, phone);
+                lock (Data)
+                {
+                    Data.EditCustomerPhone(id, phone);
+                }
             }
             catch (DO.NoIDException ex)
             {
@@ -211,12 +236,17 @@ namespace BL
         /// Removes a customer from the list
         /// </summary>
         /// <param name="customer">The customer to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(int id)
         {
             try
             {
-                DO.Customer temp = Data.GetCustomer(id);
-                Data.RemoveCustomer(temp);
+                lock (Data)
+
+                {
+                    DO.Customer temp = Data.GetCustomer(id);
+                    Data.RemoveCustomer(temp);
+                }
             }
             catch (DO.NoIDException ex)
             {

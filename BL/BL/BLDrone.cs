@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -86,6 +87,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <returns>The object of the drone</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             if (!Drones.Exists(d => d.Id == id)) //if the drone does not exist in the list od drones in bll
@@ -116,6 +118,7 @@ namespace BL
         /// Returns the list of drones
         /// </summary>
         /// <returns>List of drones</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListDrone> GetDroneList(WeightCategories? wc = null, DroneStatuses? ds = null)
         {
             List<ListDrone> tmp = new List<ListDrone>();
@@ -195,6 +198,7 @@ namespace BL
         /// Update a drone
         /// </summary>
         /// <param name="drone">The updates drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             if (!Drones.Exists(x => x.Id == drone.Id))
@@ -225,8 +229,10 @@ namespace BL
                 Model = drone.Model,
                 Active = true
             };
-
-            Data.UpdateDrone(d); //update the drone in data layer
+            lock (Data)
+            {
+                Data.UpdateDrone(d); //update the drone in data layer
+            }
         }
         #endregion
 
@@ -236,9 +242,12 @@ namespace BL
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <param name="name">the new name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDroneName(int id, string name)
         {
-            if (!Drones.Exists(d => d.Id == id))
+            lock (Data)
+            {
+                if (!Drones.Exists(d => d.Id == id))
                 throw new NoIDException($"Drone {id} does not exist.");
 
             var drone = Drones.Find(d => d.Id == id);
@@ -257,6 +266,7 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
+        }
         #endregion
 
         #region Charge
@@ -264,9 +274,12 @@ namespace BL
         /// Send a drone to charge
         /// </summary>
         /// <param name="id">The ID of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ChargeDrone(int id)
         {
-            ListDrone d = Drones.Find(x => x.Id == id); //finding the drone in the list of bll
+            lock (Data)
+            {
+                ListDrone d = Drones.Find(x => x.Id == id); //finding the drone in the list of bll
 
             //throw an exception if the drone wasnt found
             if (d == null)
@@ -329,8 +342,10 @@ namespace BL
                 StationId = s.Id,
                 ChargingBegin = DateTime.Now
             };
-
-            Data.AddDroneCharge(dc); //add the drone charge in the data layer
+            
+            
+                Data.AddDroneCharge(dc); //add the drone charge in the data layer
+            }
         }
         #endregion
 
@@ -340,31 +355,35 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <param name="time">The time it has charged</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneCharge(int id)
         {
-            if (!Drones.Exists(d => d.Id == id))
-                throw new NoIDException($"Drone {id} does not exist.");
+            lock (Data)
+            {
+                if (!Drones.Exists(d => d.Id == id))
+                    throw new NoIDException($"Drone {id} does not exist.");
 
-            ListDrone d = Drones.Find(d => d.Id == id);
+                ListDrone d = Drones.Find(d => d.Id == id);
 
-            if (!d.Active)
-                throw new NoIDException($"Drone {id} does not exist.");
+                if (!d.Active)
+                    throw new NoIDException($"Drone {id} does not exist.");
 
-            if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
-                throw new DroneStateException($"Drone {id} is not currently charging.");
+                if (d.Status != DroneStatuses.Maintenance) //if the drone isnt charging throw an exception
+                    throw new DroneStateException($"Drone {id} is not currently charging.");
 
-            DO.DroneCharge dc = Data.GetDroneCharge(d.Id);
-            TimeSpan time = DateTime.Now - dc.ChargingBegin;
+                DO.DroneCharge dc = Data.GetDroneCharge(d.Id);
+                TimeSpan time = DateTime.Now - dc.ChargingBegin;
 
-            d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
-            if (d.Battery > 100)
-                d.Battery = 100;
-            d.Status = DroneStatuses.Available; //update the status to be available
+                d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
+                if (d.Battery > 100)
+                    d.Battery = 100;
+                d.Status = DroneStatuses.Available; //update the status to be available
 
-            Station s = getStationByLocation(d.CurrentLocation);
-            UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
+                Station s = getStationByLocation(d.CurrentLocation);
+                UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
 
-            Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
+                Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
+            }
         }
         #endregion
 
@@ -373,6 +392,7 @@ namespace BL
         /// Assign a drone to a parcel
         /// </summary>
         /// <param name="id">The ID of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignDroneToParcel(int id)
         {
             //checking if the drone exists
@@ -530,8 +550,10 @@ namespace BL
 
             drone.Status = DroneStatuses.Shipping; //updating the status of the drone to be in shipping
             drone.ParcelId = parcel.Id; //updating the parcel the drone carries
-
-            Data.AssignDroneToParcel(parcel.Id, drone.Id);
+            lock (Data)
+            {
+                Data.AssignDroneToParcel(parcel.Id, drone.Id);
+            }
         }
         #endregion
 
@@ -540,6 +562,7 @@ namespace BL
         /// Update that a drone picked up a parcel
         /// </summary>
         /// <param name="id">The ID of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DronePickUp(int id)
         {
             ListDrone d = Drones.Find(x => x.Id == id);
@@ -571,8 +594,10 @@ namespace BL
                     break;
             }
             d.CurrentLocation = p.PickUpLocation;
-
-            Data.ParcelPickUp(p.Id); //updating the parcel in dll
+            lock (Data)
+            {
+                Data.ParcelPickUp(p.Id); //updating the parcel in dll
+            }
         }
         #endregion
 
@@ -581,6 +606,7 @@ namespace BL
         /// Update that a drone delivered a parcel
         /// </summary>
         /// <param name="id">The ID of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneDeliver(int id)
         {
             ListDrone d = Drones.Find(x => x.Id == id);
@@ -617,8 +643,10 @@ namespace BL
             d.CurrentLocation = p.DeliveryLocation;
             d.Status = DroneStatuses.Available;
             d.ParcelId = 0;
-
-            Data.ParcelDelivered(p.Id);
+            lock (Data)
+            {
+                Data.ParcelDelivered(p.Id);
+            }
         }
         #endregion
 
@@ -627,23 +655,27 @@ namespace BL
         /// Remove a drone from the list 
         /// </summary>
         /// <param name="drone">The drone to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(int id)
         {
-            try
+            lock (Data)
             {
-                DO.Drone drone = new DO.Drone()
+                try
                 {
-                    Id = id
-                };
-                Data.RemoveDrone(drone); //removing from the list in data
+                    DO.Drone drone = new DO.Drone()
+                    {
+                        Id = id
+                    };
+                    Data.RemoveDrone(drone); //removing from the list in data
 
-                //deactivating the drone
-                ListDrone d = Drones.Find(x => x.Id == id);
-                d.Active = false;
-            }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
+                    //deactivating the drone
+                    ListDrone d = Drones.Find(x => x.Id == id);
+                    d.Active = false;
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
+                }
             }
         }
         #endregion

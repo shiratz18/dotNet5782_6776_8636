@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalObject
@@ -13,6 +13,7 @@ namespace Dal
         /// <summary>
         /// adds a drone to the list of drones
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone)
         {
             if (DataSource.Drones.Exists(d => d.Id == drone.Id))
@@ -27,6 +28,7 @@ namespace Dal
         /// updates a drone in the list
         /// </summary>
         /// <param name="drone">the updated drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             if (!DataSource.Drones.Exists(d => d.Id == drone.Id))
@@ -42,6 +44,7 @@ namespace Dal
         /// </summary>
         /// <param name="currentId">The current drone ID</param>
         /// <param name="newId">The new ID</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneId(int currentId, int newId)
         {
             if (!DataSource.Drones.Exists(d => d.Id == currentId))
@@ -57,6 +60,8 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <param name="name">The new name</param>
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneModel(int id, string model)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
@@ -72,6 +77,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <param name="weight">The new maximum weight</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneMaxWeight(int id, WeightCategories weight)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
@@ -88,6 +94,7 @@ namespace Dal
         /// removes a drone from the list
         /// </summary>
         /// <param name="drone">the drone to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
             if (!DataSource.Drones.Exists(d => d.Id == drone.Id))
@@ -104,6 +111,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             if (!DataSource.Drones.Exists(d => d.Id == id))
@@ -124,6 +132,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>A IEnumerable<Drone></Drone> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDroneList(Predicate<Drone> predicate = null)
         {
             if (predicate != null)
@@ -138,6 +147,7 @@ namespace Dal
         /// function returns an array with info about the electricity consumption of a drone
         /// </summary>
         /// <returns>the array</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetDroneElectricityConsumption()
         {
             double[] temp = new double[5];

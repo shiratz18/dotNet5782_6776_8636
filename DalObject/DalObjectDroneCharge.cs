@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -14,7 +15,8 @@ namespace Dal
         /// Add a drone to charge
         /// </summary>
         /// <param name="d">drone charge object</param>
-        public void AddDroneCharge(DroneCharge d)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+public void AddDroneCharge(DroneCharge d)
         {
             if (!DataSource.Drones.Exists(drone => d.DroneId == drone.Id))
             {
@@ -35,6 +37,8 @@ namespace Dal
         /// release a drone from charge
         /// </summary>
         /// <param name="d">drone charge object</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void RemoveDroneCharge(DroneCharge d)
         {
             if (!DataSource.Drones.Exists(drone => d.DroneId == drone.Id))
@@ -57,6 +61,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <returns>The DroneCharge</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             if (!DataSource.DroneChargers.Exists(dc => dc.DroneId == id))
@@ -72,6 +77,8 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>A IEnumerable<DroneCharge> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate = null)
         {
             if (predicate != null)

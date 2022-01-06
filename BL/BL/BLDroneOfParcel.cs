@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Runtime.CompilerServices;
 namespace BL
 {
     partial class BL
@@ -15,6 +15,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the drone</param>
         /// <returns>The object DroneOfParcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private DroneOfParcel getDroneOfParcel(int id)
         {
             try

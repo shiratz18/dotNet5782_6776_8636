@@ -21,8 +21,8 @@
     <Requested>2022-01-05T01:59:29.7960802+02:00</Requested>
     <DroneId>4582</DroneId>
     <Scheduled>2022-01-05T01:59:29.7960859+02:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <PickedUp>2022-01-06T17:15:33.328782+02:00</PickedUp>
+    <Delivered>2022-01-06T17:15:37.6735574+02:00</Delivered>
   </Parcel>
   <Parcel>
     <Id>1000002</Id>
