@@ -152,6 +152,8 @@ namespace BL
                     throw new NoIDException($"Drone {dc.DroneId} does not exist.");
 
                 drone.Status = DroneStatuses.Maintenance; //update the status to be maintenance
+                drone.Battery = (DateTime.Now - dc.ChargingBegin).Seconds * DroneChargingRate < 100 ?
+                    (DateTime.Now - dc.ChargingBegin).Seconds * DroneChargingRate : 100;
 
                 DO.Station station = Data.GetStation(dc.StationId);
                 drone.CurrentLocation = new Location() //updating the drone location

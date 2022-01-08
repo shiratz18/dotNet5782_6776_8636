@@ -6,8 +6,13 @@
     <ChargingBegin>2022-01-06T22:42:12.5235774+02:00</ChargingBegin>
   </DroneCharge>
   <DroneCharge>
-    <DroneId>4582</DroneId>
+    <DroneId>2131</DroneId>
     <StationId>1234</StationId>
-    <ChargingBegin>2022-01-06T23:00:54.6565907+02:00</ChargingBegin>
+    <ChargingBegin>2022-01-08T18:59:19.397715+02:00</ChargingBegin>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>3674</DroneId>
+    <StationId>1234</StationId>
+    <ChargingBegin>2022-01-08T18:59:34.5228969+02:00</ChargingBegin>
   </DroneCharge>
 </ArrayOfDrone>

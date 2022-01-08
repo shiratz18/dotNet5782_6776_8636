@@ -122,9 +122,9 @@ namespace Dal
         public IEnumerable<Customer> GetCustomerList(Predicate<Customer> predicate = null)
         {
             if (predicate != null)
-                return DataSource.Customers.FindAll(c => predicate(c) && c.Active);
+                return DataSource.Customers.Where(c => predicate(c) && c.Active).Select(item=>item);
             else
-                return DataSource.Customers.Where(c => c.Active);
+                return DataSource.Customers.Where(c => c.Active).Select(item => item);
         }
         #endregion
 

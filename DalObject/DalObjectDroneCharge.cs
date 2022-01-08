@@ -16,7 +16,7 @@ namespace Dal
         /// </summary>
         /// <param name="d">drone charge object</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-public void AddDroneCharge(DroneCharge d)
+        public void AddDroneCharge(DroneCharge d)
         {
             if (!DataSource.Drones.Exists(drone => d.DroneId == drone.Id))
             {
@@ -82,9 +82,9 @@ public void AddDroneCharge(DroneCharge d)
         public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate = null)
         {
             if (predicate != null)
-                return DataSource.DroneChargers.FindAll(predicate);
+                return DataSource.DroneChargers.Where(d => predicate(d)).Select(item => item);
             else
-                return DataSource.DroneChargers;
+                return DataSource.DroneChargers.Select(item => item);
         }
         #endregion
     }

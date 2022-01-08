@@ -7,8 +7,8 @@
     <Weight>Heavy</Weight>
     <Priority>Urgent</Priority>
     <Requested>2022-01-06T22:52:45.6747091+02:00</Requested>
-    <DroneId>0</DroneId>
-    <Scheduled xsi:nil="true" />
+    <DroneId>4582</DroneId>
+    <Scheduled>2022-01-08T18:59:53.7638711+02:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
   </Parcel>
@@ -57,8 +57,8 @@
     <Requested>2022-01-06T22:52:45.6835481+02:00</Requested>
     <DroneId>2131</DroneId>
     <Scheduled>2022-01-06T22:52:45.6835487+02:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <PickedUp>2022-01-08T18:59:05.0810983+02:00</PickedUp>
+    <Delivered>2022-01-08T18:59:07.2043992+02:00</Delivered>
   </Parcel>
   <Parcel>
     <Id>1000005</Id>
@@ -67,10 +67,10 @@
     <Weight>Light</Weight>
     <Priority>Urgent</Priority>
     <Requested>2022-01-06T22:52:45.6835498+02:00</Requested>
-    <DroneId>2586</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <DroneId>2131</DroneId>
+    <Scheduled>2022-01-08T18:59:09.1070277+02:00</Scheduled>
+    <PickedUp>2022-01-08T18:59:12.4794015+02:00</PickedUp>
+    <Delivered>2022-01-08T18:59:14.3691423+02:00</Delivered>
   </Parcel>
   <Parcel>
     <Id>1000006</Id>
@@ -81,8 +81,8 @@
     <Requested>2022-01-06T22:52:45.6835509+02:00</Requested>
     <DroneId>3674</DroneId>
     <Scheduled>2022-01-06T22:52:45.6835514+02:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <PickedUp>2022-01-08T18:59:23.9890897+02:00</PickedUp>
+    <Delivered>2022-01-08T18:59:26.422743+02:00</Delivered>
   </Parcel>
   <Parcel>
     <Id>1000007</Id>
@@ -115,9 +115,9 @@
     <Weight>Light</Weight>
     <Priority>Urgent</Priority>
     <Requested>2022-01-06T22:52:45.6835548+02:00</Requested>
-    <DroneId>0</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <DroneId>4582</DroneId>
+    <Scheduled>2022-01-08T18:58:48.6201484+02:00</Scheduled>
+    <PickedUp>2022-01-08T18:58:54.8822206+02:00</PickedUp>
+    <Delivered>2022-01-08T18:58:56.6441426+02:00</Delivered>
   </Parcel>
 </ArrayOfParcel>

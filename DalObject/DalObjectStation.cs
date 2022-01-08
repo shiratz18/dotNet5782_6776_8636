@@ -123,31 +123,10 @@ namespace Dal
         public IEnumerable<Station> GetStationList(Predicate<Station> predicate = null)
         {
             if (predicate != null)
-                return DataSource.Stations.FindAll(x => predicate(x) && x.Active);
+                return DataSource.Stations.Where(x => predicate(x) && x.Active).Select(item => item);
             else
-                return DataSource.Stations.FindAll(x => x.Active);
+                return DataSource.Stations.FindAll(x => x.Active).Select(item => item);
         }
         #endregion
-
-        //#region Returns distance from a station
-        ///// <summary>
-        ///// finds the distance from a station
-        ///// </summary>
-        ///// <param name="Lat1"></param>
-        ///// <param name="Lng1"></param>
-        ///// <param name="Id"></param>
-        ///// <returns></returns>
-        //public double FindDistanceStation(double lng1, double lat1, int id)
-        //{
-        //    if (!DataSource.Stations.Exists(s => s.Id == id))
-        //    {
-        //        throw new NoIDException($"Station {id} doesn't exist.");
-        //    }
-
-        //    Station temp = DataSource.Stations.Find(x => x.Id == id);
-        //    Double lat2 = temp.Latitude, lng2 = temp.Longitude;
-        //    return Location.GetDistance(lng1, lat1, lng2, lat2);
-        //}
-        //#endregion
     }
 }

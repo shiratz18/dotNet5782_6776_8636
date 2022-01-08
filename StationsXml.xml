@@ -5,7 +5,7 @@
     <Name>Jerusalem Central Station</Name>
     <Longitude>35.20373</Longitude>
     <Latitude>31.78954</Latitude>
-    <ChargeSlots>9</ChargeSlots>
+    <ChargeSlots>18</ChargeSlots>
     <Active>true</Active>
   </Station>
   <Station>
