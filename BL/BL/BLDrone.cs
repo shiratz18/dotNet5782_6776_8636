@@ -374,7 +374,7 @@ namespace BL
                 DO.DroneCharge dc = Data.GetDroneCharge(d.Id);
                 TimeSpan time = DateTime.Now - dc.ChargingBegin;
 
-                d.Battery = d.Battery + (time.Minutes * DroneChargingRate); //adding the battery the drone has charged
+                d.Battery = d.Battery + (time.Seconds * DroneChargingRate); //adding the battery the drone has charged
                 if (d.Battery > 100)
                     d.Battery = 100;
                 d.Status = DroneStatuses.Available; //update the status to be available
@@ -554,6 +554,7 @@ namespace BL
             {
                 Data.AssignDroneToParcel(parcel.Id, drone.Id);
             }
+
         }
         #endregion
 

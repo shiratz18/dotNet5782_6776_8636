@@ -301,7 +301,16 @@ namespace BlApi
         /// <param name="parcel">The parcel to remove</param>
         public void RemoveParcel(int id);
         #endregion
-       
+
         #endregion
+        
+        /// <summary>
+        /// activat simulator
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateDelegate"></param>
+        /// <param name="stopDelegate"></param>
+        public void ActivateSimulator(int id, Action updateDelegate, Func<bool> stopDelegate);
+
     }
 }
