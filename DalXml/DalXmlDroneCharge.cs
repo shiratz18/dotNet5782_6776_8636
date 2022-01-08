@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalXml
@@ -15,6 +15,7 @@ namespace Dal
         /// Add a drone to charge
         /// </summary>
         /// <param name="d">drone charge object</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge d)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath);
@@ -41,6 +42,7 @@ namespace Dal
         /// release a drone from charge
         /// </summary>
         /// <param name="d">drone charge object</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(DroneCharge d)
         {
             XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(droneChargePath);
@@ -68,6 +70,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <returns>The DroneCharge</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(droneChargePath);
@@ -94,6 +97,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>A IEnumerable<DroneCharge> containing the elements that match the predicate condition if found, otherwise retruns an empty list. If no predicate was given, returns the entire list.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDroneChargeList(Predicate<DroneCharge> predicate = null)
         {
             try

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Runtime.CompilerServices;
 namespace BL
 {
     partial class BL
@@ -14,6 +14,7 @@ namespace BL
         /// Add a parcel to the list
         /// </summary>
         /// <param name="parcel">The parcel to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
             try //checking if the customers in the parcel exist
@@ -45,7 +46,10 @@ namespace BL
 
             try
             {
-                Data.AddParcel(temp);
+                lock (Data)
+                {
+                    Data.AddParcel(temp);
+                }
             }
             catch (DoubleIDException ex)
             {
@@ -59,6 +63,7 @@ namespace BL
         /// Update a parcel
         /// </summary>
         /// <param name="parcel">The updated parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             DO.Parcel temp = new DO.Parcel()
@@ -75,7 +80,10 @@ namespace BL
                 Delivered = parcel.Delivered
             };
 
-            Data.UpdateParcel(temp);
+            lock (Data)
+            {
+                Data.UpdateParcel(temp);
+            }
         }
         #endregion
 
@@ -85,33 +93,37 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the parcel</param>
         /// <returns>The object Parcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
-            try
+            lock (Data)
             {
-                DO.Parcel temp = Data.GetParcel(id); //get the parcel from the data layer
-
-                Parcel p = new Parcel() //copy the fields to a bl parel type
+                try
                 {
-                    Id = temp.Id,
-                    Sender = getCustomerInParcel(temp.SenderId),
-                    Target = getCustomerInParcel(temp.TargetId),
-                    Weight = (WeightCategories)temp.Weight,
-                    Priority = (Priorities)temp.Priority,
-                    Requested = temp.Requested,
-                    Scheduled = temp.Scheduled,
-                    PickedUp = temp.PickedUp,
-                    Delivered = temp.Delivered
-                };
+                    DO.Parcel temp = Data.GetParcel(id); //get the parcel from the data layer
 
-                if (p.Scheduled != null)
-                    p.AssignedDrone = getDroneOfParcel(temp.DroneId);
+                    Parcel p = new Parcel() //copy the fields to a bl parel type
+                    {
+                        Id = temp.Id,
+                        Sender = getCustomerInParcel(temp.SenderId),
+                        Target = getCustomerInParcel(temp.TargetId),
+                        Weight = (WeightCategories)temp.Weight,
+                        Priority = (Priorities)temp.Priority,
+                        Requested = temp.Requested,
+                        Scheduled = temp.Scheduled,
+                        PickedUp = temp.PickedUp,
+                        Delivered = temp.Delivered
+                    };
 
-                return p;
-            }
-            catch (DO.NoIDException ex)
-            {
-                throw new NoIDException(ex.Message);
+                    if (p.Scheduled != null)
+                        p.AssignedDrone = getDroneOfParcel(temp.DroneId);
+
+                    return p;
+                }
+                catch (DO.NoIDException ex)
+                {
+                    throw new NoIDException(ex.Message);
+                }
             }
         }
         #endregion
@@ -121,17 +133,123 @@ namespace BL
         /// Returns the list of parcels
         /// </summary>
         /// <returns>The list of parcels</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListParcel> GetParcelList(WeightCategories? wc = null, ParcelState? ps = null, Priorities? pr = null)
         {
-            List<ListParcel> listParcels = new List<ListParcel>();
-
-            if (wc != null)
+            lock (Data)
             {
-                if (ps != null)
+                List<ListParcel> listParcels = new List<ListParcel>();
+
+                if (wc != null)
+                {
+                    if (ps != null)
+                    {
+                        if (pr != null)
+                        {
+                            foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
+                            {
+                                ListParcel temp = new ListParcel()
+                                {
+                                    Id = p.Id,
+                                    SenderName = Data.GetCustomer(p.SenderId).Name,
+                                    TargetName = Data.GetCustomer(p.TargetId).Name,
+                                    Weight = (WeightCategories)p.Weight,
+                                    Priority = (Priorities)p.Priority
+                                };
+                                if (p.Delivered != null)
+                                    temp.State = ParcelState.Delivered;
+                                else if (p.PickedUp != null)
+                                    temp.State = ParcelState.PickedUp;
+                                else if (p.Scheduled != null)
+                                    temp.State = ParcelState.PickedUp;
+                                else
+                                    temp.State = ParcelState.Requested;
+
+                                if (temp.State == ps)
+                                    listParcels.Add(temp);
+                            }
+                        }
+                    }
+                    else if (pr != null)
+                    {
+                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
+                        {
+                            ListParcel temp = new ListParcel()
+                            {
+                                Id = p.Id,
+                                SenderName = Data.GetCustomer(p.SenderId).Name,
+                                TargetName = Data.GetCustomer(p.TargetId).Name,
+                                Weight = (WeightCategories)p.Weight,
+                                Priority = (Priorities)p.Priority
+                            };
+                            if (p.Delivered != null)
+                                temp.State = ParcelState.Delivered;
+                            else if (p.PickedUp != null)
+                                temp.State = ParcelState.PickedUp;
+                            else if (p.Scheduled != null)
+                                temp.State = ParcelState.PickedUp;
+                            else
+                                temp.State = ParcelState.Requested;
+
+                            listParcels.Add(temp);
+                        }
+                    }
+                    else
+                    {
+                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc))
+                        {
+                            ListParcel temp = new ListParcel()
+                            {
+                                Id = p.Id,
+                                SenderName = Data.GetCustomer(p.SenderId).Name,
+                                TargetName = Data.GetCustomer(p.TargetId).Name,
+                                Weight = (WeightCategories)p.Weight,
+                                Priority = (Priorities)p.Priority
+                            };
+                            if (p.Delivered != null)
+                                temp.State = ParcelState.Delivered;
+                            else if (p.PickedUp != null)
+                                temp.State = ParcelState.PickedUp;
+                            else if (p.Scheduled != null)
+                                temp.State = ParcelState.PickedUp;
+                            else
+                                temp.State = ParcelState.Requested;
+
+                            listParcels.Add(temp);
+                        }
+                    }
+                }
+
+                else if (ps != null)
                 {
                     if (pr != null)
                     {
-                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
+                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr))
+                        {
+                            ListParcel temp = new ListParcel()
+                            {
+                                Id = p.Id,
+                                SenderName = Data.GetCustomer(p.SenderId).Name,
+                                TargetName = Data.GetCustomer(p.TargetId).Name,
+                                Weight = (WeightCategories)p.Weight,
+                                Priority = (Priorities)p.Priority
+                            };
+                            if (p.Delivered != null)
+                                temp.State = ParcelState.Delivered;
+                            else if (p.PickedUp != null)
+                                temp.State = ParcelState.PickedUp;
+                            else if (p.Scheduled != null)
+                                temp.State = ParcelState.PickedUp;
+                            else
+                                temp.State = ParcelState.Requested;
+
+                            if (temp.State == ps)
+                                listParcels.Add(temp);
+                        }
+                    }
+                    else
+                    {
+                        foreach (DO.Parcel p in Data.GetParcelList())
                         {
                             ListParcel temp = new ListParcel()
                             {
@@ -157,58 +275,6 @@ namespace BL
                 }
                 else if (pr != null)
                 {
-                    foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
-                    {
-                        ListParcel temp = new ListParcel()
-                        {
-                            Id = p.Id,
-                            SenderName = Data.GetCustomer(p.SenderId).Name,
-                            TargetName = Data.GetCustomer(p.TargetId).Name,
-                            Weight = (WeightCategories)p.Weight,
-                            Priority = (Priorities)p.Priority
-                        };
-                        if (p.Delivered != null)
-                            temp.State = ParcelState.Delivered;
-                        else if (p.PickedUp != null)
-                            temp.State = ParcelState.PickedUp;
-                        else if (p.Scheduled != null)
-                            temp.State = ParcelState.PickedUp;
-                        else
-                            temp.State = ParcelState.Requested;
-
-                        listParcels.Add(temp);
-                    }
-                }
-                else
-                {
-                    foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc))
-                    {
-                        ListParcel temp = new ListParcel()
-                        {
-                            Id = p.Id,
-                            SenderName = Data.GetCustomer(p.SenderId).Name,
-                            TargetName = Data.GetCustomer(p.TargetId).Name,
-                            Weight = (WeightCategories)p.Weight,
-                            Priority = (Priorities)p.Priority
-                        };
-                        if (p.Delivered != null)
-                            temp.State = ParcelState.Delivered;
-                        else if (p.PickedUp != null)
-                            temp.State = ParcelState.PickedUp;
-                        else if (p.Scheduled != null)
-                            temp.State = ParcelState.PickedUp;
-                        else
-                            temp.State = ParcelState.Requested;
-
-                        listParcels.Add(temp);
-                    }
-                }
-            }
-
-            else if (ps != null)
-            {
-                if (pr != null)
-                {
                     foreach (DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr))
                     {
                         ListParcel temp = new ListParcel()
@@ -228,8 +294,7 @@ namespace BL
                         else
                             temp.State = ParcelState.Requested;
 
-                        if (temp.State == ps)
-                            listParcels.Add(temp);
+                        listParcels.Add(temp);
                     }
                 }
                 else
@@ -253,61 +318,12 @@ namespace BL
                         else
                             temp.State = ParcelState.Requested;
 
-                        if (temp.State == ps)
-                            listParcels.Add(temp);
+                        listParcels.Add(temp);
                     }
                 }
-            }
-            else if (pr != null)
-            {
-                foreach (DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr))
-                {
-                    ListParcel temp = new ListParcel()
-                    {
-                        Id = p.Id,
-                        SenderName = Data.GetCustomer(p.SenderId).Name,
-                        TargetName = Data.GetCustomer(p.TargetId).Name,
-                        Weight = (WeightCategories)p.Weight,
-                        Priority = (Priorities)p.Priority
-                    };
-                    if (p.Delivered != null)
-                        temp.State = ParcelState.Delivered;
-                    else if (p.PickedUp != null)
-                        temp.State = ParcelState.PickedUp;
-                    else if (p.Scheduled != null)
-                        temp.State = ParcelState.PickedUp;
-                    else
-                        temp.State = ParcelState.Requested;
 
-                    listParcels.Add(temp);
-                }
+                return listParcels;
             }
-            else
-            {
-                foreach (DO.Parcel p in Data.GetParcelList())
-                {
-                    ListParcel temp = new ListParcel()
-                    {
-                        Id = p.Id,
-                        SenderName = Data.GetCustomer(p.SenderId).Name,
-                        TargetName = Data.GetCustomer(p.TargetId).Name,
-                        Weight = (WeightCategories)p.Weight,
-                        Priority = (Priorities)p.Priority
-                    };
-                    if (p.Delivered != null)
-                        temp.State = ParcelState.Delivered;
-                    else if (p.PickedUp != null)
-                        temp.State = ParcelState.PickedUp;
-                    else if (p.Scheduled != null)
-                        temp.State = ParcelState.PickedUp;
-                    else
-                        temp.State = ParcelState.Requested;
-
-                    listParcels.Add(temp);
-                }
-            }
-
-            return listParcels;
         }
 
         #region Get parcels with no drone
@@ -315,37 +331,41 @@ namespace BL
         /// Returns the list of parcels which dont have an assigned drone
         /// </summary>
         /// <returns>The list of parcels</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListParcel> GetNoDroneParcelList()
         {
-            IEnumerable<DO.Parcel> temps = Data.GetParcelList(p => p.DroneId == 0);
-
-            if (temps.Count() == 0)
-                throw new EmptyListException("No Parcels with no drone to display");
-
-            List<ListParcel> parcels = new List<ListParcel>();
-
-            foreach (DO.Parcel p in temps)
+            lock (Data)
             {
-                ListParcel temp = new ListParcel()
-                {
-                    Id = p.Id,
-                    SenderName = Data.GetCustomer(p.SenderId).Name,
-                    TargetName = Data.GetCustomer(p.TargetId).Name,
-                    Weight = (WeightCategories)p.Weight,
-                    Priority = (Priorities)p.Priority
-                };
-                if (p.Delivered != null)
-                    temp.State = ParcelState.Delivered;
-                else if (p.PickedUp != null)
-                    temp.State = ParcelState.PickedUp;
-                else if (p.Scheduled != null)
-                    temp.State = ParcelState.PickedUp;
-                else
-                    temp.State = ParcelState.Requested;
+                IEnumerable<DO.Parcel> temps = Data.GetParcelList(p => p.DroneId == 0);
 
-                parcels.Add(temp);
+                if (temps.Count() == 0)
+                    throw new EmptyListException("No Parcels with no drone to display");
+
+                List<ListParcel> parcels = new List<ListParcel>();
+
+                foreach (DO.Parcel p in temps)
+                {
+                    ListParcel temp = new ListParcel()
+                    {
+                        Id = p.Id,
+                        SenderName = Data.GetCustomer(p.SenderId).Name,
+                        TargetName = Data.GetCustomer(p.TargetId).Name,
+                        Weight = (WeightCategories)p.Weight,
+                        Priority = (Priorities)p.Priority
+                    };
+                    if (p.Delivered != null)
+                        temp.State = ParcelState.Delivered;
+                    else if (p.PickedUp != null)
+                        temp.State = ParcelState.PickedUp;
+                    else if (p.Scheduled != null)
+                        temp.State = ParcelState.PickedUp;
+                    else
+                        temp.State = ParcelState.Requested;
+
+                    parcels.Add(temp);
+                }
+                return parcels;
             }
-            return parcels;
         }
         #endregion
 
@@ -354,33 +374,37 @@ namespace BL
         /// Returns a list of Parcel object
         /// </summary>
         /// <returns>The list of parcels</returns>
+
         private IEnumerable<Parcel> getListOfParcels()
         {
-            IEnumerable<DO.Parcel> parcels = Data.GetParcelList(); //getting the parcels from data layer
-
-            List<Parcel> ps = new List<Parcel>();
-
-            foreach (DO.Parcel p in parcels)
+            lock (Data)
             {
-                Parcel temp = new Parcel()
+                IEnumerable<DO.Parcel> parcels = Data.GetParcelList(); //getting the parcels from data layer
+
+                List<Parcel> ps = new List<Parcel>();
+
+                foreach (DO.Parcel p in parcels)
                 {
-                    Id = p.Id,
-                    Sender = getCustomerInParcel(p.SenderId),
-                    Target = getCustomerInParcel(p.TargetId),
-                    Weight = (WeightCategories)p.Weight,
-                    Priority = (Priorities)p.Priority,
-                    Requested = p.Requested,
-                    Scheduled = p.Scheduled,
-                    PickedUp = p.PickedUp,
-                    Delivered = p.Delivered
-                };
-                if (p.DroneId != 0)
-                    temp.AssignedDrone = getDroneOfParcel(p.DroneId);
+                    Parcel temp = new Parcel()
+                    {
+                        Id = p.Id,
+                        Sender = getCustomerInParcel(p.SenderId),
+                        Target = getCustomerInParcel(p.TargetId),
+                        Weight = (WeightCategories)p.Weight,
+                        Priority = (Priorities)p.Priority,
+                        Requested = p.Requested,
+                        Scheduled = p.Scheduled,
+                        PickedUp = p.PickedUp,
+                        Delivered = p.Delivered
+                    };
+                    if (p.DroneId != 0)
+                        temp.AssignedDrone = getDroneOfParcel(p.DroneId);
 
-                ps.Add(temp);
+                    ps.Add(temp);
+                }
+
+                return ps;
             }
-
-            return ps;
         }
 
         /// <summary>
@@ -389,30 +413,34 @@ namespace BL
         /// <returns>The list of parcels</returns>
         private IEnumerable<Parcel> getListOfNoDroneParcels()
         {
-            List<Parcel> parcels = new List<Parcel>();
-
-            IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => p.Scheduled == null);
-
-            if (tempParcels.Count() == 0)
-                throw new EmptyListException("No parcels without a drone.");
-
-            foreach (DO.Parcel p in tempParcels)
+            lock (Data)
             {
-                parcels.Add(new Parcel()
-                {
-                    Id = p.Id,
-                    Sender = getCustomerInParcel(p.SenderId),
-                    Target = getCustomerInParcel(p.TargetId),
-                    Weight = (WeightCategories)p.Weight,
-                    Priority = (Priorities)p.Priority,
-                    Requested = p.Requested,
-                    Scheduled = p.Scheduled,
-                    PickedUp = p.PickedUp,
-                    Delivered = p.Delivered
-                });
-            }
+                List<Parcel> parcels = new List<Parcel>();
 
-            return parcels;
+                IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => p.Scheduled == null);
+
+
+                if (tempParcels.Count() == 0)
+                    throw new EmptyListException("No parcels without a drone.");
+
+                foreach (DO.Parcel p in tempParcels)
+                {
+                    parcels.Add(new Parcel()
+                    {
+                        Id = p.Id,
+                        Sender = getCustomerInParcel(p.SenderId),
+                        Target = getCustomerInParcel(p.TargetId),
+                        Weight = (WeightCategories)p.Weight,
+                        Priority = (Priorities)p.Priority,
+                        Requested = p.Requested,
+                        Scheduled = p.Scheduled,
+                        PickedUp = p.PickedUp,
+                        Delivered = p.Delivered
+                    });
+                }
+
+                return parcels;
+            }
         }
         #endregion
 
@@ -421,6 +449,7 @@ namespace BL
         /// Removes a parcel from the list
         /// </summary>
         /// <param name="parcel">The parcel to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(int id)
         {
             try
@@ -442,7 +471,10 @@ namespace BL
                         Delivered = parcel.Delivered
                     };
 
-                    Data.RemoveParcel(temp);
+                    lock (Data)
+                    {
+                        Data.RemoveParcel(temp);
+                    }
                 }
                 else
                     throw new CannotDeleteException("Cannot delete this parcel since it has already been assigned to a drone.");

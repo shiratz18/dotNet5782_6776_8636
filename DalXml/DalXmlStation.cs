@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalXml
@@ -33,6 +33,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">ID to match</param>
         /// <returns>The station</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             var stationList = XmlTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
@@ -50,6 +51,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate</param>
         /// <returns>The list</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStationList(Predicate<Station> predicate = null)
         {
             if (predicate != null)
@@ -64,6 +66,7 @@ namespace Dal
         /// Updates station in the list
         /// </summary>
         /// <param name="station">The updates station</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
             var stationList = XmlTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
@@ -84,6 +87,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The station ID</param>
         /// <param name="name">The new name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditStationName(int id, string name)
         {
             var stationList = XmlTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
@@ -104,6 +108,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The station ID</param>
         /// <param name="num">The number to substract</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateChargeSlots(int id, int num)
         {
             var stationList = XmlTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
@@ -123,6 +128,7 @@ namespace Dal
         /// Mark a station as deleted
         /// </summary>
         /// <param name="station">The station to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveStation(Station station)
         {
             var stationList = XmlTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);

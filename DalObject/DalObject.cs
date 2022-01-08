@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Collections.Generic;
 using DalApi;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalObject : IDal

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
-
+using System.Runtime.CompilerServices;
 namespace BL
 {
     partial class BL
@@ -15,6 +15,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The ID of the parcel</param>
         /// <returns>The parcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private ParcelInShipping getParcelInShipping(int id)
         {
             DO.Parcel temp = Data.GetParcel(id);
@@ -47,6 +48,7 @@ namespace BL
         /// Returns the parcels with no drones in ParcelInShipping object
         /// </summary>
         /// <returns>The list of parcels with no drones</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private IEnumerable<ParcelInShipping> getListOfNoDroneParcelsInShipping()
         {
             List<ParcelInShipping> pis = new List<ParcelInShipping>();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
     partial class DalXml
@@ -12,6 +12,7 @@ namespace Dal
         /// Add drone to list in dronesXML
         /// </summary>
         /// <param name="station">The station to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
@@ -30,6 +31,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
@@ -51,6 +53,7 @@ namespace Dal
         /// </summary>
         /// <param name="predicate">The predicate</param>
         /// <returns>The list</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDroneList(Predicate<Drone> predicate = null)
         {
             if (predicate != null)
@@ -65,6 +68,7 @@ namespace Dal
         /// Mark a drone as deleted
         /// </summary>
         /// <param name="drone">The drone to remove</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
 
@@ -84,6 +88,7 @@ namespace Dal
         /// function returns an array with info about the electricity consumption of a drone
         /// </summary>
         /// <returns>the array</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] GetDroneElectricityConsumption()
         {
             List<string> config = XmlTools.LoadListFromXMLSerializer<string>(@"ConfigXml.xml");
@@ -104,6 +109,7 @@ namespace Dal
         /// </summary>
         /// <param name="currentId">The current drone ID</param>
         /// <param name="newId">The new ID</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneId(int currentId, int newId)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
@@ -122,6 +128,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <param name="name">The new name</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneModel(int id, string model)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file
@@ -140,6 +147,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The drone ID</param>
         /// <param name="weight">The new maximum weight</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void EditDroneMaxWeight(int id, WeightCategories weight)
         {
 
@@ -161,6 +169,7 @@ namespace Dal
         /// updates a drone in the list
         /// </summary>
         /// <param name="drone">the updated drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             var droneList = XmlTools.LoadListFromXMLSerializer<Drone>(dronesPath); //getting drone list from xml file

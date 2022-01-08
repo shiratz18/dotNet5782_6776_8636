@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <Id>4582</Id>
     <Model>I5Xv5</Model>
     <MaxWeight>Heavy</MaxWeight>
-    <Active>true</Active>
+    <Active>false</Active>
   </Drone>
   <Drone>
     <Id>9215</Id>
@@ -30,4 +30,9 @@
     <MaxWeight>Light</MaxWeight>
     <Active>true</Active>
   </Drone>
+  <DroneCharge>
+    <DroneId>4582</DroneId>
+    <StationId>1234</StationId>
+    <ChargingBegin>2022-01-06T17:15:39.990243+02:00</ChargingBegin>
+  </DroneCharge>
 </ArrayOfDrone>
