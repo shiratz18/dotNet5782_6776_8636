@@ -100,34 +100,4 @@
     <Answer>tttt</Answer>
     <Active>true</Active>
   </Customer>
-  <Customer>
-    <Id>213088636</Id>
-    <Name>Chaya Phillips</Name>
-    <Phone>0586713868</Phone>
-    <Longitude>35.13085</Longitude>
-    <Latitude>31.716050000000003</Latitude>
-    <Password>aaaaa</Password>
-    <Answer>Shulman</Answer>
-    <Active>true</Active>
-  </Customer>
-  <Customer>
-    <Id>123165498</Id>
-    <Name>shira</Name>
-    <Phone>0584400322</Phone>
-    <Longitude>35.1548</Longitude>
-    <Latitude>31.745700000000003</Latitude>
-    <Password>1234</Password>
-    <Answer>ht</Answer>
-    <Active>true</Active>
-  </Customer>
-  <Customer>
-    <Id>212376776</Id>
-    <Name>shira</Name>
-    <Phone>0584400322</Phone>
-    <Longitude>35.15365</Longitude>
-    <Latitude>31.751450000000002</Latitude>
-    <Password>12345</Password>
-    <Answer>benh</Answer>
-    <Active>true</Active>
-  </Customer>
 </ArrayOfCustomer>

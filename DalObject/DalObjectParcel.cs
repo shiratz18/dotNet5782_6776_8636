@@ -158,9 +158,9 @@ namespace Dal
         public IEnumerable<Parcel> GetParcelList(Predicate<Parcel> predicate = null)
         {
             if (predicate != null)
-                return DataSource.Parcels.FindAll(predicate);
+                return DataSource.Parcels.FindAll(predicate).Select(item => item);
             else
-                return DataSource.Parcels;
+                return DataSource.Parcels.Select(item => item);
         }
         #endregion
 

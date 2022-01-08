@@ -36,11 +36,11 @@
                         <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding Weight}" Width="115"/>
                         <GridViewColumn Header="PRIORITY" DisplayMemberBinding="{Binding Priority}" Width="120"/>
                         <GridViewColumn Header="STATE" DisplayMemberBinding="{Binding State}" Width="105"/>
-                        <GridViewColumn Header="EDIT"  Width="100">
+                        <GridViewColumn Header="INFO"  Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="btnEdit" ToolTip="Edit" Click="btnEdit_Click" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
-                                        <materialDesign:PackIcon Kind="Edit" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Button x:Name="btnEdit" ToolTip="Info" Click="btnEdit_Click" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Width="100">
+                                        <materialDesign:PackIcon Kind="Information" Height="22" Width="33" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

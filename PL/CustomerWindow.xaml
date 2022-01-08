@@ -63,10 +63,10 @@
             <Label x:Name="idToPrint" FontSize="15"  HorizontalAlignment="Left" Margin="91,86,0,0" Content="{Binding Id}" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
 
             <Label x:Name="name" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-            <TextBox x:Name="nameToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="91,122,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
+            <TextBox x:Name="nameToPrint" FontSize="15" MaxLength="5" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="91,122,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
             <Label x:Name="RedMes7" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="92,151,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="23" Foreground="#FFFA0606" Width="224"/>
             <Label x:Name="phone" Content="Phone:" FontSize="15" HorizontalAlignment="Left" Margin="21,168,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
-            <TextBox x:Name="phoneToPrint" FontSize="15" MaxLength="10" HorizontalAlignment="Left" Margin="94,174,0,0" Text="{Binding Phone}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
+            <TextBox x:Name="phoneToPrint" FontSize="15" MaxLength="10" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="94,174,0,0" Text="{Binding Phone}" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
             <Label x:Name="RedMes8" Content="" FontSize="12" HorizontalAlignment="Left" Margin="92,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="27" Foreground="#FFFA0606" Width="224"/>
             <Label x:Name="longitude" Content="Longitude:" FontSize="15" HorizontalAlignment="Left" Margin="21,222,0,0" VerticalAlignment="Top"/>
             <Label x:Name="longitudeToPrint" Content="{Binding Longitude}" FontSize="15" HorizontalAlignment="Left" Margin="106,234,0,0" VerticalAlignment="Top" Width="158" Height="8"/>

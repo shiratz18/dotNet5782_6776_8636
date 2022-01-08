@@ -98,7 +98,7 @@ namespace PL
             ListDrone ld = b.CommandParameter as ListDrone;
             Drone d = myBL.GetDrone(ld.Id);
 
-            new DroneWindow(myBL, d).ShowDialog();
+            new DroneWindow(myBL, d).Show();
 
             checkFilters();
         }

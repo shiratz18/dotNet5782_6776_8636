@@ -1,38 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <Id>4582</Id>
-    <Model>AR3FV</Model>
+    <Model>I5Xv5</Model>
     <MaxWeight>Heavy</MaxWeight>
-    <Active>false</Active>
+    <Active>true</Active>
   </Drone>
   <Drone>
     <Id>9215</Id>
-    <Model>0kNRv</Model>
+    <Model>WfBGB</Model>
     <MaxWeight>Heavy</MaxWeight>
     <Active>true</Active>
   </Drone>
   <Drone>
     <Id>2131</Id>
-    <Model>2EFQl</Model>
+    <Model>egYjy</Model>
     <MaxWeight>Medium</MaxWeight>
     <Active>true</Active>
   </Drone>
   <Drone>
     <Id>2586</Id>
-    <Model>EnQVF</Model>
+    <Model>1YDF1</Model>
     <MaxWeight>Heavy</MaxWeight>
     <Active>true</Active>
   </Drone>
   <Drone>
     <Id>3674</Id>
-    <Model>2LoFi</Model>
+    <Model>oBfgE</Model>
     <MaxWeight>Light</MaxWeight>
     <Active>true</Active>
   </Drone>
-  <DroneCharge>
-    <DroneId>4582</DroneId>
-    <StationId>1234</StationId>
-    <ChargingBegin>2022-01-06T17:15:39.990243+02:00</ChargingBegin>
-  </DroneCharge>
 </ArrayOfDrone>

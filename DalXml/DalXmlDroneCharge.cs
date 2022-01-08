@@ -26,14 +26,14 @@ namespace Dal
             if (!stationList.Exists(s => s.Id == d.StationId))
                 throw new NoIDException($"Station {d.StationId} doesn't exist.");
 
-            XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(dronesPath);
+            XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(droneChargePath);
 
             droneChargeRoot.Add(new XElement("DroneCharge",
                     new XElement("DroneId", d.DroneId),
                     new XElement("StationId", d.StationId),
                     new XElement("ChargingBegin", d.ChargingBegin)));
 
-            XmlTools.SaveListToXMLElement(droneChargeRoot, dronesPath);
+            XmlTools.SaveListToXMLElement(droneChargeRoot, droneChargePath);
         }
         #endregion
 
@@ -105,6 +105,7 @@ namespace Dal
                 XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(droneChargePath);
 
                 return from dc in droneChargeRoot.Elements()
+                       where int.Parse(dc.Element("DroneId").Value) != 0
                        select new DroneCharge()
                        {
                            DroneId = int.Parse(dc.Element("DroneId").Value),

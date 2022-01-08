@@ -235,7 +235,7 @@ namespace BL
         /// Returns a list of Station type stations, not including the list of drones
         /// </summary>
         /// <returns>The list</returns>
-    
+
         private IEnumerable<Station> getListOfStations()
         {
             lock (Data)
@@ -262,7 +262,7 @@ namespace BL
         /// Returns the list of stations with available charge slots Station type
         /// </summary>
         /// <returns>The list of stations</returns>
-    
+
         private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
             lock (Data)
@@ -356,18 +356,16 @@ namespace BL
                     throw new NoIDException($"Station {id} is no longer active.");
 
                 if (number < 0)
-                {
                     throw new InvalidNumberException($"Cannot have a negative number of charge slots.");
-                }
 
                 Location loc = new Location() { Latitude = s.Latitude, Longitude = s.Longitude };
                 int count = 0; //counts how many drones are charging in the station
                 Drones.ForEach(d =>
                 {
                     if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
-                    if (d.CurrentLocation == loc) //if it is in the station we want to update
-                        count++; //count how many drones are charging in the station
-            });
+                        if (d.CurrentLocation == loc) //if it is in the station we want to update
+                            count++; //count how many drones are charging in the station
+                });
 
                 if (count > number)//if there are more drones in the station than the new number
                 {

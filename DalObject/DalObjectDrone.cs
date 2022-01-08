@@ -119,7 +119,7 @@ namespace Dal
 
             Drone d = DataSource.Drones.Find(x => x.Id == id);
 
-            if(!d.Active)
+            if (!d.Active)
                 throw new NoIDException($"Drone {id} doesn't exists.");
 
             return d;
@@ -136,9 +136,9 @@ namespace Dal
         public IEnumerable<Drone> GetDroneList(Predicate<Drone> predicate = null)
         {
             if (predicate != null)
-                return DataSource.Drones.FindAll(predicate);
+                return DataSource.Drones.Where(d => predicate(d)).Select(item => item);
             else
-                return DataSource.Drones;
+                return DataSource.Drones.Select(item => item);
         }
         #endregion
 
