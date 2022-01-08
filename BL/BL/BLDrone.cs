@@ -429,59 +429,23 @@ namespace BL
             {
                 if (p.Priority == Priorities.Urgent && p.Weight <= drone.MaxWeight) //creating the list of urgent parcels
                 {
-                    switch (p.Weight) //checking that there is enough battery according to weight and distance
-                    {
-                        case WeightCategories.Heavy:
-                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                highPriority.Add(p);
-                            break;
-                        case WeightCategories.Medium:
-                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                highPriority.Add(p);
-                            break;
-                        case WeightCategories.Light:
-                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                highPriority.Add(p);
-                            break;
-                    }
+                    //checking that there is enough battery according to weight and distance
+                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                        highPriority.Add(p);
                 }
 
                 else if (p.Priority == Priorities.Express && p.Weight <= drone.MaxWeight) //creating the list of less uregent parcels
                 {
-                    switch (p.Weight) //checking that there is enough battery according to weight and distance
-                    {
-                        case WeightCategories.Heavy:
-                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                mediumPriority.Add(p);
-                            break;
-                        case WeightCategories.Medium:
-                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                mediumPriority.Add(p);
-                            break;
-                        case WeightCategories.Light:
-                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                mediumPriority.Add(p);
-                            break;
-                    }
+                    //checking that there is enough battery according to weight and distance
+                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                        mediumPriority.Add(p);
                 }
 
                 else if (p.Priority == Priorities.Regular && p.Weight <= drone.MaxWeight) //creating the list of low ptiority parcels
                 {
-                    switch (p.Weight) //checking that there is enough battery according to weight and distance
-                    {
-                        case WeightCategories.Heavy:
-                            if (drone.Battery >= HeavyWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                lowPriority.Add(p);
-                            break;
-                        case WeightCategories.Medium:
-                            if (drone.Battery >= MediumWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                lowPriority.Add(p);
-                            break;
-                        case WeightCategories.Light:
-                            if (drone.Battery >= LightWeightConsumption * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                                lowPriority.Add(p);
-                            break;
-                    }
+                    //checking that there is enough battery according to weight and distance
+                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                        lowPriority.Add(p);
                 }
             }
 
@@ -581,19 +545,7 @@ namespace BL
 
             ParcelInShipping p = drone.InShipping;
 
-            switch (p.Weight)
-            {
-                //update the battery according to weight and distance
-                case WeightCategories.Heavy:
-                    d.Battery -= HeavyWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
-                    break;
-                case WeightCategories.Medium:
-                    d.Battery -= MediumWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
-                    break;
-                case WeightCategories.Light:
-                    d.Battery -= LightWeightConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
-                    break;
-            }
+            d.Battery -= AvailableConsumption * getDistance(drone.CurrentLocation, p.PickUpLocation);
             d.CurrentLocation = p.PickUpLocation;
             lock (Data)
             {
@@ -628,19 +580,7 @@ namespace BL
 
             ParcelInShipping p = drone.InShipping;
 
-            switch (p.Weight)
-            {
-                //update the battery according to weight and distance
-                case WeightCategories.Heavy:
-                    d.Battery -= HeavyWeightConsumption * p.DeliveryDistance;
-                    break;
-                case WeightCategories.Medium:
-                    d.Battery -= MediumWeightConsumption * p.DeliveryDistance;
-                    break;
-                case WeightCategories.Light:
-                    d.Battery -= LightWeightConsumption * p.DeliveryDistance;
-                    break;
-            }
+            d.Battery -= ShippingConsumption[(int)p.Weight] * p.DeliveryDistance;
             d.CurrentLocation = p.DeliveryLocation;
             d.Status = DroneStatuses.Available;
             d.ParcelId = 0;

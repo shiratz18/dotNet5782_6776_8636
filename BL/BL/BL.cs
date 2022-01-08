@@ -12,7 +12,8 @@ namespace BL
     partial class BL : IBL
     {
         internal IDal Data;
-        internal double AvailableConsumption, LightWeightConsumption, MediumWeightConsumption, HeavyWeightConsumption, DroneChargingRate;
+        internal double AvailableConsumption, DroneChargingRate;
+        internal double[] ShippingConsumption;
         internal List<ListDrone> Drones { get; set; }
         internal static Random R = new Random();
 
@@ -49,9 +50,10 @@ namespace BL
             double[] temp = new double[5];
             temp = Data.GetDroneElectricityConsumption();
             AvailableConsumption = temp[0];
-            LightWeightConsumption = temp[1];
-            MediumWeightConsumption = temp[2];
-            HeavyWeightConsumption = temp[3];
+            ShippingConsumption = new double[3];
+            ShippingConsumption[0] = temp[1];
+            ShippingConsumption[1] = temp[2];
+            ShippingConsumption[2] = temp[3];
             DroneChargingRate = temp[4];
 
             //intializing drone list
@@ -67,8 +69,6 @@ namespace BL
             IEnumerable<DO.Customer> tempCustomers = Data.GetCustomerList();
             //getting the list of all drone charges
             IEnumerable<DO.DroneCharge> DroneCharges = Data.GetDroneChargeList();
-
-            bool areCharging = false;
 
             //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
             foreach (DO.Drone d in tempDrones)
@@ -119,18 +119,7 @@ namespace BL
                     getDistance(station1Loc, senderLoc) + getDistance(senderLoc, targetLoc) + getDistance(senderLoc, station2Loc);
 
                 //the battery will be a random number between the minimum battery needed to complete the delivery (according to weight and distance), and full battery
-                switch ((WeightCategories)p.Weight)
-                {
-                    case WeightCategories.Light:
-                        drone.Battery = (double)R.Next((int)(totalDIstance * LightWeightConsumption), 100);
-                        break;
-                    case WeightCategories.Medium:
-                        drone.Battery = (double)R.Next((int)(totalDIstance * MediumWeightConsumption), 100);
-                        break;
-                    case WeightCategories.Heavy:
-                        drone.Battery = (double)R.Next((int)(totalDIstance * HeavyWeightConsumption), 100);
-                        break;
-                }
+                drone.Battery = (double)R.Next((int)(totalDIstance * ShippingConsumption[(int)p.Weight]), 100);
 
                 //if the parcel hasnt been picked up by a drone, the location is that of the station closest to the sender
                 if (p.PickedUp == null)
