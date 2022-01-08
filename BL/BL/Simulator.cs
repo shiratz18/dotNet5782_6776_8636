@@ -11,68 +11,85 @@ namespace BL
     {
         int timer = 1000;
         double speed = 0.75;
+
+        Drone d;
+
         public Simulator(int id, Action updateDelegate, Func<bool> stopDelegate, BL myBL)
         {
-            Drone d = myBL.GetDrone(id);
-
-
+            lock (myBL)
+            {
+                d = myBL.GetDrone(id);
+            }
             while (stopDelegate())
             {
                 switch (d.Status)
                 {
                     case DroneStatuses.Available:
-                        try
+                        lock (myBL)
                         {
-                            myBL.AssignDroneToParcel(d.Id);
-                        }
-                        catch (NoIDException)
-                        {
+                            try
+                            {
+                                myBL.AssignDroneToParcel(d.Id);
+                            }
+                            catch (NoIDException)
+                            {
 
-                        }
-                        catch (DroneStateException)
-                        {
-                            myBL.ChargeDrone(d.Id);
-                        }
-                        catch (EmptyListException)
-                        {
+                            }
+                            catch (DroneStateException)
+                            {
+                                try
+                                {
+                                    myBL.ChargeDrone(d.Id);
+                                }
+                                catch (EmptyListException)
+                                {
 
+                                }
+                            }
+                            catch (EmptyListException)
+                            {
+
+                            }
                         }
                         break;
                     case DroneStatuses.Maintenance:
-
-                        if (d.Battery == 100)
-                            myBL.ReleaseDroneCharge(d.Id);
-
-                        break;
+                        lock (myBL)
+                        {
+                            if (d.Battery == 100)
+                                myBL.ReleaseDroneCharge(d.Id);
+                            else
+                                d.Battery += timer * myBL.DroneChargingRate;
+                        }
+                                break;
+                  
                     case DroneStatuses.Shipping:
- 
-                        Parcel p = myBL.GetParcel(d.InShipping.Id);
-                        
-                        if (!d.InShipping.IsPickedUp)
+                        lock (myBL)
                         {
-                            if (d.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
+                            Parcel p = myBL.GetParcel(d.InShipping.Id);
+
+                            if (!d.InShipping.IsPickedUp)
+                            {
+                                if (d.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
                                     myBL.DronePickUp(d.Id);
-                         
+                                d.Battery -= speed * timer * myBL.AvailableConsumption;
+
+                            }
+                            else
+                            {
+                                if (d.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
+                                    myBL.DroneDeliver(d.Id);
+                                d.Battery -= speed * timer * myBL.ShippingConsumption[(int)d.InShipping.Weight];
+
+                            }
                         }
-                        else
-                        {
-                            if (d.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
-                                myBL.DroneDeliver(d.Id);
-
-                        }
-                        d.Battery-=speed*timer*d.InShipping
-
-                        //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
-                        //myBL.DronePickUp(d.Id);
-                        //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
-                        //myBL.DroneDeliver(d.Id);
-                        break;
-
+                            //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
+                            //myBL.DronePickUp(d.Id);
+                            //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
+                            //myBL.DroneDeliver(d.Id);
+                            break;  
                 }
-
                 Thread.Sleep(timer);
             }
         }
-
     }
 }
