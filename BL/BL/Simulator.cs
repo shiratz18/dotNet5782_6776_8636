@@ -20,6 +20,7 @@ namespace BL
             {
                 d = myBL.GetDrone(id);
             }
+
             while (stopDelegate())
             {
                 switch (d.Status)
@@ -60,8 +61,8 @@ namespace BL
                             else
                                 d.Battery += timer * myBL.DroneChargingRate;
                         }
-                                break;
-                  
+                        break;
+
                     case DroneStatuses.Shipping:
                         lock (myBL)
                         {
@@ -82,11 +83,11 @@ namespace BL
 
                             }
                         }
-                            //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
-                            //myBL.DronePickUp(d.Id);
-                            //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
-                            //myBL.DroneDeliver(d.Id);
-                            break;  
+                        //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
+                        //myBL.DronePickUp(d.Id);
+                        //Thread.Sleep((int)(d.InShipping.DeliveryDistance / speed));
+                        //myBL.DroneDeliver(d.Id);
+                        break;
                 }
                 Thread.Sleep(timer);
             }

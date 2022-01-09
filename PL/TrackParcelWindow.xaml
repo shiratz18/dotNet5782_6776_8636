@@ -55,11 +55,11 @@
         <Label Content="{Binding AssignedDrone.Id}" FontStyle="Oblique" Grid.Row="0" Grid.Column="1" Margin="205,166,-5,20"/>
         <ProgressBar x:Name="prclProgress" Minimum="0" Maximum="3" Grid.Row="1" Grid.Column="1" Margin="0,87,0,134" Background="#FFD4EAF3" BorderBrush="#FFD4EAF3" Foreground="#FF0489BE"></ProgressBar>
         <Label Content="REQUESTED" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,131,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="94"/>
-        <Label Content="{Binding Requested}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,100,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="138"/>
+        <Label Content="{Binding Requested}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,93,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="138"/>
         <Label x:Name="lblSch" Content="SCHEDULED" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="98,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="95"/>
-        <Label Content="{Binding Scheduled}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="77,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="137"/>
+        <Label Content="{Binding Scheduled}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="77,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="170"/>
         <Label x:Name="lblPck" Content="PICKED UP" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="208,131,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="88"/>
-        <Label Content="{Binding PickedUp}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="180,95,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="143"/>
+        <Label Content="{Binding PickedUp}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="180,93,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="176"/>
         <Label x:Name="lblDlv" Content="DELIVERED" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="312,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="88"/>
         <Label Content="{Binding Delivered}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="252,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="148"/>
     </Grid>

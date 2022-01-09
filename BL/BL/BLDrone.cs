@@ -107,7 +107,11 @@ namespace BL
             };
 
             if (temp.ParcelId != 0)
+            {
                 drone.InShipping = getParcelInShipping(temp.ParcelId);
+                if (drone.InShipping.DeliveryDistance == 0)
+                    drone.InShipping.DeliveryDistance = getDistance(drone.CurrentLocation, drone.InShipping.PickUpLocation);
+            }
 
             return drone;
         }

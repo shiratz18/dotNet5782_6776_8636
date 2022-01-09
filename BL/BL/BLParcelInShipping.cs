@@ -25,7 +25,7 @@ namespace BL
                 Id = temp.Id,
                 Priority = (Priorities)temp.Priority,
                 Weight = (WeightCategories)temp.Weight,
-                Sender = new CustomerInParcel() { Id=temp.SenderId,Name=Data.GetCustomer(temp.SenderId).Name},
+                Sender = new CustomerInParcel() { Id = temp.SenderId, Name = Data.GetCustomer(temp.SenderId).Name },
                 Target = new CustomerInParcel() { Id = temp.TargetId, Name = Data.GetCustomer(temp.TargetId).Name }
             };
 
@@ -34,12 +34,13 @@ namespace BL
             else
                 parcel.IsPickedUp = true;
 
-            parcel.PickUpLocation = new Location() { Longitude=Data.GetCustomer(temp.SenderId).Longitude, Latitude = Data.GetCustomer(temp.SenderId).Latitude };
+            parcel.PickUpLocation = new Location() { Longitude = Data.GetCustomer(temp.SenderId).Longitude, Latitude = Data.GetCustomer(temp.SenderId).Latitude };
             parcel.DeliveryLocation = new Location() { Longitude = Data.GetCustomer(temp.TargetId).Longitude, Latitude = Data.GetCustomer(temp.TargetId).Latitude };
 
-            //if(parcel.IsPickedUp)     
-            parcel.DeliveryDistance = getDistance(parcel.PickUpLocation, parcel.DeliveryLocation);
-            //else
+            if (parcel.IsPickedUp)
+                parcel.DeliveryDistance = getDistance(parcel.PickUpLocation, parcel.DeliveryLocation);
+            else
+                parcel.DeliveryDistance = 0;
 
             return parcel;
         }
@@ -59,7 +60,7 @@ namespace BL
             {
                 parcels = getListOfNoDroneParcels();
             }
-            catch(EmptyListException ex)
+            catch (EmptyListException ex)
             {
                 throw new EmptyListException(ex.Message);
             }

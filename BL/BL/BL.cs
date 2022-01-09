@@ -161,9 +161,9 @@ namespace BL
                 if (d.Status == DroneStatuses.Available)
                 {
                     //the location is that of a random customer that has had a parcel dlievered to him
-                    rand = R.Next(0, tempCustomers.Count() + 1); //get a random number in the range of the size of the customer list
+                    rand = R.Next(0, tempCustomers.Count()); //get a random number in the range of the size of the customer list
                     while (!tempParcels.Any(p => p.TargetId == tempCustomers.ElementAt(rand).Id)) //while not any of the parcel's target ID is the same as the customer
-                        rand = R.Next(0, tempCustomers.Count() + 1); //get the next random numbwe
+                        rand = R.Next(0, tempCustomers.Count()); //get the next random numbwe
                     d.CurrentLocation = new Location
                     {
                         //getting location of a customer from a random index, which has had a parcel delivered to him

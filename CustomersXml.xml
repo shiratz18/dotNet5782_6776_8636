@@ -2,7 +2,7 @@
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
     <Id>123456789</Id>
-    <Name>Reuvan Cohen</Name>
+    <Name>Reuven Cohen</Name>
     <Phone>0583952489</Phone>
     <Longitude>35.17102699703434</Longitude>
     <Latitude>31.78913413396946</Latitude>

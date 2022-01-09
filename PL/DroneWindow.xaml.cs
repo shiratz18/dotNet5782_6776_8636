@@ -551,14 +551,21 @@ namespace PL
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += autoMode_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
+            worker.ProgressChanged += autoMode_ProgressChanged;
 
             worker.RunWorkerAsync();
         }
 
+        
+
         private void autoMode_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            myBL.ActivateSimulator(drone.Id,)
+        }
+
+        private void autoMode_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            drone = e.
         }
     }
 }

@@ -37,23 +37,26 @@ namespace PL
             if (isSender)
                 btnCancel.Visibility = Visibility.Visible;
 
-            switch (prclProgress.Value)
+            if(parcel.Delivered!=null)
             {
-                case 0:
-                    btnCancel.IsEnabled = true;
-                    break;
-                case 1:
-                    lblSch.Visibility = Visibility.Visible;
-                    break;
-                case 2:
-                    lblPck.Visibility = Visibility.Visible;
-                    break;
-                case 3:
-                    lblDlv.Visibility = Visibility.Visible;
-                    break;
+                btnCancel.IsEnabled = false;
+                lblSch.Visibility = Visibility.Visible;
+                lblPck.Visibility = Visibility.Visible;
+                lblDlv.Visibility = Visibility.Visible;
             }
-
-
+            else if(parcel.PickedUp!=null)
+            {
+                btnCancel.IsEnabled = false;
+                lblSch.Visibility = Visibility.Visible;
+                lblPck.Visibility = Visibility.Visible;
+            }
+            else if(parcel.Scheduled!=null)
+            {
+                btnCancel.IsEnabled = false;
+                lblSch.Visibility = Visibility.Visible;
+            }
+            else
+                btnCancel.IsEnabled = true;
         }
 
         #region Close window

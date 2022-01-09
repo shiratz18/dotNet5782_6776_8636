@@ -16,7 +16,7 @@
         <Image Grid.Row="0" Margin="174,0,513,100" Source="/Screenshot (130).png"/>
         <Label Content="Welcome," FontWeight="Bold" FontSize="17" Margin="529,5,187,121" Foreground="#FF0489BE"/>
         <Label Content="{Binding Name}" FontWeight="Bold" FontSize="17" Margin="618,5,45,121" Foreground="#FF0489BE"/>
-        <Button x:Name="btnClose" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="737,2,0,0" HorizontalAlignment="Left" Width="63" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White">
+        <Button x:Name="btnClose" ToolTip="Sign out" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="737,2,0,0" HorizontalAlignment="Left" Width="63" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White">
             <materialDesign:PackIcon Kind="SignOutVariant" Height="32" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
         <Button x:Name="btnAddParcel" Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" ToolTip="New parcel" BorderThickness="3" BorderBrush="#FF0489BE" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="70" Width="70" Click="btnAddParcel_Click" Margin="720,81,0,0">
@@ -45,7 +45,7 @@
                                 <GridViewColumn Header="TRACK">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="White" Click="btnEdit_Click" Height="50">
+                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Click="btnEdit_Click" Height="50">
                                                 <materialDesign:PackIcon Kind="Magnify" Foreground="#FF0489BE" Width="38" Height="38" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             </Button>
                                         </DataTemplate>
@@ -71,7 +71,7 @@
                                 <GridViewColumn Header="TRACK">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="White" Click="btnEdit_Click" Height="50">
+                                            <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Click="btnEdit_Click" Height="50">
                                                 <materialDesign:PackIcon Kind="Magnify" Foreground="#FF0489BE" Width="38" Height="38" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                             </Button>
                                         </DataTemplate>
