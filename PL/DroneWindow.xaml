@@ -38,30 +38,32 @@
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,242,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" Grid.Row="1" BorderBrush="White"/>
         </Grid>
         <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Background="White">
-            <Label Content="JPS" FontSize="35" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="29,21,662,439"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="125" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,57,0,0" RenderTransformOrigin="0.28,0.368"/>
-            <Image Grid.Row="0" Margin="96,1,626,462" Source="/Screenshot (130).png"/>
+            <Label Content="JPS" FontSize="40" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="29,21,654,435"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="160" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="6,68,0,0" RenderTransformOrigin="0.28,0.368"/>
+            <Image Grid.Row="0" Margin="113,10,609,453" Source="/Screenshot (130).png"/>
             <Label Content="UPDATE DRONE" FontWeight="Black" FontSize="20" HorizontalAlignment="Left" Margin="315,15,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="id" FontWeight="Bold" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="23,90,0,0" VerticalAlignment="Top" Height="28" Width="74"/>
-            <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15" HorizontalAlignment="Left" Margin="94,90,0,0" VerticalAlignment="Top" Width="151" Height="28"/>
-            <Label x:Name="model" FontWeight="Bold" Content="Model:" FontSize="15" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="23,134,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,134,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" TextChanged="modelToPrint_TextChanged" Background="{x:Null}"/>
-            <Label x:Name="RedMes3" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="96,159,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="224"/>
-            <Label x:Name="maxWeight" FontWeight="Bold" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="21,189,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
-            <Label x:Name="maxWeightToPrint" Content="{Binding MaxWeight}" FontSize="15" HorizontalAlignment="Left" Margin="170,189,0,0" VerticalAlignment="Top" Width="114" Foreground="Black" Height="28"/>
-            <Label x:Name="battery" FontWeight="Bold" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="21,0,0,0" VerticalAlignment="Center"/>
-            <Label x:Name="batteryToPrint" ContentStringFormat="0.00" Content="{Binding Battery}" FontSize="15" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Center" Width="169" Height="27"/>
-            <Label x:Name="status" FontWeight="Bold" Content="Status:" FontSize="15" HorizontalAlignment="Left" Margin="21,294,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="statusToPrint" Content="{Binding Status}" FontSize="15" HorizontalAlignment="Left" Margin="96,294,0,0" VerticalAlignment="Top" Width="169" Height="33"/>
-            <Label x:Name="location" FontWeight="Bold" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="21,346,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="locationToPrint" Content="{Binding CurrentLocation}" FontSize="15" HorizontalAlignment="Left" Margin="96,332,0,0" VerticalAlignment="Top" Width="310" Height="62"/>
+            <ToggleButton x:Name="autoMode" Height="30" Margin="398,49,304,424" Background="#FF0489BE" Foreground="#FF0489BE" Checked="autoMode_Checked"/>
+            <Label Content="AUTO MODE" Margin="337,51,362,428"/>
+            <Label x:Name="id" FontWeight="Bold" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="26,119,0,0" VerticalAlignment="Top" Height="28" Width="74"/>
+            <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15" HorizontalAlignment="Left" Margin="94,119,0,0" VerticalAlignment="Top" Width="151" Height="28"/>
+            <Label x:Name="model" FontWeight="Bold" Content="Model:" FontSize="15" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="26,167,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
+            <TextBox x:Name="modelToPrint" FontSize="15" MaxLength="5" HorizontalAlignment="Left" Margin="94,167,0,0" Text="{Binding Model}" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" TextChanged="modelToPrint_TextChanged" Background="{x:Null}"/>
+            <Label x:Name="RedMes3" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="96,194,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="32" Foreground="#FFFA0606" Width="224"/>
+            <Label x:Name="maxWeight" FontWeight="Bold" Content="Maximum weight:" FontSize="15" HorizontalAlignment="Left" Margin="26,220,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
+            <Label x:Name="maxWeightToPrint" Content="{Binding MaxWeight}" FontSize="15" HorizontalAlignment="Left" Margin="178,224,0,0" VerticalAlignment="Top" Width="114" Foreground="Black" Height="28"/>
+            <Label x:Name="battery" FontWeight="Bold" Content="Battery:" FontSize="15" HorizontalAlignment="Left" Margin="26,269,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="batteryToPrint" ContentStringFormat="0.00" Content="{Binding Battery}" FontSize="15" HorizontalAlignment="Left" Margin="96,270,0,0" VerticalAlignment="Top" Width="169" Height="26"/>
+            <Label x:Name="status" FontWeight="Bold" Content="Status:" FontSize="15" HorizontalAlignment="Left" Margin="26,321,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="statusToPrint" Content="{Binding Status}" FontSize="15" HorizontalAlignment="Left" Margin="96,319,0,0" VerticalAlignment="Top" Width="169" Height="34"/>
+            <Label x:Name="location" FontWeight="Bold" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="26,369,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="locationToPrint" Content="{Binding CurrentLocation}" FontSize="15" HorizontalAlignment="Left" Margin="96,356,0,0" VerticalAlignment="Top" Width="310" Height="62"/>
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="349,442,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="133" Background="#FF0489BE" BorderBrush="White"/>
-            <Button x:Name="btnUpdate"  FontSize="12" HorizontalAlignment="Center" Margin="0,123,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="40" Click="btnUpdate_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+            <Button x:Name="btnUpdate"  FontSize="12" HorizontalAlignment="Left" Margin="356,161,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="40" Click="btnUpdate_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
-            <Button x:Name="btnCharge" Content="Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,0,0,0" VerticalAlignment="Center" Click="btnCharge_Click" Background="#FF0489BE" Height="25" Width="117" BorderBrush="White"/>
-            <Button x:Name="btnReleaseCharge" Content="Release Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,241,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="117" RenderTransformOrigin="0.462,1.703" Background="#FF0489BE" Height="24" BorderBrush="White"/>
-            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="270,298,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click" Background="#FF0489BE" Height="24" Width="136" BorderBrush="White"/>
+            <Button x:Name="btnCharge" Content="Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,271,0,0" VerticalAlignment="Top" Click="btnCharge_Click" Background="#FF0489BE" Height="26" Width="117" BorderBrush="White"/>
+            <Button x:Name="btnReleaseCharge" Content="Release Charge" FontSize="12" HorizontalAlignment="Left" Margin="289,271,0,0" VerticalAlignment="Top" Click="btnReleaseCharge_Click" Width="117" RenderTransformOrigin="0.462,1.703" Background="#FF0489BE" Height="26" BorderBrush="White"/>
+            <Button x:Name="btnDroneToDelivery" Content="Send for delivery" FontSize="12" HorizontalAlignment="Left" Margin="270,323,0,0" VerticalAlignment="Top" Click="btnDroneToDelivery_Click" Background="#FF0489BE" Height="26" Width="136" BorderBrush="White"/>
             <Button x:Name="btnDronePickUp" Content="Pick up parcel" FontSize="12" HorizontalAlignment="Left" Margin="561,389,0,0" VerticalAlignment="Top" Click="btnDronePickUp_Click" Width="112" Background="#FF0489BE" RenderTransformOrigin="-2.213,-2.175" Height="24" BorderBrush="White"/>
             <Button x:Name="btnDroneDeliver" Content="Deliver parcel" FontSize="12" HorizontalAlignment="Left" Margin="561,389,0,0" VerticalAlignment="Top" Click="btnDroneDeliver_Click" Width="112" Background="#FF0489BE" Height="24" BorderBrush="#FFFBFBFB"/>
             <Expander x:Name="parcelExpander" Header="Parcel in shipping" FontSize="15" HorizontalAlignment="Left" Height="281" Margin="491,93,0,0" VerticalAlignment="Top" Width="252" MouseDoubleClick="parcelExpander_MouseDoubleClick">

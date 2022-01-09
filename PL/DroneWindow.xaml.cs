@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -543,8 +544,22 @@ namespace PL
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
             new ParcelWindow(myBL, p).ShowDialog();
         }
-
         #endregion
+
+        private void autoMode_Checked(object sender, RoutedEventArgs e)
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += autoMode_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+
+            worker.RunWorkerAsync();
+        }
+
+        private void autoMode_DoWork(object sender, DoWorkEventArgs e)
+        {
+            
+        }
     }
 }
 
