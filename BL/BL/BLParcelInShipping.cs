@@ -37,7 +37,9 @@ namespace BL
             parcel.PickUpLocation = new Location() { Longitude=Data.GetCustomer(temp.SenderId).Longitude, Latitude = Data.GetCustomer(temp.SenderId).Latitude };
             parcel.DeliveryLocation = new Location() { Longitude = Data.GetCustomer(temp.TargetId).Longitude, Latitude = Data.GetCustomer(temp.TargetId).Latitude };
 
+            //if(parcel.IsPickedUp)     
             parcel.DeliveryDistance = getDistance(parcel.PickUpLocation, parcel.DeliveryLocation);
+            //else
 
             return parcel;
         }

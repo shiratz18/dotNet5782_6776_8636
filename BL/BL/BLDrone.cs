@@ -519,6 +519,7 @@ namespace BL
             {
                 Data.AssignDroneToParcel(parcel.Id, drone.Id);
             }
+
         }
         #endregion
 
