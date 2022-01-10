@@ -544,29 +544,34 @@ namespace PL
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
             new ParcelWindow(myBL, p).ShowDialog();
         }
-        #endregion
 
         private void autoMode_Checked(object sender, RoutedEventArgs e)
         {
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += autoMode_DoWork;
-            worker.ProgressChanged += autoMode_ProgressChanged;
 
-            worker.RunWorkerAsync();
         }
+        #endregion
 
-        
+        //private void autoMode_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    BackgroundWorker worker = new BackgroundWorker();
+        //    worker.WorkerReportsProgress = true;
+        //    worker.DoWork += autoMode_DoWork;
+        //    worker.ProgressChanged += autoMode_ProgressChanged;
 
-        private void autoMode_DoWork(object sender, DoWorkEventArgs e)
-        {
-            myBL.ActivateSimulator(drone.Id,)
-        }
+        //    worker.RunWorkerAsync();
+        //}
 
-        private void autoMode_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            drone = e.
-        }
+
+
+        //private void autoMode_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    myBL.ActivateSimulator(drone.Id,)
+        //}
+
+        //private void autoMode_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    drone = e.
+        //}
     }
 }
 

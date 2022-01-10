@@ -54,11 +54,11 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="421,433,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="#FF155DB4" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,433,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,0" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,5,0,-5" Background="White">
             <Label Content="JPS" FontSize="30" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,14,646,418"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="117" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,46,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="65,0,561,443" Source="/Screenshot (130).png"/>
-            <Label Content="UPDATE CUSTOMER" FontSize="20" HorizontalAlignment="Left" Margin="309,29,0,0" VerticalAlignment="Top"/>
+            <Label Content="UPDATE CUSTOMER" FontSize="20" HorizontalAlignment="Left" Margin="204,25,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
             <Label x:Name="id" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="23,73,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
             <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15"  HorizontalAlignment="Left" Margin="91,73,0,0" VerticalAlignment="Top" Width="225"  Background="{x:Null}" Height="43"/>
             <Label x:Name="name" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="23,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
@@ -69,7 +69,7 @@
             <Label x:Name="RedMes8" Content="" FontSize="12" HorizontalAlignment="Left" Margin="92,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="27" Foreground="#FFFA0606" Width="224"/>
             <Label x:Name="location" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="21,222,0,0" VerticalAlignment="Top"/>
             <Label x:Name="locationToPrint" Content="{Binding Location}" FontSize="15" HorizontalAlignment="Left" Margin="106,216,0,0" VerticalAlignment="Top" Width="233" Height="62"/>
-            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="326,418,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE" BorderBrush="White"/>
+            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="168,408,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE" BorderBrush="White"/>
 
             <Button x:Name="btnUpdateNAME" FontSize="12" HorizontalAlignment="Center" Margin="0,128,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="39" Click="btnUpdateNAME_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
@@ -77,7 +77,72 @@
             <Button x:Name="btnUpdatePHONE"  FontSize="12" HorizontalAlignment="Center" Margin="0,179,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="35" Click="btnUpdatePHON_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
+
+            <Grid>
+                <Grid Margin="424,30,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="49*"/>
+                            <RowDefinition Height="240*"/>
+                        </Grid.RowDefinitions>
+                        <Label HorizontalAlignment="Center" Content="PARCELS SENT BY YOU" FontSize="30" FontWeight="Bold" Foreground="#FF0489BE" Margin="0,-5,0,5"/>
+                        <ListView x:Name="lstParcelsFrom" Margin="0,34,0,10" Grid.RowSpan="2">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>
+                                    <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding Weight}" Width="120"/>
+                                    <GridViewColumn Header="PRIORITY" DisplayMemberBinding="{Binding Priority}" Width="120"/>
+                                    <GridViewColumn Header="RECIPIENT" DisplayMemberBinding="{Binding OtherSide.Name}" Width="140"/>
+                                    <GridViewColumn Header="TRACK">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Click="btnEdit_Click" Height="50">
+                                                    <materialDesign:PackIcon Kind="Magnify" Foreground="#FF0489BE" Width="38" Height="38" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="49*"/>
+                            <RowDefinition Height="240*"/>
+                        </Grid.RowDefinitions>
+                        <Label HorizontalAlignment="Left" Content="PARCELS SENT TO YOU" FontSize="30" FontWeight="Bold" Foreground="#FF0489BE" Margin="0,186,0,-39" Grid.Row="1"/>
+                        <ListView x:Name="lstParcelsTo" Grid.Row="1" Margin="-1,230,2,-205">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>
+                                    <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding Weight}" Width="120"/>
+                                    <GridViewColumn Header="PRIORITY" DisplayMemberBinding="{Binding Priority}" Width="120"/>
+                                    <GridViewColumn Header="SENDER" DisplayMemberBinding="{Binding OtherSide.Name}" Width="140"/>
+                                    <GridViewColumn Header="TRACK">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnEdit" CommandParameter="{Binding}" Background="{x:Null}" BorderBrush="{x:Null}" Click="btnEdit_Click" Height="50">
+                                                    <materialDesign:PackIcon Kind="Magnify" Foreground="#FF0489BE" Width="38" Height="38" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
+
+
+
+
 
     </Grid>
 </Window>

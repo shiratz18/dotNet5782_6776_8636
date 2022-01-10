@@ -54,7 +54,19 @@ namespace PL
 
            // display();
         }
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
 
+            Parcel parcel = myBL.GetParcel(p.Id);
+            bool isSender = false;
+            if (parcel.Sender.Id == customer.Id)
+                isSender = true;
+            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
+            lstParcelsFrom.ItemsSource = customer.FromCustomer;
+            lstParcelsTo.ItemsSource = customer.ToCustomer;
+        }
 
         /// <summary>
         /// Text changed event for customerId textBox
