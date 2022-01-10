@@ -73,7 +73,7 @@ namespace PL
         private void parcelSenderId_TextChanged(object sender, TextChangedEventArgs e)
         {
             bool flag = int.TryParse(parcelSenderId.Text, out int num);
-            if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
+            if (flag && num < 1000000000) //if the id the user entered is less than 4 digits the border is red
             {
                 parcelSenderId.BorderBrush = Brushes.Red;
                 RedMes1.Content = "Incorrect entry, please try again";
@@ -97,7 +97,7 @@ namespace PL
         private void parcelTargetId_TextChanged(object sender, TextChangedEventArgs e)
         {
             bool flag = int.TryParse(parcelTargetId.Text, out int num);
-            if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
+            if (flag && num < 1000000000) //if the id the user entered is less than 4 digits the border is red
             {
                 parcelTargetId.BorderBrush = Brushes.Red;
                 RedMes2.Content = "Incorrect entry, please try again";

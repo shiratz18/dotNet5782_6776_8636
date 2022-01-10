@@ -14,15 +14,40 @@
         <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,10,0,0"/>
         <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="212" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,109,0,0"/>
         <Image Grid.Row="0" Margin="174,0,513,100" Source="/Screenshot (130).png"/>
-        <Label Content="Welcome," FontWeight="Bold" FontSize="17" Margin="529,5,187,121" Foreground="#FF0489BE"/>
-        <Label Content="{Binding Name}" FontWeight="Bold" FontSize="17" Margin="618,5,45,121" Foreground="#FF0489BE"/>
+        <Menu Margin="530,2,63,119" Foreground="#FF0489BE" Background="White" OpacityMask="#FF0489BE" BorderBrush="#FF0489BE" Panel.ZIndex="1">
+            <MenuItem Header="WELCOME" FontWeight="Bold" Width="214" Height="42">
+                <MenuItem.Icon>
+                    <materialDesign:PackIcon Kind="ArrowDropDown" Height="26" Width="38" Margin="-12,-7,0,0"/>
+                </MenuItem.Icon>
+                <MenuItem Width="214" Height="42">
+                    <MenuItem.Header>
+                        <TextBox x:Name="nameTxtBox" Text="{Binding Name}" LostKeyboardFocus="nameTxtBox_LostKeyboardFocus" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE"/>
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Edit"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Width="214" Height="55">
+                    <MenuItem.Header>
+                        <TextBox x:Name="phoneTxtBox" Text="{Binding Phone}" LostKeyboardFocus="phoneTxtBox_LostKeyboardFocus" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" PreviewTextInput="numbersOnly" MaxLength="10"/>
+                    </MenuItem.Header>
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Edit"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="delete" Header="Delete Account" Click="delete_Click" Width="214" Height="42">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Trash"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
         <Button x:Name="btnClose" ToolTip="Sign out" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="737,2,0,0" HorizontalAlignment="Left" Width="63" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White">
             <materialDesign:PackIcon Kind="SignOutVariant" Height="32" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
         <Button x:Name="btnAddParcel" Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" ToolTip="New parcel" BorderThickness="3" BorderBrush="#FF0489BE" Background="{x:Null}" Foreground="#FF0489BE" HorizontalAlignment="Left" VerticalAlignment="Top" Height="70" Width="70" Click="btnAddParcel_Click" Margin="720,81,0,0">
             <materialDesign:PackIcon Kind="PackageVariantAdd" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
-        
         <Grid Grid.Row="1">
             <Grid Height="289">
                 <Grid.ColumnDefinitions>

@@ -38,6 +38,7 @@ namespace BL
             }
         }
 
+        #region Constructor
         /// <summary>
         /// constructor
         /// </summary>
@@ -59,8 +60,6 @@ namespace BL
             //intializing drone list
             Drones = new List<ListDrone>();
 
-            //getting the list of all the drones
-            IEnumerable<DO.Drone> tempDrones = Data.GetDroneList();
             //getting the list of all the parcels that have a drone but were not yet delivered
             IEnumerable<DO.Parcel> tempParcels = Data.GetParcelList(p => { return p.DroneId != 0 && p.Delivered == null; });
             //getting the lisat of all the stations
@@ -70,18 +69,16 @@ namespace BL
             //getting the list of all drone charges
             IEnumerable<DO.DroneCharge> DroneCharges = Data.GetDroneChargeList();
 
-            //for each drone in the list, copy ID, model and maximum weight to the list of drones of bll
-            foreach (DO.Drone d in tempDrones)
-            {
-                Drones.Add(new ListDrone
-                {
-                    Id = d.Id,
-                    Model = d.Model,
-                    MaxWeight = (WeightCategories)d.MaxWeight,
-                    Status = DroneStatuses.Available,
-                    Active = true
-                });
-            }
+            //for each drone in the list, copy ID, model and maximum weight to the list of drones of bl
+            Drones = (from d in Data.GetDroneList()
+                      select new ListDrone
+                      {
+                          Id = d.Id,
+                          Model = d.Model,
+                          MaxWeight = (WeightCategories)d.MaxWeight,
+                          Status = DroneStatuses.Available,
+                          Active = true
+                      }).ToList();
 
             //checking all the parcels in dal to update drones that are currently shipping parcels
             foreach (DO.Parcel p in tempParcels) //fore each parcel in the list of parcels from dal
@@ -123,14 +120,11 @@ namespace BL
 
                 //if the parcel hasnt been picked up by a drone, the location is that of the station closest to the sender
                 if (p.PickedUp == null)
-                {
                     drone.CurrentLocation = station1Loc; //saving the location of the nearest station to the sender to be the location of the drone
-                }
+                
                 //otherwise if it was picked up by a drone but not yet delivered to to the target then the location of the drone is the location of the sender
                 else
-                {
                     drone.CurrentLocation = senderLoc; //saving the location of the drone to be the location of the sender
-                }
             }
 
             //checking all the drones that are charging to update their status and location
@@ -141,6 +135,7 @@ namespace BL
                     throw new NoIDException($"Drone {dc.DroneId} does not exist.");
 
                 drone.Status = DroneStatuses.Maintenance; //update the status to be maintenance
+                //updating the battery according to the time it has been charging (max is 100)
                 drone.Battery = (DateTime.Now - dc.ChargingBegin).Seconds * DroneChargingRate < 100 ?
                     (DateTime.Now - dc.ChargingBegin).Seconds * DroneChargingRate : 100;
 
@@ -182,6 +177,6 @@ namespace BL
                 }
             });
         }
-
+        #endregion
     }
 }

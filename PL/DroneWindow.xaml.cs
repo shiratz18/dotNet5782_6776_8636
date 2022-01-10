@@ -27,6 +27,7 @@ namespace PL
     {
         private IBL myBL;
         private Drone drone;
+        private DroneListWindow droneList;
 
         #region Add drone grid
 
@@ -287,6 +288,27 @@ namespace PL
             display();
         }
 
+        /// <summary>
+        /// Constructor for action grid
+        /// </summary>
+        /// <param name="bl"></param>
+        /// <param name="d"></param>
+        public DroneWindow(IBL bl, Drone d, DroneListWindow droneListWindow)
+        {
+            myBL = bl;
+
+            InitializeComponent();
+
+            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
+            this.Title = "Update drone"; //change the title
+            drone = d;
+            DataContext = drone;
+
+            droneList = droneListWindow; //caller window to update
+
+            display();
+        }
+
         //<summary>
         //Display the chosen drone and update button options according to drone status
         // </summary>
@@ -338,11 +360,14 @@ namespace PL
         /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            if (worker != null && worker.IsBusy)
+                worker.CancelAsync();
+
             Close();
         }
         #endregion
 
-        #region Update
+        #region Update model
         /// <summary>
         /// Update the model name
         /// </summary>
@@ -357,6 +382,9 @@ namespace PL
                 drone.Model = newModel; //update also the current drone
 
                 MessageBox.Show("Drone model updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (WrongFormatException ex)
             {
@@ -367,9 +395,6 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        #endregion
-
-        #region Model
         private void modelToPrint_TextChanged(object sender, TextChangedEventArgs e)
         {
             string m = modelToPrint.Text;
@@ -409,6 +434,9 @@ namespace PL
                 btnDroneToDelivery.Visibility = Visibility.Visible; //make the drone to dleivery button visilble, because now th drone is available
 
                 MessageBox.Show("Drone released from charge", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -438,6 +466,9 @@ namespace PL
                 btnDroneToDelivery.Visibility = Visibility.Hidden; //drone to delivery button is hidden because drone is unavailable
 
                 MessageBox.Show("Drone sent to charge", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -476,6 +507,9 @@ namespace PL
                 btnDroneToDelivery.Visibility = Visibility.Hidden;
                 btnDronePickUp.Visibility = Visibility.Visible;
                 MessageBox.Show("Drone assigned to parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -501,6 +535,9 @@ namespace PL
                 btnDronePickUp.Visibility = Visibility.Hidden;
                 btnDroneDeliver.Visibility = Visibility.Visible;
                 MessageBox.Show("Drone picked up parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -530,6 +567,9 @@ namespace PL
                 btnCharge.Visibility = Visibility.Visible;
 
                 MessageBox.Show("Drone delivered parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (droneList != null)
+                    droneList.checkFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -538,7 +578,7 @@ namespace PL
         }
         #endregion
 
-        
+        #region Open parcel window
         private void parcelExpander_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
@@ -546,26 +586,80 @@ namespace PL
         }
         #endregion
 
+        #endregion
+
+        internal BackgroundWorker worker;
+
         private void autoMode_Checked(object sender, RoutedEventArgs e)
         {
-            BackgroundWorker worker = new BackgroundWorker();
+            worker = new BackgroundWorker();
+
             worker.WorkerReportsProgress = true;
+            worker.WorkerSupportsCancellation = true;
+
             worker.DoWork += autoMode_DoWork;
             worker.ProgressChanged += autoMode_ProgressChanged;
+            worker.RunWorkerCompleted += autoMode_RunWorkerCompleted;
+
+            //hiding the action buttons
+            btnReleaseCharge.Visibility = Visibility.Hidden;
+            btnCharge.Visibility = Visibility.Hidden;
+            btnDroneToDelivery.Visibility = Visibility.Hidden;
+            btnDronePickUp.Visibility = Visibility.Hidden;
+            btnDroneDeliver.Visibility = Visibility.Hidden;
+            modelToPrint.IsEnabled = false;
 
             worker.RunWorkerAsync();
         }
 
-        
+        private void autoMode_Unchecked(object sender, RoutedEventArgs e)
+        {
+            worker.CancelAsync();
+
+            modelToPrint.IsEnabled = true;
+            btnReleaseCharge.Visibility = Visibility.Visible;
+            btnCharge.Visibility = Visibility.Visible;
+            btnDroneToDelivery.Visibility = Visibility.Visible;
+            btnDronePickUp.Visibility = Visibility.Visible;
+            btnDroneDeliver.Visibility = Visibility.Visible;
+            display();
+        }
 
         private void autoMode_DoWork(object sender, DoWorkEventArgs e)
         {
-            myBL.ActivateSimulator(drone.Id,)
+            myBL.ActivateSimulator(drone.Id, update, stop);
         }
 
         private void autoMode_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            drone = e.
+            drone = myBL.GetDrone(drone.Id); //getting the updated drone from the bl
+            DataContext = drone;
+
+            if (drone.InShipping.Id == 0)
+            {
+                parcelExpander.IsExpanded = false;
+                parcelExpander.IsEnabled = false;
+            }
+            else
+            {
+                parcelExpander.IsExpanded = true;
+                parcelExpander.IsEnabled = true;
+            }
+
+            if (droneList != null)
+                droneList.checkFilters(); //update according to filters
+        }
+
+        private void autoMode_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) { }
+
+        private void update()
+        {
+            worker.ReportProgress(0);
+        }
+
+        private bool stop()
+        {
+            return worker.CancellationPending;
         }
     }
 }

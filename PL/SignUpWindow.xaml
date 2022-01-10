@@ -25,7 +25,7 @@
                     <materialDesign:PackIcon Kind="User"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,0,0,0" VerticalAlignment="Center"/>
                 </Grid>
                 <Grid>
-                    <TextBox x:Name="txtBoxName" materialDesign:HintAssist.Hint="NAME" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <TextBox x:Name="txtBoxName" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Hint="NAME" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" Margin="54,0,54,0" FontSize="20" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
                     <materialDesign:PackIcon Kind="Edit"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <Grid>
@@ -33,13 +33,13 @@
                     <materialDesign:PackIcon Kind="Phone"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <Grid Margin="0,15,0,0" Height="50">
-                    <Label Content="Longitude " FontSize="20"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FFABADB3" Height="36" Margin="70,-10,0,0"/>
+                    <Label Content="Longitude " FontSize="20"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FF707070" Height="36" Margin="70,-10,0,0"/>
                     <Slider x:Name="sliderLongitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.00005" IsSnapToTickEnabled="True" Foreground="#FF076E97" Margin="54,24,194,0" />
                     <TextBox x:Name="Longitude" Text="{Binding Value, ElementName=sliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left" Height="35" Margin="324,8,58,7"/>
                     <materialDesign:PackIcon Kind="Longitude"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,0,0,0" VerticalAlignment="Center" />
                 </Grid>
                 <Grid Margin="0,15,0,0" Height="50">
-                    <Label Content="Latitude " FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FFABADB3" Height="36" Margin="68,-10,0,0"/>
+                    <Label Content="Latitude " FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Foreground="#FF707070" Height="36" Margin="68,-10,0,0"/>
                     <Slider x:Name="sliderLatitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.00005" IsSnapToTickEnabled="True" Foreground="#FF076E97" Margin="54,23,192,0" />
                     <TextBox x:Name="Latitude" Text="{Binding Value, ElementName=sliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left" Height="35" Margin="322,8,62,7"/>
                     <materialDesign:PackIcon Kind="Latitude"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,7,0,0" />
@@ -53,7 +53,7 @@
                     <materialDesign:PackIcon x:Name="confirmed" Kind="PasswordCheck"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0"/>
                 </Grid>
                 <Grid>
-                    <PasswordBox x:Name="answer" materialDesign:HintAssist.Hint="What is your mother's maiden name?" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
+                    <PasswordBox x:Name="answer" materialDesign:HintAssist.Hint="What is your mother's maiden name?" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" FontSize="20" Margin="54,0,54,0" Width="350" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE"/>
                     <materialDesign:PackIcon Kind="QuestionMarkCircle" ToolTip="This is a security&#10;question in case&#10;you forget your&#10;password so we can&#10;make sure it's you"  Width="30" Height="30" Foreground="#FF0489BE" Margin="418,15,0,0" />
                 </Grid>
                 <CheckBox x:Name="chkBoxAgree" FontWeight="Bold" Content="Agree to terms of service" FontSize="15" Margin="0,10,0,0" Width="350" Height="39" Background="#FF0489BE" BorderBrush="#FF0489BE" Foreground="#FF0489BE"/>

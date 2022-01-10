@@ -30,22 +30,22 @@ namespace PL
 
         private void btnDrones_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(myBL).ShowDialog();
+            new DroneListWindow(myBL).Show();
         }
 
         private void btnStations_Click(object sender, RoutedEventArgs e)
         {
-            new StationListWindow(myBL).ShowDialog();
+            new StationListWindow(myBL).Show();
         }
 
         private void btnCustomers_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerListWindow(myBL).ShowDialog();
+            new CustomerListWindow(myBL).Show();
         }
 
         private void btnParcels_Click(object sender, RoutedEventArgs e)
         {
-            new ParcelListWindow(myBL).ShowDialog();
+            new ParcelListWindow(myBL).Show();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

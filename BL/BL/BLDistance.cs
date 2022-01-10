@@ -7,7 +7,7 @@ using BO;
 using System.Runtime.CompilerServices;
 namespace BL
 {
-   partial class BL
+    partial class BL
     {
         #region Distance between two locations
         /// <summary>
@@ -16,7 +16,7 @@ namespace BL
         /// <param name="loc1">The first location</param>
         /// <param name="loc2">The second location</param>
         /// <returns>The distance</returns>
-        private static double getDistance(Location loc1, Location loc2)
+        internal static double getDistance(Location loc1, Location loc2)
         {
             var d1 = loc1.Latitude * (Math.PI / 180.0);
             var num1 = loc1.Longitude * (Math.PI / 180.0);
@@ -36,22 +36,11 @@ namespace BL
         /// <returns>the id of the nearest station</returns>
         private int nearestStationId(Location loc)
         {
-            double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
-            int minId = 0;
+            IEnumerable<Station> stations = from s in getListOfStations()
+                                            orderby getDistance(loc, s.Location)
+                                            select s; //get the list of all the stations, orderes according to the distance of location
 
-            IEnumerable<Station> stations = getListOfStations(); //get the list of all the stations
-
-            foreach (Station s in stations)
-            {
-                //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
-                if (getDistance(loc, s.Location) < min)
-                {
-                    min = getDistance(loc, s.Location);
-                    minId = s.Id; //the id of the nearest station will be saved here
-                }
-            }
-
-            return minId;
+            return stations.First().Id;
         }
         #endregion
 

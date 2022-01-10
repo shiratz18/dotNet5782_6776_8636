@@ -107,6 +107,7 @@ namespace PL
                 };
 
                 myBL.AddParcel(p);
+                Close();
             }
             catch (InvalidNumberException ex)
             {
@@ -117,5 +118,14 @@ namespace PL
         }
         #endregion
 
+        private void parcelWeight_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            WeightLbl.Visibility = Visibility.Hidden;
+        }
+
+        private void parcelPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PriorityLbl.Visibility = Visibility.Hidden;
+        }
     }
 }

@@ -44,7 +44,7 @@
         <Label Grid.Row="1" Content="{Binding Sender.Name}" FontStyle="Oblique" Margin="178,46,0,143"/>
         <Label Grid.Row="1" Content="TARGET:" Margin="76,95,218,94"/>
         <Label Grid.Row="1" Content="{Binding Target.Name}" FontStyle="Oblique" Margin="178,93,0,96"/>
-        <Button x:Name="btnCancel" Visibility="Hidden" Content="CANCEL" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="false" Margin="98,147,30,46" Grid.Row="1" Background="#FF0489BE" BorderBrush="White" Click="btnCancel_Click"/>
+        <Button x:Name="btnCancel" Visibility="Hidden" Content="CANCEL DELIVERY" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="false" Margin="98,147,30,46" Grid.Row="1" Background="#FF0489BE" BorderBrush="White" Click="btnCancel_Click"/>
         <Label Content="PARCEL NUMBER:" Grid.Row="0" Grid.Column="1" Margin="20,34,200,152"/>
         <Label Content="{Binding Id}" FontStyle="Oblique" Grid.Row="0" Grid.Column="1" Margin="200,34,0,152"/>
         <Label Content="WEIGHT:" Grid.Row="0" Grid.Column="1" Margin="20,78,200,108"/>

@@ -23,12 +23,12 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
-            <ListView x:Name="DronesListView" SelectionChanged="DronesListView_SelectionChanged" Background="Transparent">
+            <ListView x:Name="DronesListView" Background="Transparent">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="85"/>
-                        <GridViewColumn Header="MODEL" DisplayMemberBinding="{Binding Model}" Width="105"/>
-                        <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding MaxWeight}" Width="105"/>
+                        <GridViewColumn Header="MODEL" DisplayMemberBinding="{Binding Model}" Width="110"/>
+                        <GridViewColumn Header="WEIGHT" DisplayMemberBinding="{Binding MaxWeight}" Width="115"/>
                         <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="120"/>
                         <GridViewColumn Header="STATUS" DisplayMemberBinding="{Binding Status}" Width="120"/>
                         <GridViewColumn Header="LOCATION" DisplayMemberBinding="{Binding CurrentLocation}" Width="194"/>

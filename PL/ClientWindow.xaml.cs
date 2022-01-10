@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,7 @@ namespace PL
         IBL myBL;
         Customer client;
 
+        #region Constructor
         public ClientWindow(IBL bl, Customer c)
         {
             myBL = bl;
@@ -34,6 +36,7 @@ namespace PL
             lstParcelsFrom.ItemsSource = client.FromCustomer;
             lstParcelsTo.ItemsSource = client.ToCustomer;
         }
+        #endregion
 
         #region Close button
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -46,10 +49,12 @@ namespace PL
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             new ClientParcelWindow(myBL, client).ShowDialog();
+            client = myBL.GetCustomer(client.Id);
             lstParcelsFrom.ItemsSource = client.FromCustomer;
         }
         #endregion
 
+        #region Track parcel
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -63,5 +68,64 @@ namespace PL
             lstParcelsFrom.ItemsSource = client.FromCustomer;
             lstParcelsTo.ItemsSource = client.ToCustomer;
         }
+        #endregion
+
+        #region Menu
+        #region Edit name
+        private void nameTxtBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (nameTxtBox.Text != client.Name)
+            {
+                var mb = MessageBox.Show($"Change your name to {nameTxtBox.Text}?", "Confrimation", MessageBoxButton.YesNo);
+                if (mb == MessageBoxResult.Yes)
+                {
+                    if (!String.IsNullOrEmpty(nameTxtBox.Text))
+                    {
+                        client.Name = nameTxtBox.Text;
+                        myBL.UpdateCustomer(client);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Edit phone number
+        private void numbersOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
+        }
+
+        private void phoneTxtBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (phoneTxtBox.Text != client.Phone)
+            {
+                if (!String.IsNullOrEmpty(phoneTxtBox.Text) && phoneTxtBox.Text.Length == 10)
+                {
+                    var mb = MessageBox.Show($"Change your phone number to {phoneTxtBox.Text}?", "Confrimation", MessageBoxButton.YesNo);
+                    if (mb == MessageBoxResult.Yes)
+                    {
+                        client.Phone = phoneTxtBox.Text;
+                        myBL.UpdateCustomer(client);
+                    }
+                }
+                else
+                    phoneTxtBox.Text = client.Phone;
+            }
+        }
+        #endregion
+
+        #region Delete
+        private void delete_Click(object sender, RoutedEventArgs e)
+        {
+            var mb = MessageBox.Show("Are you sure you want to delete your account?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (mb == MessageBoxResult.Yes)
+            {
+                myBL.RemoveCustomer(client.Id);
+                MessageBox.Show("Account successfully deleted.", "", MessageBoxButton.OK);
+            }
+        }
+        #endregion
+        #endregion
     }
 }

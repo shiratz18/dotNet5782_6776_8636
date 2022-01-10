@@ -104,6 +104,21 @@ namespace Dal
             {
                 XElement droneChargeRoot = XmlTools.LoadListFromXMLElement(droneChargePath);
 
+                if (predicate != null)
+                {
+                    var temp = from dc in droneChargeRoot.Elements()
+                               where int.Parse(dc.Element("DroneId").Value) != 0
+                               select new DroneCharge()
+                               {
+                                   DroneId = int.Parse(dc.Element("DroneId").Value),
+                                   StationId = int.Parse(dc.Element("StationId").Value)
+                               };
+
+                    return from t in temp
+                           where predicate(t)
+                           select t;
+                }
+
                 return from dc in droneChargeRoot.Elements()
                        where int.Parse(dc.Element("DroneId").Value) != 0
                        select new DroneCharge()

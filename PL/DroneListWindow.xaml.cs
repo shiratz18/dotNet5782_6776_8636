@@ -98,9 +98,7 @@ namespace PL
             ListDrone ld = b.CommandParameter as ListDrone;
             Drone d = myBL.GetDrone(ld.Id);
 
-            new DroneWindow(myBL, d).Show();
-
-            checkFilters();
+            new DroneWindow(myBL, d, this).Show();
         }
         #endregion
 
@@ -119,7 +117,7 @@ namespace PL
                 ListDrone ld = b.CommandParameter as ListDrone;
                 myBL.RemoveDrone(ld.Id);
 
-         //       DronesListView.ItemsSource = myBL.GetDroneList();
+                //       DronesListView.ItemsSource = myBL.GetDroneList();
 
                 checkFilters();
             }
@@ -202,7 +200,7 @@ namespace PL
         /// <summary>
         /// Checks if any filters are applied and updates list accordingly
         /// </summary>
-        private void checkFilters()
+        internal void checkFilters()
         {
             if (WeightSelector.SelectedItem != null)
             {
@@ -216,7 +214,7 @@ namespace PL
             else
                 DronesListView.ItemsSource = myBL.GetDroneList();
 
-            if(grouped)
+            if (grouped)
             {
                 CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
                 PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
@@ -225,10 +223,5 @@ namespace PL
         }
 
         #endregion
-
-        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

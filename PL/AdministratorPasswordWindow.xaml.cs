@@ -34,7 +34,7 @@ namespace PL
         {
             if (password.Password == myBL.GetAccessCode())
             {
-                new AdministratorWindow(myBL).ShowDialog();
+                new AdministratorWindow(myBL).Show();
                 Close();
             }
             else

@@ -125,75 +125,36 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ListDrone> GetDroneList(WeightCategories? wc = null, DroneStatuses? ds = null)
         {
-            List<ListDrone> tmp = new List<ListDrone>();
+            if (Drones.Count == 0)
+                throw new EmptyListException("No drones to display.");
 
             if (wc != null) //if the weight filter is not null
             {
                 if (ds != null) //if also the status filter is not null then return a filtered list according to both of thme
                 {
-                    foreach (ListDrone d in Drones)
-                        if (d.Active && d.MaxWeight == wc && d.Status == ds)
-                            tmp.Add(new ListDrone()
-                            {
-                                Id = d.Id,
-                                Battery = d.Battery,
-                                Status = d.Status,
-                                CurrentLocation = d.CurrentLocation,
-                                MaxWeight = d.MaxWeight,
-                                Model = d.Model,
-                                ParcelId = d.ParcelId
-                            });
+                    return from d in Drones
+                           where d.Active && d.MaxWeight == wc && d.Status == ds
+                           select d;
                 }
                 else //otherwise return a filtered list only according to the weight
                 {
-                    foreach (ListDrone d in Drones)
-                        if (d.Active && d.MaxWeight == wc)
-                            tmp.Add(new ListDrone()
-                            {
-                                Id = d.Id,
-                                Battery = d.Battery,
-                                Status = d.Status,
-                                CurrentLocation = d.CurrentLocation,
-                                MaxWeight = d.MaxWeight,
-                                Model = d.Model,
-                                ParcelId = d.ParcelId
-                            });
+                    return from d in Drones
+                           where d.Active && d.MaxWeight == wc
+                           select d;
                 }
             }
             else if (ds != null) //otherwise if only the status isnt null return a filtered list according to the status
             {
-                foreach (ListDrone d in Drones)
-                    if (d.Active && d.Status == ds)
-                        tmp.Add(new ListDrone()
-                        {
-                            Id = d.Id,
-                            Battery = d.Battery,
-                            Status = d.Status,
-                            CurrentLocation = d.CurrentLocation,
-                            MaxWeight = d.MaxWeight,
-                            Model = d.Model,
-                            ParcelId = d.ParcelId
-                        });
+                return from d in Drones
+                       where d.Active && d.Status == ds
+                       select d;
             }
-            else //otherwise return the entire list
+            else //otherwise return the entire list of active drones
             {
-                foreach (ListDrone d in Drones)
-                    if (d.Active)
-                        tmp.Add(new ListDrone()
-                        {
-                            Id = d.Id,
-                            Battery = d.Battery,
-                            Status = d.Status,
-                            CurrentLocation = d.CurrentLocation,
-                            MaxWeight = d.MaxWeight,
-                            Model = d.Model,
-                            ParcelId = d.ParcelId
-                        });
+                return from d in Drones
+                       where d.Active
+                       select d;
             }
-
-            if (Drones.Count == 0)
-                throw new EmptyListException("No drones to display.");
-            return tmp;
         }
         #endregion
 
@@ -213,18 +174,13 @@ namespace BL
             if (!ld.Active)
                 throw new NoIDException($"Drone {drone.Id} does not exist.");
 
-            ListDrone tmp = new ListDrone()
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                MaxWeight = drone.MaxWeight,
-                Battery = drone.Battery,
-                Status = drone.Status,
-                CurrentLocation = drone.CurrentLocation,
-                ParcelId = drone.InShipping.Id
-            };
-
-            ld = tmp; //updating the drone in the list of drones in bll
+            ld.Id = drone.Id;
+            ld.Model = drone.Model;
+            ld.MaxWeight = drone.MaxWeight;
+            ld.Battery = drone.Battery;
+            ld.Status = drone.Status;
+            ld.CurrentLocation = drone.CurrentLocation;
+            ld.ParcelId = drone.InShipping.Id;
 
             DO.Drone d = new DO.Drone()
             {
@@ -322,9 +278,7 @@ namespace BL
 
                 //throw an exception if there is not enough battery to get to the station
                 if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
-                {
                     throw new NoBatteryException($"Drone {d.Id} does not have enough battery to get to a charging station.");
-                }
 
                 d.Battery -= AvailableConsumption * getDistance(d.CurrentLocation, s.Location); //decreasing from the battery the percaentage it takes to get to the station
                 d.CurrentLocation = s.Location; //changing the location to be the station
@@ -400,19 +354,17 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignDroneToParcel(int id)
         {
-            //checking if the drone exists
-            if (!Drones.Exists(d => d.Id == id))
-                throw new NoIDException($"Drone {id} does not exist.");
-
             ListDrone drone = Drones.Find(d => d.Id == id);
 
-            if (!drone.Active)
+            //throw exception if drone was not found or is not active
+            if (drone == null || !drone.Active)
                 throw new NoIDException($"Drone {id} does not exist.");
 
             //checking that the drone is available
             if (drone.Status != DroneStatuses.Available)
                 throw new DroneStateException($"Drone {id} is currently unavailable for shipping.");
 
+            //getting all parcels that are not assigned to a drone (in form of ParcelInShipping)
             IEnumerable<ParcelInShipping> parcels;
             try
             {
@@ -428,27 +380,18 @@ namespace BL
             List<ParcelInShipping> lowPriority = new List<ParcelInShipping>();
 
             //deviding the parcels into 3 lists according to priority,
-            //and checking that the drone could actually deliver them according to weight, distance and battery
             foreach (ParcelInShipping p in parcels)
             {
-                if (p.Priority == Priorities.Urgent && p.Weight <= drone.MaxWeight) //creating the list of urgent parcels
+                //checking that the drone could actually deliver them according to weight, distance and battery
+                if (p.Weight <= drone.MaxWeight && drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
                 {
-                    //checking that there is enough battery according to weight and distance
-                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                    if (p.Priority == Priorities.Urgent) //adding to the list of urgent parcels
                         highPriority.Add(p);
-                }
 
-                else if (p.Priority == Priorities.Express && p.Weight <= drone.MaxWeight) //creating the list of less uregent parcels
-                {
-                    //checking that there is enough battery according to weight and distance
-                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                    else if (p.Priority == Priorities.Express) //adding to the list of less uregent parcels
                         mediumPriority.Add(p);
-                }
 
-                else if (p.Priority == Priorities.Regular && p.Weight <= drone.MaxWeight) //creating the list of low ptiority parcels
-                {
-                    //checking that there is enough battery according to weight and distance
-                    if (drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
+                    else if (p.Priority == Priorities.Regular) //adding to the list of low ptiority parcels
                         lowPriority.Add(p);
                 }
             }
@@ -457,6 +400,7 @@ namespace BL
             List<ParcelInShipping> medium = new List<ParcelInShipping>();
             List<ParcelInShipping> light = new List<ParcelInShipping>();
 
+            //dividng the list into 3 lists according to weight
             if (highPriority.Count > 0) //if there is at least one high priority parcel that the drone could carry
             {
                 //dividing the list according to weight categories
@@ -473,7 +417,7 @@ namespace BL
             else if (mediumPriority.Count > 0) //otherwise if there is at least one medium priotity parcel that the drone can carry
             {
                 //dividing the list according to weight categories
-                foreach (ParcelInShipping p in highPriority)
+                foreach (ParcelInShipping p in mediumPriority)
                 {
                     if (p.Weight == WeightCategories.Heavy)
                         heavy.Add(p);
@@ -486,7 +430,7 @@ namespace BL
             else if (lowPriority.Count > 0) //otherwise if there is at least one low priotity parcel that the drone can carry
             {
                 //dividing the list according to weight categories
-                foreach (ParcelInShipping p in highPriority)
+                foreach (ParcelInShipping p in lowPriority)
                 {
                     if (p.Weight == WeightCategories.Heavy)
                         heavy.Add(p);
@@ -497,7 +441,7 @@ namespace BL
                 }
             }
             else //otherwise the drone cannot carry any parcel, throw an exception
-                throw new DroneStateException($"Drone {id} cannot currently deliver any parcel.");
+                throw new NoBatteryException($"Drone {id} cannot currently deliver any parcel.");
 
             ParcelInShipping parcel;
 
@@ -515,7 +459,7 @@ namespace BL
                 parcel = closestParcel(id, light); //finding the closest parcel to the drone among the parcels
             }
             else
-                throw new DroneStateException($"Drone {id} cannot currently deliver any parcel.");
+                throw new NoBatteryException($"Drone {id} cannot currently deliver any parcel.");
 
             drone.Status = DroneStatuses.Shipping; //updating the status of the drone to be in shipping
             drone.ParcelId = parcel.Id; //updating the parcel the drone carries

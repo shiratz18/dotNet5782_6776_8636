@@ -9,6 +9,7 @@ namespace BL
 {
     partial class BL
     {
+        #region Get parcal at customer
         /// <summary>
         /// Returns a ParcelAtCustomer object according to parcel ID and customer ID
         /// </summary>
@@ -48,5 +49,6 @@ namespace BL
 
             return p;
         }
+        #endregion
     }
 }

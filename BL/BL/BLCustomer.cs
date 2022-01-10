@@ -94,8 +94,9 @@ namespace BL
                     Active = temp.Active
                 };
 
-                IEnumerable<DO.Parcel> parcels = Data.GetParcelList();
-                //for each parcel
+                //get all the parcels associated to this customer (sender or target)
+                IEnumerable<DO.Parcel> parcels = Data.GetParcelList(parcel => parcel.SenderId == c.Id || parcel.TargetId == c.Id);
+                //for each parcel, add to the right list (sender or target)
                 foreach (DO.Parcel p in parcels)
                 {
                     if (p.SenderId == c.Id) //if the sender is the requested customer, so add the parcel to the list of parcels from customer
@@ -120,37 +121,25 @@ namespace BL
         {
             lock (Data)
             {
-                List<ListCustomer> customers = new List<ListCustomer>();
+                //List<ListCustomer> customers = new List<ListCustomer>();
 
-            foreach (DO.Customer c in Data.GetCustomerList())
-            {
-                customers.Add(new ListCustomer()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Phone = c.Phone
-                });
+                var customers = from c in Data.GetCustomerList()
+                                select new ListCustomer()
+                                {
+                                    Id = c.Id,
+                                    Name = c.Name,
+                                    Phone = c.Phone,
+                                    DeliveredFromCustomer = Data.GetParcelList(p => p.SenderId == c.Id && p.Delivered != null).Count(),
+                                    DeliveredToCustomer = Data.GetParcelList(p => p.TargetId == c.Id && p.Delivered != null).Count(),
+                                    NotDeliveredFromCustomer = Data.GetParcelList(p => p.SenderId == c.Id && p.Delivered == null).Count(),
+                                    NotDeliveredToCustomer = Data.GetParcelList(p => p.TargetId == c.Id && p.Delivered == null).Count()
+                                };
+
+                if (customers.Count() == 0)
+                    throw new EmptyListException("No customers to display.");
+
+                return customers;
             }
-
-            if (customers.Count == 0)
-                throw new EmptyListException("No customers to display.");
-
-            foreach (DO.Parcel p in Data.GetParcelList()) //for each parcel
-            {
-                if (p.Delivered != null) //if it was delivered
-                {
-                    customers[customers.FindIndex(c => c.Id == p.SenderId)].DeliveredFromCustomer++; //add 1 to the number of delivered from of the sender
-                    customers[customers.FindIndex(c => c.Id == p.TargetId)].DeliveredToCustomer++; //add 1 to the umber of parcels delivered to the target
-                }
-                else
-                {
-                    customers[customers.FindIndex(c => c.Id == p.SenderId)].NotDeliveredFromCustomer++; //add 1 to the number of not yet delivered from of the sender
-                    customers[customers.FindIndex(c => c.Id == p.TargetId)].NotDeliveredToCustomer++; //add 1 to the umber of parcels not yet delivered to the target
-                }
-            }
-
-            return customers;
-        }
         }
         #endregion
 
@@ -173,11 +162,11 @@ namespace BL
                 Answer = customer.Answer,
                 Active = customer.Active
             };
-            lock( Data)
-            { 
-                Data.UpdateCustomer(c); 
+            lock (Data)
+            {
+                Data.UpdateCustomer(c);
             }
-            
+
         }
 
         /// <summary>

@@ -17,9 +17,9 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
-            try //checking if the customers in the parcel exist
+            //will throw an exception if the customers in the parcel do not exist
+            try
             {
-                //get function will throw an exception if the customers do not exist
                 GetCustomer(parcel.Sender.Id);
                 GetCustomer(parcel.Target.Id);
             }
@@ -27,9 +27,6 @@ namespace BL
             {
                 throw new NoIDException(ex.Message);
             }
-
-            if (parcel.Sender.Id < 0 || parcel.Sender.Id > 9 || parcel.Target.Id < 0 || parcel.Target.Id > 9)
-                throw new InvalidNumberException("ID must be 9 digits.");
 
             DO.Parcel temp = new DO.Parcel()
             {
@@ -39,9 +36,9 @@ namespace BL
                 Priority = (DO.Priorities)parcel.Priority,
                 Requested = DateTime.Now,
                 DroneId = 0,
-                Scheduled = DateTime.MinValue,
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue
+                Scheduled = null,
+                PickedUp = null,
+                Delivered = null
             };
 
             try

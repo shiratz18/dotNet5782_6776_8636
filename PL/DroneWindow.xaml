@@ -42,7 +42,7 @@
             <Label Content="Jerusalem   Postal    Service" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="160" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="6,68,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="113,10,609,453" Source="/Screenshot (130).png"/>
             <Label Content="UPDATE DRONE" FontWeight="Black" FontSize="20" HorizontalAlignment="Left" Margin="315,15,0,0" VerticalAlignment="Top"/>
-            <ToggleButton x:Name="autoMode" Height="30" Margin="398,49,304,424" Background="#FF0489BE" Foreground="#FF0489BE" Checked="autoMode_Checked"/>
+            <ToggleButton x:Name="autoMode" Height="30" Margin="398,49,304,424" Background="#FF0489BE" Foreground="#FF0489BE" Checked="autoMode_Checked" Unchecked="autoMode_Unchecked"/>
             <Label Content="AUTO MODE" Margin="337,51,362,428"/>
             <Label x:Name="id" FontWeight="Bold" Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="26,119,0,0" VerticalAlignment="Top" Height="28" Width="74"/>
             <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15" HorizontalAlignment="Left" Margin="94,119,0,0" VerticalAlignment="Top" Width="151" Height="28"/>
@@ -57,6 +57,21 @@
             <Label x:Name="statusToPrint" Content="{Binding Status}" FontSize="15" HorizontalAlignment="Left" Margin="96,319,0,0" VerticalAlignment="Top" Width="169" Height="34"/>
             <Label x:Name="location" FontWeight="Bold" Content="Location:" FontSize="15" HorizontalAlignment="Left" Margin="26,369,0,0" VerticalAlignment="Top"/>
             <Label x:Name="locationToPrint" Content="{Binding CurrentLocation}" FontSize="15" HorizontalAlignment="Left" Margin="96,356,0,0" VerticalAlignment="Top" Width="310" Height="62"/>
+            <materialDesign:PackIcon Kind="Loading" Visibility="Hidden" Height="75" Width="78" Margin="376,418,0,0">
+                <!--<materialDesign:PackIcon.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation From="0" To="360"/>
+                                    </Storyboard> 
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </materialDesign:PackIcon.Style>-->
+            </materialDesign:PackIcon>
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="349,442,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="133" Background="#FF0489BE" BorderBrush="White"/>
             <Button x:Name="btnUpdate"  FontSize="12" HorizontalAlignment="Left" Margin="356,161,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="40" Click="btnUpdate_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />

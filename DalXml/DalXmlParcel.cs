@@ -18,10 +18,10 @@ namespace Dal
         {
             var customerList = XmlTools.LoadListFromXMLSerializer<Customer>(customersPath);
 
-            if (customerList.Exists(c => c.Id == parcel.SenderId || !c.Active))
+            if (!customerList.Exists(c => c.Id == parcel.SenderId || !c.Active))
                 throw new NoIDException($"Customer {parcel.SenderId} doesn't exist.");
 
-            if (customerList.Exists(c => c.Id == parcel.TargetId || !c.Active))
+            if (!customerList.Exists(c => c.Id == parcel.TargetId || !c.Active))
                 throw new NoIDException($"Customer {parcel.TargetId} doesn't exist.");
 
             var parcelList = XmlTools.LoadListFromXMLSerializer<Parcel>(parcelsPath);

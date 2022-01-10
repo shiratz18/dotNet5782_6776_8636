@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="38,22,0,0"/>
         <Label Content="Jerusalem   Postal    Service" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="238" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="32,114,0,0"/>
-        <Image Grid.Row="0" Margin="-106,10,154,140" Source="/Screenshot (130).png"/>
+        <Image Grid.Row="0" Margin="-121,10,154,140" Source="/Screenshot (130).png"/>
         <Button x:Name="btnClose" ToolTip="Sign out" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="737,2,0,0" HorizontalAlignment="Left" Width="63" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White">
             <materialDesign:PackIcon Kind="SignOutVariant" Height="32" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>

@@ -65,27 +65,18 @@ namespace BL
                 throw new EmptyListException(ex.Message);
             }
 
-            foreach (Parcel p in parcels)
-            {
-                pis.Add(new ParcelInShipping
-                {
-                    Id = p.Id,
-                    IsPickedUp = false,
-                    Priority = p.Priority,
-                    Weight = p.Weight,
-                    Sender = p.Sender,
-                    Target = p.Target,
-                    PickUpLocation = GetCustomer(p.Sender.Id).Location,
-                    DeliveryLocation = GetCustomer(p.Target.Id).Location
-                });
-            }
-
-            foreach (ParcelInShipping p in pis)
-            {
-                p.DeliveryDistance = getDistance(p.PickUpLocation, p.DeliveryLocation);
-            }
-
-            return pis;
+            return from p in parcels
+                   select new ParcelInShipping
+                   {
+                       Id = p.Id,
+                       IsPickedUp = false,
+                       Priority = p.Priority,
+                       Weight = p.Weight,
+                       Sender = p.Sender,
+                       Target = p.Target,
+                       PickUpLocation = GetCustomer(p.Sender.Id).Location,
+                       DeliveryLocation = GetCustomer(p.Target.Id).Location
+                   };
         }
         #endregion
     }

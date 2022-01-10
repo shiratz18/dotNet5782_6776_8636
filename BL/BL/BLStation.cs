@@ -72,24 +72,14 @@ namespace BL
                         Name = temp.Name,
                         Location = new Location() { Longitude = temp.Longitude, Latitude = temp.Latitude },
                         AvailableChargeSlots = temp.ChargeSlots,
-                        ChargingDrones = new List<ChargingDrone>(),
+                        ChargingDrones = (from dc in Data.GetDroneChargeList(dc => dc.StationId == temp.Id)
+                                          select new ChargingDrone
+                                          {
+                                              Id = dc.DroneId,
+                                              Battery = Drones.First(d => d.Id == dc.DroneId).Battery
+                                          }).ToList(),
                         Active = temp.Active
                     };
-
-                    Drones.ForEach(d =>
-                    {
-                        if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
-                        {
-                            if (d.CurrentLocation.Longitude == s.Location.Longitude && d.CurrentLocation.Latitude == s.Location.Latitude) //if it is in the station
-                            {
-                                s.ChargingDrones.Add(new ChargingDrone //adding the drone to the list of charging drones in the station
-                                {
-                                    Id = d.Id,
-                                    Battery = d.Battery
-                                });
-                            }
-                        }
-                    });
 
                     return s;
                 }
@@ -158,23 +148,14 @@ namespace BL
         {
             lock (Data)
             {
-                List<ListStation> stations = new List<ListStation>();
-
-                foreach (DO.Station s in Data.GetStationList())
-                {
-                    stations.Add(new ListStation()
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        AvailableChargeSlots = s.ChargeSlots,
-                        UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
-                    });
-                }
-
-                if (stations.Count == 0) //if no stations were added
-                    throw new EmptyListException("No stations to display.");
-
-                return stations;
+                return from s in Data.GetStationList()
+                       select new ListStation()
+                       {
+                           Id = s.Id,
+                           Name = s.Name,
+                           AvailableChargeSlots = s.ChargeSlots,
+                           UnavailableChargeSlots = Data.GetDroneChargeList(dc => dc.StationId == s.Id).Count()
+                       };
             }
         }
 
@@ -187,17 +168,8 @@ namespace BL
         {
             lock (Data)
             {
-                List<string> stations = new List<string>();
-
-                foreach (DO.Station s in Data.GetStationList())
-                {
-                    stations.Add(s.Name);
-                }
-
-                if (stations.Count == 0) //if no stations were added
-                    throw new EmptyListException("No stations to display.");
-
-                return stations;
+                return from s in Data.GetStationList()
+                       select s.Name;
             }
         }
 
@@ -210,24 +182,14 @@ namespace BL
         {
             lock (Data)
             {
-                IEnumerable<DO.Station> tempStations = Data.GetStationList(s => s.ChargeSlots > 0);
-                if (tempStations.Count() == 0)
-                    throw new EmptyListException("No stations with avavilable charge slots.");
-
-                List<ListStation> stations = new List<ListStation>();
-
-                foreach (DO.Station s in tempStations)
-                {
-                    stations.Add(new ListStation()
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        AvailableChargeSlots = s.ChargeSlots,
-                        UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
-                    });
-                };
-
-                return stations;
+                return from s in Data.GetStationList(st => st.ChargeSlots > 0)
+                       select new ListStation()
+                       {
+                           Id = s.Id,
+                           Name = s.Name,
+                           AvailableChargeSlots = s.ChargeSlots,
+                           UnavailableChargeSlots = GetStation(s.Id).ChargingDrones.Count
+                       };
             }
         }
 
@@ -240,21 +202,15 @@ namespace BL
         {
             lock (Data)
             {
-                List<Station> stations = new List<Station>();
-
-                foreach (DO.Station s in Data.GetStationList())
-                {
-                    stations.Add(new Station()
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
-                        AvailableChargeSlots = s.ChargeSlots,
-                        Active = s.Active
-                    });
-                }
-
-                return stations;
+                return from s in Data.GetStationList()
+                       select new Station()
+                       {
+                           Id = s.Id,
+                           Name = s.Name,
+                           Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+                           AvailableChargeSlots = s.ChargeSlots,
+                           Active = s.Active
+                       };
             }
         }
 
@@ -267,24 +223,15 @@ namespace BL
         {
             lock (Data)
             {
-                IEnumerable<DO.Station> tempStations = Data.GetStationList(s => { return s.ChargeSlots > 0; });
-                if (tempStations.Count() == 0)
-                    throw new EmptyListException("No stations with avavilable charge slots.");
-
-                List<Station> stations = new List<Station>();
-                foreach (DO.Station tmp in tempStations)
-                {
-                    stations.Add(new Station()
-                    {
-                        Id = tmp.Id,
-                        Name = tmp.Name,
-                        Location = new Location() { Longitude = tmp.Longitude, Latitude = tmp.Latitude },
-                        AvailableChargeSlots = tmp.ChargeSlots,
-                        Active = tmp.Active
-                    });
-                }
-
-                return stations;
+                return from s in Data.GetStationList(st => st.ChargeSlots > 0)
+                       select new Station()
+                       {
+                           Id = s.Id,
+                           Name = s.Name,
+                           Location = new Location() { Longitude = s.Longitude, Latitude = s.Latitude },
+                           AvailableChargeSlots = s.ChargeSlots,
+                           Active = s.Active
+                       };
             }
         }
         #endregion
@@ -359,13 +306,10 @@ namespace BL
                     throw new InvalidNumberException($"Cannot have a negative number of charge slots.");
 
                 Location loc = new Location() { Latitude = s.Latitude, Longitude = s.Longitude };
-                int count = 0; //counts how many drones are charging in the station
-                Drones.ForEach(d =>
-                {
-                    if (d.Status == DroneStatuses.Maintenance) //if the drone is charging
-                        if (d.CurrentLocation == loc) //if it is in the station we want to update
-                            count++; //count how many drones are charging in the station
-                });
+                //counts how many drones are charging in the station
+                int count = (from d in Drones
+                         where d.Status == DroneStatuses.Maintenance
+                         select d).Count();
 
                 if (count > number)//if there are more drones in the station than the new number
                 {
