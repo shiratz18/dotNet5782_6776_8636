@@ -584,7 +584,6 @@ namespace PL
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
             new ParcelWindow(myBL, p).ShowDialog();
         }
-        #endregion
 
         #endregion
 
@@ -609,8 +608,18 @@ namespace PL
             btnDroneDeliver.Visibility = Visibility.Hidden;
             modelToPrint.IsEnabled = false;
 
-            worker.RunWorkerAsync();
         }
+        #endregion
+
+        //private void autoMode_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    BackgroundWorker worker = new BackgroundWorker();
+        //    worker.WorkerReportsProgress = true;
+        //    worker.DoWork += autoMode_DoWork;
+        //    worker.ProgressChanged += autoMode_ProgressChanged;
+
+        //    worker.RunWorkerAsync();
+        //}
 
         private void autoMode_Unchecked(object sender, RoutedEventArgs e)
         {
