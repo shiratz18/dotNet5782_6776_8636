@@ -21,10 +21,10 @@ namespace BL
                 throw new InvalidNumberException($"{customer.Id} is an invalid ID. ID must be 9 digits.");
 
             if (customer.Location.Latitude > 31.8830 || customer.Location.Latitude < 31.7082)
-                throw new InvalidNumberException($"Longitude {customer.Location.Longitude} is not in Jerusalem.");
+                throw new InvalidNumberException($"Latitude {customer.Location.Latitude} is not in Jerusalem.");
 
-            if ((customer.Location.Longitude > 35.2642 || customer.Location.Longitude < 35.1252))
-                throw new InvalidNumberException($"Latitude {customer.Location.Longitude} is not in Jerusalem.");
+            if (customer.Location.Longitude > 35.2642 || customer.Location.Longitude < 35.1252)
+                throw new InvalidNumberException($"Longitude {customer.Location.Longitude} is not in Jerusalem.");
 
             foreach (char c in customer.Name)
                 if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ')

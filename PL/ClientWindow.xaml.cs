@@ -48,7 +48,10 @@ namespace PL
         #region Add parcel
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ClientParcelWindow(myBL, client, this).Show();
+            new ClientParcelWindow(myBL, client, this).ShowDialog();
+            client = myBL.GetCustomer(client.Id);
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            lstParcelsTo.ItemsSource = client.ToCustomer; DataContext = client;
         }
         #endregion
 
@@ -62,7 +65,10 @@ namespace PL
             bool isSender = false;
             if (parcel.Sender.Id == client.Id)
                 isSender = true;
-            new TrackParcelWindow(myBL, parcel, isSender).Show();
+            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
+            client = myBL.GetCustomer(client.Id);
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            lstParcelsTo.ItemsSource = client.ToCustomer;
         }
         #endregion
 
@@ -122,6 +128,16 @@ namespace PL
             }
         }
         #endregion
+
+        #endregion
+
+        #region Refresh
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            client = myBL.GetCustomer(client.Id);
+            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            lstParcelsTo.ItemsSource = client.ToCustomer;
+        }
         #endregion
     }
 }

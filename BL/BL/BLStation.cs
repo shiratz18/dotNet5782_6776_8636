@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
 namespace BL
@@ -308,15 +305,15 @@ namespace BL
                 Location loc = new Location() { Latitude = s.Latitude, Longitude = s.Longitude };
                 //counts how many drones are charging in the station
                 int count = (from d in Drones
-                         where d.Status == DroneStatuses.Maintenance
-                         select d).Count();
+                             where d.Status == DroneStatuses.Maintenance
+                             select d).Count();
 
                 if (count > number)//if there are more drones in the station than the new number
                 {
                     throw new InvalidNumberException("Too many drones are in the station.");
                 }
 
-                s.ChargeSlots = number - count; //num will be the number of available charging slots
+                s.ChargeSlots = number; //num will be the number of available charging slots
                 Data.UpdateStation(s); //send the updates station to the data layer
             }
         }

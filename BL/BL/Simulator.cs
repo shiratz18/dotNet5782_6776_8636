@@ -1,5 +1,4 @@
-﻿using BlApi;
-using System;
+﻿using System;
 using BO;
 using System.Threading;
 using static BL.BL;
@@ -81,38 +80,45 @@ namespace BL
                         break;
 
                     case DroneStatuses.Shipping:
-                        lock (myBL)
-                        {
-                            Parcel p = myBL.GetParcel(drone.InShipping.Id);
-
-                            if (!drone.InShipping.IsPickedUp)
+                        lock (myBL) lock (myBL.Data)
                             {
-                                if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
+                                Parcel p = myBL.GetParcel(drone.InShipping.Id);
+
+                                if (!drone.InShipping.IsPickedUp)
                                 {
-                                    myBL.DronePickUp(drone.Id);
-                                    drone = myBL.GetDrone(drone.Id);
+                                    if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
+                                    {
+                                        drone.Battery -= (speed * cycle) * myBL.AvailableConsumption; //d=v*t , substract from the battery according to distance
+                                        drone.CurrentLocation = drone.InShipping.PickUpLocation; //update location
+                                        drone.InShipping.IsPickedUp = true;
+                                        drone.InShipping.DeliveryDistance = BL.getDistance(drone.InShipping.PickUpLocation, drone.InShipping.DeliveryLocation);
+                                        myBL.Data.ParcelPickUp(p.Id); //updating the parcel in dal
+                                        myBL.UpdateDrone(drone);
+                                    }
+                                    else
+                                    {
+                                        drone.Battery -= (speed * cycle) * myBL.AvailableConsumption; //d=v*t , substract from the battery according to distance
+                                        myBL.UpdateDrone(drone);
+                                    }
                                 }
                                 else
                                 {
-                                    drone.Battery -= (speed * cycle) * myBL.AvailableConsumption;
-                                    myBL.UpdateDrone(drone);
+                                    if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
+                                    {
+                                        drone.Battery -= (speed * cycle) * myBL.ShippingConsumption[(int)drone.InShipping.Weight]; //d=v*t , substract from the battery according to distance
+                                        drone.CurrentLocation = drone.InShipping.PickUpLocation; //update location
+                                        drone.Status = DroneStatuses.Available; //make drone available
+                                        drone.InShipping.Id = 0;
+                                        myBL.Data.ParcelDelivered(p.Id); //updating the parcel in dal
+                                        myBL.UpdateDrone(drone);
+                                    }
+                                    else
+                                    {
+                                        drone.Battery -= (speed * cycle) * myBL.ShippingConsumption[(int)drone.InShipping.Weight];
+                                        myBL.UpdateDrone(drone);
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
-                                {
-                                    myBL.DroneDeliver(drone.Id);
-                                    drone = myBL.GetDrone(drone.Id);
-                                }
-
-                                else
-                                {
-                                    drone.Battery -= (speed * cycle) * myBL.ShippingConsumption[(int)drone.InShipping.Weight];
-                                    myBL.UpdateDrone(drone);
-                                }
-                            }
-                        }
                         break;
                 }
                 updateDelegate();

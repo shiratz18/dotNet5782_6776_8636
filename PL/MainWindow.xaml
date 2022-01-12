@@ -3,21 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:PL"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None"
         Title="JPS" Height="450" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="87*"/>
             <RowDefinition Height="130*"/>
         </Grid.RowDefinitions>
-        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Center" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="85,0,0,0"/>
-        <Label Content="Jerusalem   Postal    Service" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="214" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="85,130,0,0" RenderTransformOrigin="0.28,0.368"/>
-        <Image Grid.Row="0" Margin="139,30,-96,90" Source="/Screenshot (130).png"/>
-        <Label Content="Log in:" FontSize="25" Grid.Row="1" Margin="148,14,113,175"/>
+        <Button x:Name="btnClose" Grid.Row="0" Click="btnClose_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Gray" Margin="300,10,-15,138">
+            <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center" Width="48" HorizontalAlignment="Center" Height="20"/>
+        </Button>
+        <Label Content="JPS" FontSize="90" HorizontalAlignment="Left" VerticalAlignment="Top" Height="102" Width="202" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="85,54,0,0"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="214" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="85,141,0,0" RenderTransformOrigin="0.28,0.368"/>
+        <Image Grid.Row="0" Margin="264,30,64,90" Source="/Screenshot (130).png"/>
+        <Label Content="Log in:" FontSize="25" Grid.Row="1" Margin="148,14,141,200"/>
         <StackPanel Grid.Row="1" Margin="0,70,0,0">
-            <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Background="#FF0489BE" Margin="0,0,0,3" Height="50" Width="394" Foreground="White" BorderBrush="{x:Null}"/>
-            <Button x:Name="btnClient" Content="Client" Margin="0,0,0,3" Height="50" Width="394" Background="#FF0489BE" Foreground="White" Click="btnClient_Click" BorderBrush="{x:Null}"/>
+            <Button x:Name="btnWorker" Content="Administrator" Click="btnWorker_Click" Background="#FF0489BE" Margin="0,0,0,3" Height="50" Width="398" Foreground="White" BorderBrush="{x:Null}"/>
+            <Button x:Name="btnClient" Content="Client" Margin="0,0,0,3" Height="50" Width="399" Background="#FF0489BE" Foreground="White" Click="btnClient_Click" BorderBrush="{x:Null}"/>
             <Label Content="Don't have an account?" Margin="25,15,30,0" HorizontalAlignment="Center" FontSize="10" Foreground="#FF120374" Opacity="0.3"/>
             <Button x:Name="btnSignUp" Content="Sign Up" HorizontalContentAlignment="Center" Margin="0,0,0,0" FontSize="10" Foreground="#FF0489BE" Opacity="0.6" Height="21" Width="80" Background="{x:Null}" Click="btnSignUp_Click" BorderBrush="#FF0489BE"/>
         </StackPanel>

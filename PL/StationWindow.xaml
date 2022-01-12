@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
-        Title="StationWindow"  Height="503" Width="780" >
+        Title="StationWindow"  Height="450" Width="800" >
     <Window.Resources>
         <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
             <Setter Property="Foreground" Value="Black"/>
@@ -19,33 +19,33 @@
     </Window.Resources>
     <Grid>
         <Grid x:Name="AddGrid" Grid.Row="0" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,202" Panel.ZIndex="1"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="20,296,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
+            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,511,174" Panel.ZIndex="1"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="324" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="38,274,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
             <Image Grid.Row="0" Margin="79,15,108,52" Source="/Screenshot (130).png" Opacity="0.3"/>
-            <Label Content="ENTER STATION INFORMATION" FontSize="25" HorizontalAlignment="Left" Margin="386,40,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="stationId" FontSize="30" materialDesign:HintAssist.Hint="Enter ID here" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly" MaxLength="4" HorizontalAlignment="Left" Margin="396,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="42" TextChanged="stationId_TextChanged" BorderBrush="#FFABADB3"  CaretBrush="#FF7F5AC0"/>
-            <Label x:Name="RedMes1" Content="" FontSize="12" HorizontalAlignment="Left" Margin="401,134,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478" Width="328"/>
-            <materialDesign:PackIcon Kind="Identifier"  Width="30" Height="30" Margin="724,104,0,0" Foreground="#FF0489BE" />
-            <TextBox x:Name="stationName" IsEnabled="{Binding ElementName=stationId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.Hint="Enter name here" materialDesign:TextFieldAssist.UnderlineBrush="Black" FontSize="30" HorizontalAlignment="Left" Margin="394,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="330" Foreground="#FFABADB3" Height="43"/>
-            <materialDesign:PackIcon Kind="RenameBox" Width="30" Height="30" Margin="724,171,0,0" RenderTransformOrigin="0.593,-0.503" Foreground="#FF0489BE" />
-            <Label x:Name="stationLongitude" Content="Longitude " FontSize="30"    HorizontalAlignment="Left" Margin="396,228,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
-            <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,246,0,0" Foreground="#FF0489BE"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="596,244,102,215" />
-            <Slider x:Name="SliderLongitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="404,268,221,202" Foreground="#FF076E97" />
-            <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,296,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
-            <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="724,316,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="596,311,102,147" />
-            <Slider x:Name="SliderLatitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" Height="31" RenderTransformOrigin="1.585,2.426"  Margin="404,336,221,126" Foreground="#FF076E97" />
-            <TextBox x:Name="ChargeSlots" IsEnabled="{Binding ElementName=stationName, Path=Text, Converter={StaticResource NameToBoolean}}" FontSize="30" materialDesign:HintAssist.Hint="Enter no. of chargers" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly"  HorizontalAlignment="Left" Margin="396,370,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="46" BorderBrush="#FFABADB3"/>
-            <materialDesign:PackIcon Kind="ChargingStation" Width="30" Height="30" Margin="724,386,0,0" RenderTransformOrigin="0.553,0.103" Foreground="#FF0489BE"/>
-            <Button x:Name="btnOK" Content="OK" IsEnabled="{Binding ElementName=ChargeSlots, Path=Text, Converter={StaticResource NameToBoolean}}" HorizontalAlignment="Left" Margin="422,446,0,0" VerticalAlignment="Top" Width="139" Click="btnOK_Click" BorderBrush="White" Background="#FF0489BE"/>
-            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="588,446,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" BorderBrush="White"/>
+            <Label Content="ENTER STATION INFORMATION" FontSize="25" HorizontalAlignment="Left" Margin="400,15,0,0" VerticalAlignment="Top" Width="384"/>
+            <TextBox x:Name="stationId" FontSize="30" materialDesign:HintAssist.Hint="Enter ID here" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly" MaxLength="4" HorizontalAlignment="Left" Margin="396,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="42" TextChanged="stationId_TextChanged" BorderBrush="#FFABADB3"  CaretBrush="#FF7F5AC0"/>
+            <Label x:Name="RedMes1" Content="" FontSize="12" HorizontalAlignment="Left" Margin="400,104,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478" Width="328"/>
+            <materialDesign:PackIcon Kind="Identifier"  Width="30" Height="30" Margin="724,74,0,0" Foreground="#FF0489BE" />
+            <TextBox x:Name="stationName" IsEnabled="{Binding ElementName=stationId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.Hint="Enter name here" materialDesign:TextFieldAssist.UnderlineBrush="Black" FontSize="30" HorizontalAlignment="Left" Margin="400,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="330" Foreground="#FFABADB3" Height="43"/>
+            <materialDesign:PackIcon Kind="RenameBox" Width="30" Height="30" Margin="724,146,0,0" RenderTransformOrigin="0.593,-0.503" Foreground="#FF0489BE" />
+            <Label x:Name="stationLongitude" Content="Longitude " FontSize="30"    HorizontalAlignment="Left" Margin="396,201,0,0"  VerticalAlignment="Top" Width="151" Foreground="#FFABADB3" Height="40"/>
+            <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,230,0,0" Foreground="#FF0489BE"/>
+            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="596,225,80,190" />
+            <Slider x:Name="SliderLongitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.0005" IsSnapToTickEnabled="True" RenderTransformOrigin="1.585,2.426"  Margin="400,248,211,176" Foreground="#FF076E97" />
+            <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,276,0,0"  VerticalAlignment="Top" Width="122" Foreground="#FFABADB3" Height="40"/>
+            <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="724,306,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
+            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="596,295,80,120" />
+            <Slider x:Name="SliderLatitude" Minimum="31.7082" Maximum="31.8830" VerticalAlignment="Top" TickFrequency="0.0005" IsSnapToTickEnabled="True" RenderTransformOrigin="1.585,2.426"  Margin="400,321,211,0" Foreground="#FF076E97" Height="29" />
+            <TextBox x:Name="ChargeSlots" IsEnabled="{Binding ElementName=stationName, Path=Text, Converter={StaticResource NameToBoolean}}" FontSize="30" materialDesign:HintAssist.Hint="Enter no. of chargers" materialDesign:TextFieldAssist.UnderlineBrush="Black" PreviewTextInput="numbersOnly"  HorizontalAlignment="Left" Margin="400,350,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="46" BorderBrush="#FFABADB3"/>
+            <materialDesign:PackIcon Kind="ChargingStation" Width="30" Height="30" Margin="724,368,0,0" RenderTransformOrigin="0.553,0.103" Foreground="#FF0489BE"/>
+            <Button x:Name="btnOK" Content="OK" IsEnabled="{Binding ElementName=ChargeSlots, Path=Text, Converter={StaticResource NameToBoolean}}" HorizontalAlignment="Left" Margin="421,408,0,0" VerticalAlignment="Top" Width="139" Click="btnOK_Click" BorderBrush="White" Background="#FF0489BE"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="578,408,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" BorderBrush="White"/>
         </Grid>
         <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="50" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="22,16,621,405"/>
+            <Label Content="JPS" FontSize="50" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="22,16,659,373"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="151" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="10,66,0,0" RenderTransformOrigin="0.28,0.368"/>
-            <Image Grid.Row="0" Margin="93,0,552,443" Source="/Screenshot (130).png"/>
-            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="332,0,318,471">
+            <Image Grid.Row="0" Margin="93,0,587,404" Source="/Screenshot (130).png"/>
+            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="332,0,318,404">
                 <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>
             <Label Content="UPDATE STATION" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" Margin="311,32,0,0" VerticalAlignment="Top"/>
@@ -54,22 +54,22 @@
             <Label x:Name="name" Content="Name:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" Margin="60,187,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
             <TextBox x:Name="nameToPrint" FontSize="15" materialDesign:TextFieldAssist.UnderlineBrush="Black"  HorizontalAlignment="Left" Margin="146,187,0,0" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Top" Width="212"  Background="{x:Null}" Height="35"/>
             <Label x:Name="chargeSlots" Content="Number of charge slots:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" Margin="60,243,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="chargeSlotsToPrint" PreviewTextInput="numbersOnly" FontSize="15" materialDesign:TextFieldAssist.UnderlineBrush="Black"  HorizontalAlignment="Left" Margin="294,252,0,0" Text="{Binding AvailableChargeSlots}" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" Background="{x:Null}" Height="31"/>
+            <TextBox x:Name="chargeSlotsToPrint" PreviewTextInput="numbersOnly" FontSize="15" materialDesign:TextFieldAssist.UnderlineBrush="Black"  HorizontalAlignment="Left" Margin="294,242,0,0" Text="{Binding AvailableChargeSlots}" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" Background="{x:Null}" Height="31"/>
             <Label x:Name="location" Content="Location:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" Margin="60,297,0,0" VerticalAlignment="Top" Width="101"/>
-            <Label x:Name="locationToPrint" Content="{Binding Location}" FontSize="20" HorizontalAlignment="Left" Margin="200,283,0,0" VerticalAlignment="Top" Width="158" Height="81"/>
-            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="322,391,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="150" Background="#FF0489BE" BorderBrush="White" Height="40"/>
+            <Label x:Name="locationToPrint" Content="{Binding Location}" FontSize="20" HorizontalAlignment="Left" Margin="200,283,0,0" VerticalAlignment="Top" Width="158" Height="63"/>
+            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="332,370,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="150" Background="#FF0489BE" BorderBrush="White" Height="40"/>
             <Button x:Name="btnUpdateNAME"  FontSize="12" HorizontalAlignment="Center" Margin="0,187,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.51,1.388" Height="37" Click="btnUpdateNAME_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="59" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" VerticalAlignment="Center"  />
             </Button>
             <Button x:Name="btnUpdateCHARGESLOTS"  FontSize="12" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.51,1.388" Height="41" Click="btnUpdateCHARGESLOTS_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="59" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" VerticalAlignment="Center"  />
             </Button>
-            <Grid Width="300" Margin="445,84,25,139">
+            <Grid Margin="460,84,10,85">
                 <ListView x:Name="ChargingDronesListView"  Background="Transparent" Margin="0,0,0,0">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="90"/>
-                            <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery}" Width="120"/>
+                            <GridViewColumn Header="BATTERY" DisplayMemberBinding="{Binding Battery, StringFormat={}{0:00}%}" Width="120"/>
                             <GridViewColumn Header="INFO" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -81,6 +81,12 @@
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </Grid>
         </Grid>

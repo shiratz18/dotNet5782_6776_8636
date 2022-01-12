@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
 
@@ -179,7 +177,7 @@ namespace BL
             ld.MaxWeight = drone.MaxWeight;
             ld.Battery = drone.Battery;
             ld.Status = drone.Status;
-            ld.CurrentLocation = drone.CurrentLocation;
+            ld.CurrentLocation = new Location() { Longitude = drone.CurrentLocation.Longitude, Latitude = drone.CurrentLocation.Latitude };
             ld.ParcelId = drone.InShipping.Id;
 
             DO.Drone d = new DO.Drone()
@@ -286,7 +284,16 @@ namespace BL
                 };
                 Data.UpdateDrone(drone); //update the drone in dal
 
-                UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots - 1); //update the station charge slots to one less
+                DO.Station station = new DO.Station()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Latitude = s.Location.Latitude,
+                    Longitude = s.Location.Longitude,
+                    ChargeSlots = s.AvailableChargeSlots - 1,
+                    Active = s.Active
+                };
+                Data.UpdateStation(station);
 
                 DO.DroneCharge dc = new DO.DroneCharge()
                 {
@@ -294,8 +301,6 @@ namespace BL
                     StationId = s.Id,
                     ChargingBegin = DateTime.Now
                 };
-
-
                 Data.AddDroneCharge(dc); //add the drone charge in the data layer
             }
         }
@@ -331,8 +336,9 @@ namespace BL
                     d.Battery = 100;
                 d.Status = DroneStatuses.Available; //update the status to be available
 
-                Station s = getStationByLocation(d.CurrentLocation);
-                UpdateStationChargingSlots(s.Id, s.AvailableChargeSlots + 1); //update the available charge slots to have one moe
+                DO.Station st = Data.GetStation(dc.StationId);
+                st.ChargeSlots += 1;
+                Data.UpdateStation(st);
 
                 Data.RemoveDroneCharge(dc); //remove the drone charge in the data layer
             }

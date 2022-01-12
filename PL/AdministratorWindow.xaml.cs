@@ -21,10 +21,12 @@ namespace PL
     public partial class AdministratorWindow : Window
     {
         private IBL myBL;
+        private MainWindow main;
 
-        public AdministratorWindow(IBL bl)
+        public AdministratorWindow(IBL bl, MainWindow w)
         {
             myBL = bl;
+            main = w;
             InitializeComponent();
         }
 
@@ -51,6 +53,7 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
+            main.WindowState = WindowState.Normal;
         }
     }
 }

@@ -264,9 +264,9 @@ namespace PL
             display();
         }
 
-        //<summary>
-        //Display the chosen drone and update button options according to drone status
-        // </summary>
+        ///<summary>
+        ///Display the chosen drone and update button options according to drone status
+        /// </summary>
         private void display()
         {
             RedMes3.Content = " ";
@@ -387,9 +387,7 @@ namespace PL
             {
                 myBL.ReleaseDroneCharge(drone.Id); //release the drone from charging
                 drone = myBL.GetDrone(drone.Id); //get the updated drone from the bl
-
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery); //update the battery content according to new battery
-                statusToPrint.Content = drone.Status; //update the status content according to status
+                DataContext = drone;
 
                 btnReleaseCharge.Visibility = Visibility.Hidden; //hide the release charge button
                 btnCharge.Visibility = Visibility.Visible; //make the charge button visible, be cause now the drone is available
@@ -419,9 +417,7 @@ namespace PL
             {
                 myBL.ChargeDrone(drone.Id); //charge the drone
                 drone = myBL.GetDrone(drone.Id); //get the updates drone form bl
-
-                statusToPrint.Content = drone.Status; //change status content according to new status
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery); //change battery content according to new battery
+                DataContext = drone;
 
                 btnCharge.Visibility = Visibility.Hidden; //charge button is hidden because drone id charging
                 btnReleaseCharge.Visibility = Visibility.Visible; //release charge button is visible
@@ -462,12 +458,13 @@ namespace PL
                 targetName.Content = drone.InShipping.Target.Name;
                 pickUpLocation.Content = drone.InShipping.PickUpLocation;
                 deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-                deliveryDistance.Content = drone.InShipping.DeliveryDistance;
+                deliveryDistance.Text = drone.InShipping.DeliveryDistance.ToString();
 
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
                 btnCharge.Visibility = Visibility.Hidden;
                 btnDroneToDelivery.Visibility = Visibility.Hidden;
                 btnDronePickUp.Visibility = Visibility.Visible;
+
+                DataContext = drone;
                 MessageBox.Show("Drone assigned to parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 if (droneList != null)
@@ -491,7 +488,7 @@ namespace PL
                 myBL.DronePickUp(drone.Id);
                 drone = myBL.GetDrone(drone.Id);
 
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+                DataContext = drone;
 
                 isPickedUp.Content = drone.InShipping.IsPickedUp;
                 btnDronePickUp.Visibility = Visibility.Hidden;
@@ -518,8 +515,7 @@ namespace PL
             {
                 myBL.DroneDeliver(drone.Id);
                 drone = myBL.GetDrone(drone.Id);
-                statusToPrint.Content = drone.Status;
-                batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
+                DataContext = drone;
 
                 parcelExpander.IsEnabled = false;
                 parcelExpander.IsExpanded = false;
@@ -549,16 +545,21 @@ namespace PL
         #endregion
 
 
+
+        #endregion
+
+        #region Simulator
+
         internal BackgroundWorker worker;
 
         private void autoMode_Checked(object sender, RoutedEventArgs e)
         {
             worker = new BackgroundWorker();
 
-            worker.WorkerReportsProgress = true;
-            worker.WorkerSupportsCancellation = true;
+            worker.WorkerReportsProgress = true; //allow to report progress to main thread
+            worker.WorkerSupportsCancellation = true; //support called cancellation
 
-            worker.DoWork += autoMode_DoWork;
+            worker.DoWork += autoMode_DoWork; 
             worker.ProgressChanged += autoMode_ProgressChanged;
             worker.RunWorkerCompleted += autoMode_RunWorkerCompleted;
 
@@ -572,9 +573,6 @@ namespace PL
 
             worker.RunWorkerAsync();
         }
-        #endregion
-
-        #region Simulator
 
         private void autoMode_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -618,12 +616,12 @@ namespace PL
 
         private void update()
         {
-            worker.ReportProgress(0);
+            worker.ReportProgress(0); //report progress to display
         }
 
         private bool stop()
         {
-            return worker.CancellationPending;
+            return worker.CancellationPending; //true when a request to cancel backround worker has been made
         }
 
         #endregion

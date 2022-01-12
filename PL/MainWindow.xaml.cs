@@ -31,7 +31,7 @@ namespace PL
 
         private void btnWorker_Click(object sender, RoutedEventArgs e)
         {
-            new AdministratorPasswordWindow(myBL).Show();
+            new AdministratorPasswordWindow(myBL, this).Show();
         }
 
         private void btnSignUp_Click(object sender, RoutedEventArgs e)
@@ -42,6 +42,11 @@ namespace PL
         private void btnClient_Click(object sender, RoutedEventArgs e)
         {
             new ClientPasswordWindow(myBL).Show();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

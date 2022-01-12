@@ -89,6 +89,7 @@ namespace PL
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(myBL).ShowDialog();
+            checkFilters();
         }
         #endregion
 
@@ -105,6 +106,7 @@ namespace PL
             Parcel p = myBL.GetParcel(ld.Id);
 
             new ParcelWindow(myBL, p ).ShowDialog();
+            checkFilters();
         }
         #endregion
 

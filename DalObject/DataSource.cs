@@ -22,7 +22,7 @@ namespace Dal
             internal static double LightWeightConsumption { get => 2; } //2% per km
             internal static double MediumWeightConsumption { get => 3; }  //3% per km
             internal static double HeavyWeightConsumption { get => 4; } //4% per km
-            internal static double ChargingRate { get => 1; } //1% per minute
+            internal static double ChargingRate { get => 5; } //1% per minute
             internal static string AccessCode = "1234"; //acces code for worker interface
         }
 
@@ -319,7 +319,7 @@ namespace Dal
                 Priority = (Priorities)r.Next(0, 3),
                 Requested = DateTime.Now,
                 DroneId = 2586,
-                Scheduled = null,
+                Scheduled = DateTime.Now,
                 PickedUp = null,
                 Delivered = null
             });

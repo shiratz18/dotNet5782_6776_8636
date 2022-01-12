@@ -57,10 +57,10 @@
         <Label Content="REQUESTED" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,131,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="94"/>
         <Label Content="{Binding Requested}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,93,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="162"/>
         <Label x:Name="lblSch" Content="SCHEDULED" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="98,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="95"/>
-        <Label Content="{Binding Scheduled}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="77,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="170"/>
+        <Label  x:Name="lblSchTime" Content="{Binding Scheduled}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="77,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="170"/>
         <Label x:Name="lblPck" Content="PICKED UP" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="208,131,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="88"/>
-        <Label Content="{Binding PickedUp}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="180,93,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="176"/>
+        <Label x:Name="lblPckTime" Content="{Binding PickedUp}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="180,93,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="176"/>
         <Label x:Name="lblDlv" Content="DELIVERED" Visibility="Hidden" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="312,20,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="88"/>
-        <Label Content="{Binding Delivered}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="252,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="148"/>
+        <Label x:Name="lblDlvTime" Content="{Binding Delivered}" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="252,51,0,0" Grid.Row="1" VerticalAlignment="Top" Height="31" Width="148"/>
     </Grid>
 </Window>

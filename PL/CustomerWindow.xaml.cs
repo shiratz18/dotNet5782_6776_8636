@@ -54,13 +54,17 @@ namespace PL
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             //get the data the user entered
-            customer = new Customer();
-            bool flag1 = int.TryParse(customerId.Text, out int id);
-            customer.Id = id;
-            string name = customerName.Text;
-            customer.Name = name;
-            string phone = customerPhone.Text;
-            customer.Phone = name;
+            customer = new Customer()
+            {
+                Id = int.Parse(customerId.Text),
+                Name = customerName.Text,
+                Phone = customerPhone.Text,
+                Location = new Location()
+                {
+                    Longitude = SliderLongitude.Value,
+                    Latitude = SliderLatitude.Value
+                }
+            };
 
             MessageBoxResult mb = default;
             try
@@ -99,6 +103,7 @@ namespace PL
                     Close();
                 }
             }
+
 
             if (mb == MessageBoxResult.Cancel) //if there was an error and the user clicked cancel, close the window
             {

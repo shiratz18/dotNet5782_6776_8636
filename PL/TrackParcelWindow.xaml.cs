@@ -91,7 +91,7 @@ namespace PL
 
         private void progress_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            while (!worker.CancellationPending)
             {
                 if (parcel.Delivered != null)
                     (sender as BackgroundWorker).ReportProgress(3);
@@ -103,7 +103,6 @@ namespace PL
                     (sender as BackgroundWorker).ReportProgress(0);
                
                 parcel = myBL.GetParcel(parcel.Id);
-                DataContext = parcel;
                 Thread.Sleep(1500);
             }
         }
@@ -118,12 +117,15 @@ namespace PL
                     if (isSender)
                         btnCancel.IsEnabled = false;
                     lblSch.Visibility = Visibility.Visible;
+                    lblSchTime.Content = parcel.Scheduled;
                     break;
                 case 2:
                     lblPck.Visibility = Visibility.Visible;
+                    lblPckTime.Content = parcel.PickedUp;
                     break;
                 case 3:
                     lblDlv.Visibility = Visibility.Visible;
+                    lblDlvTime.Content = parcel.Delivered;
                     break;
             }
         }
@@ -135,6 +137,7 @@ namespace PL
             var mb = MessageBox.Show("Are you sure you want to cancel this delivery?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (mb == MessageBoxResult.Yes)
             {
+                worker.CancelAsync();
                 myBL.RemoveParcel(parcel.Id);
                 Close();
                 MessageBox.Show("Parcel successfully canceled.", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);

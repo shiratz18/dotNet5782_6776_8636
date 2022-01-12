@@ -18,10 +18,12 @@ namespace PL
     public partial class AdministratorPasswordWindow : Window
     {
         private IBL myBL;
+        private MainWindow main;
 
-        public AdministratorPasswordWindow(IBL bl)
+        public AdministratorPasswordWindow(IBL bl, MainWindow w)
         {
             myBL = bl;
+            main = w;
             InitializeComponent();
         }
 
@@ -34,8 +36,9 @@ namespace PL
         {
             if (password.Password == myBL.GetAccessCode())
             {
-                new AdministratorWindow(myBL).Show();
+                new AdministratorWindow(myBL, main).Show();
                 Close();
+                main.WindowState = WindowState.Minimized;
             }
             else
             {

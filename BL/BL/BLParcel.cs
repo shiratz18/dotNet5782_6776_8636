@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
 namespace BL
@@ -451,26 +449,13 @@ namespace BL
         {
             try
             {
-                Parcel parcel = GetParcel(id);
+                DO.Parcel parcel = Data.GetParcel(id);
 
                 if (parcel.Scheduled == null)
                 {
-                    DO.Parcel temp = new DO.Parcel()
-                    {
-                        Id = id,
-                        SenderId = parcel.Sender.Id,
-                        TargetId = parcel.Target.Id,
-                        Weight = (DO.WeightCategories)parcel.Weight,
-                        Priority = (DO.Priorities)parcel.Priority,
-                        Requested = parcel.Requested,
-                        Scheduled = parcel.Scheduled,
-                        PickedUp = parcel.PickedUp,
-                        Delivered = parcel.Delivered
-                    };
-
                     lock (Data)
                     {
-                        Data.RemoveParcel(temp);
+                        Data.RemoveParcel(parcel);
                     }
                 }
                 else

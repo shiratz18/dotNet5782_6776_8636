@@ -199,6 +199,14 @@ namespace PL
                     Close();
                 }
             }
+            catch (NoIDException ex)
+            {
+                mb = MessageBox.Show($"{ex.Message} Retry?", "ERROR", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                if (mb == MessageBoxResult.Cancel) //if there was an error and the user clicked cancel, close the window
+                {
+                    Close();
+                }
+            }
 
             if (mb == MessageBoxResult.Cancel) //if there was an error and the user clicked cancel, close the window
             {
@@ -279,7 +287,7 @@ namespace PL
 
         private void DroneInformation_Click(object sender, RoutedEventArgs e)
         {
-            if (parcel.AssignedDrone.Id != 0)
+            if (parcel.Scheduled != null)
             {
                 if (parcel.AssignedDrone.Active)
                 {

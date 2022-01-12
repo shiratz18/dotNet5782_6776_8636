@@ -42,6 +42,9 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
+        <Button x:Name="btnRefresh" Click="btnRefresh_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF0498BE" Margin="468,10,270,119">
+            <materialDesign:PackIcon Kind="Refresh" Height="22" Width="30" HorizontalAlignment="Center"/>
+        </Button>
         <Button x:Name="btnClose" ToolTip="Sign out" Style="{StaticResource MaterialDesignFlatSecondaryButton}" FontSize="20" Grid.Row="0" BorderBrush="{x:Null}" Foreground="#FF0489BE" Margin="737,2,0,0" HorizontalAlignment="Left" Width="63" VerticalAlignment="Top" Height="40" FontWeight="Normal" Click="btnClose_Click" Background="White">
             <materialDesign:PackIcon Kind="SignOutVariant" Height="32" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Button>
