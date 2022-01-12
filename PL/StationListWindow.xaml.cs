@@ -51,6 +51,13 @@ namespace PL
         }
         #endregion
 
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        #endregion
+
         #region Refresh
         /// <summary>
         /// Refreshes the list to the updates list
@@ -91,7 +98,7 @@ namespace PL
         }
         #endregion
 
-        #region Edit drone
+        #region Edit station
         /// <summary>
         /// Opens a station windows to update the selected station
         /// </summary>

@@ -27,6 +27,9 @@ namespace PL
         private IBL myBL;
         private Station station;
 
+        #region Add
+
+        #region Constructor
         /// <summary>
         /// Constructor for add grid
         /// </summary>
@@ -39,26 +42,25 @@ namespace PL
             this.Title = "New station"; //change the title
 
         }
-       
+        #endregion
+
+        #region Close
         /// <summary>
-        /// Constructor for action grid
+        /// Closes this window
         /// </summary>
-        /// <param name="bl"></param>
-        /// <param name="d"></param>
-        public StationWindow(IBL bl, Station s)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            myBL = bl;
-
-            InitializeComponent();
-
-            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
-            this.Title = "Update station"; //change the title
-            station = s;
-            DataContext = station;
-            ChargingDronesListView.ItemsSource = station.ChargingDrones;
-            DataContext = station;
-            //display();
+            var mb = MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (mb == MessageBoxResult.Yes)
+            {
+                Close();
+            }
         }
+        #endregion
+
+        #region ID
         /// <summary>
         /// Text changed event for stationId textBox
         /// </summary>
@@ -69,98 +71,17 @@ namespace PL
             bool flag = int.TryParse(stationId.Text, out int num);
             if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
             {
-                stationId.BorderBrush = Brushes.Red;
                 RedMes1.Content = "Incorrect entry, please try again";
             }
             else
             {
-                stationId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
                 if (RedMes1 != null)
                     RedMes1.Content = "";
             }
-            setOkButton();
         }
+        #endregion
 
-        /// <summary>
-        /// Sets stationId text box to accept only numbers
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void numbersOnly(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
-        }
-
-        /// <summary>
-        /// Removes the current text from stationId text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void idTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idTbGotFocus;
-        }
-        
-        /// <summary>
-        /// Text changed event for stationName
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void stationName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            setOkButton();
-        }
-
-        /// <summary>
-        ///  Removes the current text from stationName text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void nameTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= nameTbGotFocus;
-        }
-        /// <summary>
-        /// Text changed event for ChargeSlotsi
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChargeSlots_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            setOkButton();
-        }
-
-        /// <summary>
-        /// Removes the current text from ChargeSlots text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChargeSlotsTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= ChargeSlotsTbGotFocus;
-        }
-
-        /// <summary>
-        /// Enables OK button only when all fields are filled
-        /// </summary>
-        private void setOkButton()
-        {
-            //enable OK button only if all fields were filled
-            if (btnOK != null)
-                btnOK.IsEnabled = (!String.IsNullOrEmpty(stationId.Text) && stationId.Text != "Enter ID here") &&
-                             (!String.IsNullOrEmpty(stationName.Text) && stationName.Text != "Enter name here") &&
-                            (!String.IsNullOrEmpty(ChargeSlots.Text) && ChargeSlots.Text != "Enter no. of chargers");
-
-
-        }
-
+        #region Ok button
         /// <summary>
         /// Adds station with user input
         /// </summary>
@@ -191,6 +112,8 @@ namespace PL
             try
             {
                 myBL.AddStation(station);
+                Close();
+                MessageBox.Show("Station successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (InvalidNumberException ex)
             {
@@ -225,26 +148,34 @@ namespace PL
             {
                 return;
             }
-
-
-            Close();
-            MessageBox.Show("Station successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        #endregion
 
+        #endregion
+
+        #region Update
+        #region Constructor
         /// <summary>
-        /// Closes this window
+        /// Constructor for action grid
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        /// <param name="bl"></param>
+        /// <param name="d"></param>
+        public StationWindow(IBL bl, Station s)
         {
-            var mb = MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (mb == MessageBoxResult.Yes)
-            {
-                Close();
-            }
-        }
+            myBL = bl;
 
+            InitializeComponent();
+
+            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
+            this.Title = "Update station"; //change the title
+            station = s;
+            DataContext = station;
+            ChargingDronesListView.ItemsSource = station.ChargingDrones;
+            DataContext = station;
+        }
+        #endregion
+
+        #region Close
         /// <summary>
         /// Close this window
         /// </summary>
@@ -254,29 +185,16 @@ namespace PL
         {
             Close();
         }
-     
-       
+        #endregion
 
-        private void chargeSlotsToPrint_TextChanged(object sender, TextChangedEventArgs e)
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowState = WindowState.Minimized;
         }
+        #endregion
 
-        private void nameToPrint_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-        
-        /// <summary>
-        /// Allows to drag the window (because there is no title to drag from)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-        
+        #region Update name
         /// <summary>
         /// Update the station name
         /// </summary>
@@ -301,7 +219,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-      
+        #endregion
+
+        #region Update charge slots
         /// <summary>
         /// Update the number of charge slots in a station
         /// </summary>
@@ -326,14 +246,29 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
 
+        #region Open drone
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
             ChargingDrone ld = b.CommandParameter as ChargingDrone;
 
             Drone d = myBL.GetDrone(ld.Id);
-            new DroneWindow(myBL, d).ShowDialog();
+            new DroneWindow(myBL, d).Show();
+        }
+        #endregion
+        #endregion
+
+        /// <summary>
+        /// Sets text box to accept only numbers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void numbersOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
         }
     }
 }

@@ -24,12 +24,14 @@ namespace PL
     {
         IBL myBL;
         Customer client;
+        ClientWindow clientWindow;
 
         #region Constructor
-        public ClientParcelWindow(IBL bl, Customer c)
+        public ClientParcelWindow(IBL bl, Customer c, ClientWindow w)
         {
             myBL = bl;
             client = c;
+            clientWindow = w;
             InitializeComponent();
 
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -107,6 +109,9 @@ namespace PL
                 };
 
                 myBL.AddParcel(p);
+                clientWindow.client = myBL.GetCustomer(client.Id);
+                clientWindow.lstParcelsFrom.ItemsSource = clientWindow.client.FromCustomer;
+                clientWindow.lstParcelsTo.ItemsSource = clientWindow.client.ToCustomer;
                 Close();
             }
             catch (InvalidNumberException ex)

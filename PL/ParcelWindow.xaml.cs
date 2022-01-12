@@ -26,8 +26,10 @@ namespace PL
     {
         private IBL myBL;
         private Parcel parcel;
-      
 
+        #region Add
+
+        #region Constructor
         /// <summary>
         /// Constructor for add grid
         /// </summary>
@@ -44,25 +46,23 @@ namespace PL
             parcelWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             parcelPriority.ItemsSource = Enum.GetValues(typeof(Priorities));
         }
+        #endregion
 
+        #region Close window
         /// <summary>
-        /// Constructor for action grid
+        /// Closes this window
         /// </summary>
-        /// <param name="bl"></param>
-        /// <param name="d"></param>
-        public ParcelWindow(IBL bl, Parcel p)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            myBL = bl;
-
-            InitializeComponent();
-
-            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
-            this.Title = "Update parcel"; //change the title
-            parcel = p;
-            DataContext = parcel;
-
+            var mb = MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (mb == MessageBoxResult.Yes)
+            {
+                Close();
+            }
         }
-
+        #endregion
 
         #region Sender ID
         /// <summary>
@@ -73,18 +73,26 @@ namespace PL
         private void parcelSenderId_TextChanged(object sender, TextChangedEventArgs e)
         {
             bool flag = int.TryParse(parcelSenderId.Text, out int num);
-            if (flag && num < 1000000000) //if the id the user entered is less than 4 digits the border is red
+            if (flag && num < 100000000) //if the id the user entered is less than 4 digits the border is red
             {
-                parcelSenderId.BorderBrush = Brushes.Red;
                 RedMes1.Content = "Incorrect entry, please try again";
             }
             else
             {
-                parcelSenderId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
                 if (RedMes1 != null)
                     RedMes1.Content = "";
             }
-            setOkButton();
+        }
+
+        /// <summary>
+        /// Sets text box to accept only numbers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void numbersOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
         }
         #endregion
 
@@ -97,31 +105,17 @@ namespace PL
         private void parcelTargetId_TextChanged(object sender, TextChangedEventArgs e)
         {
             bool flag = int.TryParse(parcelTargetId.Text, out int num);
-            if (flag && num < 1000000000) //if the id the user entered is less than 4 digits the border is red
+            if (flag && num < 100000000) //if the id the user entered is less than 4 digits the border is red
             {
-                parcelTargetId.BorderBrush = Brushes.Red;
                 RedMes2.Content = "Incorrect entry, please try again";
             }
             else
             {
-                parcelTargetId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
                 if (RedMes2 != null)
                     RedMes2.Content = "";
             }
-            setOkButton();
         }
         #endregion
-
-        /// <summary>
-        /// Sets parcelSenderId and parcelTargetId text box to accept only numbers
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void numbersOnly(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
-        }
 
         #region Weight
         /// <summary>
@@ -134,7 +128,6 @@ namespace PL
 
             if (parcelWeight.SelectedItem != null)
                 WeightLbl.Content = "";
-            setOkButton();
         }
         #endregion
 
@@ -148,24 +141,10 @@ namespace PL
         {
             if (parcelPriority.SelectedItem != null)
                 PriorityLbl.Content = "";
-            setOkButton();
         }
         #endregion
 
         #region OK button
-        /// <summary>
-        /// Enables OK button only when all fields are filled
-        /// </summary>
-        private void setOkButton()
-        {
-            //enable OK button only if all fields were filled
-            if (btnOK != null)
-                btnOK.IsEnabled = (!String.IsNullOrEmpty(parcelSenderId.Text) && parcelSenderId.Text != "Enter sender ID here") &&
-                    (!String.IsNullOrEmpty(parcelTargetId.Text) && parcelTargetId.Text != "Enter target ID here") &&
-                    (parcelWeight.SelectedItem != null) &&
-                    (parcelPriority.SelectedItem != null);
-        }
-
         /// <summary>
         /// Adds parcel with user input
         /// </summary>
@@ -177,11 +156,11 @@ namespace PL
             parcel = new Parcel();
             bool flag1 = int.TryParse(parcelSenderId.Text, out int id);
             parcel.Sender = new CustomerInParcel() { Id = id };
-            bool flag2 = int.TryParse(parcelTargetId.Text, out  id);
+            bool flag2 = int.TryParse(parcelTargetId.Text, out id);
             parcel.Target = new CustomerInParcel() { Id = id };
 
             parcel.Weight = (WeightCategories)parcelWeight.SelectedItem;
-            parcel.Priority= (Priorities)parcelPriority.SelectedItem;
+            parcel.Priority = (Priorities)parcelPriority.SelectedItem;
 
             MessageBoxResult mb = default;
             try
@@ -233,25 +212,34 @@ namespace PL
 
             Close();
             MessageBox.Show("parcel successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
-        
+
         }
         #endregion
 
-        #region Close window
-        /// <summary>
-        /// Closes this window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            var mb = MessageBox.Show("Are you sure you want to cancel?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (mb == MessageBoxResult.Yes)
-            {
-                Close();
-            }
-        }
+        #endregion
 
+        #region Update
+
+        #region Constructor
+        /// <summary>
+        /// Constructor for action grid
+        /// </summary>
+        /// <param name="bl"></param>
+        /// <param name="d"></param>
+        public ParcelWindow(IBL bl, Parcel p)
+        {
+            myBL = bl;
+
+            InitializeComponent();
+
+            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
+            this.Title = "Update parcel"; //change the title
+            parcel = p;
+            DataContext = parcel;
+        }
+        #endregion
+
+        #region Close
         /// <summary>
         /// Close this window
         /// </summary>
@@ -263,26 +251,49 @@ namespace PL
         }
         #endregion
 
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        #endregion
+
+        #region Open windows
         private void SenderInformation_Click(object sender, RoutedEventArgs e)
         {
             var customer = myBL.GetCustomer(parcel.Target.Id);
-            new CustomerWindow(myBL, customer).ShowDialog();
+            if (customer.Active)
+                new CustomerWindow(myBL, customer).Show();
+            else
+                MessageBox.Show("Customer no longer active.", "", MessageBoxButton.OK);
         }
 
         private void TargetInformation_Click(object sender, RoutedEventArgs e)
         {
             var customer = myBL.GetCustomer(parcel.Sender.Id);
-            new CustomerWindow(myBL, customer).ShowDialog();
+            if (customer.Active)
+                new CustomerWindow(myBL, customer).Show();
+            else
+                MessageBox.Show("Customer no longer active.", "", MessageBoxButton.OK);
         }
 
         private void DroneInformation_Click(object sender, RoutedEventArgs e)
         {
             if (parcel.AssignedDrone.Id != 0)
             {
-                var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
-                new DroneWindow(myBL, drone).ShowDialog();
+                if (parcel.AssignedDrone.Active)
+                {
+                    var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
+                    new DroneWindow(myBL, drone).Show();
+                }
+                else
+                    MessageBox.Show("Drone no longer active.", "", MessageBoxButton.OK);
             }
-
+            else
+                MessageBox.Show("Drone not yet assigned.", "", MessageBoxButton.OK);
         }
+        #endregion
+
+        #endregion
     }
 }

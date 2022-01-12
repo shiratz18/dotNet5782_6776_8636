@@ -11,7 +11,7 @@ namespace BL
     {
         int timer = 1000;
         int cycle = 1; //one sec in cycle
-        double speed = 0.5;
+        double speed = 0.5; //half a km per sec
 
         Drone drone;
 
@@ -39,10 +39,19 @@ namespace BL
                             {
                                 try
                                 {
-                                    myBL.ChargeDrone(drone.Id);
-                                    var tmp = myBL.GetDrone(drone.Id).CurrentLocation;
-                                    Thread.Sleep((int)(BL.getDistance(tmp, drone.CurrentLocation) / speed)); //update the drone only after the drone has reached the station
-                                    drone = myBL.GetDrone(drone.Id);
+                                    //get the station that is nearest to the drone, among the stations that have available charge slots
+                                    Station s = new Station();
+                                    s = (from st in myBL.getListOfAvailableChargeSlotsStations()
+                                         orderby getDistance(drone.CurrentLocation, st.Location)
+                                         select st).FirstOrDefault();
+
+                                    if (s != null) //if a station was found
+                                    {
+                                        Thread.Sleep((int)(BL.getDistance(s.Location, drone.CurrentLocation) / speed)); //update the drone only after the drone had enough time to reach the station
+                                        myBL.ChargeDrone(drone.Id); //update the drone to charge
+                                        drone = myBL.GetDrone(drone.Id);
+                                        updateDelegate();
+                                    }
                                 }
                                 //in both cases, the drone will wait for the next cycle and try again to see if there is 
                                 //an available station for him to reach
@@ -78,30 +87,20 @@ namespace BL
 
                             if (!drone.InShipping.IsPickedUp)
                             {
-                                if (drone.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
+                                if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.Scheduled)).Seconds)
                                 {
                                     myBL.DronePickUp(drone.Id);
                                     drone = myBL.GetDrone(drone.Id);
                                 }
-
                                 else
                                 {
-                                    drone.Battery -= 0.5 * myBL.AvailableConsumption;
-
-                                    ////find the distance of the drone according to the timespan that has passed
-                                    //double lat = (drone.InShipping.DeliveryLocation.Latitude - drone.CurrentLocation.Latitude)
-                                    //    * (0.5 / BL.getDistance(drone.CurrentLocation, drone.InShipping.DeliveryLocation));
-                                    //double lng = (drone.InShipping.DeliveryLocation.Longitude - drone.CurrentLocation.Longitude)
-                                    //    * (0.5 / BL.getDistance(drone.CurrentLocation, drone.InShipping.DeliveryLocation));
-
-                                    //drone.CurrentLocation.Latitude = lat;
-                                    //drone.CurrentLocation.Longitude = lng;
+                                    drone.Battery -= (speed * cycle) * myBL.AvailableConsumption;
                                     myBL.UpdateDrone(drone);
                                 }
                             }
                             else
                             {
-                                if (drone.InShipping.DeliveryDistance / speed <= ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
+                                if (drone.InShipping.DeliveryDistance / speed < ((TimeSpan)(DateTime.Now - p.PickedUp)).Seconds)
                                 {
                                     myBL.DroneDeliver(drone.Id);
                                     drone = myBL.GetDrone(drone.Id);
@@ -109,17 +108,7 @@ namespace BL
 
                                 else
                                 {
-                                    drone.Battery -= 0.5 * myBL.ShippingConsumption[(int)drone.InShipping.Weight];
-
-                                    ////find the distance of the drone according to the timespan that has passed
-                                    //double lat = (drone.InShipping.DeliveryLocation.Latitude - drone.CurrentLocation.Latitude)
-                                    //    * (0.5 / BL.getDistance(drone.CurrentLocation, drone.InShipping.DeliveryLocation));
-                                    //double lng = (drone.InShipping.DeliveryLocation.Longitude - drone.CurrentLocation.Longitude)
-                                    //    * (0.5 / BL.getDistance(drone.CurrentLocation, drone.InShipping.DeliveryLocation));
-
-                                    //drone.CurrentLocation.Latitude = lat;
-                                    //drone.CurrentLocation.Longitude = lng;
-
+                                    drone.Battery -= (speed * cycle) * myBL.ShippingConsumption[(int)drone.InShipping.Weight];
                                     myBL.UpdateDrone(drone);
                                 }
                             }

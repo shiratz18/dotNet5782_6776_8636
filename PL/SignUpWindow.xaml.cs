@@ -57,7 +57,15 @@ namespace PL
 
             //if both passwords have been entered and they are the same, change icon to be green to indicate that the password was confirmed
             if (!String.IsNullOrEmpty(p1) && !string.IsNullOrEmpty(p2) && p1 == p2)
+            {
                 confirmed.Foreground = Brushes.LightGreen;
+                answer.IsEnabled = true;
+            }
+        }
+
+        private void answer_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            chkBoxAgree.IsEnabled = true;
         }
         #endregion
 
@@ -121,6 +129,6 @@ namespace PL
         {
             Close();
         }
-        #endregion
+        #endregion       
     }
 }

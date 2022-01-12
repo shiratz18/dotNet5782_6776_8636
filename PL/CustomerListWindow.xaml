@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Title="Customers" Height="450" Width="800">
     <Grid>
@@ -20,7 +19,7 @@
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
                         <GridViewColumn Header="NAME" DisplayMemberBinding="{Binding Name}" Width="110"/>
                         <GridViewColumn Header="PHONE" DisplayMemberBinding="{Binding Phone}" Width="107"/>
-                        <GridViewColumn Header="SENT" DisplayMemberBinding="{Binding NotDeliveredFromCustomer}" Width="100"/>
+                        <GridViewColumn Header="SENT" DisplayMemberBinding="{Binding NotDeliveredFromCustomer}" Width="97"/>
                         <GridViewColumn Header="DELIVERED" DisplayMemberBinding="{Binding DeliveredFromCustomer}" Width="130"/>
                         <GridViewColumn Header="ON THE WAY" DisplayMemberBinding="{Binding NotDeliveredToCustomer}" Width="142"/>
                         <GridViewColumn Header="ARRIVED" DisplayMemberBinding="{Binding DeliveredToCustomer}" Width="119"/>
@@ -44,6 +43,12 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
         <Grid Grid.Row="0">
@@ -62,6 +67,9 @@
             </Button>
             <Button x:Name="btnClose"  ToolTip="Back" Click="btnClose_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="53" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" Background="Transparent" BorderBrush="White"  />
+            </Button>
+            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="144,0,144,39" Grid.ColumnSpan="2" Grid.Column="1">
+                <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>
         </Grid>
     </Grid>

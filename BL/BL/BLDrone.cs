@@ -266,15 +266,9 @@ namespace BL
                 //get the station that is nearest to the drone, among the stations that have available charge slots
                 double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
                 Station s = new Station();
-                foreach (Station tmp in stations)
-                {
-                    //if the distance between the location and the nearest station is smaller than the current minimum, so this is the minimum
-                    if (getDistance(d.CurrentLocation, tmp.Location) < min)
-                    {
-                        min = getDistance(d.CurrentLocation, tmp.Location);
-                        s = tmp; //the nearest station will be saved here
-                    }
-                }
+                s = (from st in stations
+                     orderby getDistance(d.CurrentLocation, st.Location)
+                     select st).First();
 
                 //throw an exception if there is not enough battery to get to the station
                 if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
@@ -548,18 +542,23 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(int id)
         {
+            ListDrone d = Drones.Find(x => x.Id == id);
+            if (d.Status == DroneStatuses.Shipping)
+                throw new DroneStateException($"Cannot deactivate drone {id} since it is currently in shipping. Try again later.");
+
             lock (Data)
             {
                 try
                 {
                     DO.Drone drone = new DO.Drone()
                     {
-                        Id = id
+                        Id = id,
+                        Model = d.Model,
+                        MaxWeight = (DO.WeightCategories)d.MaxWeight
                     };
-                    Data.RemoveDrone(drone); //removing from the list in data
+                    Data.RemoveDrone(drone); //removing in data
 
                     //deactivating the drone
-                    ListDrone d = Drones.Find(x => x.Id == id);
                     d.Active = false;
                 }
                 catch (DO.NoIDException ex)

@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:PL"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="MainWindow.xaml">
-
     <Application.Resources>
         <ResourceDictionary >
             <ResourceDictionary.MergedDictionaries>
@@ -14,70 +13,5 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        <!--<ControlTemplate x:Key="btnTemplate" TargetType="Button">
-
-        </ControlTemplate>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="Black"></Setter>
-            <Setter Property="FontFamily" Value="Century Gothic"></Setter>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#FF0489BE"/>
-            <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="FontFamily" Value="Century Gothic"></Setter>
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightGray" TargetName="Border" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="ListView" >
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
-        <Style TargetType="GridViewColumnHeader" >
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontFamily" Value="Century Gothic"/>
-            <Setter Property="Foreground" Value="#FF120374"/>
-            <Setter Property="BorderBrush" Value="LightGray"/>
-        </Style>
-        <Style TargetType="ListViewItem" >
-            <Setter Property="Margin" Value="0,15,0,15"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="Century Gothic"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="TextBox" >
-            <Setter Property="FontFamily" Value="Century Gothic"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="MouseDown">
-
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>-->
-
-        
-
-        
     </Application.Resources>
 </Application>

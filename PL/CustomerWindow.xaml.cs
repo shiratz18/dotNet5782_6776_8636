@@ -27,6 +27,13 @@ namespace PL
         private IBL myBL;
         private Customer customer;
 
+        #region Add
+
+        #region Constructor
+        /// <summary>
+        /// Constructor for add grid
+        /// </summary>
+        /// <param name="bl"></param>
         public CustomerWindow(IBL bl)
         {
             myBL = bl;
@@ -36,165 +43,9 @@ namespace PL
             this.Title = "New customer"; //change the title
 
         }
-        /// <summary>
-        /// Constructor for action grid
-        /// </summary>
-        /// <param name="bl"></param>
-        /// <param name="d"></param>
-        public CustomerWindow(IBL bl, Customer c)
-        {
-            myBL = bl;
+        #endregion
 
-            InitializeComponent();
-
-            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
-            this.Title = "Update customer"; //change the title
-            customer = c;
-            DataContext = customer;
-
-           // display();
-        }
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            Button b = sender as Button;
-            ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
-
-            Parcel parcel = myBL.GetParcel(p.Id);
-            bool isSender = false;
-            if (parcel.Sender.Id == customer.Id)
-                isSender = true;
-            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
-            lstParcelsFrom.ItemsSource = customer.FromCustomer;
-            lstParcelsTo.ItemsSource = customer.ToCustomer;
-        }
-
-        /// <summary>
-        /// Text changed event for customerId textBox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void customerId_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            bool flag = int.TryParse(customerId.Text, out int num);
-            if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
-            {
-                customerId.BorderBrush = Brushes.Red;
-                RedMes1.Content = "Incorrect entry, please try again";
-            }
-            else
-            {
-                customerId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes1 != null)
-                    RedMes1.Content = "";
-            }
-            setOkButton();
-        }
-
-        /// <summary>
-        /// Sets customerId text box to accept only numbers
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void numbersOnly(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
-        }
-
-        /// <summary>
-        /// Removes the current text from customerId text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void idTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idTbGotFocus;
-        }
-
-        /// <summary>
-        /// Enables OK button only when all fields are filled
-        /// </summary>
-        private void setOkButton()
-        {
-            //enable OK button only if all fields were filled
-            if (btnOK != null)
-                btnOK.IsEnabled = (!String.IsNullOrEmpty(customerId.Text) && customerId.Text != "Enter ID here") &&
-                    (!String.IsNullOrEmpty(customerName.Text) && customerName.Text != "Enter model here") &&
-                    (!String.IsNullOrEmpty(customerPhone.Text) && customerPhone.Text != "Enter ID here") ;
-        }
-
-        /// <summary>
-        /// Text changed event for customerName
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void customerName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string m = customerName.Text;
-            if (!String.IsNullOrEmpty(m) && m.Length < 10)//if the model the user entered is less than 5 characters the border is red
-            {
-                customerName.BorderBrush = Brushes.Red;
-                RedMes2.Content = "Incorrect entry, please try again";
-            }
-            else
-            {
-                customerName.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes2 != null)
-                    RedMes2.Content = "";
-            }
-            setOkButton();
-        }
-
-        /// <summary>
-        ///  Removes the current text from customerName text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void nameTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= nameTbGotFocus;
-        }
-        
-        /// <summary>
-        /// Text changed event for customerPhone
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void customerPhone_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string m = customerPhone.Text;
-            if (!String.IsNullOrEmpty(m) && m.Length < 10)//if the phone the user entered is less than 10 characters the border is red
-            {
-                customerPhone.BorderBrush = Brushes.Red;
-                RedMes3.Content = "Incorrect entry, please try again";
-            }
-            else
-            {
-                customerPhone.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
-                if (RedMes3 != null)
-                    RedMes3.Content = "";
-            }
-            setOkButton();
-        }
-
-        /// <summary>
-        ///  Removes the current text from customerPhone text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void phoneTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= phoneTbGotFocus;
-        }
-
-
-
+        #region Add button
         /// <summary>
         /// Adds customer with user input
         /// </summary>
@@ -210,13 +61,6 @@ namespace PL
             customer.Name = name;
             string phone = customerPhone.Text;
             customer.Phone = name;
-
-          // double flag2 = double.Parse(customerLongitude.Text,out double longitude);
-          //customer.Location.Longitude = longitude;
-          //  bool flag3 = double.Parse(customerLatitude.Text, out double latitude);
-          //  customer.Location.Latitude = latitude;
-
-
 
             MessageBoxResult mb = default;
             try
@@ -269,6 +113,53 @@ namespace PL
             Close();
             MessageBox.Show("Customer successfully added", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        #endregion
+
+        #region ID
+        /// <summary>
+        /// Text changed event for customerId textBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void customerId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool flag = int.TryParse(customerId.Text, out int num);
+            if (flag && num < 100000000) //if the id the user entered is less than 4 digits the border is red
+            {
+                RedMes1.Content = "Incorrect entry, please try again";
+            }
+            else
+            {
+                if (RedMes1 != null)
+                    RedMes1.Content = "";
+            }
+        }
+        #endregion
+
+        #region Phone
+        /// <summary>
+        /// Text changed event for customerPhone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void customerPhone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string m = customerPhone.Text;
+            if (!String.IsNullOrEmpty(m) && m.Length < 10)//if the phone the user entered is less than 10 characters the border is red
+            {
+                customerPhone.BorderBrush = Brushes.Red;
+                RedMes3.Content = "Incorrect entry, please try again";
+            }
+            else
+            {
+                customerPhone.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
+                if (RedMes3 != null)
+                    RedMes3.Content = "";
+            }
+        }
+        #endregion
+
+        #region Cancel
         /// <summary>
         /// Closes this window
         /// </summary>
@@ -282,64 +173,34 @@ namespace PL
                 Close();
             }
         }
+        #endregion
 
+        #endregion
+
+        #region Update
+
+        #region Constructor
         /// <summary>
-        /// Display the chosen customer and update button options according to drone status
+        /// Constructor for action grid
         /// </summary>
-        //private void display()
-        //{
-        //    RedMes6.Content = " ";
-        //    //idToPrint.Content = drone.Id;
-        //    //modelToPrint.Text = drone.Model;
-        //    //maxWeightToPrint.Content = drone.MaxWeight;
-        //    //batteryToPrint.Content = String.Format("{0:0.0}", drone.Battery);
-        //    //statusToPrint.Content = drone.Status;
-        //    //locationToPrint.Content = drone.CurrentLocation;
-        //    if (drone.Status == DroneStatuses.Shipping)
-        //    {
-        //        parcelExpander.IsExpanded = true;
-        //        parcelExpander.IsEnabled = true;
-        //        parcelId.Content = drone.InShipping.Id;
-        //        isPickedUp.Content = drone.InShipping.IsPickedUp;
-        //        priority.Content = drone.InShipping.Priority;
-        //        weight.Content = drone.InShipping.Weight;
-        //        senderName.Content = drone.InShipping.Sender.Name;
-        //        targetName.Content = drone.InShipping.Target.Name;
-        //        pickUpLocation.Content = drone.InShipping.PickUpLocation;
-        //        deliveryLocation.Content = drone.InShipping.DeliveryLocation;
-        //        deliveryDistance.Content = drone.InShipping.DeliveryDistance;
-        //    }
-        //    else
-        //    {
-        //        parcelExpander.IsEnabled = false;
-        //        parcelExpander.IsExpanded = false;
-        //    }
+        /// <param name="bl"></param>
+        /// <param name="d"></param>
+        public CustomerWindow(IBL bl, Customer c)
+        {
+            myBL = bl;
 
-        //    if (drone.Status != DroneStatuses.Available) //if the drone is not available do not shoe charge button
-        //    {
-        //        btnCharge.Visibility = Visibility.Hidden;
-        //        btnDroneToDelivery.Visibility = Visibility.Hidden;
-        //    }
+            InitializeComponent();
 
-        //    if (drone.Status != DroneStatuses.Maintenance)
-        //    {
-        //        btnReleaseCharge.Visibility = Visibility.Hidden; //if the drone is not in maintenace do not show release charge button
-        //    }
+            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
+            this.Title = "Update customer"; //change the title
+            customer = c;
+            DataContext = customer;
+            lstParcelsFrom.ItemsSource = customer.FromCustomer;
+            lstParcelsTo.ItemsSource = customer.ToCustomer;
+        }
+        #endregion
 
-        //    if (drone.Status != DroneStatuses.Shipping)
-        //    {
-        //        btnDronePickUp.Visibility = Visibility.Hidden;
-        //        btnDroneDeliver.Visibility = Visibility.Hidden;
-        //    }
-
-        //    if (drone.InShipping.IsPickedUp)
-        //        btnDronePickUp.Visibility = Visibility.Hidden;
-
-        //    if (!drone.InShipping.IsPickedUp)
-        //        btnDroneDeliver.Visibility = Visibility.Hidden;
-
-        //}
-
+        #region Close
         /// <summary>
         /// Close this window
         /// </summary>
@@ -349,22 +210,27 @@ namespace PL
         {
             Close();
         }
+        #endregion
 
-
-
-       
-       
-        /// <summary>
-        /// Allows to drag the window (because there is no title to drag from)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
-            this.DragMove();
+            WindowState = WindowState.Minimized;
         }
+        #endregion
 
-        
+        #region Open parcel in customer
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
+
+            Parcel parcel = myBL.GetParcel(p.Id);
+            new ParcelWindow(myBL, parcel).Show();
+        }
+        #endregion
+
+        #region Edit name
         /// <summary>
         /// Update the customer name
         /// </summary>
@@ -392,7 +258,9 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+        #endregion
+
+        #region Edit phone
         /// <summary>
         /// Update the customer phone
         /// </summary>
@@ -418,7 +286,20 @@ namespace PL
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    }
-    
+        #endregion
 
+        #endregion
+
+        /// <summary>
+        /// Sets text box to accept only numbers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void numbersOnly(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
+        }
+
+    }
 }

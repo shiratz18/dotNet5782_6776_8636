@@ -61,16 +61,13 @@ namespace PL
             bool flag = int.TryParse(droneId.Text, out int num);
             if (flag && num < 1000) //if the id the user entered is less than 4 digits the border is red
             {
-                droneId.BorderBrush = Brushes.Red;
                 RedMes1.Content = "Incorrect entry, please try again";
             }
             else
             {
-                droneId.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
                 if (RedMes1 != null)
                     RedMes1.Content = "";
             }
-            setOkButton();
         }
 
         /// <summary>
@@ -82,18 +79,6 @@ namespace PL
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text); //allow only numbers in the text box
-        }
-
-        /// <summary>
-        /// Removes the current text from droneId text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void idTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= idTbGotFocus;
         }
         #endregion
 
@@ -108,28 +93,13 @@ namespace PL
             string m = droneModel.Text;
             if (!String.IsNullOrEmpty(m) && m.Length < 5)//if the model the user entered is less than 5 characters the border is red
             {
-                droneModel.BorderBrush = Brushes.Red;
                 RedMes2.Content = "Incorrect entry, please try again";
             }
             else
             {
-                droneModel.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179)); //otherwise the border is gray (original)
                 if (RedMes2 != null)
                     RedMes2.Content = "";
             }
-            setOkButton();
-        }
-
-        /// <summary>
-        ///  Removes the current text from droneModel text box, occurs only once and then removed drom events
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void modelTbGotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            tb.Text = ""; //changing the text to be empty
-            tb.GotFocus -= modelTbGotFocus;
         }
         #endregion
 
@@ -143,7 +113,6 @@ namespace PL
         {
             if (droneMaxWeight.SelectedItem != null)
                 maxWeightLbl.Content = "";
-            setOkButton();
         }
         #endregion
 
@@ -157,24 +126,10 @@ namespace PL
         {
             if (droneStation.SelectedItem != null)
                 stationLbl.Content = "";
-            setOkButton();
         }
         #endregion
 
         #region OK button
-        /// <summary>
-        /// Enables OK button only when all fields are filled
-        /// </summary>
-        private void setOkButton()
-        {
-            //enable OK button only if all fields were filled
-            if (btnOK != null)
-                btnOK.IsEnabled = (!String.IsNullOrEmpty(droneId.Text) && droneId.Text != "Enter ID here") &&
-                    (!String.IsNullOrEmpty(droneModel.Text) && droneModel.Text != "Enter model here") &&
-                    (droneMaxWeight.SelectedItem != null) &&
-                    (droneStation.SelectedItem != null);
-        }
-
         /// <summary>
         /// Adds drone with user input
         /// </summary>
@@ -364,6 +319,13 @@ namespace PL
                 worker.CancelAsync();
 
             Close();
+        }
+        #endregion
+
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
         #endregion
 
@@ -582,10 +544,10 @@ namespace PL
         private void parcelExpander_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
-            new ParcelWindow(myBL, p).ShowDialog();
+            new ParcelWindow(myBL, p).Show();
         }
-
         #endregion
+
 
         internal BackgroundWorker worker;
 
@@ -607,19 +569,12 @@ namespace PL
             btnDronePickUp.Visibility = Visibility.Hidden;
             btnDroneDeliver.Visibility = Visibility.Hidden;
             modelToPrint.IsEnabled = false;
+
             worker.RunWorkerAsync();
         }
         #endregion
 
-        //private void autoMode_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    BackgroundWorker worker = new BackgroundWorker();
-        //    worker.WorkerReportsProgress = true;
-        //    worker.DoWork += autoMode_DoWork;
-        //    worker.ProgressChanged += autoMode_ProgressChanged;
-
-        //    worker.RunWorkerAsync();
-        //}
+        #region Simulator
 
         private void autoMode_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -670,6 +625,8 @@ namespace PL
         {
             return worker.CancellationPending;
         }
+
+        #endregion
     }
 }
 

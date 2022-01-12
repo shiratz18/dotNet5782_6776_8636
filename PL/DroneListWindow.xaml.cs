@@ -58,6 +58,13 @@ namespace PL
         }
         #endregion
 
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        #endregion
+
         #region Refresh
         /// <summary>
         /// Refreshes the list of drones
@@ -115,9 +122,15 @@ namespace PL
             {
                 Button b = sender as Button;
                 ListDrone ld = b.CommandParameter as ListDrone;
-                myBL.RemoveDrone(ld.Id);
 
-                //       DronesListView.ItemsSource = myBL.GetDroneList();
+                try
+                {
+                    myBL.RemoveDrone(ld.Id);
+                }
+                catch(DroneStateException ex)
+                {
+                    MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
                 checkFilters();
             }
