@@ -11,15 +11,19 @@ namespace Dal
     partial class DalXml : IDal
     {
         #region Singleton and lazy
+        // =null that if we dont need to create a "new bl" it will not create it
         private static DalXml instance = null;
+        // for safty. So that if requests come from two places at the same time, it will not create it twice 
         private static readonly object padlock = new object();
 
         public static DalXml Instance
         {
             get
             {
+                //if "instance" hasn`t yet been created, a new one will be created 
                 if (instance == null)
                 {
+                    //stops a request from two places at the same time
                     lock (padlock)
                     {
                         if (instance == null)

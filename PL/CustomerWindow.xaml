@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"  WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Title="CustomerWindow"  Height="503" Width="778">
+        Title="CustomerWindow"  Height="450" Width="800">
     <Window.Resources>
         <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
             <Setter Property="Foreground" Value="Black"/>
@@ -20,48 +20,48 @@
     </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid x:Name="AddGrid" Grid.Row="0" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,202" Panel.ZIndex="1"/>
+            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,159" Panel.ZIndex="1"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="20,296,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
-            <Image Grid.Row="0" Margin="79,15,108,52" Source="/Screenshot (130).png" Opacity="0.3"/>
-            <Label Content="ENTER CUSTOMER INFORMATION" FontSize="25" HorizontalAlignment="Left" Margin="374,24,0,0" VerticalAlignment="Top" Height="40" Width="401"/>
-            <TextBox x:Name="customerId" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" materialDesign:HintAssist.Hint="Enter ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" FontSize="30" PreviewTextInput="numbersOnly" MaxLength="9" HorizontalAlignment="Left" Margin="396,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" Foreground="#FFABADB3" Height="70" TextChanged="customerId_TextChanged" BorderBrush="#FFABADB3"/>
+            <Image Grid.Row="0" Margin="79,15,108,57" Source="/Screenshot (130).png" Opacity="0.3"/>
+            <Label Content="ENTER CUSTOMER INFORMATION" FontSize="25" HorizontalAlignment="Left" Margin="396,15,0,0" VerticalAlignment="Top" Height="40"/>
+            <TextBox x:Name="customerId" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" materialDesign:HintAssist.Hint="Enter ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" FontSize="30" PreviewTextInput="numbersOnly" MaxLength="9" HorizontalAlignment="Left" Margin="398,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" Foreground="#FFABADB3" Height="61" TextChanged="customerId_TextChanged" BorderBrush="#FFABADB3"/>
             <Label x:Name="RedMes1" Content="" FontSize="12" HorizontalAlignment="Left" Margin="396,126,0,0" VerticalAlignment="Top" Foreground="#FFF30101" Width="285"/>
             <materialDesign:PackIcon Kind="User"  Width="30" Height="30" Margin="724,95,0,0" Foreground="#FF0489BE" />
-            <TextBox x:Name="customerName" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" materialDesign:HintAssist.Hint="Enter name here" IsEnabled="{Binding ElementName=customerId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" FontSize="30" HorizontalAlignment="Left" Margin="396,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" Foreground="#FFABADB3" Height="65"/>
+            <TextBox x:Name="customerName" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" materialDesign:HintAssist.Hint="Enter name here" IsEnabled="{Binding ElementName=customerId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" FontSize="30" HorizontalAlignment="Left" Margin="398,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" Foreground="#FFABADB3" Height="65"/>
             <materialDesign:PackIcon Kind="RenameBox" Width="30" Height="30" Margin="724,160,0,0" RenderTransformOrigin="0.593,-0.503" Foreground="#FF0489BE" />
-            <TextBox x:Name="customerPhone" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" IsEnabled="{Binding ElementName=customerName, Path=Text, Converter={StaticResource NameToBoolean}}" FontSize="30" materialDesign:HintAssist.Hint="Enter phone here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" PreviewTextInput="numbersOnly" MaxLength="10" Margin="396,195,65,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFABADB3" Height="67" TextChanged="customerPhone_TextChanged" BorderBrush="#FFABADB3"/>
-            <Label x:Name="RedMes3" Content="" FontSize="12" HorizontalAlignment="Left" Margin="396,262,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478" Width="303"/>
+            <TextBox x:Name="customerPhone" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" IsEnabled="{Binding ElementName=customerName, Path=Text, Converter={StaticResource NameToBoolean}}" FontSize="30" materialDesign:HintAssist.Hint="Enter phone here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" PreviewTextInput="numbersOnly" MaxLength="10" Margin="398,181,63,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFABADB3" Height="67" TextChanged="customerPhone_TextChanged" BorderBrush="#FFABADB3"/>
+            <Label x:Name="RedMes3" Content="" FontSize="12" HorizontalAlignment="Left" Margin="396,248,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478" Width="303"/>
             <materialDesign:PackIcon Kind="Phone" Width="30" Height="30" Margin="724,0,0,0" Foreground="#FF0489BE" RenderTransformOrigin="0.527,0.24" VerticalAlignment="Center"/>
-            <Label x:Name="stationLongitude" Content="Longitude " FontSize="30"    HorizontalAlignment="Left" Margin="396,283,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
-            <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,303,0,0" Foreground="#FF0489BE" RenderTransformOrigin="1.213,0.433"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="599,308,99,151"/>
-            <Slider x:Name="SliderLongitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="403,328,186,142" Foreground="#FF076E97" />
-            <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,361,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
-            <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="729,378,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="598,378,100,81"/>
-            <Slider x:Name="SliderLatitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.005" IsSnapToTickEnabled="True"  Width="175" Height="31" RenderTransformOrigin="1.585,2.426"  Margin="403,406,186,56" Foreground="#FF076E97"/>
-            <Button x:Name="btnOK" Content="OK"  Click="btnOK_Click" IsEnabled="{Binding ElementName=customerPhone, Path=Text, Converter={StaticResource PhoneToBoolean}}" HorizontalAlignment="Left" Margin="421,433,0,0" VerticalAlignment="Top" Width="139" BorderBrush="White" Background="#FF0489BE"/>
-            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,433,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" BorderBrush="White"/>
+            <Label x:Name="stationLongitude" Content="Longitude " FontSize="30"    HorizontalAlignment="Left" Margin="398,272,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
+            <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,292,0,0" Foreground="#FF0489BE" RenderTransformOrigin="1.213,0.433"/>
+            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="587,308,99,107"/>
+            <Slider x:Name="SliderLongitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,317,225,105" Foreground="#FF076E97" />
+            <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,345,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
+            <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="724,378,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
+            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="587,378,100,37"/>
+            <Slider x:Name="SliderLatitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,393,225,13" Foreground="#FF076E97"/>
+            <Button x:Name="btnOK" Content="OK"  Click="btnOK_Click" IsEnabled="{Binding ElementName=customerPhone, Path=Text, Converter={StaticResource PhoneToBoolean}}" HorizontalAlignment="Left" Margin="55,371,0,0" VerticalAlignment="Top" Width="139" BorderBrush="White" Background="#FF0489BE"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="226,371,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" BorderBrush="White"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="40" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,14,667,435"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="141" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="2,58,0,0" RenderTransformOrigin="0.28,0.368"/>
-            <Image Grid.Row="0" Margin="76,0,620,462" Source="/Screenshot (130).png"/>
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-118,640,118,-640" Background="White">
+            <Label Content="JPS" FontSize="40" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,10,667,381"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="141" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="2,58,0,0" RenderTransformOrigin="0.28,0.368"/>
+            <Image Grid.Row="0" Margin="76,0,620,397" Source="/Screenshot (130).png"/>
             <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="333,0,333,471">
                 <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>
             <Label Content="UPDATE CUSTOMER" FontSize="25" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-            <Label x:Name="id" Content="ID:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="48,123,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
-            <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15"  HorizontalAlignment="Left" Margin="105,122,0,0" VerticalAlignment="Top" Width="225"  Background="{x:Null}" Height="43"/>
-            <Label x:Name="name" Content="Name:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="48,179,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
-            <TextBox x:Name="nameToPrint" Text="{Binding Name}" FontSize="15" MaxLength="5" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="112,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}"/>
+            <Label x:Name="id" Content="ID:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="48,118,0,0" VerticalAlignment="Top" Height="43" Width="74"/>
+            <Label x:Name="idToPrint" Content="{Binding Id}" FontSize="15"  HorizontalAlignment="Left" Margin="105,122,0,0" VerticalAlignment="Top" Width="225"  Background="{x:Null}" Height="39"/>
+            <Label x:Name="name" Content="Name:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="44,176,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.519,0.401"/>
+            <TextBox x:Name="nameToPrint" Text="{Binding Name}" FontSize="15" MaxLength="5" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="112,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"  Background="{x:Null}" Height="28"/>
             <Label x:Name="RedMes7" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="105,209,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="23" Foreground="#FFFA0606" Width="224"/>
-            <Label x:Name="phone" Content="Phone:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="48,0,0,0" VerticalAlignment="Center" Background="{x:Null}"/>
-            <TextBox x:Name="phoneToPrint" PreviewTextInput="numbersOnly" Text="{Binding Phone}" FontSize="15" MaxLength="10" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="112,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="126"  Background="{x:Null}"/>
-            <Label x:Name="RedMes8" Content="" FontSize="12" HorizontalAlignment="Left" Margin="105,261,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="27" Foreground="#FFFA0606" Width="224"/>
-            <Label x:Name="location" Content="Location:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="48,310,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="locationToPrint" Content="{Binding Location}" FontSize="15" HorizontalAlignment="Left" Margin="134,293,0,0" VerticalAlignment="Top" Width="234" Height="62"/>
-            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="168,408,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE" BorderBrush="White"/>
+            <Label x:Name="phone" Content="Phone:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="43,239,0,0" VerticalAlignment="Top" Background="{x:Null}"/>
+            <TextBox x:Name="phoneToPrint" PreviewTextInput="numbersOnly" Text="{Binding Phone}" FontSize="15" MaxLength="10" materialDesign:TextFieldAssist.UnderlineBrush="Black" HorizontalAlignment="Left" Margin="113,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"  Background="{x:Null}"/>
+            <Label x:Name="RedMes8" Content="" FontSize="12" HorizontalAlignment="Left" Margin="105,261,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.332,0.331" Height="25" Foreground="#FFFA0606" Width="224"/>
+            <Label x:Name="location" Content="Location:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="43,304,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="locationToPrint" Content="{Binding Location}" FontSize="15" HorizontalAlignment="Left" Margin="134,304,0,0" VerticalAlignment="Top" Width="234" Height="51"/>
+            <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="128,360,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE" BorderBrush="White"/>
             <Button x:Name="btnUpdateNAME" FontSize="12" HorizontalAlignment="Left" Margin="309,170,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.51,1.388" Height="39" Click="btnUpdateNAME_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="CheckBold"  Width="65" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center" VerticalAlignment="Center"  />
             </Button>
@@ -71,7 +71,7 @@
             <ScrollViewer Margin="373,68,0,0">
                 <StackPanel>
                     <Label Content="PARCELS SENT BY" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Foreground="#FF0489BE"/>
-                    <ListView x:Name="lstParcelsFrom" Height="281">
+                    <ListView x:Name="lstParcelsFrom" Height="281" Width="397">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>
@@ -97,7 +97,7 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
                     <Label HorizontalAlignment="Right" Content="PARCELS SENT TO" FontSize="20" FontWeight="Bold" Foreground="#FF0489BE"/>
-                    <ListView x:Name="lstParcelsTo" Height="315">
+                    <ListView x:Name="lstParcelsTo" Height="315" Width="394">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ORDER NO." DisplayMemberBinding="{Binding Id}" Width="140"/>

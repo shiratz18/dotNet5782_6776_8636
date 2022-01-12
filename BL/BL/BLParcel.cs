@@ -113,7 +113,7 @@ namespace BL
                     if (p.Scheduled != null)
                         p.AssignedDrone = getDroneOfParcel(temp.DroneId);
 
-                    return p;
+                                        return p;
                 }
                 catch (DO.NoIDException ex)
                 {
@@ -466,6 +466,6 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
-        #endregion
+        #endregion\ל]םטעלחמ+7ןןתל++וט+אאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאבבבבבבבבבבבבבבבבבבבוהיאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאביה
     }
 }

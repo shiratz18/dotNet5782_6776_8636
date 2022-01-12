@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
-        Title="ParcelWindow" Height="503" Width="778">
+        Title="ParcelWindow" Height="450" Width="800">
 
     <Window.Resources>
         <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
@@ -20,25 +20,25 @@
     </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid x:Name="AddGrid" Grid.Row="0" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,202" Panel.ZIndex="1"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="20,296,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
+            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="74,143,414,193" Panel.ZIndex="1"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="22,268,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
             <Image Grid.Row="0" Margin="79,15,108,52" Source="/Screenshot (130).png" Opacity="0.3"/>
-            <Label Content="ENTER PARCEL INFORMATION" FontSize="28" HorizontalAlignment="Left" Margin="386,36,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="parcelSenderId" FontSize="30" materialDesign:HintAssist.Hint="Enter sender ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" materialDesign:HintAssist.Foreground="#FF0498BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" PreviewTextInput="numbersOnly" MaxLength="9" HorizontalAlignment="Left" Margin="396,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="68" TextChanged="parcelSenderId_TextChanged" BorderBrush="#FFABADB3"/>
+            <Label Content="ENTER PARCEL INFORMATION" FontSize="28" HorizontalAlignment="Left" Margin="386,35,0,0" VerticalAlignment="Top" Height="42" Width="388"/>
+            <TextBox x:Name="parcelSenderId" FontSize="30" materialDesign:HintAssist.Hint="Enter sender ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" materialDesign:HintAssist.Foreground="#FF0498BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" PreviewTextInput="numbersOnly" MaxLength="9" HorizontalAlignment="Left" Margin="400,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FF121314" Height="68" TextChanged="parcelSenderId_TextChanged" BorderBrush="#FFABADB3"/>
             <Label x:Name="RedMes1" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="396,164,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.019,-0.478" Width="328"/>
-            <TextBox x:Name="parcelTargetId" IsEnabled="{Binding ElementName=parcelSenderId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.Hint="Enter target ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" materialDesign:HintAssist.Foreground="#FF0498BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" FontSize="30"  MaxLength="9" HorizontalAlignment="Left" Margin="396,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="79" TextChanged="parcelTargetId_TextChanged"/>
+            <TextBox x:Name="parcelTargetId" IsEnabled="{Binding ElementName=parcelSenderId, Path=Text, Converter={StaticResource IdToBoolean}}" materialDesign:HintAssist.Hint="Enter target ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.6" materialDesign:HintAssist.Foreground="#FF0498BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" FontSize="30"  MaxLength="9" HorizontalAlignment="Left" Margin="396,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Foreground="#FF121314" Height="79" TextChanged="parcelTargetId_TextChanged"/>
             <Label x:Name="RedMes2" Content=" " FontSize="12" HorizontalAlignment="Left" Margin="396,245,0,0" VerticalAlignment="Top" Foreground="#FFF30101" RenderTransformOrigin="-0.256,0.601" Width="328"/>
-            <Label x:Name="WeightLbl" Content="Select Weight" FontSize="25" HorizontalAlignment="Left" Margin="396,282,0,0" VerticalAlignment="Top" Panel.ZIndex="1" FontWeight="Normal" Width="164" Foreground="#FFD0D1D4"/>
-            <ComboBox x:Name="parcelWeight" IsEnabled="{Binding ElementName=parcelTargetId, Path=Text, Converter={StaticResource IdToBoolean}}" FontSize="25" ToolTip="Select" HorizontalAlignment="Left" Margin="396,265,0,0" VerticalAlignment="Top" Width="303"  Foreground="#FF3A4257" SelectionChanged="parcelWeight_SelectionChanged" Height="60"/>
-            <Label x:Name="PriorityLbl" Content="Select Priority" FontSize="25" HorizontalAlignment="Left" Margin="396,364,0,0" VerticalAlignment="Top" FontWeight="Normal" Panel.ZIndex="1" Foreground="#FFD0D1D4"/>
-            <ComboBox x:Name="parcelPriority" IsEnabled="{Binding ElementName=parcelWeight, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}" FontSize="25" HorizontalAlignment="Left" Margin="396,348,0,0" VerticalAlignment="Top" Width="303" SelectionChanged="parcelPriority_SelectionChanged" Height="57"/>
-            <Button x:Name="btnOK" Content="OK" IsEnabled="{Binding ElementName=parcelPriority, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}" HorizontalAlignment="Left" Margin="421,433,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="White" Background="#FF0489BE"/>
-            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,433,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click"  Background="#FF0489BE" BorderBrush="White"/>
+            <Label x:Name="WeightLbl" Content="Select Weight" FontSize="25" HorizontalAlignment="Left" Margin="400,259,0,0" VerticalAlignment="Top" Panel.ZIndex="1" FontWeight="Normal" Width="164" Foreground="#FF121314"/>
+            <ComboBox x:Name="parcelWeight" IsEnabled="{Binding ElementName=parcelTargetId, Path=Text, Converter={StaticResource IdToBoolean}}" FontSize="25" ToolTip="Select" HorizontalAlignment="Left" Margin="396,250,0,0" VerticalAlignment="Top" Width="303"  Foreground="#FF3A4257" SelectionChanged="parcelWeight_SelectionChanged" Height="60"/>
+            <Label x:Name="PriorityLbl" Content="Select Priority" FontSize="25" HorizontalAlignment="Left" Margin="400,323,0,0" VerticalAlignment="Top" FontWeight="Normal" Panel.ZIndex="1" Foreground="#FF121314"/>
+            <ComboBox x:Name="parcelPriority" IsEnabled="{Binding ElementName=parcelWeight, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}" FontSize="25" HorizontalAlignment="Left" Margin="396,315,0,0" VerticalAlignment="Top" Width="303" SelectionChanged="parcelPriority_SelectionChanged" Height="57"/>
+            <Button x:Name="btnOK" Content="OK" IsEnabled="{Binding ElementName=parcelPriority, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}" HorizontalAlignment="Left" Margin="421,398,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="White" Background="#FF0489BE"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,398,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click"  Background="#FF0489BE" BorderBrush="White"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="50" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="28,30,628,410"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="150" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="17,78,0,0" RenderTransformOrigin="0.28,0.368"/>
-            <Image Grid.Row="0" Margin="130,14,593,441" Source="/Screenshot (130).png"/>
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto"  Margin="0,0,0,0" Background="White">
+            <Label Content="JPS" FontSize="50" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="23,24,633,357"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" Width="150" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="17,89,0,0" RenderTransformOrigin="0.28,0.368"/>
+            <Image Grid.Row="0" Margin="120,10,603,390" Source="/Screenshot (130).png"/>
             <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="333,0,333,471">
                 <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>
@@ -64,28 +64,28 @@
             <Label x:Name="Delivered" Content="Delivered:" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" Margin="78,416,0,0" VerticalAlignment="Top"/>
             <Label x:Name="DeliveredToPrint" Content="{Binding Delivered}" FontSize="15" HorizontalAlignment="Left" Margin="172,416,0,0" VerticalAlignment="Top" Width="174" Height="28"/>
             <Button x:Name="btnClose" Content="Done" HorizontalAlignment="Left" Margin="342,461,0,0" VerticalAlignment="Top" Click="btnClose_Click" Width="110" Background="#FF0489BE" BorderBrush="White"/>
-            <Label Content="Sender Information:" FontSize="20" Margin="415,64,121,403" FontWeight="Bold" Foreground="#FF0489BE"/>
-            <Button Margin="379,64,0,0" ToolTip="Click to view full sender information" Width="36" Height="36" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="SenderInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}">
-                <materialDesign:PackIcon Kind="InformationOutline"  Width="32" Height="30"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
-            </Button>
-            <Label Content="ID:"  FontSize="15" HorizontalAlignment="Left" Margin="423,107,0,0"  VerticalAlignment="Top" Height="37"/>
-            <Label Content="{Binding Sender.Id}" Height="37" Width="151"  HorizontalAlignment="Left" Margin="490,107,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Name:"  FontSize="15" HorizontalAlignment="Left" Margin="423,149,0,0"  VerticalAlignment="Top" Height="31"/>
-            <Label Content="{Binding Sender.Name}" Height="31" Width="151" HorizontalAlignment="Left" Margin="490,149,0,0"  VerticalAlignment="Top"/>
-            <Label Content="Target Infornation:" FontSize="20" Margin="415,197,108,260" FontWeight="Bold" Foreground="#FF0489BE" RenderTransformOrigin="0.525,0.284"/>
-            <Button  Width="62" Height="42" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="TargetInformation_Click"  Margin="366,196,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
+            <Label Content="Sender Information:" FontSize="16" Margin="415,73,121,338" FontWeight="Bold" Foreground="#FF0489BE"/>
+            <Button Margin="379,71,0,0" ToolTip="Click to view full sender information" Width="36" Height="36" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" Click="SenderInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="InformationOutline"  Width="32" Height="30"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
-            <Label Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="423,252,0,0"  VerticalAlignment="Top" Height="30" Width="34"/>
-            <Label Content="{Binding Target.Id}"  HorizontalAlignment="Left" Margin="489,252,0,0"  VerticalAlignment="Top" Height="30" Width="151"/>
-            <Label Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="423,296,0,174" Width="78" />
-            <Label Content="{Binding Target.Name}"  HorizontalAlignment="Left" Margin="489,296,0,0"  VerticalAlignment="Top" Height="33" Width="152"/>
-            <Label Content="Drone Information:" FontSize="20" Margin="415,349,108,113" FontWeight="Bold" Foreground="#FF0489BE"/>
-            <Button Margin="366,346,0,0" Width="62" ToolTip="Click to view full drone information" Height="44" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="DroneInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <Label Content="ID:"  FontSize="13" HorizontalAlignment="Left" Margin="430,110,0,0"  VerticalAlignment="Top" Height="37"/>
+            <Label Content="{Binding Sender.Id}" Height="35" Width="151"  HorizontalAlignment="Left" Margin="490,109,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Name:"  FontSize="13" HorizontalAlignment="Left" Margin="425,152,0,0"  VerticalAlignment="Top" Height="30"/>
+            <Label Content="{Binding Sender.Name}" Height="31" Width="151" HorizontalAlignment="Left" Margin="490,152,0,0"  VerticalAlignment="Top"/>
+            <Label Content="Target Infornation:" FontSize="16" Margin="415,188,108,221" FontWeight="Bold" Foreground="#FF0489BE" RenderTransformOrigin="0.525,0.284"/>
+            <Button  Width="62" Height="42" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="TargetInformation_Click"  Margin="366,182,0,0" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="InformationOutline"  Width="32" Height="30"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
-            <Label Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="423,402,0,0"  VerticalAlignment="Top"/>
-            <Label Content="{Binding AssignedDrone.Id}" Height="28" Width="134"  HorizontalAlignment="Left" Margin="507,402,0,0" VerticalAlignment="Top"/>
+            <Label Content="ID:" FontSize="13" HorizontalAlignment="Left" Margin="430,229,0,0"  VerticalAlignment="Top" Height="30" Width="34"/>
+            <Label Content="{Binding Target.Id}"  HorizontalAlignment="Left" Margin="478,229,0,0"  VerticalAlignment="Top" Height="30" Width="151"/>
+            <Label Content="Name:" FontSize="13" HorizontalAlignment="Left" Margin="425,269,0,149" Width="78" />
+            <Label Content="{Binding Target.Name}"  HorizontalAlignment="Left" Margin="489,269,0,0"  VerticalAlignment="Top" Height="33" Width="152"/>
+            <Label Content="Drone Information:" FontSize="16" Margin="422,314,101,95" FontWeight="Bold" Foreground="#FF0489BE" RenderTransformOrigin="0.473,-0.698"/>
+            <Button Margin="366,311,0,0" Width="62" ToolTip="Click to view full drone information" Height="44" HorizontalAlignment="Left" VerticalAlignment="Top"  Click="DroneInformation_Click" Background="{x:Null}" BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="InformationOutline"  Width="32" Height="30"  Foreground="#FF0489BE"  />
+            </Button>
+            <Label Content="ID:" FontSize="15" HorizontalAlignment="Left" Margin="422,355,0,0"  VerticalAlignment="Top"/>
+            <Label Content="{Binding AssignedDrone.Id}" Height="28" Width="134"  HorizontalAlignment="Left" Margin="478,355,0,0" VerticalAlignment="Top"/>
             <Grid/>
         </Grid>
     </Grid>
