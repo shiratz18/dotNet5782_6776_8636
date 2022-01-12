@@ -61,6 +61,13 @@ namespace PL
         }
         #endregion
 
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        #endregion
+
         #region Refresh
         /// <summary>
         /// Refresh the list

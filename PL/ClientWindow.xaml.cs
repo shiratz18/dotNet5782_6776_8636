@@ -23,7 +23,7 @@ namespace PL
     public partial class ClientWindow : Window
     {
         IBL myBL;
-        Customer client;
+        internal Customer client;
 
         #region Constructor
         public ClientWindow(IBL bl, Customer c)
@@ -48,9 +48,7 @@ namespace PL
         #region Add parcel
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ClientParcelWindow(myBL, client).ShowDialog();
-            client = myBL.GetCustomer(client.Id);
-            lstParcelsFrom.ItemsSource = client.FromCustomer;
+            new ClientParcelWindow(myBL, client, this).Show();
         }
         #endregion
 
@@ -64,9 +62,7 @@ namespace PL
             bool isSender = false;
             if (parcel.Sender.Id == client.Id)
                 isSender = true;
-            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
-            lstParcelsFrom.ItemsSource = client.FromCustomer;
-            lstParcelsTo.ItemsSource = client.ToCustomer;
+            new TrackParcelWindow(myBL, parcel, isSender).Show();
         }
         #endregion
 

@@ -52,6 +52,13 @@ namespace PL
         }
         #endregion
 
+        #region Minimize window
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        #endregion
+
         #region Refresh
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
@@ -62,13 +69,13 @@ namespace PL
         #region Add customer
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerWindow(myBL);
+            new CustomerWindow(myBL).ShowDialog();
 
             CustomersListView.ItemsSource = myBL.GetCustomerList();
         }
         #endregion
 
-        #region Edit
+        #region Edit button
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -76,6 +83,7 @@ namespace PL
             Customer c = myBL.GetCustomer(lc.Id);
 
             new CustomerWindow(myBL, c).ShowDialog();
+            CustomersListView.ItemsSource = myBL.GetCustomerList();
         }
         #endregion
 

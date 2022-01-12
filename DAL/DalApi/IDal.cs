@@ -331,28 +331,5 @@ namespace DalApi
         #endregion
 
         #endregion
-
-        
-        //actions on stations
-
-        ///// <summary>
-        ///// Finds the distance from a station
-        ///// </summary>
-        ///// <param name="Lat1">Latitude of the location</param>
-        ///// <param name="Lng1">Longitude of the location</param>
-        ///// <param name="Id">The station ID</param>
-        ///// <returns>The distance between the location and the station</returns>
-        //public double FindDistanceStation(double lng1, double lat1, int id);
-
-        ////actions on customers
-
-        ///// <summary>
-        ///// Finds the distance from a customer
-        ///// </summary>
-        ///// <param name="Lat1">Latitude of the location</param>
-        ///// <param name="Lng1">Longitude of the location</param>
-        ///// <param name="Id">The customer ID</param>
-        ///// <returns>The distance between the location and the customer</returns>
-        //public double FindDistanceCustomer(double lng1, double lat1, int id);
     }
 }

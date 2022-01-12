@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,7 @@ namespace PL
         private IBL myBL;
         private Parcel parcel;
         private bool isSender;
+        BackgroundWorker worker = new BackgroundWorker();
 
         public TrackParcelWindow(IBL bl, Parcel p, bool b)
         {
@@ -37,20 +39,20 @@ namespace PL
             if (isSender)
                 btnCancel.Visibility = Visibility.Visible;
 
-            if(parcel.Delivered!=null)
+            if (parcel.Delivered != null)
             {
                 btnCancel.IsEnabled = false;
                 lblSch.Visibility = Visibility.Visible;
                 lblPck.Visibility = Visibility.Visible;
                 lblDlv.Visibility = Visibility.Visible;
             }
-            else if(parcel.PickedUp!=null)
+            else if (parcel.PickedUp != null)
             {
                 btnCancel.IsEnabled = false;
                 lblSch.Visibility = Visibility.Visible;
                 lblPck.Visibility = Visibility.Visible;
             }
-            else if(parcel.Scheduled!=null)
+            else if (parcel.Scheduled != null)
             {
                 btnCancel.IsEnabled = false;
                 lblSch.Visibility = Visibility.Visible;
@@ -61,7 +63,8 @@ namespace PL
 
         #region Close window
         private void Close_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            worker.CancelAsync();
             Close();
         }
         #endregion
@@ -75,9 +78,10 @@ namespace PL
         #endregion
 
         #region Progress bar backround worker
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
             worker.WorkerReportsProgress = true;
             worker.DoWork += progress_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;
@@ -87,14 +91,21 @@ namespace PL
 
         private void progress_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (parcel.Delivered != null)
-                (sender as BackgroundWorker).ReportProgress(3);
-            else if (parcel.PickedUp != null)
-                (sender as BackgroundWorker).ReportProgress(2);
-            else if (parcel.Scheduled != null)
-                (sender as BackgroundWorker).ReportProgress(1);
-            else
-                (sender as BackgroundWorker).ReportProgress(0);
+            while (true)
+            {
+                if (parcel.Delivered != null)
+                    (sender as BackgroundWorker).ReportProgress(3);
+                else if (parcel.PickedUp != null)
+                    (sender as BackgroundWorker).ReportProgress(2);
+                else if (parcel.Scheduled != null)
+                    (sender as BackgroundWorker).ReportProgress(1);
+                else
+                    (sender as BackgroundWorker).ReportProgress(0);
+               
+                parcel = myBL.GetParcel(parcel.Id);
+                DataContext = parcel;
+                Thread.Sleep(1500);
+            }
         }
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)

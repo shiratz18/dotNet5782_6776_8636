@@ -8,25 +8,52 @@
         mc:Ignorable="d"  WindowStartupLocation="CenterScreen" WindowStyle="None"
         Title="ClientParcelWindow" Height="450" Width="800">
     <Window.Resources>
-        
+        <local:IDToBooleanConverter x:Key="IdToBoolean"/>
+        <local:ComboxToBooleanConverter x:Key="ComboxToBoolean"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="JPS" FontSize="100" Grid.Column="0" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" Margin="85,137,85,185" Panel.ZIndex="1"/>
-        <Label Content="Jerusalem   Postal    Service" FontSize="25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="42" Width="312" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="0,244,0,0" Panel.ZIndex="1"/>
+        <Label Content="JPS" FontSize="100"  FontFamily="Arial Black"
+               Grid.Column="0" Margin="85,137,85,185" Panel.ZIndex="1"
+               Background="{x:Null}" Foreground="Black"/>
+        <Label Content="Jerusalem   Postal    Service" FontSize="25"  FontFamily="Constantia"
+               Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="42" Width="312"  Margin="0,244,0,0" Panel.ZIndex="1"
+               Background="{x:Null}" Foreground="#FF0489BE"/>
         <Image Margin="1,0,-4,10" Source="/Screenshot (130).png" Opacity="0.3" Grid.ColumnSpan="2"/>
-        <Label Content="Enter parcel information" FontSize="30" Grid.Column="1" Margin="0,40,0,0" Width="380" VerticalAlignment="Top" FontWeight="Bold" HorizontalAlignment="Center"/>
-        <TextBox x:Name="parcelTargetId" materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Hint="Recipient ID" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" materialDesign:HintAssist.Foreground="#FFABADB3" FontSize="25" MaxLength="9" PreviewTextInput="numbersOnly" Foreground="#FFABADB3" Grid.Column="1" Margin="21,105,17,277" TextChanged="parcelTargetId_TextChanged" LostFocus="parcelTargetId_LostFocus" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE" Background="{x:Null}"/>
-        <Label x:Name="redMes1" Content="" Foreground="Red" FontSize="17" Grid.Column="1" HorizontalAlignment="Left" Margin="21,173,0,0" VerticalAlignment="Top" Height="39" Width="362" Background="{x:Null}" />
-        <Label x:Name="WeightLbl" Content="Select weight" FontSize="25" HorizontalAlignment="Left" Margin="21,202,0,0" VerticalAlignment="Top" Width="167" Foreground="#FFABADB3" Grid.Column="1" Background="{x:Null}"/>
-        <ComboBox x:Name="parcelWeight"  FontSize="25" ToolTip="Select" Margin="21,0,17,0" VerticalAlignment="Center"  Foreground="#FFABADB3" Height="46" Grid.Column="1" SelectionChanged="parcelWeight_SelectionChanged"/>
-        <Label x:Name="PriorityLbl" Content="Select priority" FontSize="25" HorizontalAlignment="Left" Margin="21,265,0,0" VerticalAlignment="Top" FontWeight="Normal" Panel.ZIndex="1" Foreground="#FFABADB3" Width="182" Grid.Column="1"/>
-        <ComboBox x:Name="parcelPriority" FontSize="25" HorizontalAlignment="Left" Margin="21,266,0,0" VerticalAlignment="Top" Width="362" Height="44" Grid.Column="1" SelectionChanged="parcelPriority_SelectionChanged" Foreground="#FFABADB3"/>
-        <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="94,370,0,0" VerticalAlignment="Top" Width="102" Grid.Column="1" Background="#FF0489BE" Click="btnOK_Click" BorderBrush="White">
-        </Button>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="222,370,0,0" VerticalAlignment="Top" Width="112" Background="#FF0489BE" Grid.Column="1" Click="btnCancel_Click" BorderBrush="White"/>
+        <Label Content="Enter parcel information" FontSize="30" FontWeight="Bold"
+               Grid.Column="1" Margin="0,40,0,0" Width="380" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <TextBox x:Name="parcelTargetId" 
+                 materialDesign:TextFieldAssist.UnderlineBrush="Black" materialDesign:HintAssist.Hint="Recipient ID" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" materialDesign:HintAssist.Foreground="#FFABADB3"
+                 FontSize="25" MaxLength="9" PreviewTextInput="numbersOnly"
+                 Grid.Column="1" Margin="21,105,17,277" TextChanged="parcelTargetId_TextChanged" LostFocus="parcelTargetId_LostFocus"
+                 Foreground="#FFABADB3" CaretBrush="#FF0489BE" SelectionBrush="#FF0489BE" Background="{x:Null}" />
+        <Label x:Name="redMes1" Content=""  FontSize="17" 
+               Foreground="Red" Background="{x:Null}"
+               Grid.Column="1" HorizontalAlignment="Left" Margin="21,173,0,0" VerticalAlignment="Top" Height="39" Width="362"/>
+        <Label x:Name="WeightLbl" Content="Select weight" FontSize="25"
+               HorizontalAlignment="Left" Margin="21,202,0,0" VerticalAlignment="Top" Width="167" Grid.Column="1"
+               Foreground="#FFABADB3" Background="{x:Null}"/>
+        <ComboBox x:Name="parcelWeight" IsEnabled="{Binding ElementName=parcelTargetId, Path=Text, Converter={StaticResource IdToBoolean}}"
+                  FontSize="25" ToolTip="Select weight" 
+                  Margin="21,0,17,0" VerticalAlignment="Center" Height="48" Grid.Column="1" 
+                  Foreground="#FFABADB3"
+                  SelectionChanged="parcelWeight_SelectionChanged"/>
+        <Label x:Name="PriorityLbl" Content="Select priority" FontSize="25" FontWeight="Normal"
+               HorizontalAlignment="Left" Margin="21,265,0,0" VerticalAlignment="Top" Panel.ZIndex="1"  Width="182" Grid.Column="1"
+               Foreground="#FFABADB3"/>
+        <ComboBox x:Name="parcelPriority" IsEnabled="{Binding ElementName=parcelWeight, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}"
+                  FontSize="25" ToolTip="Select priority"
+                  HorizontalAlignment="Left" Margin="21,266,0,0" VerticalAlignment="Top" Width="362" Height="44" Grid.Column="1" 
+                  SelectionChanged="parcelPriority_SelectionChanged"
+                  Foreground="#FFABADB3"/>
+        <Button x:Name="btnOK" Content="OK"  Click="btnOK_Click" IsEnabled="{Binding ElementName=parcelPriority, Path=SelectedIndex, Converter={StaticResource ComboxToBoolean}}"
+                HorizontalAlignment="Left" Margin="94,370,0,0" VerticalAlignment="Top" Width="102" Grid.Column="1"
+                Background="#FF0489BE" BorderBrush="White"/>
+        <Button x:Name="btnCancel" Content="Cancel"  Click="btnCancel_Click"
+                HorizontalAlignment="Left" Margin="222,370,0,0" VerticalAlignment="Top" Width="112" Grid.Column="1"
+                Background="#FF0489BE" BorderBrush="White"/>
     </Grid>
 </Window>

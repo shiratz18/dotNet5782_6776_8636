@@ -219,7 +219,7 @@ namespace BL
         /// </summary>
         /// <returns>The list of stations</returns>
 
-        private IEnumerable<Station> getListOfAvailableChargeSlotsStations()
+        internal IEnumerable<Station> getListOfAvailableChargeSlotsStations()
         {
             lock (Data)
             {

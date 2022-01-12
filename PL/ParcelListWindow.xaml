@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"  ResizeMode="NoResize" WindowStyle="None"
         Title="ParcelListWindow" Height="450" Width="800">
     <Window.Resources>
@@ -16,11 +15,10 @@
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
     </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="11*"/>
-            <RowDefinition Height="34*"/>
+            <RowDefinition Height="71*"/>
+            <RowDefinition Height="154*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -56,6 +54,12 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
             </ListView>
         </Grid>
         <Grid Grid.Row="0">
@@ -66,9 +70,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="PARCELS" FontSize="25"  Grid.Column="0" Margin="10,53,0,0" HorizontalAlignment="Left" FontWeight="Bold"  Foreground="#FF0489BE"/>
-            <Button x:Name="btnAddParcel" ToolTip="Add a new drone"   Background="#00000000" Foreground="#FF0489BE" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Click="btnAddParcel_Click" Grid.Column="4" Margin="75,1,0,59" BorderBrush="Transparent" Height="50">
-                <materialDesign:PackIcon Kind="PlusCircleOutline"  Width="63" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center"  />
+            <Label Content="PARCELS" FontSize="25"  Grid.Column="0" Margin="10,91,0,0" HorizontalAlignment="Left" FontWeight="Bold"  Foreground="#FF0489BE"/>
+            <Button x:Name="btnAddParcel" ToolTip="Add a new parcel"   Background="#00000000" Foreground="#FF0489BE" Opacity="0.8" FontSize="40" HorizontalAlignment="Left" Width="80" Click="btnAddParcel_Click" Grid.Column="4" Margin="75,37,0,55" BorderBrush="Transparent" Height="50">
+                <materialDesign:PackIcon Kind="PlusCircleOutline"  Width="76" Height="40"  Foreground="#FF0489BE" VerticalAlignment="Center" HorizontalAlignment="Center"  />
             </Button>
             <Button x:Name="btnRefresh"  ToolTip="Refresh" VerticalAlignment="Top" Height="32" FontWeight="Normal" Background="{x:Null}" Foreground="#FF0489BE" Margin="51,1,56,0" Click="btnRefresh_Click" BorderBrush="Transparent" Width="53">
                 <materialDesign:PackIcon Kind="Reload"  Width="23" Height="28"  Foreground="#FF0489BE" />
@@ -77,17 +81,20 @@
                     FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click" Margin="0,0,126,0" BorderBrush="Transparent" Width="51">
                 <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"  />
             </Button>
+            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="24,1,24,109" Grid.Column="2">
+                <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
+            </Button>
             <ComboBox x:Name="StatusSelector" ToolTip="Select status" SelectionChanged="StatusSelector_SelectionChanged" Margin="0,77,0,10" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13" Grid.Column="1"/>
-            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="80,57,0,21" Grid.Column="1" Background="{x:Null}" Foreground="#FF0489BE" BorderBrush="Transparent"/>
-            <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="0,75,60,12" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="1"/>
+            <Button x:Name="btnClearStatusSelection" Content="Clear" Click="btnClearStatusSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="80,82,0,28" Grid.Column="1" Background="{x:Null}" Foreground="#FF0489BE" BorderBrush="Transparent"/>
+            <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="0,98,60,12" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="1"/>
             <ComboBox x:Name="WeightSelector" ToolTip="Select weight" SelectionChanged="WeightSelector_SelectionChanged" Margin="0,29,0,58" Grid.Column="1" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13"/>
-            <Label x:Name="weightLabel" Content="- All Weights -" VerticalContentAlignment="Center" FontSize="13" Margin="0,26,60,58" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="1" RenderTransformOrigin="0.48,0.346"/>
-            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="80,7,0,71" Grid.Column="1" Background="{x:Null}" Foreground="#FF0489BE" BorderBrush="Transparent"/>
+            <Label x:Name="weightLabel" Content="- All Weights -" VerticalContentAlignment="Center" FontSize="13" Margin="0,53,60,58" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="1" RenderTransformOrigin="0.48,0.346"/>
+            <Button x:Name="btnClearWeightSelection" Content="Clear" Click="btnClearWeightSelection_Click" ToolTip="Clear selection" FontSize="13" Margin="85,32,155,78" Grid.Column="1" Background="{x:Null}" Foreground="#FF0489BE" BorderBrush="Transparent" Grid.ColumnSpan="2"/>
             <ComboBox x:Name="PrioritySelector" ToolTip="Select priority" SelectionChanged="PrioritySelector_SelectionChanged" Margin="5,29,155,58" Grid.Column="2" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13" Grid.ColumnSpan="2"/>
-            <Label x:Name="priorityLabel" Content="- All Priorities -" VerticalContentAlignment="Center" FontSize="13" Margin="10,26,50,55" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="2"/>
-            <Button x:Name="btnClearPrioritySelection" Content="Clear" Click="btnClearPrioritySelection_Click" ToolTip="Clear selection" FontSize="13" Margin="85,7,155,71" Grid.Column="2" Background="{x:Null}" Foreground="#FF0489BE" Grid.ColumnSpan="2" BorderBrush="Transparent"/>
-            <Button x:Name="btnGroupBySender" Content="GROUP BY SENDER" Click="btnGroupBySender_Click" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Margin="106,75,29,3" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF0489BE"/>
-            <Button x:Name="btnGroupByReciever" Content="GROUP BY RECIEVER" Click="btnGroupByReciever_Click" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Margin="136,75,5,3" Grid.ColumnSpan="2" Grid.Column="3" BorderBrush="#FF0489BE"/>
+            <Label x:Name="priorityLabel" Content="- All Priorities -" VerticalContentAlignment="Center" FontSize="13" Margin="10,53,50,55" FontWeight="Normal" Foreground="#FF0489BE" Grid.Column="2"/>
+            <Button x:Name="btnClearPrioritySelection" Content="Clear" Click="btnClearPrioritySelection_Click" ToolTip="Clear selection" FontSize="13" Margin="85,32,155,78" Grid.Column="2" Background="{x:Null}" Foreground="#FF0489BE" Grid.ColumnSpan="2" BorderBrush="Transparent"/>
+            <Button x:Name="btnGroupBySender" Content="GROUP BY SENDER" Click="btnGroupBySender_Click" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Margin="106,104,29,6" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF0489BE"/>
+            <Button x:Name="btnGroupByReciever" Content="GROUP BY RECIEVER" Click="btnGroupByReciever_Click" FontSize="15" Background="{x:Null}" Foreground="#FF0489BE" Margin="136,104,5,6" Grid.ColumnSpan="2" Grid.Column="3" BorderBrush="#FF0489BE"/>
         </Grid>
     </Grid>
 </Window>

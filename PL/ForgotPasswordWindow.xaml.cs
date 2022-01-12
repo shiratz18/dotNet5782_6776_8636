@@ -46,7 +46,7 @@ namespace PL
 
             if(answer.Password==customer.Answer)
             {
-                new ClientWindow(myBL, customer).ShowDialog();
+                new ClientWindow(myBL, customer).Show();
                 Close();
             }
             else

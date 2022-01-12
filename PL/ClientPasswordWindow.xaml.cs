@@ -46,7 +46,7 @@ namespace PL
                     Customer c = myBL.GetCustomer(id);
                     if (c.Password == userPassword.Password)
                     {
-                        new ClientWindow(myBL, c).ShowDialog();
+                        new ClientWindow(myBL, c).Show();
                         Close();
                     }
                     else
