@@ -263,7 +263,7 @@ namespace BL
                     throw new EmptyListException(ex.Message); //throw an exception if no station has available charge slots
                 }
 
-                //get the station that is nearest to the drone, among the stations that have availabke charge slots
+                //get the station that is nearest to the drone, among the stations that have available charge slots
                 double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
                 Station s = new Station();
                 foreach (Station tmp in stations)

@@ -37,7 +37,7 @@
             <Button x:Name="btnOK" Content="OK" IsEnabled="False" HorizontalAlignment="Left" Margin="421,242,0,0" VerticalAlignment="Top" Width="139" RenderTransformOrigin="0.462,-1.401" Click="btnOK_Click" BorderBrush="White" BorderThickness="2,2,2,2" ClipToBounds="True" Background="#FF0489BE" Grid.Row="1"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="587,242,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" Grid.Row="1" BorderBrush="White"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Background="White" Margin="10,10,-10,-10">
             <Label Content="JPS" FontSize="40" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="29,21,654,435"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="160" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="6,68,0,0" RenderTransformOrigin="0.28,0.368"/>
             <Image Grid.Row="0" Margin="113,10,609,453" Source="/Screenshot (130).png"/>

@@ -607,7 +607,7 @@ namespace PL
             btnDronePickUp.Visibility = Visibility.Hidden;
             btnDroneDeliver.Visibility = Visibility.Hidden;
             modelToPrint.IsEnabled = false;
-
+            worker.RunWorkerAsync();
         }
         #endregion
 
