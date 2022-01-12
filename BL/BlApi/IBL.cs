@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 
 namespace BlApi
@@ -303,14 +300,15 @@ namespace BlApi
         #endregion
 
         #endregion
-        
+
+        #region Simulator
         /// <summary>
-        /// activat simulator
+        /// activate simulator
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updateDelegate"></param>
         /// <param name="stopDelegate"></param>
         public void ActivateSimulator(int id, Action updateDelegate, Func<bool> stopDelegate);
-
+        #endregion
     }
 }

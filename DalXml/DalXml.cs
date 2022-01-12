@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DO;
-using DalApi;
+﻿using DalApi;
 
 namespace Dal
 {
@@ -52,7 +46,7 @@ namespace Dal
         /// </summary>
         private DalXml()
         {
-           // DataSource.Initialize(); //intialize files once 
+           //DataSource.Initialize(); //intialize files once 
         }
         #endregion
     }

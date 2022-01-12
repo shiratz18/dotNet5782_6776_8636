@@ -1,9 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Text;
-using System.Collections.Generic;
-using DalApi;
-using System.Runtime.CompilerServices;
+﻿using DalApi;
+
 namespace Dal
 {
     partial class DalObject : IDal

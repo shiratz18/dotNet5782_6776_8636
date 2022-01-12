@@ -141,16 +141,17 @@ namespace BL
                     {
                         if (pr != null)
                         {
-                            foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
+                            foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr)
+                                                      let temp = new ListParcel()
+                                                      {
+                                                          Id = p.Id,
+                                                          SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                          TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                          Weight = (WeightCategories)p.Weight,
+                                                          Priority = (Priorities)p.Priority
+                                                      }
+                                                      select (p, temp))
                             {
-                                ListParcel temp = new ListParcel()
-                                {
-                                    Id = p.Id,
-                                    SenderName = Data.GetCustomer(p.SenderId).Name,
-                                    TargetName = Data.GetCustomer(p.TargetId).Name,
-                                    Weight = (WeightCategories)p.Weight,
-                                    Priority = (Priorities)p.Priority
-                                };
                                 if (p.Delivered != null)
                                     temp.State = ParcelState.Delivered;
                                 else if (p.PickedUp != null)
@@ -159,7 +160,6 @@ namespace BL
                                     temp.State = ParcelState.PickedUp;
                                 else
                                     temp.State = ParcelState.Requested;
-
                                 if (temp.State == ps)
                                     listParcels.Add(temp);
                             }
@@ -167,16 +167,17 @@ namespace BL
                     }
                     else if (pr != null)
                     {
-                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr))
+                        foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc && x.Priority == (DO.Priorities)pr)
+                                                  let temp = new ListParcel()
+                                                  {
+                                                      Id = p.Id,
+                                                      SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                      TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                      Weight = (WeightCategories)p.Weight,
+                                                      Priority = (Priorities)p.Priority
+                                                  }
+                                                  select (p, temp))
                         {
-                            ListParcel temp = new ListParcel()
-                            {
-                                Id = p.Id,
-                                SenderName = Data.GetCustomer(p.SenderId).Name,
-                                TargetName = Data.GetCustomer(p.TargetId).Name,
-                                Weight = (WeightCategories)p.Weight,
-                                Priority = (Priorities)p.Priority
-                            };
                             if (p.Delivered != null)
                                 temp.State = ParcelState.Delivered;
                             else if (p.PickedUp != null)
@@ -185,22 +186,22 @@ namespace BL
                                 temp.State = ParcelState.PickedUp;
                             else
                                 temp.State = ParcelState.Requested;
-
                             listParcels.Add(temp);
                         }
                     }
                     else
                     {
-                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc))
+                        foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList(x => x.Weight == (DO.WeightCategories)wc)
+                                                  let temp = new ListParcel()
+                                                  {
+                                                      Id = p.Id,
+                                                      SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                      TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                      Weight = (WeightCategories)p.Weight,
+                                                      Priority = (Priorities)p.Priority
+                                                  }
+                                                  select (p, temp))
                         {
-                            ListParcel temp = new ListParcel()
-                            {
-                                Id = p.Id,
-                                SenderName = Data.GetCustomer(p.SenderId).Name,
-                                TargetName = Data.GetCustomer(p.TargetId).Name,
-                                Weight = (WeightCategories)p.Weight,
-                                Priority = (Priorities)p.Priority
-                            };
                             if (p.Delivered != null)
                                 temp.State = ParcelState.Delivered;
                             else if (p.PickedUp != null)
@@ -209,7 +210,6 @@ namespace BL
                                 temp.State = ParcelState.PickedUp;
                             else
                                 temp.State = ParcelState.Requested;
-
                             listParcels.Add(temp);
                         }
                     }
@@ -219,16 +219,17 @@ namespace BL
                 {
                     if (pr != null)
                     {
-                        foreach (DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr))
+                        foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr)
+                                                  let temp = new ListParcel()
+                                                  {
+                                                      Id = p.Id,
+                                                      SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                      TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                      Weight = (WeightCategories)p.Weight,
+                                                      Priority = (Priorities)p.Priority
+                                                  }
+                                                  select (p, temp))
                         {
-                            ListParcel temp = new ListParcel()
-                            {
-                                Id = p.Id,
-                                SenderName = Data.GetCustomer(p.SenderId).Name,
-                                TargetName = Data.GetCustomer(p.TargetId).Name,
-                                Weight = (WeightCategories)p.Weight,
-                                Priority = (Priorities)p.Priority
-                            };
                             if (p.Delivered != null)
                                 temp.State = ParcelState.Delivered;
                             else if (p.PickedUp != null)
@@ -237,23 +238,23 @@ namespace BL
                                 temp.State = ParcelState.PickedUp;
                             else
                                 temp.State = ParcelState.Requested;
-
                             if (temp.State == ps)
                                 listParcels.Add(temp);
                         }
                     }
                     else
                     {
-                        foreach (DO.Parcel p in Data.GetParcelList())
+                        foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList()
+                                                  let temp = new ListParcel()
+                                                  {
+                                                      Id = p.Id,
+                                                      SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                      TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                      Weight = (WeightCategories)p.Weight,
+                                                      Priority = (Priorities)p.Priority
+                                                  }
+                                                  select (p, temp))
                         {
-                            ListParcel temp = new ListParcel()
-                            {
-                                Id = p.Id,
-                                SenderName = Data.GetCustomer(p.SenderId).Name,
-                                TargetName = Data.GetCustomer(p.TargetId).Name,
-                                Weight = (WeightCategories)p.Weight,
-                                Priority = (Priorities)p.Priority
-                            };
                             if (p.Delivered != null)
                                 temp.State = ParcelState.Delivered;
                             else if (p.PickedUp != null)
@@ -262,7 +263,6 @@ namespace BL
                                 temp.State = ParcelState.PickedUp;
                             else
                                 temp.State = ParcelState.Requested;
-
                             if (temp.State == ps)
                                 listParcels.Add(temp);
                         }
@@ -270,16 +270,17 @@ namespace BL
                 }
                 else if (pr != null)
                 {
-                    foreach (DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr))
+                    foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList(x => x.Priority == (DO.Priorities)pr)
+                                              let temp = new ListParcel()
+                                              {
+                                                  Id = p.Id,
+                                                  SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                  TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                  Weight = (WeightCategories)p.Weight,
+                                                  Priority = (Priorities)p.Priority
+                                              }
+                                              select (p, temp))
                     {
-                        ListParcel temp = new ListParcel()
-                        {
-                            Id = p.Id,
-                            SenderName = Data.GetCustomer(p.SenderId).Name,
-                            TargetName = Data.GetCustomer(p.TargetId).Name,
-                            Weight = (WeightCategories)p.Weight,
-                            Priority = (Priorities)p.Priority
-                        };
                         if (p.Delivered != null)
                             temp.State = ParcelState.Delivered;
                         else if (p.PickedUp != null)
@@ -288,22 +289,22 @@ namespace BL
                             temp.State = ParcelState.PickedUp;
                         else
                             temp.State = ParcelState.Requested;
-
                         listParcels.Add(temp);
                     }
                 }
                 else
                 {
-                    foreach (DO.Parcel p in Data.GetParcelList())
+                    foreach (var (p, temp) in from DO.Parcel p in Data.GetParcelList()
+                                              let temp = new ListParcel()
+                                              {
+                                                  Id = p.Id,
+                                                  SenderName = Data.GetCustomer(p.SenderId).Name,
+                                                  TargetName = Data.GetCustomer(p.TargetId).Name,
+                                                  Weight = (WeightCategories)p.Weight,
+                                                  Priority = (Priorities)p.Priority
+                                              }
+                                              select (p, temp))
                     {
-                        ListParcel temp = new ListParcel()
-                        {
-                            Id = p.Id,
-                            SenderName = Data.GetCustomer(p.SenderId).Name,
-                            TargetName = Data.GetCustomer(p.TargetId).Name,
-                            Weight = (WeightCategories)p.Weight,
-                            Priority = (Priorities)p.Priority
-                        };
                         if (p.Delivered != null)
                             temp.State = ParcelState.Delivered;
                         else if (p.PickedUp != null)
@@ -312,7 +313,6 @@ namespace BL
                             temp.State = ParcelState.PickedUp;
                         else
                             temp.State = ParcelState.Requested;
-
                         listParcels.Add(temp);
                     }
                 }
@@ -466,6 +466,6 @@ namespace BL
                 throw new NoIDException(ex.Message);
             }
         }
-        #endregion\ל]םטעלחמ+7ןןתל++וט+אאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאבבבבבבבבבבבבבבבבבבבוהיאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאאביה
+        #endregion
     }
 }

@@ -20,8 +20,8 @@
     </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid x:Name="AddGrid" Grid.Row="0" Margin="0,0,0,0" Background="White">
-            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,166,424,159" Panel.ZIndex="1"/>
-            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="20,296,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
+            <Label Content="JPS" FontSize="100" Background="{x:Null}" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="64,100,518,225" Panel.ZIndex="1"/>
+            <Label Content="Jerusalem   Postal    Service" FontSize="25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="348" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="23,218,0,0" RenderTransformOrigin="0.28,0.368" Panel.ZIndex="1"/>
             <Image Grid.Row="0" Margin="79,15,108,57" Source="/Screenshot (130).png" Opacity="0.3"/>
             <Label Content="ENTER CUSTOMER INFORMATION" FontSize="25" HorizontalAlignment="Left" Margin="396,15,0,0" VerticalAlignment="Top" Height="40"/>
             <TextBox x:Name="customerId" materialDesign:HintAssist.Foreground="#FF0489BE" materialDesign:TextFieldAssist.UnderlineBrush="#FF0489BE" materialDesign:HintAssist.Hint="Enter ID here" materialDesign:HintAssist.IsFloating="True" materialDesign:HintAssist.FloatingScale="0.5" FontSize="30" PreviewTextInput="numbersOnly" MaxLength="9" HorizontalAlignment="Left" Margin="398,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303" Foreground="#FFABADB3" Height="61" TextChanged="customerId_TextChanged" BorderBrush="#FFABADB3"/>
@@ -34,19 +34,19 @@
             <materialDesign:PackIcon Kind="Phone" Width="30" Height="30" Margin="724,0,0,0" Foreground="#FF0489BE" RenderTransformOrigin="0.527,0.24" VerticalAlignment="Center"/>
             <Label x:Name="stationLongitude" Content="Longitude " FontSize="30"    HorizontalAlignment="Left" Margin="398,272,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
             <materialDesign:PackIcon Kind="Longitude" Width="30" Height="30" Margin="724,292,0,0" Foreground="#FF0489BE" RenderTransformOrigin="1.213,0.433"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="587,308,99,107"/>
-            <Slider x:Name="SliderLongitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,317,225,105" Foreground="#FF076E97" />
+            <TextBox Text="{Binding Value, ElementName=SliderLongitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Longitude" Height="35" Margin="587,296,99,119"/>
+            <Slider x:Name="SliderLongitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.0005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,317,225,105" Foreground="#FF076E97" />
             <Label x:Name="stationLatitude" Content="Latitude " FontSize="30"  HorizontalAlignment="Left" Margin="396,345,0,0"  VerticalAlignment="Top" Width="328" Foreground="#FFABADB3" Height="40"/>
             <materialDesign:PackIcon Kind="Latitude" Width="30" Height="30" Margin="724,378,0,0" RenderTransformOrigin="0.6,0.82" Foreground="#FF0489BE"/>
-            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="587,378,100,37"/>
-            <Slider x:Name="SliderLatitude" Minimum="35.1252" Maximum="35.2642" TickFrequency="0.00005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,393,225,13" Foreground="#FF076E97"/>
+            <TextBox Text="{Binding Value, ElementName=SliderLatitude, UpdateSourceTrigger=PropertyChanged}" FontSize="17" TextAlignment="Left"  x:Name="Latitude" Height="35" Margin="587,371,100,44"/>
+            <Slider x:Name="SliderLatitude" Minimum="31.7082" Maximum="31.8830" TickFrequency="0.0005" IsSnapToTickEnabled="True"  Width="175" RenderTransformOrigin="1.585,2.426"  Margin="400,393,225,13" Foreground="#FF076E97"/>
             <Button x:Name="btnOK" Content="OK"  Click="btnOK_Click" IsEnabled="{Binding ElementName=customerPhone, Path=Text, Converter={StaticResource PhoneToBoolean}}" HorizontalAlignment="Left" Margin="55,371,0,0" VerticalAlignment="Top" Width="139" BorderBrush="White" Background="#FF0489BE"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="226,371,0,0" VerticalAlignment="Top" Width="112" Click="btnCancel_Click" Background="#FF0489BE" BorderBrush="White"/>
         </Grid>
-        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="-118,640,118,-640" Background="White">
+        <Grid x:Name="ActionGrid" Height="auto" Grid.Row="0" Width="auto" Margin="0,0,0,0" Background="White">
             <Label Content="JPS" FontSize="40" Background="White" Foreground="Black" FontFamily="Arial Black" FontWeight="Normal" Margin="10,10,667,381"/>
             <Label Content="Jerusalem   Postal    Service" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="141" Background="{x:Null}" Foreground="#FF0489BE" FontFamily="Constantia" Margin="2,58,0,0" RenderTransformOrigin="0.28,0.368"/>
-            <Image Grid.Row="0" Margin="76,0,620,397" Source="/Screenshot (130).png"/>
+            <Image Grid.Row="0" Margin="76,0,630,410" Source="/Screenshot (130).png"/>
             <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="333,0,333,471">
                 <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>

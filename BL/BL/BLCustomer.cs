@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
 namespace BL
@@ -121,8 +118,6 @@ namespace BL
         {
             lock (Data)
             {
-                //List<ListCustomer> customers = new List<ListCustomer>();
-
                 var customers = from c in Data.GetCustomerList()
                                 select new ListCustomer()
                                 {
@@ -166,7 +161,6 @@ namespace BL
             {
                 Data.UpdateCustomer(c);
             }
-
         }
 
         /// <summary>

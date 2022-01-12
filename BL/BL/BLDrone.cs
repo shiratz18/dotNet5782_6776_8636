@@ -262,11 +262,9 @@ namespace BL
                 }
 
                 //get the station that is nearest to the drone, among the stations that have available charge slots
-                double min = 100000; //no two places in Jerusalem have a greater distance (our company is placed in Jerusalem)
-                Station s = new Station();
-                s = (from st in stations
-                     orderby getDistance(d.CurrentLocation, st.Location)
-                     select st).First();
+                Station s = (from st in stations
+                             orderby getDistance(d.CurrentLocation, st.Location)
+                             select st).First();
 
                 //throw an exception if there is not enough battery to get to the station
                 if (d.Battery < AvailableConsumption * getDistance(d.CurrentLocation, s.Location))
@@ -380,20 +378,19 @@ namespace BL
             List<ParcelInShipping> lowPriority = new List<ParcelInShipping>();
 
             //deviding the parcels into 3 lists according to priority,
-            foreach (ParcelInShipping p in parcels)
+            foreach (var p in
+            from ParcelInShipping p in parcels
+            where p.Weight <= drone.MaxWeight && drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id) //where the drone could actually deliver them according to weight, distance and battery
+            select p)
             {
-                //checking that the drone could actually deliver them according to weight, distance and battery
-                if (p.Weight <= drone.MaxWeight && drone.Battery >= ShippingConsumption[(int)p.Weight] * distanceForDelivery(id, p.Sender.Id, p.Target.Id))
-                {
-                    if (p.Priority == Priorities.Urgent) //adding to the list of urgent parcels
-                        highPriority.Add(p);
+                if (p.Priority == Priorities.Urgent) //adding to the list of urgent parcels
+                    highPriority.Add(p);
 
-                    else if (p.Priority == Priorities.Express) //adding to the list of less uregent parcels
-                        mediumPriority.Add(p);
+                else if (p.Priority == Priorities.Express) //adding to the list of less uregent parcels
+                    mediumPriority.Add(p);
 
-                    else if (p.Priority == Priorities.Regular) //adding to the list of low ptiority parcels
-                        lowPriority.Add(p);
-                }
+                else if (p.Priority == Priorities.Regular) //adding to the list of low ptiority parcels
+                    lowPriority.Add(p);
             }
 
             List<ParcelInShipping> heavy = new List<ParcelInShipping>();
