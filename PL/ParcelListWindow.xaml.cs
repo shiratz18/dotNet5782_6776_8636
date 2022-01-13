@@ -15,14 +15,25 @@ namespace PL
         private IBL myBL;
         private bool senderGrouped, targetGrouped;
 
+        private static ParcelListWindow instance = null;
+        public static ParcelListWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new ParcelListWindow();
+                return instance;
+            }
+        }
+
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="bl"></param>
-        public ParcelListWindow(IBL bl)
+        private ParcelListWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             senderGrouped = false;
             targetGrouped = false;
 
@@ -52,13 +63,6 @@ namespace PL
         }
         #endregion
 
-        #region Minimize window
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-        #endregion
-
         #region Refresh
         /// <summary>
         /// Refresh the list
@@ -67,7 +71,7 @@ namespace PL
         /// <param name="e"></param>
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -79,8 +83,8 @@ namespace PL
         /// <param name="e"></param>
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ParcelWindow(myBL).ShowDialog();
-            checkFilters();
+            new ParcelWindow().ShowDialog();
+            CheckFilters();
         }
         #endregion
 
@@ -96,8 +100,8 @@ namespace PL
             ListParcel ld = b.CommandParameter as ListParcel;
             Parcel p = myBL.GetParcel(ld.Id);
 
-            new ParcelWindow(myBL, p ).ShowDialog();
-            checkFilters();
+            new ParcelWindow(p).ShowDialog();
+            CheckFilters();
         }
         #endregion
 
@@ -120,7 +124,7 @@ namespace PL
 
                     //       DronesListView.ItemsSource = myBL.GetDroneList();
 
-                    checkFilters();
+                    CheckFilters();
                 }
                 catch (CannotDeleteException ex)
                 {
@@ -143,7 +147,7 @@ namespace PL
             {
                 statusLabel.Content = "";
 
-                checkFilters();
+                CheckFilters();
             }
         }
 
@@ -157,7 +161,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             statusLabel.Content = "- All Statuses -";
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -173,7 +177,7 @@ namespace PL
             {
                 weightLabel.Content = "";
 
-                checkFilters();
+                CheckFilters();
             }
         }
 
@@ -188,7 +192,7 @@ namespace PL
 
             weightLabel.Content = "- All Weights -";
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -204,7 +208,7 @@ namespace PL
             {
                 priorityLabel.Content = "";
 
-                checkFilters();
+                CheckFilters();
             }
         }
 
@@ -218,7 +222,7 @@ namespace PL
             PrioritySelector.SelectedItem = null;
             priorityLabel.Content = "- All Priorities -";
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -259,7 +263,7 @@ namespace PL
         /// <summary>
         /// Checks if any filters are applied and updates list accordingly
         /// </summary>
-        private void checkFilters()
+        internal void CheckFilters()
         {
             if (WeightSelector.SelectedItem != null) //if weight is not null
             {

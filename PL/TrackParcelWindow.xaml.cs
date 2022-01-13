@@ -18,10 +18,10 @@ namespace PL
         BackgroundWorker worker = new BackgroundWorker();
 
         #region Constructor
-        public TrackParcelWindow(IBL bl, Parcel p, bool b)
+        public TrackParcelWindow(Parcel p, bool b)
         {
             InitializeComponent();
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             parcel = p;
             isSender = b;
             DataContext = p;

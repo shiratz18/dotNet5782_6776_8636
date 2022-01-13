@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using BlApi;
 
 namespace PL
@@ -11,35 +12,44 @@ namespace PL
         private IBL myBL;
         private MainWindow main;
 
-        public AdministratorWindow(IBL bl, MainWindow w)
+        public AdministratorWindow(MainWindow w)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             main = w;
             InitializeComponent();
         }
 
         private void btnDrones_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(myBL).Show();
+            DroneListWindow.Instance.Show(); //show the window
+            DroneListWindow.Instance.Activate(); //bring it to the front
         }
 
         private void btnStations_Click(object sender, RoutedEventArgs e)
         {
-            new StationListWindow(myBL).Show();
+            StationListWindow.Instance.Show(); //show the window
+            StationListWindow.Instance.Activate(); //bring it to the front
         }
 
         private void btnCustomers_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerListWindow(myBL).Show();
+            CustomerListWindow.Instance.Show(); //show the window
+            CustomerListWindow.Instance.Activate(); //bring it to the front
         }
 
         private void btnParcels_Click(object sender, RoutedEventArgs e)
         {
-            new ParcelListWindow(myBL).Show();
+            ParcelListWindow.Instance.Show(); //show the window
+            ParcelListWindow.Instance.Activate(); //bring it to the front
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            //close all the windows
+            DroneListWindow.Instance.Close();
+            StationListWindow.Instance.Close();
+            ParcelListWindow.Instance.Close();
+            CustomerListWindow.Instance.Close();
             Close();
             main.WindowState = WindowState.Normal;
         }

@@ -18,9 +18,9 @@ namespace PL
         ClientWindow clientWindow;
 
         #region Constructor
-        public ClientParcelWindow(IBL bl, Customer c, ClientWindow w)
+        public ClientParcelWindow(Customer c, ClientWindow w)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             client = c;
             clientWindow = w;
             InitializeComponent();

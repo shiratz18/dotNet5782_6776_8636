@@ -13,10 +13,10 @@ namespace PL
         IBL myBL;
         Customer customer;
 
-        public ForgotPasswordWindow(IBL bl, Customer c)
+        public ForgotPasswordWindow(Customer c)
         {
             InitializeComponent();
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             customer = c;
         }
 
@@ -35,7 +35,7 @@ namespace PL
 
             if(answer.Password==customer.Answer)
             {
-                new ClientWindow(myBL, customer).Show();
+                new ClientWindow(customer).Show();
                 Close();
             }
             else

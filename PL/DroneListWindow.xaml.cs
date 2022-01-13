@@ -15,14 +15,25 @@ namespace PL
         private IBL myBL;
         private bool grouped;
 
+        private static DroneListWindow instance = null;
+        public static DroneListWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new DroneListWindow();
+                return instance;
+            }
+        }
+
         #region Constructor
         /// <summary>
         /// Window constructor
         /// </summary>
         /// <param name="bl">Business logic paramater</param>
-        public DroneListWindow(IBL bl)
+        private DroneListWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             InitializeComponent();
 
             try
@@ -43,14 +54,7 @@ namespace PL
         /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-        #endregion
-
-        #region Minimize window
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
+            Hide();
         }
         #endregion
 
@@ -64,7 +68,7 @@ namespace PL
         {
             DronesListView.ItemsSource = myBL.GetDroneList();
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -76,9 +80,9 @@ namespace PL
         /// <param name="e"></param>
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(myBL).ShowDialog(); //open add drone window
+            new DroneWindow().ShowDialog(); //open add drone window
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -94,7 +98,7 @@ namespace PL
             ListDrone ld = b.CommandParameter as ListDrone;
             Drone d = myBL.GetDrone(ld.Id);
 
-            new DroneWindow(myBL, d, this).Show();
+            new DroneWindow(d).Show();
         }
         #endregion
 
@@ -116,12 +120,12 @@ namespace PL
                 {
                     myBL.RemoveDrone(ld.Id);
                 }
-                catch(DroneStateException ex)
+                catch (DroneStateException ex)
                 {
                     MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                checkFilters();
+                CheckFilters();
             }
         }
         #endregion
@@ -140,7 +144,7 @@ namespace PL
             {
                 statusLabel.Content = "";
 
-                checkFilters();
+                CheckFilters();
             }
         }
 
@@ -154,7 +158,7 @@ namespace PL
             StatusSelector.SelectedItem = null;
             statusLabel.Content = "- All Statuses -";
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -170,7 +174,7 @@ namespace PL
             {
                 weightLabel.Content = "";
 
-                checkFilters();
+                CheckFilters();
             }
         }
 
@@ -185,7 +189,7 @@ namespace PL
 
             weightLabel.Content = "- All Weights -";
 
-            checkFilters();
+            CheckFilters();
         }
         #endregion
 
@@ -202,7 +206,7 @@ namespace PL
         /// <summary>
         /// Checks if any filters are applied and updates list accordingly
         /// </summary>
-        internal void checkFilters()
+        internal void CheckFilters()
         {
             if (WeightSelector.SelectedItem != null)
             {

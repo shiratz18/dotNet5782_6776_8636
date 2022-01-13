@@ -18,7 +18,7 @@ namespace PL
     {
         private IBL myBL;
         private Drone drone;
-        private DroneListWindow droneList;
+        // private DroneListWindow droneList;
 
         #region Add drone grid
 
@@ -27,9 +27,9 @@ namespace PL
         /// Constructor for add grid
         /// </summary>
         /// <param name="bl"></param>
-        public DroneWindow(IBL bl)
+        public DroneWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -220,9 +220,9 @@ namespace PL
         /// </summary>
         /// <param name="bl"></param>
         /// <param name="d"></param>
-        public DroneWindow(IBL bl, Drone d)
+        public DroneWindow(Drone d)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -230,27 +230,6 @@ namespace PL
             this.Title = "Update drone"; //change the title
             drone = d;
             DataContext = drone;
-
-            display();
-        }
-
-        /// <summary>
-        /// Constructor for action grid
-        /// </summary>
-        /// <param name="bl"></param>
-        /// <param name="d"></param>
-        public DroneWindow(IBL bl, Drone d, DroneListWindow droneListWindow)
-        {
-            myBL = bl;
-
-            InitializeComponent();
-
-            AddGrid.Visibility = Visibility.Hidden; //add grid will be invisible
-            this.Title = "Update drone"; //change the title
-            drone = d;
-            DataContext = drone;
-
-            droneList = droneListWindow; //caller window to update
 
             display();
         }
@@ -336,8 +315,8 @@ namespace PL
 
                 MessageBox.Show("Drone model updated successfully", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (WrongFormatException ex)
             {
@@ -386,8 +365,8 @@ namespace PL
 
                 MessageBox.Show("Drone released from charge", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -416,8 +395,8 @@ namespace PL
 
                 MessageBox.Show("Drone sent to charge", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -458,8 +437,8 @@ namespace PL
                 DataContext = drone;
                 MessageBox.Show("Drone assigned to parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -486,8 +465,8 @@ namespace PL
                 btnDroneDeliver.Visibility = Visibility.Visible;
                 MessageBox.Show("Drone picked up parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -517,8 +496,8 @@ namespace PL
 
                 MessageBox.Show("Drone delivered parcel", "Message", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                if (droneList != null)
-                    droneList.checkFilters(); //update according to filters
+                if (DroneListWindow.Instance != null)
+                    DroneListWindow.Instance.CheckFilters(); //update according to filters
             }
             catch (Exception ex)
             {
@@ -531,7 +510,7 @@ namespace PL
         private void parcelExpander_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Parcel p = myBL.GetParcel(drone.InShipping.Id);
-            new ParcelWindow(myBL, p).Show();
+            new ParcelWindow(p).Show();
         }
         #endregion
 
@@ -550,7 +529,7 @@ namespace PL
             worker.WorkerReportsProgress = true; //allow to report progress to main thread
             worker.WorkerSupportsCancellation = true; //support called cancellation
 
-            worker.DoWork += autoMode_DoWork; 
+            worker.DoWork += autoMode_DoWork;
             worker.ProgressChanged += autoMode_ProgressChanged;
             worker.RunWorkerCompleted += autoMode_RunWorkerCompleted;
 
@@ -599,8 +578,17 @@ namespace PL
                 parcelExpander.IsEnabled = true;
             }
 
-            if (droneList != null)
-                droneList.checkFilters(); //update according to filters
+            if (DroneListWindow.Instance != null)
+                DroneListWindow.Instance.CheckFilters();
+
+            if (StationListWindow.Instance != null)
+                StationListWindow.Instance.CheckGrouped();
+
+            if (CustomerListWindow.Instance != null)
+                CustomerListWindow.Instance.CustomersListView.ItemsSource = myBL.GetCustomerList();
+
+            if (ParcelListWindow.Instance != null)
+                ParcelListWindow.Instance.CheckFilters();
         }
 
         private void autoMode_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) { }

@@ -14,9 +14,9 @@ namespace PL
     {
         private IBL myBL;
 
-        public ClientPasswordWindow(IBL bl)
+        public ClientPasswordWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
         }
@@ -36,7 +36,7 @@ namespace PL
                     Customer c = myBL.GetCustomer(id);
                     if (c.Password == userPassword.Password)
                     {
-                        new ClientWindow(myBL, c).Show();
+                        new ClientWindow(c).Show();
                         Close();
                     }
                     else
@@ -65,7 +65,7 @@ namespace PL
             }
             
             Customer c = myBL.GetCustomer(int.Parse(usernameTxtBox.Text));
-            new ForgotPasswordWindow(myBL, c).ShowDialog();
+            new ForgotPasswordWindow(c).ShowDialog();
             Close();
         }
         #endregion

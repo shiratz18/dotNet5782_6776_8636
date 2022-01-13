@@ -24,9 +24,9 @@ namespace PL
         /// Constructor for add grid
         /// </summary>
         /// <param name="bl"></param>
-        public CustomerWindow(IBL bl)
+        public CustomerWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
             ActionGrid.Visibility = Visibility.Hidden; //hide the action grid
@@ -180,9 +180,9 @@ namespace PL
         /// </summary>
         /// <param name="bl"></param>
         /// <param name="d"></param>
-        public CustomerWindow(IBL bl, Customer c)
+        public CustomerWindow(Customer c)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -221,7 +221,7 @@ namespace PL
             ParcelAtCustomer p = b.CommandParameter as ParcelAtCustomer;
 
             Parcel parcel = myBL.GetParcel(p.Id);
-            new ParcelWindow(myBL, parcel).Show();
+            new ParcelWindow(parcel).Show();
         }
         #endregion
 

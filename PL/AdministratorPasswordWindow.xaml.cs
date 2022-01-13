@@ -8,9 +8,9 @@ namespace PL
         private IBL myBL;
         private MainWindow main;
 
-        public AdministratorPasswordWindow(IBL bl, MainWindow w)
+        public AdministratorPasswordWindow(MainWindow w)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             main = w;
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace PL
         {
             if (password.Password == myBL.GetAccessCode())
             {
-                new AdministratorWindow(myBL, main).Show();
+                new AdministratorWindow(main).Show();
                 Close();
                 main.WindowState = WindowState.Minimized;
             }

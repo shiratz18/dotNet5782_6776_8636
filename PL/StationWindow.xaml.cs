@@ -22,9 +22,9 @@ namespace PL
         /// Constructor for add grid
         /// </summary>
         /// <param name="bl"></param>
-        public StationWindow(IBL bl)
+        public StationWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             InitializeComponent();
             ActionGrid.Visibility = Visibility.Hidden; //hide the action grid
             this.Title = "New station"; //change the title
@@ -148,9 +148,9 @@ namespace PL
         /// </summary>
         /// <param name="bl"></param>
         /// <param name="d"></param>
-        public StationWindow(IBL bl, Station s)
+        public StationWindow(Station s)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -243,7 +243,7 @@ namespace PL
             ChargingDrone ld = b.CommandParameter as ChargingDrone;
 
             Drone d = myBL.GetDrone(ld.Id);
-            new DroneWindow(myBL, d).Show();
+            new DroneWindow(d).Show();
         }
         #endregion
         #endregion

@@ -22,9 +22,9 @@ namespace PL
         internal Customer client;
 
         #region Constructor
-        public ClientWindow(IBL bl, Customer c)
+        public ClientWindow(Customer c)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             client = c;
             InitializeComponent();
             DataContext = client;
@@ -44,7 +44,7 @@ namespace PL
         #region Add parcel
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            new ClientParcelWindow(myBL, client, this).ShowDialog();
+            new ClientParcelWindow(client, this).ShowDialog();
             client = myBL.GetCustomer(client.Id);
             lstParcelsFrom.ItemsSource = client.FromCustomer;
             lstParcelsTo.ItemsSource = client.ToCustomer; DataContext = client;
@@ -61,7 +61,7 @@ namespace PL
             bool isSender = false;
             if (parcel.Sender.Id == client.Id)
                 isSender = true;
-            new TrackParcelWindow(myBL, parcel, isSender).ShowDialog();
+            new TrackParcelWindow(parcel, isSender).ShowDialog();
             client = myBL.GetCustomer(client.Id);
             lstParcelsFrom.ItemsSource = client.FromCustomer;
             lstParcelsTo.ItemsSource = client.ToCustomer;

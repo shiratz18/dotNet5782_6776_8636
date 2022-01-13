@@ -18,17 +18,17 @@ namespace PL
 
         private void btnWorker_Click(object sender, RoutedEventArgs e)
         {
-            new AdministratorPasswordWindow(myBL, this).Show();
+            new AdministratorPasswordWindow(this).Show();
         }
 
         private void btnSignUp_Click(object sender, RoutedEventArgs e)
         {
-            new SignUpWindow(myBL).Show();
+            new SignUpWindow().Show();
         }
 
         private void btnClient_Click(object sender, RoutedEventArgs e)
         {
-            new ClientPasswordWindow(myBL).Show();
+            new ClientPasswordWindow().Show();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

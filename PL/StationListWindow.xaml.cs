@@ -14,10 +14,21 @@ namespace PL
         private IBL myBL;
         private bool isGrouped;
 
-        #region Constructor
-        public StationListWindow(IBL bl)
+        private static StationListWindow instance = null;
+        public static StationListWindow Instance
         {
-            myBL = bl;
+            get
+            {
+                if (instance == null)
+                    instance = new StationListWindow();
+                return instance;
+            }
+        }
+
+        #region Constructor
+        private StationListWindow()
+        {
+            myBL = BlFactory.GetBl();
             InitializeComponent();
             try
             {
@@ -36,13 +47,6 @@ namespace PL
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-        #endregion
-
-        #region Minimize window
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
         }
         #endregion
 
@@ -73,7 +77,7 @@ namespace PL
         /// <param name="e"></param>
         private void btnAddStation_Click(object sender, RoutedEventArgs e)
         {
-            new StationWindow(myBL).ShowDialog();
+            new StationWindow().ShowDialog();
 
             StationsListView.ItemsSource = myBL.GetStationList();
 
@@ -97,7 +101,7 @@ namespace PL
             Button b = sender as Button;
             ListStation ls = b.CommandParameter as ListStation;
             Station s = myBL.GetStation(ls.Id);
-            new StationWindow(myBL, s).ShowDialog();
+            new StationWindow(s).ShowDialog();
 
             StationsListView.ItemsSource = myBL.GetStationList();
 
@@ -156,6 +160,18 @@ namespace PL
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
             view.GroupDescriptions.Add(groupDescription);
+        }
+
+        internal void CheckGrouped()
+        {
+            StationsListView.ItemsSource = myBL.GetStationList();
+
+            if (isGrouped)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationsListView.ItemsSource);
+                PropertyGroupDescription groupDescription = new PropertyGroupDescription("AvailableChargeSlots");
+                view.GroupDescriptions.Add(groupDescription);
+            }
         }
         #endregion    
     }

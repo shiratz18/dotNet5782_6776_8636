@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" ShowInTaskbar="False"
         Title="Stations" Height="450" Width="800">
     <Window.Resources>
         <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
@@ -82,9 +81,6 @@
             <Button x:Name="btnClose"  ToolTip="Back" HorizontalAlignment="Left" 
                     VerticalAlignment="Top" Height="32" Width="52" RenderTransformOrigin="1.272,0.316" FontWeight="Normal" Background="{x:Null}" Foreground="#FF10287C" Click="btnClose_Click" BorderBrush="Transparent">
                 <materialDesign:PackIcon Kind="ArrowLeft"  Width="23" Height="28"  Foreground="#FF0489BE" HorizontalAlignment="Center"/>
-            </Button>
-            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Margin="146,0,146,48" Grid.ColumnSpan="2" Grid.Column="1">
-                <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
             </Button>
         </Grid>
     </Grid>

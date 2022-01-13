@@ -16,10 +16,10 @@ namespace PL
     {
         private IBL myBL;
 
-        public SignUpWindow(IBL bl)
+        public SignUpWindow()
         {
             InitializeComponent();
-            myBL = bl;
+            myBL = BlFactory.GetBl();
         }
 
         #region Numbers only for TextBox
@@ -97,7 +97,7 @@ namespace PL
             try
             {
                 myBL.AddCustomer(c);
-                new ClientWindow(myBL, c).ShowDialog();
+                new ClientWindow(c).ShowDialog();
                 Close();
             }
             catch (InvalidNumberException ex)

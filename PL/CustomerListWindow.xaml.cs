@@ -12,14 +12,25 @@ namespace PL
     {
         private IBL myBL;
 
+        private static CustomerListWindow instance = null;
+        public static CustomerListWindow Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new CustomerListWindow();
+                return instance;
+            }
+        }
+
         #region Constructor
         /// <summary>
         /// Contructor
         /// </summary>
         /// <param name="bl"></param>
-        public CustomerListWindow(IBL bl)
+        private CustomerListWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
             InitializeComponent();
             try
             {
@@ -41,13 +52,6 @@ namespace PL
         }
         #endregion
 
-        #region Minimize window
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-        #endregion
-
         #region Refresh
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
@@ -58,7 +62,7 @@ namespace PL
         #region Add customer
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerWindow(myBL).ShowDialog();
+            new CustomerWindow().ShowDialog();
 
             CustomersListView.ItemsSource = myBL.GetCustomerList();
         }
@@ -71,7 +75,7 @@ namespace PL
             ListCustomer lc = b.CommandParameter as ListCustomer;
             Customer c = myBL.GetCustomer(lc.Id);
 
-            new CustomerWindow(myBL, c).ShowDialog();
+            new CustomerWindow(c).ShowDialog();
             CustomersListView.ItemsSource = myBL.GetCustomerList();
         }
         #endregion

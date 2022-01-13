@@ -23,9 +23,9 @@ namespace PL
         /// Constructor for add grid
         /// </summary>
         /// <param name="bl"></param>
-        public ParcelWindow(IBL bl)
+        public ParcelWindow()
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -223,9 +223,9 @@ namespace PL
         /// </summary>
         /// <param name="bl"></param>
         /// <param name="d"></param>
-        public ParcelWindow(IBL bl, Parcel p)
+        public ParcelWindow(Parcel p)
         {
-            myBL = bl;
+            myBL = BlFactory.GetBl();
 
             InitializeComponent();
 
@@ -260,7 +260,7 @@ namespace PL
         {
             var customer = myBL.GetCustomer(parcel.Target.Id);
             if (customer.Active)
-                new CustomerWindow(myBL, customer).Show();
+                new CustomerWindow(customer).Show();
             else
                 MessageBox.Show("Customer no longer active.", "", MessageBoxButton.OK);
         }
@@ -269,7 +269,7 @@ namespace PL
         {
             var customer = myBL.GetCustomer(parcel.Sender.Id);
             if (customer.Active)
-                new CustomerWindow(myBL, customer).Show();
+                new CustomerWindow(customer).Show();
             else
                 MessageBox.Show("Customer no longer active.", "", MessageBoxButton.OK);
         }
@@ -281,7 +281,7 @@ namespace PL
                 if (parcel.AssignedDrone.Active)
                 {
                     var drone = myBL.GetDrone(parcel.AssignedDrone.Id);
-                    new DroneWindow(myBL, drone).Show();
+                    new DroneWindow(drone).Show();
                 }
                 else
                     MessageBox.Show("Drone no longer active.", "", MessageBoxButton.OK);

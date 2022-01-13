@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B9B3C19F-F72D-4784-B85D-259FB150355F}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		..\..\..\..\Documents\ש.ב סמס' א\מיני פרוייקט במערכת חלונות\מיני פרוייקט במערכות חלונות חיה ושירה.pdf = ..\..\..\..\Documents\ש.ב סמס' א\מיני פרוייקט במערכת חלונות\מיני פרוייקט במערכות חלונות חיה ושירה.pdf
+		מיני פרוייקט במערכות חלונות חיה ושירה.pdf = מיני פרוייקט במערכות חלונות חיה ושירה.pdf
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{71931D07-4F6F-400B-9FAA-23F19AA5E26B}"

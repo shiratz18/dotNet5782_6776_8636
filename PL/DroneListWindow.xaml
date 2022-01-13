@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" ShowInTaskbar="False"
         Title="Your Drones" Height="450" Width="800">
     <Window.Resources>
         <Style  x:Key="SizeIcon" TargetType="materialDesign:PackIcon">
@@ -15,7 +15,6 @@
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
     </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -68,9 +67,6 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnMinimize" Click="btnMinimize_Click" ToolTip="Minimize window" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#DD000000" Grid.ColumnSpan="2" Grid.Column="2" Margin="66,0,67,58">
-                <materialDesign:PackIcon Kind="ArrowDropDown" VerticalAlignment="Center" Width="73" Height="43"/>
-            </Button>
             <Label Content="DRONES" FontSize="25" Margin="0,32,0,-12" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#FF0489BE" Width="113"/>
             <ComboBox x:Name="StatusSelector" ToolTip="Select status" SelectionChanged="StatusSelector_SelectionChanged" Margin="133,55,6,13" Grid.ColumnSpan="2" Foreground="#FF0489BE" FontFamily="Century Gothic" FontSize="13"/>
             <Label x:Name="statusLabel" Content="- All Statuses -" VerticalContentAlignment="Center" FontSize="13" Margin="133,45,36,7" FontWeight="Normal" Foreground="#FF0489BE" Grid.ColumnSpan="2" RenderTransformOrigin="0.466,0.382"/>
